@@ -210,6 +210,16 @@ function parseIds(value) {
   return value ? String(value).split(',').filter(Boolean).map((item) => (/^\d+$/.test(item) ? Number(item) : item)) : []
 }
 
+function defaultAreaDetails() {
+  return languageOptions.map((item) => ({
+    languageType: item.value,
+    areaName: '',
+    label: '',
+    remark: '',
+    arrText: ''
+  }))
+}
+
 async function loadConfigOptions() {
   const [roomResponse, regionResponse, areaResponse, imageResponse, audioResponse, robotResponse, deviceResponse] = await Promise.all([
     getRoomList(),
@@ -780,6 +790,20 @@ export const crudPages = {
         { prop: 'imgIds', label: '图片资源', type: 'select', multiple: true, joinArray: true, options: options.images },
         { prop: 'isGuide', label: '支持引导', type: 'select', options: guideOptions },
         { prop: 'isShow', label: '是否展示', type: 'select', options: showOptions },
+        {
+          prop: 'configAreaDetailList',
+          label: '多语言明细',
+          type: 'editableList',
+          defaultValue: defaultAreaDetails,
+          newRow: () => ({ languageType: 'CN', areaName: '', label: '', remark: '', arrText: '' }),
+          children: [
+            { prop: 'languageType', label: '语言', type: 'select', options: languageOptions, minWidth: 110 },
+            { prop: 'areaName', label: '功能区名称', minWidth: 150 },
+            { prop: 'label', label: '标签', minWidth: 130 },
+            { prop: 'remark', label: '播报文本', type: 'textarea', minWidth: 220 },
+            { prop: 'arrText', label: '到达文本', type: 'textarea', minWidth: 220 }
+          ]
+        },
         { prop: 'remark', label: '备注', type: 'textarea' }
       ]
     },
@@ -788,7 +812,8 @@ export const crudPages = {
       const data = response.data || row
       return {
         ...data,
-        imgIds: parseIds(data.imgIds)
+        imgIds: parseIds(data.imgIds),
+        configAreaDetailList: data.configAreaDetailList?.length ? data.configAreaDetailList : defaultAreaDetails()
       }
     }
   },

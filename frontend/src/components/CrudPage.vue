@@ -201,6 +201,25 @@
             <el-image v-if="resolvePreviewUrl(field, form)" class="form-image-preview" :src="resolvePreviewUrl(field, form)" fit="cover" :preview-src-list="[resolvePreviewUrl(field, form)]" preview-teleported />
             <el-input v-model="form[field.prop]" :placeholder="field.placeholder || field.label" />
           </div>
+          <div v-else-if="field.type === 'editableList'" class="editable-list-field">
+            <el-button size="small" type="primary" plain @click="addEditableListRow(field)">新增明细</el-button>
+            <el-table :data="form[field.prop] || []" border size="small">
+              <el-table-column v-for="child in field.children || []" :key="child.prop" :label="child.label" :min-width="child.minWidth || 130">
+                <template #default="{ row }">
+                  <el-select v-if="child.type === 'select'" v-model="row[child.prop]" clearable>
+                    <el-option v-for="option in child.options || []" :key="option.value" :label="option.label" :value="option.value" />
+                  </el-select>
+                  <el-input v-else-if="child.type === 'textarea'" v-model="row[child.prop]" type="textarea" :rows="child.rows || 2" />
+                  <el-input v-else v-model="row[child.prop]" />
+                </template>
+              </el-table-column>
+              <el-table-column label="操作" width="80">
+                <template #default="{ $index }">
+                  <el-button link type="danger" @click="removeEditableListRow(field, $index)">删除</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </div>
           <el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="field.rows || 4" :placeholder="field.placeholder || field.label" />
           <el-input v-else v-model="form[field.prop]" :type="field.inputType || 'text'" :placeholder="field.placeholder || field.label" />
         </el-form-item>
@@ -563,6 +582,18 @@ function resolvePreviewUrl(field, source) {
   return source[field.prop]
 }
 
+function addEditableListRow(field) {
+  if (!Array.isArray(form[field.prop])) {
+    form[field.prop] = []
+  }
+  const row = typeof field.newRow === 'function' ? field.newRow(form[field.prop]) : { ...(field.newRow || {}) }
+  form[field.prop].push(row)
+}
+
+function removeEditableListRow(field, index) {
+  form[field.prop]?.splice(index, 1)
+}
+
 async function handleSwitchChange(column, row, value) {
   const previous = getRawValue(row, column)
   row[column.prop] = value
@@ -781,5 +812,9 @@ onMounted(() => {
   height: 88px;
   border-radius: 8px;
   border: 1px solid var(--el-border-color);
+}
+.editable-list-field {
+  display: grid;
+  gap: 10px;
 }
 </style>
