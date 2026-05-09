@@ -2,6 +2,7 @@ import {
   changeRoleStatus,
   changeJobStatus,
   changeUserStatus,
+  checkoutPassenger,
   cleanJobLog,
   cleanLogininfor,
   cleanOperLog,
@@ -21,6 +22,7 @@ import {
   getRoleDeptTree,
   getRoleMenuTree,
   getUserCreateOptions,
+  importTemporaryFlights,
   importUsers,
   listConfigAudios,
   listConfigAreas,
@@ -159,6 +161,52 @@ const orderStatusOptions = [
 
 const orderStatusMap = { 0: '已取消', 1: '已下单', 2: '已接单', 3: '已完成' }
 
+const passengerStatusOptions = [
+  { label: '在厅', value: '1' },
+  { label: '已出厅', value: '0' }
+]
+
+const passengerStatusMap = { 1: '在厅', 0: '已出厅' }
+
+const warningSuccessOptions = [
+  { label: '未处理', value: '-1' },
+  { label: '提醒中', value: '99' },
+  { label: '成功', value: '1' },
+  { label: '失败', value: '0' }
+]
+
+const warningSuccessMap = { '-1': '未处理', 99: '提醒中', 1: '成功', 0: '失败' }
+
+const noticeTypeOptions = [
+  { label: '人工提醒', value: '1' },
+  { label: '机器人提醒', value: '2' }
+]
+
+const messageStatusOptions = [
+  { label: '创建', value: '0' },
+  { label: '已读', value: '1' },
+  { label: '已处理', value: '2' },
+  { label: '无需处理', value: '3' }
+]
+
+const messageStatusMap = { 0: '创建', 1: '已读', 2: '已处理', 3: '无需处理' }
+
+const flightOffStatusOptions = [
+  { label: '计划中', value: 'SCH' },
+  { label: '预计起飞', value: 'ETD' },
+  { label: '关舱门', value: 'CLD' },
+  { label: '滑出', value: 'OUT' },
+  { label: '起飞', value: 'OFF' }
+]
+
+const flightOnStatusOptions = [
+  { label: '计划中', value: 'SCH' },
+  { label: '预计到达', value: 'ETA' },
+  { label: '落地', value: 'ON' },
+  { label: '滑入', value: 'IN' },
+  { label: '开舱门', value: 'OPN' }
+]
+
 const statusColumn = (prop = 'status') => ({
   prop,
   label: '状态',
@@ -175,6 +223,17 @@ const switchStatusColumn = (action) => ({
   switch: true,
   action
 })
+
+function normalizeDateTimeValue(value) {
+  const text = String(value || '')
+  if (/^\d{14}$/.test(text)) {
+    return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)} ${text.slice(8, 10)}:${text.slice(10, 12)}:${text.slice(12, 14)}`
+  }
+  if (/^\d{8}$/.test(text)) {
+    return `${text.slice(0, 4)}-${text.slice(4, 6)}-${text.slice(6, 8)}`
+  }
+  return value
+}
 
 const switchJobStatusColumn = (action) => ({
   prop: 'status',
@@ -1036,24 +1095,60 @@ export const crudPages = {
     ],
     operationWidth: 300
   },
-  msg: {
-    title: '消息日志',
-    description: '投诉、通知和机器人消息记录。',
-    basePath: '/config/msg',
+  complaint: {
+    title: '投诉记录',
+    description: '旅客客诉、发卡方、卡号、客诉内容和处理反馈维护。',
+    basePath: '/flight/complaint',
     rowKey: 'id',
-    searchFields: [{ prop: 'msgType', label: '消息类型' }, { prop: 'userName', label: '用户' }],
+    searchFields: [{ prop: 'userName', label: '姓名' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
-      { prop: 'msgType', label: '类型', minWidth: 120 },
-      { prop: 'userName', label: '用户', minWidth: 120 },
+      { prop: 'userName', label: '姓名', minWidth: 130 },
+      { prop: 'roomCode', label: '贵宾室', minWidth: 130 },
+      { prop: 'cardService', label: '发卡方', minWidth: 130 },
+      { prop: 'cardNo', label: '卡号', minWidth: 140 },
+      { prop: 'complaintContent', label: '客诉内容', minWidth: 260 },
+      { prop: 'complaintFeedback', label: '客诉反馈', minWidth: 260 },
+      { prop: 'createTime', label: '创建时间', minWidth: 170 }
+    ],
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'userName', label: '旅客姓名' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'cardService', label: '发卡方' },
+        { prop: 'cardNo', label: '卡号' },
+        { prop: 'complaintContent', label: '客诉内容', type: 'textarea', rows: 3 },
+        { prop: 'complaintFeedback', label: '客诉反馈', type: 'textarea', rows: 3 }
+      ]
+    },
+    defaults: { roomCode: 'PEK2DX1' }
+  },
+  msg: {
+    title: '消息日志',
+    description: '通知、机器人消息和后台处理消息记录。',
+    basePath: '/config/msg',
+    rowKey: 'id',
+    searchFields: [{ prop: 'title', label: '标题' }, { prop: 'source', label: '来源' }, { prop: 'status', label: '状态', type: 'select', options: messageStatusOptions }],
+    columns: [
+      { prop: 'id', label: 'ID', width: 90 },
+      { prop: 'title', label: '标题', minWidth: 180 },
+      { prop: 'source', label: '来源', minWidth: 120 },
+      { prop: 'roomCode', label: '房间编码', minWidth: 130 },
+      { prop: 'processor', label: '处理人', minWidth: 120 },
+      { prop: 'status', label: '状态', width: 110, tag: 'info', tagMap: { 0: 'warning', 1: 'primary', 2: 'success', 3: 'info' }, map: messageStatusMap },
       { prop: 'content', label: '内容', minWidth: 260 },
       { prop: 'createTime', label: '时间', minWidth: 170 }
     ],
     formFields: [
-      { prop: 'msgType', label: '消息类型' },
-      { prop: 'userName', label: '用户' },
+      { prop: 'title', label: '标题' },
+      { prop: 'source', label: '来源' },
+      { prop: 'roomCode', label: '房间编码' },
+      { prop: 'processor', label: '处理人' },
+      { prop: 'status', label: '状态', type: 'select', options: messageStatusOptions },
       { prop: 'content', label: '内容', type: 'textarea' }
-    ]
+    ],
+    defaults: { status: '0', source: 'admin' }
   },
   foodConfig: {
     title: '菜品管理',
@@ -1302,41 +1397,184 @@ export const crudPages = {
     title: '在厅旅客',
     description: '旅客、航班、区域和入厅状态统计。',
     basePath: '/flight/passenger',
+    listPath: '/flight/passenger/inLoungeList',
     rowKey: 'id',
-    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }],
+    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'userName', label: '旅客', minWidth: 130 },
       { prop: 'flightNo', label: '航班', minWidth: 120 },
-      { prop: 'regionId', label: '区域', width: 100 },
-      { prop: 'inType', label: '入厅类型', minWidth: 120 },
-      { prop: 'createTime', label: '时间', minWidth: 170 }
+      { prop: 'flightDate', label: '航班日期', minWidth: 120 },
+      { prop: 'regionId', label: '区域 ID', width: 100 },
+      { prop: 'coordinate', label: '坐标', minWidth: 180 },
+      { prop: 'createTime', label: '入厅时间', minWidth: 170 },
+      { prop: 'updateTime', label: '更新时间', minWidth: 170 }
+    ],
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'userName', label: '旅客姓名' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'flightNo', label: '航班号' },
+        { prop: 'flightDate', label: '航班日期', type: 'date' },
+        { prop: 'regionId', label: '区域', type: 'select', options: options.regions },
+        { prop: 'inType', label: '入厅类型' },
+        { prop: 'status', label: '状态', type: 'select', options: passengerStatusOptions }
+      ]
+    },
+    defaults: { status: '1', isMember: '0' },
+    rowActions: [
+      {
+        key: 'checkout',
+        label: '出厅',
+        type: 'warning',
+        confirm: (row) => `确认将"${row.userName}"标记为出厅？`,
+        handler: (row) => checkoutPassenger(row.id),
+        successMessage: '旅客已出厅'
+      }
+    ],
+    operationWidth: 300
+  },
+  passengerAll: {
+    title: '旅客信息',
+    description: '旅客基础信息、航班、会员和区域记录维护。',
+    basePath: '/flight/passenger',
+    rowKey: 'id',
+    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }, { prop: 'status', label: '状态', type: 'select', options: passengerStatusOptions }],
+    columns: [
+      { prop: 'id', label: 'ID', width: 90 },
+      { prop: 'userName', label: '旅客', minWidth: 130 },
+      { prop: 'roomCode', label: '房间编码', minWidth: 130 },
+      { prop: 'flightNo', label: '航班', minWidth: 120 },
+      { prop: 'flightDate', label: '航班日期', minWidth: 120 },
+      { prop: 'orig', label: '始发', width: 90 },
+      { prop: 'dest', label: '到达', width: 90 },
+      { prop: 'seat', label: '座位', width: 90 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 1: 'success', 0: 'info' }, map: passengerStatusMap },
+      { prop: 'getInTime', label: '入厅时间', minWidth: 170 },
+      { prop: 'getOutTime', label: '出厅时间', minWidth: 170 }
+    ],
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'userName', label: '旅客姓名' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'flightNo', label: '航班号' },
+        { prop: 'flightDate', label: '航班日期', type: 'date' },
+        { prop: 'flightId', label: '航班 ID' },
+        { prop: 'orig', label: '始发地' },
+        { prop: 'dest', label: '目的地' },
+        { prop: 'cabin', label: '舱位' },
+        { prop: 'seat', label: '座位' },
+        { prop: 'cardNo', label: '会员卡号' },
+        { prop: 'memLevel', label: '会员等级' },
+        { prop: 'regionId', label: '区域', type: 'select', options: options.regions },
+        { prop: 'coordinate', label: '坐标' },
+        { prop: 'status', label: '状态', type: 'select', options: passengerStatusOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { status: '1', isMember: '0' }
+  },
+  outgoingPassenger: {
+    title: '出厅旅客',
+    description: '旅客出厅、离开贵宾室和航班记录。',
+    basePath: '/flight/passenger',
+    listPath: '/flight/passenger/outgoingList',
+    rowKey: 'userName',
+    enableCreate: false,
+    enableEdit: false,
+    enableDelete: false,
+    showDetail: false,
+    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }, { prop: 'orig', label: '始发' }, { prop: 'dest', label: '到达' }],
+    columns: [
+      { prop: 'userName', label: '旅客', minWidth: 130 },
+      { prop: 'flightNo', label: '航班', minWidth: 120 },
+      { prop: 'flightDate', label: '航班日期', minWidth: 120 },
+      { prop: 'oriImageUrl', label: '抓拍图', width: 100, image: true },
+      { prop: 'registerImageUrl', label: '注册图', width: 100, image: true },
+      { prop: 'getOutTime', label: '出厅时间', minWidth: 170 }
+    ],
+    formFields: []
+  },
+  flightInfo: {
+    title: '航班信息',
+    description: '航班计划、状态、登机口、行李转盘和临时航班维护。',
+    basePath: '/flight/flightinfo',
+    rowKey: 'flightId',
+    importAction: importTemporaryFlights,
+    headerActions: [
+      { key: 'import', label: '导入临时航班', kind: 'import' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/flight/flightinfo/export', query, '航班信息.xlsx'), reload: false }
+    ],
+    searchFields: [{ prop: 'flightNo', label: '航班号' }, { prop: 'scheExecDate', label: '航班日期', type: 'date' }, { prop: 'latestOffStatus', label: '起飞状态', type: 'select', options: flightOffStatusOptions }],
+    columns: [
+      { prop: 'flightId', label: '航班 ID', minWidth: 170 },
+      { prop: 'flightNo', label: '航班号', minWidth: 120 },
+      { prop: 'scheExecDate', label: '执行日期', minWidth: 120 },
+      { prop: 'airlineCd', label: '航司', width: 90 },
+      { prop: 'latestOffStatus', label: '起飞状态', minWidth: 110 },
+      { prop: 'latestOnStatus', label: '到达状态', minWidth: 110 },
+      { prop: 'gateCd', label: '登机口', width: 100 },
+      { prop: 'carouselCd', label: '转盘', width: 90 },
+      { prop: 'estmTakeOffTime', label: '预计起飞', minWidth: 150 },
+      { prop: 'updateTime', label: '更新时间', minWidth: 170 }
     ],
     formFields: [
-      { prop: 'userName', label: '旅客姓名' },
+      { prop: 'flightId', label: '航班 ID' },
       { prop: 'flightNo', label: '航班号' },
-      { prop: 'regionId', label: '区域 ID', type: 'number' },
-      { prop: 'inType', label: '入厅类型' }
-    ]
+      { prop: 'scheExecDate', label: '执行日期', type: 'date' },
+      { prop: 'airlineCd', label: '航司' },
+      { prop: 'flightAttr', label: '航班属性' },
+      { prop: 'craftType', label: '机型' },
+      { prop: 'craftNo', label: '机号' },
+      { prop: 'latestOffStatus', label: '起飞状态', type: 'select', options: flightOffStatusOptions },
+      { prop: 'latestOnStatus', label: '到达状态', type: 'select', options: flightOnStatusOptions },
+      { prop: 'station', label: '航站' },
+      { prop: 'stationCn', label: '航站中文' },
+      { prop: 'scheTakeOffTime', label: '计划起飞', type: 'datetime' },
+      { prop: 'estmTakeOffTime', label: '预计起飞', type: 'datetime' },
+      { prop: 'gateCd', label: '登机口' },
+      { prop: 'gateAttr', label: '登机口属性' },
+      { prop: 'carouselCd', label: '行李转盘' },
+      { prop: 'carouselClass', label: '转盘等级' },
+      { prop: 'carouselAttr', label: '转盘属性' }
+    ],
+    transformDetail: (response, row) => {
+      const detail = { ...(response.data || row) }
+      detail.scheExecDate = normalizeDateTimeValue(detail.scheExecDate)
+      detail.scheTakeOffTime = normalizeDateTimeValue(detail.scheTakeOffTime)
+      detail.estmTakeOffTime = normalizeDateTimeValue(detail.estmTakeOffTime)
+      return detail
+    },
+    defaults: { latestOffStatus: 'SCH', latestOnStatus: 'ON', isDelete: '0', airlineCd: 'CA' }
   },
   passengerWarning: {
     title: '旅客预警日志',
     description: '旅客越界、超时和重点旅客预警记录。',
     basePath: '/flight/passengerWarningLog',
     rowKey: 'id',
-    searchFields: [{ prop: 'userName', label: '旅客' }, { prop: 'warningType', label: '预警类型' }],
+    searchFields: [{ prop: 'passengerId', label: '旅客 ID' }, { prop: 'flightId', label: '航班 ID' }, { prop: 'warningType', label: '预警类型' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
-      { prop: 'userName', label: '旅客', minWidth: 130 },
+      { prop: 'passengerId', label: '旅客 ID', width: 100 },
+      { prop: 'flightId', label: '航班 ID', minWidth: 160 },
       { prop: 'warningType', label: '预警类型', minWidth: 130 },
-      { prop: 'warningContent', label: '内容', minWidth: 260 },
+      { prop: 'warningInfo', label: '内容', minWidth: 260 },
+      { prop: 'noticeType', label: '提醒方式', width: 110, map: { 1: '人工', 2: '机器人' } },
+      { prop: 'isSuccess', label: '结果', width: 110, tag: 'info', tagMap: { '-1': 'info', 99: 'warning', 1: 'success', 0: 'danger' }, map: warningSuccessMap },
       { prop: 'createTime', label: '时间', minWidth: 170 }
     ],
     formFields: [
-      { prop: 'userName', label: '旅客' },
+      { prop: 'passengerId', label: '旅客 ID', type: 'number' },
+      { prop: 'flightId', label: '航班 ID' },
+      { prop: 'regionId', label: '区域 ID', type: 'number' },
       { prop: 'warningType', label: '预警类型' },
-      { prop: 'warningContent', label: '预警内容', type: 'textarea' }
-    ]
+      { prop: 'noticeType', label: '提醒方式', type: 'select', options: noticeTypeOptions },
+      { prop: 'isSuccess', label: '结果', type: 'select', options: warningSuccessOptions },
+      { prop: 'warningInfo', label: '预警内容', type: 'textarea' }
+    ],
+    defaults: { noticeType: '1', isSuccess: '-1' }
   },
   online: {
     title: '在线用户',

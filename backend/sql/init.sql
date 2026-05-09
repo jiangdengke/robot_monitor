@@ -58,6 +58,7 @@ DROP TABLE IF EXISTS `config_table`;
 DROP TABLE IF EXISTS `config_robot`;
 DROP TABLE IF EXISTS `config_task`;
 DROP TABLE IF EXISTS `message_log`;
+DROP TABLE IF EXISTS `flight_complaint`;
 
 DROP TABLE IF EXISTS `flight_info`;
 DROP TABLE IF EXISTS `flight_gate`;
@@ -567,6 +568,19 @@ CREATE TABLE `message_log` (
   `processor` varchar(64) DEFAULT '',
   `status` char(1) DEFAULT '0',
   `room_code` varchar(64) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+CREATE TABLE `flight_complaint` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) NOT NULL,
+  `room_code` varchar(64) DEFAULT '',
+  `card_service` varchar(64) DEFAULT '',
+  `card_no` varchar(64) DEFAULT '',
+  `complaint_content` longtext,
+  `complaint_feedback` longtext,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
@@ -1089,13 +1103,15 @@ VALUES
 (306,'贵宾室配置',3,7,'vipRoom','configManagment/vipRoom/index',NULL,'1','0','C','0','0','config:vipRoom:list,config:vipRoom:query','tree','system',NOW(),''),
 (307,'区域管理',3,8,'areaManagment','configManagment/areaManagment/index',NULL,'1','0','C','0','0','config:area:list,config:area:query','tree-table','system',NOW(),''),
 (308,'监控设备',3,9,'monitorDevice','configManagment/monitorDevice/index',NULL,'1','0','C','0','0','config:device:list,config:device:query','monitor','system',NOW(),''),
+(309,'投诉记录',3,10,'complaintRecord','configManagment/complaintRecord/index',NULL,'1','0','C','0','0','flight:complaint:list,flight:complaint:query,flight:complaint:add,flight:complaint:edit,flight:complaint:remove','message','system',NOW(),''),
 
 (400,'旅客信息',4,1,'passenger','statAnalysis/inLoungeList/index',NULL,'1','0','C','0','0','system:passenger:list,system:passenger:query,system:passenger:add,system:passenger:edit,system:passenger:remove,system:passenger:export','people','system',NOW(),''),
 (401,'航班信息',4,2,'flightInfo','statAnalysis/moveStat/index',NULL,'1','0','C','0','0','flight:info:list,flight:info:query','documentation','system',NOW(),''),
 (402,'数字孪生',4,3,'digitalTwin','digitalTwin/index',NULL,'1','0','C','0','0','flight:digitalTwin:view','digital-twin-view','system',NOW(),''),
 (403,'出厅统计',4,4,'outGoing','viewManagment/outGoing/index',NULL,'1','0','C','0','0','flight:outGoing:list','walk','system',NOW(),''),
-(404,'问题统计',4,5,'questionStat','statAnalysis/questionStat/index',NULL,'1','0','C','0','0','flight:questionStat:list','chart','system',NOW(),''),
-(405,'预警记录',4,6,'passengerWarning','statAnalysis/passengerWarningLog/index',NULL,'1','0','C','0','0','flight:warning:list','warning','system',NOW(),''),
+(404,'通行统计',4,5,'goingStat','statAnalysis/goingStat/index',NULL,'1','0','C','0','0','flight:goingStat:list','chart','system',NOW(),''),
+(405,'问题统计',4,6,'questionStat','statAnalysis/questionStat/index',NULL,'1','0','C','0','0','flight:questionStat:list','chart','system',NOW(),''),
+(406,'预警记录',4,7,'passengerWarning','statAnalysis/passengerWarningLog/index',NULL,'1','0','C','0','0','flight:warning:list','warning','system',NOW(),''),
 
 (500,'菜品管理',5,1,'foodConfig','foodManagment/food/index',NULL,'1','0','C','0','0','food:config:list,food:config:query,food:config:add,food:config:edit,food:config:remove','food','system',NOW(),''),
 (501,'今日菜单',5,2,'dailyMenu','foodManagment/menuPlan/index',NULL,'1','0','C','0','0','food:daily:list,food:daily:query,food:daily:add,food:daily:edit,food:daily:remove','menuPlan','system',NOW(),''),
@@ -1268,6 +1284,11 @@ INSERT INTO `message_log`
 (`id`,`title`,`content`,`source`,`processor`,`status`,`room_code`,`create_time`,`update_time`)
 VALUES
 (1,'系统启动消息','后台初始化完成。','system','admin','0','PEK2DX1',NOW(),NOW());
+
+INSERT INTO `flight_complaint`
+(`id`,`user_name`,`room_code`,`card_service`,`card_no`,`complaint_content`,`complaint_feedback`,`create_time`,`update_time`)
+VALUES
+(1,'张三','PEK2DX1','国航凤凰知音','CA888888','旅客反馈餐食等待时间偏长。','已通知餐食服务员优先处理并记录。',NOW(),NOW());
 
 INSERT INTO `flight_info`
 (`flight_id`,`send_time`,`airline_cd`,`flight_no`,`sche_exec_date`,`flight_attr`,`craft_type`,`craft_no`,`latest_off_status`,`latest_on_status`,`airline`,`station`,`station_cn`,`sche_take_off_time`,`estm_take_off_time`,`gate_cd`,`gate_attr`,`estm_start_time`,`estm_end_time`,`carousel_cd`,`carousel_class`,`carousel_attr`,`update_time`,`is_delete`)

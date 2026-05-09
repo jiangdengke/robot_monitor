@@ -337,6 +337,18 @@ export const listPassengers = (query = {}) =>
     query
   })
 
+export const checkoutPassenger = (id) =>
+  request(`/flight/passenger/checkout/${id}`, {
+    method: 'POST'
+  })
+
+export const getPassengerStatistics = () => request('/flight/passenger/statistics')
+
+export const listPassengerStatisticsByInType = (query = {}) =>
+  request('/flight/passenger/statisticsByInType', {
+    query
+  })
+
 export const listPassengerWarningLogs = (query = {}) =>
   request('/flight/passengerWarningLog/list', {
     query
@@ -427,6 +439,12 @@ export const importUsers = (file, updateSupport = false) => {
   formData.append('file', file)
   formData.append('updateSupport', String(updateSupport))
   return upload('/system/user/importData', formData)
+}
+
+export const importTemporaryFlights = (file) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  return upload('/flight/flightinfo/addTmpByFile', formData)
 }
 
 export const downloadUserImportTemplate = () =>

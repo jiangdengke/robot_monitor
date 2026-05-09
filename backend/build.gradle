@@ -86,7 +86,7 @@ jooq {
                             }
                         }
                         inputSchema = ''
-                        includes = 'sys_.*|config_.*|flight_.*|food_.*|ai_.*|gen_.*|insp_.*|robot_.*|passenger.*|guide_log|get_in_tmp|message_log|t_flight_change|update_notice_result'
+                        includes = 'sys_.*|config_.*|flight_.*|food_.*|ai_.*|gen_.*|insp_.*|robot_.*|passenger.*|guide_log|get_in_tmp|message_log|flight_complaint|t_flight_change|update_notice_result'
                         excludes = 'qrtz_.*'
                     }
                     generate {

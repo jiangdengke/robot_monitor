@@ -7,8 +7,8 @@ import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
 
 const config = {
-  ...getCrudPage('passenger'),
-  title: '旅客移动统计',
-  description: '按旅客、航班和区域查看移动记录。'
+  ...getCrudPage('flightInfo'),
+  title: '航班信息',
+  description: '航班计划、状态、登机口、行李转盘和临时航班维护。'
 }
 </script>

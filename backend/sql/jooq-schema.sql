@@ -32,6 +32,7 @@ DROP TABLE IF EXISTS `config_table`;
 DROP TABLE IF EXISTS `config_robot`;
 DROP TABLE IF EXISTS `config_task`;
 DROP TABLE IF EXISTS `message_log`;
+DROP TABLE IF EXISTS `flight_complaint`;
 
 DROP TABLE IF EXISTS `flight_info`;
 DROP TABLE IF EXISTS `flight_gate`;
@@ -540,6 +541,19 @@ CREATE TABLE `message_log` (
   `processor` varchar(64) DEFAULT '',
   `status` char(1) DEFAULT '0',
   `room_code` varchar(64) DEFAULT NULL,
+  `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
+  `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+);
+
+CREATE TABLE `flight_complaint` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(100) NOT NULL,
+  `room_code` varchar(64) DEFAULT '',
+  `card_service` varchar(64) DEFAULT '',
+  `card_no` varchar(64) DEFAULT '',
+  `complaint_content` longtext,
+  `complaint_feedback` longtext,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`)
