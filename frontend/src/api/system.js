@@ -8,6 +8,12 @@ export const login = (payload) =>
 
 export const getCaptchaImage = () => request('/captchaImage')
 
+export const registerAccount = (payload) =>
+  request('/register', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+
 export const getUserInfo = () => request('/getInfo')
 
 export const getRouters = () => request('/getRouters')
