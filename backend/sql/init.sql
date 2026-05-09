@@ -1101,6 +1101,7 @@ VALUES
 (501,'今日菜单',5,2,'dailyMenu','foodManagment/menuPlan/index',NULL,'1','0','C','0','0','food:daily:list,food:daily:query,food:daily:add,food:daily:edit,food:daily:remove','menuPlan','system',NOW(),''),
 (502,'点餐订单',5,3,'foodOrder','foodManagment/foodMenu/index',NULL,'1','0','C','0','0','food:order:list,food:order:query,food:order:add,food:order:edit,food:order:remove','shopping','system',NOW(),''),
 (503,'桌台视图',5,4,'foodTable','foodManagment/foodTable/index',NULL,'1','0','C','0','0','food:table:list','table','system',NOW(),''),
+(504,'菜单计划',5,5,'foodPlan','foodManagment/foodPlan/index',NULL,'1','0','C','0','0','food:plan:list,food:plan:query,food:plan:add,food:plan:edit,food:plan:remove','calendar','system',NOW(),''),
 
 (600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove','documentation','system',NOW(),'');
 

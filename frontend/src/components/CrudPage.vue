@@ -18,6 +18,15 @@
         <el-select v-if="field.type === 'select'" v-model="query[field.prop]" clearable :placeholder="field.placeholder || field.label">
           <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
+        <el-date-picker
+          v-else-if="field.type === 'date' || field.type === 'datetime'"
+          v-model="query[field.prop]"
+          :type="field.type"
+          :value-format="field.valueFormat || (field.type === 'datetime' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')"
+          :format="field.format || (field.type === 'datetime' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')"
+          clearable
+          :placeholder="field.placeholder || field.label"
+        />
         <el-tree-select
           v-else-if="field.type === 'tree'"
           v-model="query[field.prop]"
@@ -128,6 +137,7 @@
             collapse-tags-tooltip
             clearable
             :placeholder="field.placeholder || field.label"
+            @change="handleFieldChange(field, form[field.prop])"
           >
             <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
@@ -206,9 +216,10 @@
             <el-table :data="form[field.prop] || []" border size="small">
               <el-table-column v-for="child in field.children || []" :key="child.prop" :label="child.label" :min-width="child.minWidth || 130">
                 <template #default="{ row }">
-                  <el-select v-if="child.type === 'select'" v-model="row[child.prop]" clearable>
+                  <el-select v-if="child.type === 'select'" v-model="row[child.prop]" clearable @change="(value) => handleEditableChildChange(field, child, row, value)">
                     <el-option v-for="option in child.options || []" :key="option.value" :label="option.label" :value="option.value" />
                   </el-select>
+                  <el-input-number v-else-if="child.type === 'number'" v-model="row[child.prop]" controls-position="right" :min="child.min ?? 0" />
                   <el-input v-else-if="child.type === 'textarea'" v-model="row[child.prop]" type="textarea" :rows="child.rows || 2" />
                   <el-input v-else v-model="row[child.prop]" />
                 </template>
@@ -236,6 +247,16 @@
           {{ displayValue(detail, column) }}
         </el-descriptions-item>
       </el-descriptions>
+      <template v-for="table in detailTables" :key="table.key || table.title">
+        <el-divider content-position="left">{{ table.title }}</el-divider>
+        <el-table :data="resolveDetailTableRows(table)" border size="small">
+          <el-table-column v-for="column in table.columns || []" :key="column.prop" :label="column.label" :prop="column.prop" :min-width="column.minWidth" :width="column.width">
+            <template #default="{ row }">
+              {{ displayValue(row, column) }}
+            </template>
+          </el-table-column>
+        </el-table>
+      </template>
     </el-dialog>
 
     <el-dialog v-model="uploadVisible" title="上传文件" width="520px">
@@ -327,12 +348,17 @@ const props = defineProps({
   createPath: { type: String, default: '' },
   updatePath: { type: String, default: '' },
   deletePath: { type: String, default: '' },
+  detailPath: { type: String, default: '' },
+  detailMethod: { type: String, default: 'GET' },
+  detailQuery: { type: Function, default: null },
+  detailLoader: { type: Function, default: null },
   createMethod: { type: String, default: 'POST' },
   updateMethod: { type: String, default: 'PUT' },
   deleteMethod: { type: String, default: 'DELETE' },
   uploadField: { type: String, default: '' },
   headerActions: { type: Array, default: () => [] },
   rowActions: { type: Array, default: () => [] },
+  detailTables: { type: Array, default: () => [] },
   importAction: { type: Function, default: null },
   operationWidth: { type: Number, default: 260 },
   beforeSubmit: { type: Function, default: null },
@@ -513,7 +539,7 @@ async function openEdit(row) {
   formMode.value = 'edit'
   errorMessage.value = ''
   try {
-    const response = await getResource(props.basePath, row[props.rowKey])
+    const response = await loadDetail(row)
     const detailData = props.transformDetail ? await props.transformDetail(response, row) : (response.data || row)
     resetObject(form, { ...props.defaults, ...detailData })
     await resolveFormFields({ mode: 'edit', row, response, form: { ...form } })
@@ -528,6 +554,19 @@ async function openEdit(row) {
 function openDetail(row) {
   detail.value = row
   detailVisible.value = true
+}
+
+async function loadDetail(row) {
+  if (props.detailLoader) {
+    return props.detailLoader(row)
+  }
+  if (props.detailPath) {
+    return request(props.detailPath, {
+      method: props.detailMethod,
+      query: props.detailQuery ? props.detailQuery(row) : { [props.rowKey]: row[props.rowKey] }
+    })
+  }
+  return getResource(props.basePath, row[props.rowKey])
 }
 
 async function submitForm() {
@@ -582,6 +621,10 @@ function resolvePreviewUrl(field, source) {
   return source[field.prop]
 }
 
+function handleFieldChange(field, value) {
+  field.onChange?.(value, { form, field })
+}
+
 function addEditableListRow(field) {
   if (!Array.isArray(form[field.prop])) {
     form[field.prop] = []
@@ -592,6 +635,17 @@ function addEditableListRow(field) {
 
 function removeEditableListRow(field, index) {
   form[field.prop]?.splice(index, 1)
+}
+
+function handleEditableChildChange(field, child, row, value) {
+  child.onChange?.(value, row, { form, field, child })
+}
+
+function resolveDetailTableRows(table) {
+  if (typeof table.rows === 'function') {
+    return table.rows(detail.value) || []
+  }
+  return detail.value?.[table.prop] || []
 }
 
 async function handleSwitchChange(column, row, value) {

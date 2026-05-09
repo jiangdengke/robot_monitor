@@ -13,6 +13,10 @@ import {
   getDeviceRegion,
   getDeptExcludeList,
   getDeptTree,
+  getFoodConfig,
+  getFoodDaily,
+  getFoodOrder,
+  getFoodPlan,
   getMenuTree,
   getRoleDeptTree,
   getRoleMenuTree,
@@ -24,9 +28,14 @@ import {
   listConfigImages,
   listConfigRegions,
   listConfigRobots,
+  listConfigTables,
   listDeviceRegions,
+  listFoodConfigs,
   refreshConfigCache,
   refreshDictCache,
+  cancelFoodOrder,
+  finishFoodOrder,
+  receiveFoodOrder,
   resetUserPassword,
   runConfigTask,
   runJob,
@@ -129,6 +138,27 @@ const deviceTypeOptions = [
   { label: '其他', value: 'other' }
 ]
 
+const foodTypeOptions = [
+  { label: '冷菜', value: '冷菜' },
+  { label: '热菜', value: '热菜' },
+  { label: '甜品', value: '甜品' },
+  { label: '饮料', value: '饮料' }
+]
+
+const dailyMenuStatusOptions = [
+  { label: '上架', value: '1' },
+  { label: '下架', value: '0' }
+]
+
+const orderStatusOptions = [
+  { label: '已取消', value: '0' },
+  { label: '已下单', value: '1' },
+  { label: '已接单', value: '2' },
+  { label: '已完成', value: '3' }
+]
+
+const orderStatusMap = { 0: '已取消', 1: '已下单', 2: '已接单', 3: '已完成' }
+
 const statusColumn = (prop = 'status') => ({
   prop,
   label: '状态',
@@ -221,14 +251,15 @@ function defaultAreaDetails() {
 }
 
 async function loadConfigOptions() {
-  const [roomResponse, regionResponse, areaResponse, imageResponse, audioResponse, robotResponse, deviceResponse] = await Promise.all([
+  const [roomResponse, regionResponse, areaResponse, imageResponse, audioResponse, robotResponse, deviceResponse, tableResponse] = await Promise.all([
     getRoomList(),
     listConfigRegions({ pageNum: 1, pageSize: 500 }),
     listConfigAreas({ pageNum: 1, pageSize: 500 }),
     listConfigImages({ pageNum: 1, pageSize: 500 }),
     listConfigAudios({ pageNum: 1, pageSize: 500 }),
     listConfigRobots({ pageNum: 1, pageSize: 500 }),
-    listConfigDevices({ pageNum: 1, pageSize: 500 })
+    listConfigDevices({ pageNum: 1, pageSize: 500 }),
+    listConfigTables({ pageNum: 1, pageSize: 500 })
   ])
   return {
     rooms: roomOptions(roomResponse.data || []),
@@ -237,7 +268,37 @@ async function loadConfigOptions() {
     images: resourceOptions(imageResponse.rows || [], 'id', ['imgName', 'roomCode']),
     audios: resourceOptions(audioResponse.rows || [], 'audioKey', ['audioKey', 'textInfo']),
     robots: resourceOptions(robotResponse.rows || [], 'id', ['robotName', 'robotId']),
-    devices: resourceOptions(deviceResponse.rows || [], 'id', ['deviceName', 'deepGlintDeviceId'])
+    devices: resourceOptions(deviceResponse.rows || [], 'id', ['deviceName', 'deepGlintDeviceId']),
+    tables: resourceOptions(tableResponse.rows || [], 'id', ['tableNo', 'roomCode'])
+  }
+}
+
+async function loadFoodOptions() {
+  const [configOptions, foodResponse] = await Promise.all([
+    loadConfigOptions(),
+    listFoodConfigs({ pageNum: 1, pageSize: 500 })
+  ])
+  const foods = foodResponse.rows || foodResponse.data || []
+  return {
+    ...configOptions,
+    foods,
+    foodOptions: foods.map((food) => ({
+      value: food.foodId,
+      label: `${food.name || food.foodId} / ${food.dicTypeCode || '-'} / ¥${food.price ?? 0}`,
+      raw: food
+    }))
+  }
+}
+
+function syncFoodNames(payload, foodOptions) {
+  const ids = parseIds(payload.foodIds)
+  const names = ids
+    .map((id) => foodOptions.find((option) => String(option.value) === String(id))?.raw?.name)
+    .filter(Boolean)
+  return {
+    ...payload,
+    foodIds: ids.join(','),
+    foodNames: names.join(',')
   }
 }
 
@@ -996,7 +1057,7 @@ export const crudPages = {
   },
   foodConfig: {
     title: '菜品管理',
-    description: '菜品名称、类型、价格和状态管理。',
+    description: '菜品名称、分类、价格、热量、图片和贵宾室维度管理。',
     basePath: '/food',
     listPath: '/food/selectFoodConfigList',
     listMethod: 'POST',
@@ -1004,23 +1065,78 @@ export const crudPages = {
     updatePath: '/food/updateFoodConfig',
     deletePath: '/food/deleteFoodConfigByFoodIds',
     deleteMethod: 'POST',
+    detailLoader: (row) => getFoodConfig(row.foodId),
     rowKey: 'foodId',
-    searchFields: [{ prop: 'foodName', label: '菜品名称' }, { prop: 'foodType', label: '分类' }],
+    searchFields: [{ prop: 'name', label: '菜品名称' }, { prop: 'dicTypeCode', label: '分类' }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'foodId', label: 'ID', width: 90 },
-      { prop: 'foodName', label: '名称', minWidth: 160 },
-      { prop: 'foodType', label: '分类', minWidth: 120 },
+      { prop: 'imgIds', label: '图片', width: 90, image: true, imageUrl: (row) => row.imgUrlList?.[0] || (parseIds(row.imgIds)[0] ? `/api/rest/image/config/${parseIds(row.imgIds)[0]}` : '') },
+      { prop: 'name', label: '名称', minWidth: 160 },
+      { prop: 'dicTypeCode', label: '分类', minWidth: 120 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
       { prop: 'price', label: '价格', width: 100 },
-      statusColumn()
+      { prop: 'calorie', label: '热量', width: 100 },
+      { prop: 'remark', label: '备注', minWidth: 180 }
     ],
-    formFields: [
-      { prop: 'foodName', label: '菜品名称' },
-      { prop: 'foodType', label: '分类' },
-      { prop: 'price', label: '价格', type: 'number' },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions },
-      { prop: 'remark', label: '备注', type: 'textarea' }
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'name', label: '菜品名称' },
+        { prop: 'dicTypeCode', label: '分类', type: 'select', options: foodTypeOptions },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'imgIds', label: '菜品图片', type: 'select', multiple: true, joinArray: true, options: options.images },
+        { prop: 'price', label: '价格', type: 'number' },
+        { prop: 'calorie', label: '热量', type: 'number' },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { price: 0, calorie: 0 },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        imgIds: parseIds(data.imgIds)
+      }
+    }
+  },
+  foodDaily: {
+    title: '今日菜单',
+    description: '按日期、贵宾室和菜品维护每日上架菜单。',
+    basePath: '/food',
+    listPath: '/food/selectFoodDailyList',
+    listMethod: 'POST',
+    createPath: '/food/insertFoodDaily',
+    updatePath: '/food/updateFoodDaily',
+    updateMethod: 'POST',
+    deletePath: '/food/deleteFoodDaily',
+    deleteMethod: 'POST',
+    detailLoader: (row) => getFoodDaily(row.id),
+    rowKey: 'id',
+    searchFields: [
+      { prop: 'foodDate', label: '日期', type: 'date' },
+      { prop: 'roomCode', label: '房间编码' },
+      { prop: 'status', label: '状态', type: 'select', options: dailyMenuStatusOptions }
     ],
-    defaults: { status: '0', price: 0 }
+    columns: [
+      { prop: 'id', label: 'ID', width: 90 },
+      { prop: 'foodDate', label: '日期', minWidth: 120 },
+      { prop: 'foodName', label: '菜品', minWidth: 160 },
+      { prop: 'foodType', label: '分类', minWidth: 110 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'price', label: '价格', width: 90 },
+      { prop: 'calorie', label: '热量', width: 90 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 1: 'success', 0: 'danger' }, map: { 1: '上架', 0: '下架' } }
+    ],
+    formFields: async () => {
+      const options = await loadFoodOptions()
+      return [
+        { prop: 'foodDate', label: '日期', type: 'date' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'foodId', label: '菜品', type: 'select', options: options.foodOptions },
+        { prop: 'status', label: '状态', type: 'select', options: dailyMenuStatusOptions }
+      ]
+    },
+    defaults: { status: '1' }
   },
   foodPlan: {
     title: '菜单计划',
@@ -1033,20 +1149,52 @@ export const crudPages = {
     updateMethod: 'POST',
     deletePath: '/food/deleteFoodPlan',
     deleteMethod: 'POST',
+    detailLoader: (row) => getFoodPlan(row.id),
     rowKey: 'id',
-    searchFields: [{ prop: 'roomCode', label: '房间编码' }, { prop: 'foodDate', label: '日期' }],
+    searchFields: [{ prop: 'roomCode', label: '房间编码' }, { prop: 'startDay', label: '开始日期', type: 'date' }, { prop: 'endDay', label: '结束日期', type: 'date' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'roomCode', label: '房间编码', minWidth: 130 },
       { prop: 'deptName', label: '贵宾室', minWidth: 160 },
-      { prop: 'foodDate', label: '日期', minWidth: 130 },
-      { prop: 'remark', label: '备注', minWidth: 180 }
+      { prop: 'startDay', label: '开始日期', minWidth: 120 },
+      { prop: 'endDay', label: '结束日期', minWidth: 120 },
+      { prop: 'foodNames', label: '菜品', minWidth: 260 }
     ],
-    formFields: [
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'foodDate', label: '日期' },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ]
+    formFields: async () => {
+      const options = await loadFoodOptions()
+      return [
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'startDay', label: '开始日期', type: 'date' },
+        { prop: 'endDay', label: '结束日期', type: 'date' },
+        {
+          prop: 'foodIds',
+          label: '计划菜品',
+          type: 'select',
+          multiple: true,
+          joinArray: true,
+          options: options.foodOptions,
+          onChange: (value, { form }) => {
+            form.foodNames = (value || [])
+              .map((id) => options.foodOptions.find((option) => String(option.value) === String(id))?.raw?.name)
+              .filter(Boolean)
+              .join(',')
+          }
+        },
+        { prop: 'foodNames', label: '菜品名称', hidden: () => true }
+      ]
+    },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        foodIds: parseIds(data.foodIds)
+      }
+    },
+    beforeSubmit: (payload) => ({
+      ...payload,
+      foodIds: Array.isArray(payload.foodIds) ? payload.foodIds.join(',') : payload.foodIds,
+      foodNames: payload.foodNames || ''
+    })
   },
   foodOrder: {
     title: '订单管理',
@@ -1054,20 +1202,101 @@ export const crudPages = {
     basePath: '/food',
     listPath: '/food/queryOrderList',
     listMethod: 'POST',
-    rowKey: 'foodOrderId',
-    enableCreate: false,
+    createPath: '/food/createOrder',
+    createMethod: 'POST',
+    deletePath: '/food/deleteOrder',
+    deleteMethod: 'POST',
+    detailLoader: (row) => getFoodOrder(row.id),
+    rowKey: 'id',
+    enableCreate: true,
     enableEdit: false,
-    enableDelete: false,
-    searchFields: [{ prop: 'orderCode', label: '订单号' }, { prop: 'status', label: '状态' }],
+    searchFields: [{ prop: 'orderCode', label: '订单号' }, { prop: 'status', label: '状态', type: 'select', options: orderStatusOptions }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
-      { prop: 'foodOrderId', label: 'ID', width: 90 },
+      { prop: 'id', label: 'ID', width: 90 },
       { prop: 'orderCode', label: '订单号', minWidth: 160 },
-      { prop: 'tableNo', label: '桌号', minWidth: 100 },
-      { prop: 'passengerName', label: '旅客', minWidth: 120 },
-      { prop: 'status', label: '状态', width: 100 },
-      { prop: 'createTime', label: '创建时间', minWidth: 170 }
+      { prop: 'deskNo', label: '桌号', minWidth: 100 },
+      { prop: 'roomCode', label: '房间编码', minWidth: 130 },
+      { prop: 'cardNo', label: '会员卡号', minWidth: 130 },
+      { prop: 'orderPrice', label: '金额', width: 100 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 0: 'danger', 1: 'warning', 2: 'primary', 3: 'success' }, map: orderStatusMap },
+      { prop: 'createTime', label: '创建时间', minWidth: 170 },
+      { prop: 'remark', label: '备注', minWidth: 160 }
     ],
-    formFields: []
+    formFields: async () => {
+      const options = await loadFoodOptions()
+      return [
+        { prop: 'tableId', label: '餐桌', type: 'select', options: options.tables },
+        { prop: 'cardNo', label: '会员卡号' },
+        {
+          prop: 'orderDetailList',
+          label: '订单明细',
+          type: 'editableList',
+          defaultValue: () => [{ foodId: null, num: 1, price: 0, foodName: '' }],
+          newRow: () => ({ foodId: null, num: 1, price: 0, foodName: '' }),
+          children: [
+            {
+              prop: 'foodId',
+              label: '菜品',
+              type: 'select',
+              options: options.foodOptions,
+              minWidth: 220,
+              onChange: (value, row) => {
+                const food = options.foodOptions.find((option) => String(option.value) === String(value))?.raw
+                row.foodName = food?.name || ''
+                row.price = food?.price ?? 0
+              }
+            },
+            { prop: 'foodName', label: '菜品名称', minWidth: 160 },
+            { prop: 'num', label: '数量', type: 'number', minWidth: 110 },
+            { prop: 'price', label: '单价', type: 'number', minWidth: 120 }
+          ]
+        },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    beforeSubmit: (payload) => ({
+      ...payload,
+      orderDetailList: (payload.orderDetailList || []).filter((item) => item.foodId && Number(item.num || 0) > 0)
+    }),
+    detailTables: [
+      {
+        title: '订单明细',
+        prop: 'orderDetailList',
+        columns: [
+          { prop: 'foodName', label: '菜品', minWidth: 160 },
+          { prop: 'num', label: '数量', width: 90 },
+          { prop: 'price', label: '单价', width: 100 }
+        ]
+      }
+    ],
+    rowActions: [
+      {
+        key: 'receive',
+        label: '接单',
+        type: 'warning',
+        disabled: (row) => String(row.status) !== '1',
+        handler: (row) => receiveFoodOrder(row.id),
+        successMessage: '订单已接单'
+      },
+      {
+        key: 'finish',
+        label: '完成',
+        type: 'success',
+        disabled: (row) => !['1', '2'].includes(String(row.status)),
+        handler: (row) => finishFoodOrder(row.id),
+        successMessage: '订单已完成'
+      },
+      {
+        key: 'cancel',
+        label: '取消',
+        type: 'danger',
+        disabled: (row) => !['1'].includes(String(row.status)),
+        confirm: (row) => `确认取消订单"${row.orderCode}"？`,
+        handler: (row) => cancelFoodOrder(row.id),
+        successMessage: '订单已取消'
+      }
+    ],
+    operationWidth: 360
   },
   passenger: {
     title: '在厅旅客',

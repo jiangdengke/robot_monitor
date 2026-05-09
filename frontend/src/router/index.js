@@ -43,6 +43,7 @@ const moduleRoutes = [
   { path: 'foodManagment/foodMenu', component: () => import('@/views/foodManagment/foodMenu/index.vue') },
   { path: 'foodManagment/foodTable', component: () => import('@/views/foodManagment/foodTable/index.vue') },
   { path: 'foodManagment/menuPlan', component: () => import('@/views/foodManagment/menuPlan/index.vue') },
+  { path: 'foodManagment/foodPlan', component: () => import('@/views/foodManagment/foodPlan/index.vue') },
   { path: 'taskManagment/taskList', component: () => import('@/views/taskManagment/taskList/index.vue') },
   { path: 'statAnalysis/goingStat', component: () => import('@/views/statAnalysis/goingStat/index.vue') },
   { path: 'statAnalysis/inLoungeList', component: () => import('@/views/statAnalysis/inLoungeList/index.vue') },

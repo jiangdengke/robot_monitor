@@ -288,16 +288,48 @@ export const listFoodConfigs = (query = {}) =>
     query
   })
 
+export const getFoodConfig = (foodId) => request('/food/getFoodConfigById', { query: { foodId } })
+
+export const listFoodDaily = (query = {}) =>
+  request('/food/selectFoodDailyList', {
+    method: 'POST',
+    query
+  })
+
+export const getFoodDaily = (id) => request('/food/getFoodDailyById', { query: { id } })
+
 export const listFoodPlans = (query = {}) =>
   request('/food/selectFoodPlanList', {
     method: 'POST',
     query
   })
 
+export const getFoodPlan = (id) => request('/food/getFoodPlanById', { query: { id } })
+
 export const listFoodOrders = (query = {}) =>
   request('/food/queryOrderList', {
     method: 'POST',
     query
+  })
+
+export const getFoodOrder = (id) => request('/food/getOrderById', { query: { id } })
+
+export const cancelFoodOrder = (id) =>
+  request('/food/cancelOrder', {
+    method: 'POST',
+    body: JSON.stringify(id)
+  })
+
+export const finishFoodOrder = (id) =>
+  request('/food/finishOrder', {
+    method: 'POST',
+    body: JSON.stringify(id)
+  })
+
+export const receiveFoodOrder = (id) =>
+  request('/food/receiveOrder', {
+    method: 'POST',
+    body: JSON.stringify(id)
   })
 
 export const listPassengers = (query = {}) =>
