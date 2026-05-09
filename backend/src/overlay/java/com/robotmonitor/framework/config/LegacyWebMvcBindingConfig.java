@@ -55,7 +55,10 @@ public class LegacyWebMvcBindingConfig {
                 return isBlank(pathVariable.name()) && isBlank(pathVariable.value());
             }
             RequestParam requestParam = parameter.getParameterAnnotation(RequestParam.class);
-            return requestParam != null && isBlank(requestParam.name()) && isBlank(requestParam.value());
+            return requestParam != null
+                && isBlank(requestParam.name())
+                && isBlank(requestParam.value())
+                && !Map.class.isAssignableFrom(parameter.getParameterType());
         }
 
         @Override

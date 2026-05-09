@@ -38,6 +38,11 @@ cd backend
 mysql -uroot -p123456 < backend/sql/init.sql
 ```
 
+本轮验证使用的容器信息：
+
+- MySQL：容器 `mysql8`，版本 `8.4.7`，端口 `127.0.0.1:3306`
+- Redis：容器 `redis7-auth`，端口 `127.0.0.1:6380`
+
 默认后台账号：
 
 - 用户名：`admin`
@@ -75,4 +80,5 @@ cd backend
 
 - 当前 `application-dev.yml` 是从部署包直接复制出来的，包含真实环境信息，默认不要直接用。
 - `local` profile 已补充本地可注入的旅客服务 Bean，避免默认启动时因 `IPassengerService` 只存在 `dev/prod` 实现而缺 Bean。
-- 最近一次端到端启动验证卡在本机 Docker daemon 未启动，且当前会话没有 sudo 密码，无法启动 MySQL/Redis 容器。
+- 本地启动已验证通过，启动成功标志是 `Started RobotMonitorApplication`，端口 `7075`，context-path `/api`。
+- 已通过核心 API 烟测：登录、菜单、系统、配置、航班、餐饮、缓存、代码生成、餐桌状态写入和数字孪生动作。

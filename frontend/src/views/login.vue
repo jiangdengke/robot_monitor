@@ -19,7 +19,7 @@
 
         <div class="tips">
           <span>当前默认账号：`admin`</span>
-          <span>当前默认密码：`admin`</span>
+          <span>当前默认密码：`admin123`</span>
         </div>
 
         <el-button class="submit" :loading="submitting" type="primary" native-type="submit">

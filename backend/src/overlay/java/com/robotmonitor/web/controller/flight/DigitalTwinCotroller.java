@@ -205,7 +205,7 @@ public class DigitalTwinCotroller extends BaseController {
             dsl.update(PASSENGER_WARNING_LOG)
                 .set(PASSENGER_WARNING_LOG.ROBOT_TASK_ID, taskId)
                 .set(PASSENGER_WARNING_LOG.NOTICE_TYPE, "2")
-                .set(PASSENGER_WARNING_LOG.IS_SUCCESS, "99")
+                .set(PASSENGER_WARNING_LOG.IS_SUCCESS, "0")
                 .where(PASSENGER_WARNING_LOG.ID.eq(dto.getWarningId()))
                 .execute();
         }
