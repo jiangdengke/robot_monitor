@@ -8,6 +8,9 @@ import {
   downloadUserImportTemplate,
   exportSystemResource,
   forceLogoutOnlineUser,
+  addDeviceRegion,
+  deleteDeviceRegion,
+  getDeviceRegion,
   getDeptExcludeList,
   getDeptTree,
   getMenuTree,
@@ -15,11 +18,20 @@ import {
   getRoleMenuTree,
   getUserCreateOptions,
   importUsers,
+  listConfigAudios,
+  listConfigAreas,
+  listConfigDevices,
+  listConfigImages,
+  listConfigRegions,
+  listConfigRobots,
+  listDeviceRegions,
   refreshConfigCache,
   refreshDictCache,
   resetUserPassword,
+  runConfigTask,
   runJob,
   unlockLogininfor,
+  updateDeviceRegion,
   updateRoleDataScope
 } from '@/api/system'
 
@@ -74,6 +86,47 @@ const successFailMap = { 0: '成功', 1: '失败' }
 const yesNoOptions = [
   { label: '是', value: 'Y' },
   { label: '否', value: 'N' }
+]
+
+const enableOptions = [
+  { label: '启用', value: 1 },
+  { label: '停用', value: 0 }
+]
+
+const showOptions = [
+  { label: '展示', value: '1' },
+  { label: '隐藏', value: '0' }
+]
+
+const guideOptions = [
+  { label: '支持', value: '1' },
+  { label: '不支持', value: '0' }
+]
+
+const languageOptions = [
+  { label: '中文', value: 'CN' },
+  { label: '英文', value: 'EN' },
+  { label: '俄文', value: 'RU' }
+]
+
+const executeTypeOptions = [
+  { label: '立即执行', value: 'immediately' },
+  { label: '每天', value: 'day' },
+  { label: '每周', value: 'week' },
+  { label: '每月', value: 'month' }
+]
+
+const taskSubtypeOptions = [
+  { label: '指令任务', value: '0' },
+  { label: '语音任务', value: '1' },
+  { label: '视频流任务', value: '2' },
+  { label: 'HTTP 任务', value: '3' }
+]
+
+const deviceTypeOptions = [
+  { label: '摄像头', value: 'camera' },
+  { label: '门禁', value: 'gate' },
+  { label: '其他', value: 'other' }
 ]
 
 const statusColumn = (prop = 'status') => ({
@@ -138,6 +191,44 @@ function trimEmptyChildren(row) {
 
 function optionsFromRows(rows, valueKey, labelKey) {
   return (rows || []).map((row) => ({ value: row[valueKey], label: row[labelKey] }))
+}
+
+function roomOptions(rows) {
+  return (rows || [])
+    .filter((row) => row.roomCode)
+    .map((row) => ({ value: row.roomCode, label: `${row.deptName || row.roomCode} (${row.roomCode})` }))
+}
+
+function resourceOptions(rows, valueKey, labelKeys) {
+  return (rows || []).map((row) => ({
+    value: row[valueKey],
+    label: labelKeys.map((key) => row[key]).filter(Boolean).join(' / ') || String(row[valueKey])
+  }))
+}
+
+function parseIds(value) {
+  return value ? String(value).split(',').filter(Boolean).map((item) => (/^\d+$/.test(item) ? Number(item) : item)) : []
+}
+
+async function loadConfigOptions() {
+  const [roomResponse, regionResponse, areaResponse, imageResponse, audioResponse, robotResponse, deviceResponse] = await Promise.all([
+    getRoomList(),
+    listConfigRegions({ pageNum: 1, pageSize: 500 }),
+    listConfigAreas({ pageNum: 1, pageSize: 500 }),
+    listConfigImages({ pageNum: 1, pageSize: 500 }),
+    listConfigAudios({ pageNum: 1, pageSize: 500 }),
+    listConfigRobots({ pageNum: 1, pageSize: 500 }),
+    listConfigDevices({ pageNum: 1, pageSize: 500 })
+  ])
+  return {
+    rooms: roomOptions(roomResponse.data || []),
+    regions: resourceOptions(regionResponse.rows || [], 'id', ['regionName', 'roomCode']),
+    areas: resourceOptions(areaResponse.rows || [], 'id', ['areaName', 'roomCode']),
+    images: resourceOptions(imageResponse.rows || [], 'id', ['imgName', 'roomCode']),
+    audios: resourceOptions(audioResponse.rows || [], 'audioKey', ['audioKey', 'textInfo']),
+    robots: resourceOptions(robotResponse.rows || [], 'id', ['robotName', 'robotId']),
+    devices: resourceOptions(deviceResponse.rows || [], 'id', ['deviceName', 'deepGlintDeviceId'])
+  }
 }
 
 function toDeptTreeSelect(nodes) {
@@ -516,68 +607,110 @@ export const crudPages = {
     description: '机器人编号、名称、IP、区域和运行状态配置。',
     basePath: '/config/robot',
     rowKey: 'id',
-    searchFields: [{ prop: 'robotId', label: '机器人编号' }, { prop: 'robotName', label: '机器人名称' }],
+    searchFields: [{ prop: 'robotId', label: '机器人编号' }, { prop: 'robotName', label: '机器人名称' }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'robotId', label: '机器人编号', minWidth: 140 },
       { prop: 'robotName', label: '名称', minWidth: 150 },
       { prop: 'robotIp', label: 'IP', minWidth: 140 },
-      { prop: 'region.regionName', label: '区域', minWidth: 140 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'region.regionName', label: '当前位置', minWidth: 140 },
       { prop: 'batteryState', label: '电量', width: 90 },
-      { prop: 'workingState', label: '工作状态', minWidth: 120 }
+      { prop: 'workingState', label: '工作', width: 90, map: { 0: '空闲', 1: '工作中' } },
+      { prop: 'enable', label: '启用', width: 90, tag: 'info', tagMap: { 1: 'success', 0: 'danger' }, map: { 1: '启用', 0: '停用' } }
     ],
-    formFields: [
-      { prop: 'robotId', label: '机器人编号' },
-      { prop: 'robotName', label: '机器人名称' },
-      { prop: 'robotIp', label: 'IP 地址' },
-      { prop: 'regionId', label: '区域 ID', type: 'number' },
-      { prop: 'workingState', label: '工作状态' },
-      { prop: 'batteryState', label: '电量', type: 'number' }
-    ]
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'robotId', label: '机器人编号' },
+        { prop: 'robotName', label: '机器人名称' },
+        { prop: 'mac', label: 'MAC 地址' },
+        { prop: 'robotIp', label: 'IP 地址' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'regionId', label: '当前位置', type: 'select', options: options.regions },
+        { prop: 'robotType', label: '机器人型号' },
+        { prop: 'belongedCompany', label: '所属公司' },
+        { prop: 'batteryState', label: '电量', type: 'number' },
+        { prop: 'network', label: '网络状态', type: 'number' },
+        { prop: 'chargingState', label: '充电状态', type: 'select', options: [{ label: '未充电', value: '0' }, { label: '充电中', value: '1' }] },
+        { prop: 'workingState', label: '工作状态', type: 'select', options: [{ label: '空闲', value: '0' }, { label: '工作中', value: '1' }] },
+        { prop: 'standbyState', label: '待机状态', type: 'select', options: [{ label: '否', value: '0' }, { label: '是', value: '1' }] },
+        { prop: 'positioningState', label: '定位状态' },
+        { prop: 'enable', label: '启用状态', type: 'select', options: enableOptions },
+        { prop: 'imgIds', label: '图片资源', type: 'select', multiple: true, joinArray: true, options: options.images },
+        { prop: 'auditKeys', label: '音频资源', type: 'select', multiple: true, joinArray: true, options: options.audios },
+        { prop: 'oriCoordinate', label: '初始坐标' },
+        { prop: 'adminMode', label: '管理模式' },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { enable: 1, batteryState: 100, chargingState: '0', workingState: '0', standbyState: '1', regionId: 0, isDelete: '0' },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        imgIds: parseIds(data.imgIds),
+        auditKeys: parseIds(data.auditKeys)
+      }
+    }
   },
   image: {
     title: '图片管理',
     description: '贵宾室图片、地图底图和展示资源管理。',
     basePath: '/config/img',
     rowKey: 'id',
-    uploadField: 'imgUrl',
-    searchFields: [{ prop: 'imgName', label: '图片名称' }, { prop: 'imgKey', label: '图片 Key' }],
+    searchFields: [{ prop: 'imgName', label: '图片名称' }, { prop: 'imgType', label: '图片类别' }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
+      { prop: 'id', label: '预览', width: 90, image: true, imageUrl: (row) => `/api/rest/image/config/${row.id}` },
       { prop: 'imgName', label: '名称', minWidth: 160 },
-      { prop: 'imgKey', label: 'Key', minWidth: 160 },
-      { prop: 'imgUrl', label: '地址', minWidth: 220 },
-      { prop: 'roomCode', label: '房间编码', minWidth: 130 }
+      { prop: 'imgType', label: '类别', minWidth: 120 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'width', label: '宽', width: 90 },
+      { prop: 'height', label: '高', width: 90 },
+      { prop: 'enable', label: '启用', width: 90, tag: 'info', tagMap: { 1: 'success', 0: 'danger' }, map: { 1: '启用', 0: '停用' } }
     ],
-    formFields: [
-      { prop: 'imgName', label: '图片名称' },
-      { prop: 'imgKey', label: '图片 Key' },
-      { prop: 'imgUrl', label: '图片地址' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ]
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'imgName', label: '图片名称' },
+        { prop: 'imgType', label: '图片类别', type: 'select', options: [{ label: '地图/区域', value: '1' }, { label: '引导展示', value: '2' }, { label: '餐食图片', value: '3' }, { label: '其他', value: '9' }] },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'enable', label: '启用状态', type: 'select', options: enableOptions },
+        { prop: 'width', label: '宽度', type: 'number' },
+        { prop: 'height', label: '高度', type: 'number' },
+        { prop: 'img', label: '图片文件', type: 'imageBase64', nameProp: 'imgName' },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { imgType: '1', enable: 1, width: 0, height: 0, isDelete: '0' }
   },
   audio: {
     title: '机器人语音',
     description: '机器人语音资源、音频 Key 和播放内容管理。',
     basePath: '/config/robotAudio',
     rowKey: 'id',
-    uploadField: 'audioUrl',
-    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'audioName', label: '音频名称' }],
+    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
-      { prop: 'audioName', label: '名称', minWidth: 160 },
       { prop: 'audioKey', label: 'Key', minWidth: 150 },
-      { prop: 'audioUrl', label: '地址', minWidth: 220 },
-      { prop: 'roomCode', label: '房间编码', minWidth: 130 }
+      { prop: 'languageType', label: '语言', width: 90 },
+      { prop: 'textInfo', label: '文字内容', minWidth: 240 },
+      { prop: 'audioValue', label: '音频内容', minWidth: 180 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 }
     ],
-    formFields: [
-      { prop: 'audioName', label: '音频名称' },
-      { prop: 'audioKey', label: '音频 Key' },
-      { prop: 'audioUrl', label: '音频地址' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ]
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'audioKey', label: '音频 Key' },
+        { prop: 'languageType', label: '语言', type: 'select', options: languageOptions },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'textInfo', label: '文字内容', type: 'textarea', rows: 5 },
+        { prop: 'audioValue', label: '音频内容/mock 返回', type: 'textarea', rows: 3 },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { languageType: 'CN' }
   },
   region: {
     title: '贵宾室区域',
@@ -588,19 +721,38 @@ export const crudPages = {
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'regionName', label: '区域名称', minWidth: 160 },
-      { prop: 'roomCode', label: '房间编码', minWidth: 130 },
-      { prop: 'cameraCoordinates', label: '坐标', minWidth: 220 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'coordinate', label: '坐标', minWidth: 220 },
+      { prop: 'areaName', label: '功能区', minWidth: 140 },
       { prop: 'maxCapacity', label: '容量', width: 90 },
-      { prop: 'isShow', label: '展示', width: 90 }
+      { prop: 'isGuide', label: '引导', width: 90, map: { 1: '支持', 0: '不支持' } },
+      { prop: 'isShow', label: '展示', width: 90, map: { 1: '展示', 0: '隐藏' } }
     ],
-    formFields: [
-      { prop: 'regionName', label: '区域名称' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'cameraCoordinates', label: '坐标' },
-      { prop: 'maxCapacity', label: '容量', type: 'number' },
-      { prop: 'isShow', label: '是否展示', type: 'select', options: yesNoOptions }
-    ],
-    defaults: { isShow: 'Y', maxCapacity: 0 }
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'regionName', label: '区域名称' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'areaId', label: '功能区', type: 'select', options: options.areas },
+        { prop: 'coordinate', label: '区域坐标' },
+        { prop: 'maxCapacity', label: '最大容量', type: 'number' },
+        { prop: 'imgIds', label: '图片资源', type: 'select', multiple: true, joinArray: true, options: options.images },
+        { prop: 'audioKeys', label: '音频资源', type: 'select', multiple: true, joinArray: true, options: options.audios },
+        { prop: 'isGuide', label: '支持引导', type: 'select', options: guideOptions },
+        { prop: 'isShow', label: '是否展示', type: 'select', options: showOptions },
+        { prop: 'enable', label: '启用状态', type: 'select', options: enableOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { isShow: '1', isGuide: '0', enable: 1, maxCapacity: 0 },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        imgIds: parseIds(data.imgIds),
+        audioKeys: parseIds(data.audioKeys)
+      }
+    }
   },
   area: {
     title: '功能区管理',
@@ -611,43 +763,102 @@ export const crudPages = {
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'areaName', label: '功能区', minWidth: 160 },
-      { prop: 'roomCode', label: '房间编码', minWidth: 130 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'coordinate', label: '坐标', minWidth: 180 },
       { prop: 'maxCapacity', label: '容量', width: 90 },
       { prop: 'imgIds', label: '图片', minWidth: 120 },
-      { prop: 'audioKeys', label: '语音', minWidth: 160 }
+      { prop: 'isGuide', label: '引导', width: 90, map: { 1: '支持', 0: '不支持' } },
+      { prop: 'isShow', label: '展示', width: 90, map: { 1: '展示', 0: '隐藏' } }
     ],
-    formFields: [
-      { prop: 'areaName', label: '功能区名称' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'maxCapacity', label: '容量', type: 'number' },
-      { prop: 'imgIds', label: '图片 ID' },
-      { prop: 'audioKeys', label: '音频 Key' },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ],
-    defaults: { maxCapacity: 0 }
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'areaName', label: '功能区名称' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'coordinate', label: '坐标' },
+        { prop: 'maxCapacity', label: '最大容量', type: 'number' },
+        { prop: 'imgIds', label: '图片资源', type: 'select', multiple: true, joinArray: true, options: options.images },
+        { prop: 'isGuide', label: '支持引导', type: 'select', options: guideOptions },
+        { prop: 'isShow', label: '是否展示', type: 'select', options: showOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { maxCapacity: 0, isShow: '1', isGuide: '0' },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        imgIds: parseIds(data.imgIds)
+      }
+    }
   },
   device: {
     title: '监控设备',
     description: '摄像头、监控设备编码、IP 和区域绑定维护。',
     basePath: '/config/device',
     rowKey: 'id',
-    searchFields: [{ prop: 'deviceName', label: '设备名称' }, { prop: 'deviceCode', label: '设备编码' }],
+    searchFields: [{ prop: 'deviceName', label: '设备名称' }, { prop: 'deviceType', label: '设备类型' }, { prop: 'roomCode', label: '房间编码' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'deviceName', label: '设备名称', minWidth: 160 },
-      { prop: 'deviceCode', label: '设备编码', minWidth: 150 },
-      { prop: 'deviceIp', label: 'IP', minWidth: 140 },
-      { prop: 'regionId', label: '区域 ID', width: 100 },
-      statusColumn()
+      { prop: 'deviceType', label: '设备类型', minWidth: 120 },
+      { prop: 'deepGlintDeviceId', label: '格灵设备 ID', minWidth: 160 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'enable', label: '启用', width: 90, tag: 'info', tagMap: { 1: 'success', 0: 'danger' }, map: { 1: '启用', 0: '停用' } }
     ],
-    formFields: [
-      { prop: 'deviceName', label: '设备名称' },
-      { prop: 'deviceCode', label: '设备编码' },
-      { prop: 'deviceIp', label: 'IP 地址' },
-      { prop: 'regionId', label: '区域 ID', type: 'number' },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions }
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'deviceName', label: '设备名称' },
+        { prop: 'deviceType', label: '设备类型', type: 'select', options: deviceTypeOptions },
+        { prop: 'deepGlintDeviceId', label: '格灵摄像头 ID' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'enable', label: '启用状态', type: 'select', options: enableOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { enable: 1, isDelete: '0', deviceType: 'camera' },
+    rowActions: [
+      {
+        key: 'bindRegion',
+        label: '区域绑定',
+        promptTitle: '设备区域绑定',
+        promptDefaults: (row) => ({ deviceId: row.id }),
+        promptFields: async (row) => {
+          const options = await loadConfigOptions()
+          const current = await listDeviceRegions(row.id)
+          const first = current.rows?.[0] || current.data?.[0] || {}
+          return [
+            { prop: 'deviceId', label: '设备 ID', type: 'number', defaultValue: row.id },
+            { prop: 'regionId', label: '区域', type: 'select', options: options.regions, defaultValue: first.regionId },
+            { prop: 'imgId', label: '关联图片', type: 'select', options: options.images, defaultValue: first.imgId },
+            { prop: 'coordinate', label: '设备坐标', defaultValue: first.coordinate || '' }
+          ]
+        },
+        handler: async (row, { form }) => {
+          const payload = { ...form, deviceId: row.id }
+          const current = payload.regionId ? await getDeviceRegion(row.id, payload.regionId) : null
+          if (current?.data) {
+            return updateDeviceRegion(payload)
+          }
+          return addDeviceRegion(payload)
+        },
+        successMessage: '设备区域绑定已保存'
+      },
+      {
+        key: 'clearRegion',
+        label: '清空绑定',
+        type: 'danger',
+        confirm: (row) => `确认清空设备"${row.deviceName}"的区域绑定？`,
+        handler: async (row) => {
+          const current = await listDeviceRegions(row.id)
+          const binds = current.rows || current.data || []
+          await Promise.all(binds.map((bind) => deleteDeviceRegion({ deviceId: row.id, regionId: bind.regionId })))
+        },
+        successMessage: '设备区域绑定已清空'
+      }
     ],
-    defaults: { status: '0' }
+    operationWidth: 340
   },
   table: {
     title: '餐桌配置',
@@ -658,18 +869,25 @@ export const crudPages = {
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'tableNo', label: '桌号', minWidth: 120 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
       { prop: 'regionName', label: '区域', minWidth: 140 },
       { prop: 'cameraCoordinates', label: '坐标', minWidth: 220 },
-      { prop: 'status', label: '状态', width: 100 }
+      { prop: 'status', label: '占用状态', width: 100, map: { 0: '空闲', 1: '翻台' } },
+      { prop: 'isEnable', label: '可用', width: 90, map: { 1: '可用', 0: '停用' } }
     ],
-    formFields: [
-      { prop: 'tableNo', label: '桌号' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'regionId', label: '区域 ID', type: 'number' },
-      { prop: 'cameraCoordinates', label: '坐标' },
-      { prop: 'status', label: '状态', type: 'select', options: [{ label: '空闲', value: '0' }, { label: '翻台', value: '1' }] }
-    ],
-    defaults: { status: '0' }
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'tableNo', label: '桌号' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'regionId', label: '区域', type: 'select', options: options.regions },
+        { prop: 'deviceId', label: '摄像头设备', type: 'select', options: options.devices },
+        { prop: 'cameraCoordinates', label: '摄像头坐标' },
+        { prop: 'isEnable', label: '是否可用', type: 'select', options: [{ label: '可用', value: '1' }, { label: '停用', value: '0' }] },
+        { prop: 'status', label: '占用状态', type: 'select', options: [{ label: '空闲', value: '0' }, { label: '翻台', value: '1' }] }
+      ]
+    },
+    defaults: { status: '0', isEnable: '1' }
   },
   task: {
     title: '任务配置',
@@ -681,15 +899,56 @@ export const crudPages = {
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'taskName', label: '任务名称', minWidth: 160 },
       { prop: 'robotId', label: '机器人', minWidth: 130 },
-      { prop: 'taskStatus', label: '任务状态', minWidth: 120 },
+      { prop: 'commandCn', label: '指令', minWidth: 140 },
+      { prop: 'executeType', label: '执行类型', minWidth: 120 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 },
+      { prop: 'enable', label: '启用', width: 90, map: { 1: '启用', 0: '停用' } },
       { prop: 'createTime', label: '创建时间', minWidth: 170 }
     ],
-    formFields: [
-      { prop: 'taskName', label: '任务名称' },
-      { prop: 'robotId', label: '机器人编号' },
-      { prop: 'taskStatus', label: '任务状态' },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ]
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'taskName', label: '任务名称' },
+        { prop: 'robotId', label: '机器人', type: 'select', options: options.robots },
+        { prop: 'command', label: '指令编码', type: 'number' },
+        { prop: 'commandCn', label: '指令中文' },
+        { prop: 'region', label: '执行区域' },
+        { prop: 'priority', label: '优先级', type: 'select', options: [{ label: '低', value: '1' }, { label: '中', value: '5' }, { label: '高', value: '9' }] },
+        { prop: 'executeType', label: '执行类型', type: 'select', options: executeTypeOptions },
+        { prop: 'executeDay', label: '执行日期' },
+        { prop: 'executeTime', label: '执行时间', type: 'datetime' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'imgIds', label: '任务图片', type: 'select', multiple: true, joinArray: true, options: options.images },
+        { prop: 'auditIds', label: '任务音频', type: 'select', multiple: true, joinArray: true, options: options.audios },
+        { prop: 'taskType', label: '任务类别', type: 'select', options: [{ label: '一次性任务', value: '0' }, { label: '持续任务', value: '1' }] },
+        { prop: 'taskSubtype', label: '任务子类型', type: 'select', options: taskSubtypeOptions },
+        { prop: 'taskMode', label: '任务模式', type: 'select', options: [{ label: '后台模式', value: '0' }, { label: '前台模式', value: '1' }] },
+        { prop: 'directExecution', label: '队列属性', type: 'select', options: [{ label: '排队执行', value: '0' }, { label: '直接执行', value: '1' }] },
+        { prop: 'isReturn', label: '返回结果', type: 'select', options: [{ label: '不返回', value: '0' }, { label: '返回', value: '1' }] },
+        { prop: 'enable', label: '启用状态', type: 'select', options: enableOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { enable: 1, priority: '5', executeType: 'immediately', isReturn: '1', taskType: '0', taskSubtype: '0', taskMode: '0', directExecution: '0', isDelete: '0' },
+    transformDetail: (response, row) => {
+      const data = response.data || row
+      return {
+        ...data,
+        imgIds: parseIds(data.imgIds),
+        auditIds: parseIds(data.auditIds)
+      }
+    },
+    rowActions: [
+      {
+        key: 'run',
+        label: '执行',
+        type: 'warning',
+        confirm: (row) => `确认执行任务"${row.taskName}"？`,
+        handler: (row) => runConfigTask(row.id),
+        successMessage: '任务已提交执行'
+      }
+    ],
+    operationWidth: 300
   },
   msg: {
     title: '消息日志',

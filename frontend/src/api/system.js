@@ -182,6 +182,11 @@ export const listConfigRegions = (query = {}) =>
     query
   })
 
+export const listConfigAreas = (query = {}) =>
+  request('/config/area/list', {
+    query
+  })
+
 export const listConfigImages = (query = {}) =>
   request('/config/img/list', {
     query
@@ -200,6 +205,35 @@ export const listConfigAudios = (query = {}) =>
 export const listConfigTasks = (query = {}) =>
   request('/config/task/list', {
     query
+  })
+
+export const listConfigDevices = (query = {}) =>
+  request('/config/device/list', {
+    query
+  })
+
+export const runConfigTask = (id) => request(`/config/task/run/${id}`)
+
+export const listDeviceRegions = (deviceId) => request(`/config/deviceregion/list/${deviceId}`)
+
+export const getDeviceRegion = (deviceId, regionId) => request(`/config/deviceregion/${deviceId}/${regionId}`)
+
+export const addDeviceRegion = (payload) =>
+  request('/config/deviceregion', {
+    method: 'POST',
+    body: JSON.stringify(payload)
+  })
+
+export const updateDeviceRegion = (payload) =>
+  request('/config/deviceregion', {
+    method: 'PUT',
+    body: JSON.stringify(payload)
+  })
+
+export const deleteDeviceRegion = (payload) =>
+  request('/config/deviceregion/delete', {
+    method: 'POST',
+    body: JSON.stringify(payload)
   })
 
 export const listDictTypes = (query = {}) =>

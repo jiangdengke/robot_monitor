@@ -76,9 +76,9 @@
           <el-image
             v-else-if="column.image"
             class="table-image"
-            :src="displayValue(row, column)"
+            :src="displayImageValue(row, column)"
             fit="cover"
-            :preview-src-list="[displayValue(row, column)]"
+            :preview-src-list="[displayImageValue(row, column)]"
             preview-teleported
           />
           <el-tag v-else-if="column.tag" :type="resolveTagType(column, row)">{{ displayValue(row, column) }}</el-tag>
@@ -132,6 +132,15 @@
             <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
           <el-input-number v-else-if="field.type === 'number'" v-model="form[field.prop]" controls-position="right" :min="field.min ?? 0" />
+          <el-date-picker
+            v-else-if="field.type === 'date' || field.type === 'datetime'"
+            v-model="form[field.prop]"
+            :type="field.type"
+            :value-format="field.valueFormat || (field.type === 'datetime' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')"
+            :format="field.format || (field.type === 'datetime' ? 'YYYY-MM-DD HH:mm:ss' : 'YYYY-MM-DD')"
+            clearable
+            :placeholder="field.placeholder || field.label"
+          />
           <el-tree-select
             v-else-if="field.type === 'tree'"
             v-model="form[field.prop]"
@@ -174,6 +183,23 @@
                 </button>
               </div>
             </el-popover>
+          </div>
+          <div v-else-if="field.type === 'imageBase64'" class="image-base64-field">
+            <el-upload
+              :auto-upload="false"
+              :limit="1"
+              accept="image/*"
+              :show-file-list="false"
+              :on-change="(file) => handleBase64FieldChange(field, file)"
+            >
+              <el-button>选择图片</el-button>
+            </el-upload>
+            <el-input v-model="form[field.prop]" type="textarea" :rows="3" :placeholder="field.placeholder || '上传后自动回填 base64，也可手动粘贴 data:image 内容'" />
+            <el-image v-if="form[field.prop]" class="form-image-preview" :src="form[field.prop]" fit="cover" :preview-src-list="[form[field.prop]]" preview-teleported />
+          </div>
+          <div v-else-if="field.type === 'imagePreview'" class="image-preview-field">
+            <el-image v-if="resolvePreviewUrl(field, form)" class="form-image-preview" :src="resolvePreviewUrl(field, form)" fit="cover" :preview-src-list="[resolvePreviewUrl(field, form)]" preview-teleported />
+            <el-input v-model="form[field.prop]" :placeholder="field.placeholder || field.label" />
           </div>
           <el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="field.rows || 4" :placeholder="field.placeholder || field.label" />
           <el-input v-else v-model="form[field.prop]" :type="field.inputType || 'text'" :placeholder="field.placeholder || field.label" />
@@ -395,6 +421,13 @@ function displayValue(row, column) {
   return value === undefined || value === null || value === '' ? '-' : value
 }
 
+function displayImageValue(row, column) {
+  if (column.imageUrl) {
+    return column.imageUrl(row)
+  }
+  return displayValue(row, column)
+}
+
 function resolveTagType(column, row) {
   const raw = column.prop.includes('.') ? getByPath(row, column.prop) : row?.[column.prop]
   return column.tagMap?.[String(raw)] || column.tag || 'info'
@@ -480,7 +513,8 @@ function openDetail(row) {
 
 async function submitForm() {
   try {
-    const payload = props.beforeSubmit ? props.beforeSubmit({ ...form }, formMode.value) : { ...form }
+    const normalizedPayload = normalizeSubmitPayload({ ...form }, resolvedFormFields.value)
+    const payload = props.beforeSubmit ? props.beforeSubmit(normalizedPayload, formMode.value) : normalizedPayload
     if (formMode.value === 'create') {
       const path = props.createPath || props.basePath
       await createResource(path, payload, props.createMethod)
@@ -495,6 +529,38 @@ async function submitForm() {
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '保存失败'
   }
+}
+
+function normalizeSubmitPayload(payload, fields) {
+  fields.forEach((field) => {
+    if (!field.joinArray || !Array.isArray(payload[field.prop])) {
+      return
+    }
+    payload[field.prop] = payload[field.prop].join(field.joinDelimiter || ',')
+  })
+  return payload
+}
+
+function handleBase64FieldChange(field, file) {
+  const raw = file.raw
+  if (!raw) {
+    return
+  }
+  const reader = new FileReader()
+  reader.onload = () => {
+    form[field.prop] = reader.result
+    if (field.nameProp && !form[field.nameProp]) {
+      form[field.nameProp] = raw.name
+    }
+  }
+  reader.readAsDataURL(raw)
+}
+
+function resolvePreviewUrl(field, source) {
+  if (field.url) {
+    return typeof field.url === 'function' ? field.url(source) : field.url
+  }
+  return source[field.prop]
 }
 
 async function handleSwitchChange(column, row, value) {
@@ -704,5 +770,16 @@ onMounted(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+.image-base64-field,
+.image-preview-field {
+  display: grid;
+  gap: 10px;
+}
+.form-image-preview {
+  width: 128px;
+  height: 88px;
+  border-radius: 8px;
+  border: 1px solid var(--el-border-color);
 }
 </style>
