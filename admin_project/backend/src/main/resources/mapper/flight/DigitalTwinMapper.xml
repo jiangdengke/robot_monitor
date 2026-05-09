@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.DigitalTwinMapper">
+    <select id="getInspectionList" parameterType="String" resultType="com.robotmonitor.flight.domain.digitalTwin.InspectionDto">
+        select a.id,a.insp_task_id inspTaskId ,a.robot_id robotId,a.type,a.point,a.abnormal,a.abnormal_info abnormalInfo,
+               a.image_base64,a.create_time,c.region
+        from insp_task_result a
+                 left join robot_task b on a.insp_task_id=b.id
+                 left join config_task c on c.id=b.task_id
+        where c.room_code=#{roomCode} and a.abnormal &lt;&gt; 0 and a.create_time>CURRENT_DATE
+    </select>
+    <update id="handleInspection" parameterType="String">
+        update passenger
+            abnormal = 2
+        where id = #{id}
+    </update>
+    <select id="selectTaskStatusById" parameterType="Long" resultType="String">
+        select task_status from robot_task
+        where id = #{id}
+    </select>
+</mapper>

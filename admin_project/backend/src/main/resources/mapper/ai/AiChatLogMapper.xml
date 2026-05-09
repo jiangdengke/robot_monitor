@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.ai.mapper.AiChatLogMapper">
+
+    <resultMap type="AiChatLog" id="AiChatLogResult">
+        <result property="id"    column="id"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="question"    column="question"    />
+        <result property="answer"    column="answer"    />
+        <result property="language"    column="language"    />
+        <result property="chatType"    column="chat_type"    />
+        <result property="aiAutoClassification"    column="ai_auto_classification"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectAiChatLogVo">
+        select id, robot_id, question, answer, language, chat_type, ai_auto_classification, create_time from ai_chat_log
+    </sql>
+
+    <select id="selectAiChatLogList" parameterType="AiChatLog" resultMap="AiChatLogResult">
+        <include refid="selectAiChatLogVo"/>
+        <where>
+            <if test="robotId != null  and robotId != ''"> and robot_id = #{robotId}</if>
+            <if test="question != null  and question != ''"> and question = #{question}</if>
+            <if test="answer != null  and answer != ''"> and answer = #{answer}</if>
+            <if test="language != null  and language != ''"> and language = #{language}</if>
+            <if test="chatType != null  and chatType != ''"> and chat_type = #{chatType}</if>
+            <if test="aiAutoClassification != null  and aiAutoClassification != ''"> and ai_auto_classification = #{aiAutoClassification}</if>
+        </where>
+    </select>
+
+    <select id="selectAiChatLogById" parameterType="Long" resultMap="AiChatLogResult">
+        <include refid="selectAiChatLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAiChatLog" parameterType="AiChatLog" useGeneratedKeys="true" keyProperty="id">
+        insert into ai_chat_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="robotId != null">robot_id,</if>
+            <if test="question != null">question,</if>
+            <if test="answer != null">answer,</if>
+            <if test="language != null">language,</if>
+            <if test="chatType != null">chat_type,</if>
+            <if test="aiAutoClassification != null">ai_auto_classification,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="robotId != null">#{robotId},</if>
+            <if test="question != null">#{question},</if>
+            <if test="answer != null">#{answer},</if>
+            <if test="language != null">#{language},</if>
+            <if test="chatType != null">#{chatType},</if>
+            <if test="aiAutoClassification != null">#{aiAutoClassification},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateAiChatLog" parameterType="AiChatLog">
+        update ai_chat_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="question != null">question = #{question},</if>
+            <if test="answer != null">answer = #{answer},</if>
+            <if test="language != null">language = #{language},</if>
+            <if test="chatType != null">chat_type = #{chatType},</if>
+            <if test="aiAutoClassification != null">ai_auto_classification = #{aiAutoClassification},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAiChatLogById" parameterType="Long">
+        delete from ai_chat_log where id = #{id}
+    </delete>
+
+    <delete id="deleteAiChatLogByIds" parameterType="String">
+        delete from ai_chat_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findNeedAutoClassificationLog" resultMap="AiChatLogResult">
+        <include refid="selectAiChatLogVo"/>
+        <where>
+             ai_auto_classification is null limit 10
+        </where>
+    </select>
+
+    <select id="findAllTags" resultType="String">
+        SELECT GROUP_CONCAT(DISTINCT ai_auto_classification ORDER BY ai_auto_classification SEPARATOR ',') AS classifications
+        FROM ai_chat_log;
+    </select>
+
+    <!-- 智能问询统计分析结果映射 -->
+    <resultMap type="com.robotmonitor.ai.dto.AiQuestionStatDTO" id="AiQuestionStatResult">
+        <result property="robotId" column="robot_id"/>
+        <result property="robotName" column="robot_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="aiAutoClassification" column="ai_auto_classification"/>
+        <result property="question" column="question"/>
+        <result property="answer" column="answer"/>
+        <result property="chatType" column="chat_type"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <!-- 查询智能问询统计分析 -->
+    <select id="selectAiQuestionStatList" parameterType="map" resultMap="AiQuestionStatResult">
+        select
+            a.robot_id,
+            c.robot_name,
+            s.dept_name,
+            a.ai_auto_classification,
+            a.question,
+            a.answer,
+            a.chat_type,
+            a.create_time
+        from ai_chat_log a
+        left join config_robot c on a.robot_id = c.robot_id
+        left join sys_dept s on c.room_code = s.room_code
+        <where>
+            <if test="robotId != null and robotId != ''"> and a.robot_id = #{robotId}</if>
+            <if test="question != null and question != ''"> and a.question like CONCAT('%', #{question}, '%')</if>
+            <if test="chatType != null and chatType != ''"> and (a.chat_type = #{chatType} OR (#{chatType} = 'OTHER' AND (a.chat_type IS NULL OR a.chat_type = '')))</if>
+            <if test="startTime != null and startTime != ''"> and a.create_time >= #{startTime}</if>
+            <if test="endTime != null and endTime != ''"> and a.create_time &lt;= #{endTime}</if>
+        </where>
+        order by a.create_time desc
+    </select>
+</mapper>

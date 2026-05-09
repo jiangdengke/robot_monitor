@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.bot.mapper.RobotTaskMapper">
+
+    <resultMap type="RobotTask" id="RobotTaskResult">
+        <result property="id"    column="id"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="taskSubtype"    column="task_subtype"    />
+        <result property="taskMode"    column="task_mode"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="directExecution"    column="direct_execution"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="returnInfo"    column="return_info"    />
+        <result property="cmd"    column="cmd"    />
+    </resultMap>
+
+    <sql id="selectRobotTaskVo">
+        select id, robot_id, task_id, task_name, task_type, task_subtype, task_mode, task_status, direct_execution, create_time, start_time, end_time, return_info, cmd from robot_task
+    </sql>
+
+    <select id="selectRobotTaskList" parameterType="RobotTask" resultMap="RobotTaskResult">
+        <include refid="selectRobotTaskVo"/>
+        <where>
+            <if test="robotId != null  and robotId != ''"> and robot_id = #{robotId}</if>
+            <if test="taskId != null "> and task_id = #{taskId}</if>
+            <if test="taskName != null  and taskName != ''"> and task_name like concat('%', #{taskName}, '%')</if>
+            <if test="taskType != null  and taskType != ''"> and task_type = #{taskType}</if>
+            <if test="taskSubtype != null  and taskSubtype != ''"> and task_subtype = #{taskSubtype}</if>
+            <if test="taskMode != null  and taskMode != ''"> and task_mode = #{taskMode}</if>
+            <if test="taskStatus != null  and taskStatus != ''"> and task_status = #{taskStatus}</if>
+            <if test="directExecution != null  and directExecution != ''"> and direct_execution = #{directExecution}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="returnInfo != null  and returnInfo != ''"> and return_info = #{returnInfo}</if>
+            <if test="cmd != null  and cmd != ''"> and cmd = #{cmd}</if>
+        </where>
+    </select>
+
+    <select id="selectRobotTaskById" parameterType="Long" resultMap="RobotTaskResult">
+        <include refid="selectRobotTaskVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRobotTask" parameterType="RobotTask" useGeneratedKeys="true" keyProperty="id">
+        insert into robot_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="robotId != null">robot_id,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="taskName != null">task_name,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="taskSubtype != null">task_subtype,</if>
+            <if test="taskMode != null">task_mode,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="directExecution != null">direct_execution,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="returnInfo != null">return_info,</if>
+            <if test="cmd != null">cmd,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="robotId != null">#{robotId},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="taskName != null">#{taskName},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="taskSubtype != null">#{taskSubtype},</if>
+            <if test="taskMode != null">#{taskMode},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="directExecution != null">#{directExecution},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="returnInfo != null">#{returnInfo},</if>
+            <if test="cmd != null">#{cmd},</if>
+        </trim>
+    </insert>
+
+    <update id="updateRobotTask" parameterType="RobotTask">
+        update robot_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskSubtype != null">task_subtype = #{taskSubtype},</if>
+            <if test="taskMode != null">task_mode = #{taskMode},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="directExecution != null">direct_execution = #{directExecution},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="returnInfo != null">return_info = #{returnInfo},</if>
+            <if test="cmd != null">cmd = #{cmd},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRobotTaskById" parameterType="Long">
+        delete from robot_task where id = #{id}
+    </delete>
+
+    <delete id="deleteRobotTaskByIds" parameterType="String">
+        delete from robot_task where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="findTaskListByRobotId" parameterType="String" resultMap="RobotTaskResult">
+        <include refid="selectRobotTaskVo"/>
+        where robot_id = #{robotId}
+        and task_status in('0','1','2','3')
+        order by create_time asc
+    </select>
+</mapper>

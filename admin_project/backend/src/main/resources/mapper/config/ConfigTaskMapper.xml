@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.config.mapper.ConfigTaskMapper">
+
+    <resultMap type="ConfigTask" id="ConfigTaskResult">
+        <result property="id"    column="id"    />
+        <result property="taskName"    column="task_name"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="command"    column="command"    />
+        <result property="commandCn"    column="command_cn"    />
+        <result property="region"    column="region"    />
+        <result property="priority"    column="priority"    />
+        <result property="enable"    column="enable"    />
+        <result property="executeType"    column="execute_type"    />
+        <result property="executeDay"    column="execute_day"    />
+        <result property="executeTime"    column="execute_time"    />
+        <result property="isReturn"    column="is_return"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="imgIds"    column="img_ids"    />
+        <result property="auditIds"    column="audit_ids"    />
+        <result property="taskType"    column="task_type"    />
+        <result property="taskSubtype"    column="task_subtype"    />
+        <result property="taskMode"    column="task_mode"    />
+        <result property="directExecution"    column="direct_execution"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectConfigTaskVo">
+        select a.id, a.task_name, a.robot_id, a.command, a.command_cn, a.region, a.priority, a.enable, a.execute_type,
+               a.execute_day, a.execute_time, a.is_return, a.remark, a.create_by, a.create_time, a.update_by, a.update_time,
+               a.room_code, a.is_delete, a.img_ids, a.audit_ids, a.task_type, a.task_subtype, a.task_mode, a.direct_execution,b.dept_name from config_task a
+        left join sys_dept b on a.room_code=b.room_code
+    </sql>
+
+    <select id="selectConfigTaskList" parameterType="ConfigTask" resultMap="ConfigTaskResult">
+        <include refid="selectConfigTaskVo"/>
+        <where>
+            <if test="taskName != null  and taskName != ''"> and a.task_name like concat('%', #{taskName}, '%')</if>
+            <if test="robotId != null "> and a.robot_id = #{robotId}</if>
+            <if test="command != null "> and a.command = #{command}</if>
+            <if test="commandCn != null  and commandCn != ''"> and a.command_cn = #{commandCn}</if>
+            <if test="region != null  and region != ''"> and a.region = #{region}</if>
+            <if test="priority != null  and priority != ''"> and a.priority = #{priority}</if>
+            <if test="enable != null "> and a.enable = #{enable}</if>
+            <if test="executeType != null  and executeType != ''"> and a.execute_type = #{executeType}</if>
+            <if test="executeDay != null  and executeDay != ''"> and a.execute_day = #{executeDay}</if>
+            <if test="executeTime != null "> and a.execute_time = #{executeTime}</if>
+            <if test="isReturn != null  and isReturn != ''"> and a.is_return = #{isReturn}</if>
+            <if test="roomCode != null  and roomCode != ''"> and a.room_code = #{roomCode}</if>
+            <if test="imgIds != null  and imgIds != ''"> and a.img_ids = #{imgIds}</if>
+            <if test="auditIds != null  and auditIds != ''"> and a.audit_ids = #{auditIds}</if>
+            <if test="taskType != null  and taskType != ''"> and a.task_type = #{taskType}</if>
+            <if test="taskSubtype != null  and taskSubtype != ''"> and a.task_subtype = #{taskSubtype}</if>
+            <if test="taskMode != null  and taskMode != ''"> and a.task_mode = #{taskMode}</if>
+            <if test="directExecution != null  and directExecution != ''"> and a.direct_execution = #{directExecution}</if>
+            and a.is_delete ='0'
+            and a.id > 0
+        </where>
+    </select>
+
+    <select id="selectConfigTaskById" parameterType="Long" resultMap="ConfigTaskResult">
+        <include refid="selectConfigTaskVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertConfigTask" parameterType="ConfigTask">
+        insert into config_task
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="taskName != null">task_name,</if>
+            <if test="robotId != null">robot_id,</if>
+            <if test="command != null">command,</if>
+            <if test="commandCn != null">command_cn,</if>
+            <if test="region != null">region,</if>
+            <if test="priority != null">priority,</if>
+            <if test="enable != null">enable,</if>
+            <if test="executeType != null">execute_type,</if>
+            <if test="executeDay != null">execute_day,</if>
+            <if test="executeTime != null">execute_time,</if>
+            <if test="isReturn != null">is_return,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="imgIds != null">img_ids,</if>
+            <if test="auditIds != null">audit_ids,</if>
+            <if test="taskType != null">task_type,</if>
+            <if test="taskSubtype != null">task_subtype,</if>
+            <if test="taskMode != null">task_mode,</if>
+            <if test="directExecution != null">direct_execution,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="taskName != null">#{taskName},</if>
+            <if test="robotId != null">#{robotId},</if>
+            <if test="command != null">#{command},</if>
+            <if test="commandCn != null">#{commandCn},</if>
+            <if test="region != null">#{region},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="executeType != null">#{executeType},</if>
+            <if test="executeDay != null">#{executeDay},</if>
+            <if test="executeTime != null">#{executeTime},</if>
+            <if test="isReturn != null">#{isReturn},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="imgIds != null">#{imgIds},</if>
+            <if test="auditIds != null">#{auditIds},</if>
+            <if test="taskType != null">#{taskType},</if>
+            <if test="taskSubtype != null">#{taskSubtype},</if>
+            <if test="taskMode != null">#{taskMode},</if>
+            <if test="directExecution != null">#{directExecution},</if>
+        </trim>
+    </insert>
+
+    <update id="updateConfigTask" parameterType="ConfigTask">
+        update config_task
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="taskName != null">task_name = #{taskName},</if>
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="command != null">command = #{command},</if>
+            <if test="commandCn != null">command_cn = #{commandCn},</if>
+            <if test="region != null">region = #{region},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="executeType != null">execute_type = #{executeType},</if>
+            <if test="executeDay != null">execute_day = #{executeDay},</if>
+            <if test="executeTime != null">execute_time = #{executeTime},</if>
+            <if test="isReturn != null">is_return = #{isReturn},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="imgIds != null">img_ids = #{imgIds},</if>
+            <if test="auditIds != null">audit_ids = #{auditIds},</if>
+            <if test="taskType != null">task_type = #{taskType},</if>
+            <if test="taskSubtype != null">task_subtype = #{taskSubtype},</if>
+            <if test="taskMode != null">task_mode = #{taskMode},</if>
+            <if test="directExecution != null">direct_execution = #{directExecution},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigTaskById" parameterType="Long">
+        update config_task set is_delete='1' where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigTaskByIds" parameterType="String">
+        update config_task set is_delete='1' where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

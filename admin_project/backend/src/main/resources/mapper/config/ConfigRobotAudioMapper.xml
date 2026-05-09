@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.config.mapper.ConfigRobotAudioMapper">
+
+    <resultMap type="ConfigRobotAudio" id="ConfigRobotAudioResult">
+        <result property="id"    column="id"    />
+        <result property="audioKey"    column="audio_key"    />
+        <result property="audioValue"    column="audio_value"    />
+        <result property="languageType"    column="language_type"    />
+        <result property="textInfo"    column="text_info"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectConfigRobotAudioVo">
+        select a.id, a.audio_key, a.audio_value, a.language_type, a.text_info, a.remark, a.create_by, a.create_time, a.update_by, a.update_time, a.room_code from config_robot_audio a
+         left join sys_dept b on a.room_code=b.room_code
+    </sql>
+
+    <sql id="selectConfigRobotAudioVo2">
+        select a.id, a.audio_key, a.language_type, a.text_info, a.remark, a.create_by, a.create_time, a.update_by, a.update_time, a.room_code from config_robot_audio a
+                                                                                                                                                                      left join sys_dept b on a.room_code=b.room_code
+    </sql>
+
+    <select id="selectConfigRobotAudioList" parameterType="ConfigRobotAudio" resultMap="ConfigRobotAudioResult">
+        <include refid="selectConfigRobotAudioVo2"/>
+        <where>
+            <if test="audioKey != null  and audioKey != ''"> and a.audio_key = #{audioKey}</if>
+            <if test="audioValue != null  and audioValue != ''"> and a.audio_value = #{audioValue}</if>
+            <if test="languageType != null  and languageType != ''"> and a.language_type = #{languageType}</if>
+            <if test="textInfo != null  and textInfo != ''"> and a.text_info = #{textInfo}</if>
+            <if test="roomCode != null  and roomCode != ''"> and a.room_code = #{roomCode}</if>
+        </where>
+    </select>
+
+    <select id="selectConfigRobotAudioById" parameterType="Long" resultMap="ConfigRobotAudioResult">
+        <include refid="selectConfigRobotAudioVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertConfigRobotAudio" parameterType="ConfigRobotAudio">
+        insert into config_robot_audio
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="audioKey != null and audioKey != ''">audio_key,</if>
+            <if test="audioValue != null">audio_value,</if>
+            <if test="languageType != null">language_type,</if>
+            <if test="textInfo != null">text_info,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="roomCode != null">room_code,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="audioKey != null and audioKey != ''">#{audioKey},</if>
+            <if test="audioValue != null">#{audioValue},</if>
+            <if test="languageType != null">#{languageType},</if>
+            <if test="textInfo != null">#{textInfo},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+        </trim>
+    </insert>
+
+    <update id="updateConfigRobotAudio" parameterType="ConfigRobotAudio">
+        update config_robot_audio
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="audioKey != null and audioKey != ''">audio_key = #{audioKey},</if>
+            <if test="audioValue != null">audio_value = #{audioValue},</if>
+            <if test="languageType != null">language_type = #{languageType},</if>
+            <if test="textInfo != null">text_info = #{textInfo},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigRobotAudioById" parameterType="Long">
+        delete from config_robot_audio where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigRobotAudioByIds" parameterType="String">
+        delete from config_robot_audio where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="getCntByKey" parameterType="ConfigRobotAudio" resultType="Long">
+        select count(1) from config_robot_audio where
+       audio_key = #{audioKey} and room_code = #{roomCode} and language_type = #{languageType}
+        <if test="id != null"> and  id &lt;&gt; #{id}</if>
+    </select>
+
+    <select id="getNewRobotAudio" parameterType="ConfigRobotAudio" resultMap="ConfigRobotAudioResult">
+        <include refid="selectConfigRobotAudioVo"/>
+        <where>
+             and a.room_code = #{roomCode}
+             and a.update_time > #{updateTime}
+        </where>
+    </select>
+</mapper>

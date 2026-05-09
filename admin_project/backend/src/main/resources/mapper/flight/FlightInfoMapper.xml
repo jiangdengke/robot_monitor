@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.FlightInfoMapper">
+
+    <resultMap type="FlightInfo" id="FlightInfoResult">
+        <result property="flightId"    column="flight_id"    />
+        <result property="sendTime"    column="send_time"    />
+        <result property="airlineCd"    column="airline_cd"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="scheExecDate"    column="sche_exec_date"    />
+        <result property="flightAttr"    column="flight_attr"    />
+        <result property="craftType"    column="craft_type"    />
+        <result property="craftNo"    column="craft_no"    />
+        <result property="latestOffStatus"    column="latest_off_status"    />
+        <result property="latestOnStatus"    column="latest_on_status"    />
+        <result property="domFlightState"    column="dom_flight_state"    />
+        <result property="intFlightState"    column="int_flight_state"    />
+        <result property="domFlightAbstate"    column="dom_flight_abstate"    />
+        <result property="intFlightAbstate"    column="int_flight_abstate"    />
+        <result property="domAbStateTime"    column="dom_ab_state_time"    />
+        <result property="intAbStateTime"    column="int_ab_state_time"    />
+        <result property="domFlightAbstateReason"    column="dom_flight_abstate_reason"    />
+        <result property="intFlightAbstateReason"    column="int_flight_abstate_reason"    />
+        <result property="domInnerFlightAbstateReason"    column="dom_inner_flight_abstate_reason"    />
+        <result property="intInnerFlightAbstateReason"    column="int_inner_flight_abstate_reason"    />
+        <result property="domFlightAbstateReasonDesc"    column="dom_flight_abstate_reason_desc"    />
+        <result property="intFlightAbstateReasonDesc"    column="int_flight_abstate_reason_desc"    />
+        <result property="airline"    column="airline"    />
+        <result property="station"    column="station"    />
+        <result property="stationCn"    column="station_cn"    />
+        <result property="scheTakeOffTime"    column="sche_take_off_time"    />
+        <result property="estmTakeOffTime"    column="estm_take_off_time"    />
+        <result property="actlTakeOffTime"    column="actl_take_off_time"    />
+        <result property="gateCd"    column="gate_cd"    />
+        <result property="gateAttr"    column="gate_attr"    />
+        <result property="estmStartTime"    column="estm_start_time"    />
+        <result property="estmEndTime"    column="estm_end_time"    />
+        <result property="carouselCd"    column="carousel_cd"    />
+        <result property="carouselClass"    column="carousel_class"    />
+        <result property="carouselAttr"    column="carousel_attr"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="isDelete"    column="is_delete"    />
+    </resultMap>
+
+    <sql id="selectFlightInfoVo">
+        select flight_id, send_time, airline_cd, flight_no, sche_exec_date, flight_attr, craft_type, craft_no, latest_off_status, latest_on_status, dom_flight_state, int_flight_state, dom_flight_abstate, int_flight_abstate, dom_ab_state_time, int_ab_state_time, dom_flight_abstate_reason, int_flight_abstate_reason, dom_inner_flight_abstate_reason, int_inner_flight_abstate_reason, dom_flight_abstate_reason_desc, int_flight_abstate_reason_desc, airline, station, station_cn, sche_take_off_time, estm_take_off_time, actl_take_off_time, gate_cd, gate_attr, estm_start_time, estm_end_time, carousel_cd, carousel_class, carousel_attr, update_time, is_delete from flight_info
+    </sql>
+
+    <select id="selectFlightInfoList" parameterType="FlightInfo" resultMap="FlightInfoResult">
+        <include refid="selectFlightInfoVo"/>
+        <where>
+            <if test="sendTime != null  and sendTime != ''"> and send_time = #{sendTime}</if>
+            <if test="airlineCd != null  and airlineCd != ''"> and airline_cd = #{airlineCd}</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="scheExecDate != null  and scheExecDate != ''"> and sche_exec_date = #{scheExecDate}</if>
+            <if test="flightAttr != null  and flightAttr != ''"> and flight_attr = #{flightAttr}</if>
+            <if test="craftType != null  and craftType != ''"> and craft_type = #{craftType}</if>
+            <if test="craftNo != null  and craftNo != ''"> and craft_no = #{craftNo}</if>
+            <if test="latestOffStatus != null  and latestOffStatus != ''"> and latest_off_status = #{latestOffStatus}</if>
+            <if test="latestOnStatus != null  and latestOnStatus != ''"> and latest_on_status = #{latestOnStatus}</if>
+            <if test="domFlightState != null  and domFlightState != ''"> and dom_flight_state = #{domFlightState}</if>
+            <if test="intFlightState != null  and intFlightState != ''"> and int_flight_state = #{intFlightState}</if>
+            <if test="domFlightAbstate != null  and domFlightAbstate != ''"> and dom_flight_abstate = #{domFlightAbstate}</if>
+            <if test="intFlightAbstate != null  and intFlightAbstate != ''"> and int_flight_abstate = #{intFlightAbstate}</if>
+            <if test="domAbStateTime != null  and domAbStateTime != ''"> and dom_ab_state_time = #{domAbStateTime}</if>
+            <if test="intAbStateTime != null  and intAbStateTime != ''"> and int_ab_state_time = #{intAbStateTime}</if>
+            <if test="domFlightAbstateReason != null  and domFlightAbstateReason != ''"> and dom_flight_abstate_reason = #{domFlightAbstateReason}</if>
+            <if test="intFlightAbstateReason != null  and intFlightAbstateReason != ''"> and int_flight_abstate_reason = #{intFlightAbstateReason}</if>
+            <if test="domInnerFlightAbstateReason != null  and domInnerFlightAbstateReason != ''"> and dom_inner_flight_abstate_reason = #{domInnerFlightAbstateReason}</if>
+            <if test="intInnerFlightAbstateReason != null  and intInnerFlightAbstateReason != ''"> and int_inner_flight_abstate_reason = #{intInnerFlightAbstateReason}</if>
+            <if test="domFlightAbstateReasonDesc != null  and domFlightAbstateReasonDesc != ''"> and dom_flight_abstate_reason_desc = #{domFlightAbstateReasonDesc}</if>
+            <if test="intFlightAbstateReasonDesc != null  and intFlightAbstateReasonDesc != ''"> and int_flight_abstate_reason_desc = #{intFlightAbstateReasonDesc}</if>
+            <if test="airline != null  and airline != ''"> and airline = #{airline}</if>
+            <if test="station != null  and station != ''"> and station = #{station}</if>
+            <if test="stationCn != null  and stationCn != ''"> and station_cn = #{stationCn}</if>
+            <if test="scheTakeOffTime != null  and scheTakeOffTime != ''"> and sche_take_off_time = #{scheTakeOffTime}</if>
+            <if test="estmTakeOffTime != null  and estmTakeOffTime != ''"> and estm_take_off_time = #{estmTakeOffTime}</if>
+            <if test="actlTakeOffTime != null  and actlTakeOffTime != ''"> and actl_take_off_time = #{actlTakeOffTime}</if>
+            <if test="gateCd != null  and gateCd != ''"> and gate_cd = #{gateCd}</if>
+            <if test="gateAttr != null  and gateAttr != ''"> and gate_attr = #{gateAttr}</if>
+            <if test="estmStartTime != null  and estmStartTime != ''"> and estm_start_time = #{estmStartTime}</if>
+            <if test="estmEndTime != null  and estmEndTime != ''"> and estm_end_time = #{estmEndTime}</if>
+            <if test="carouselCd != null  and carouselCd != ''"> and carousel_cd = #{carouselCd}</if>
+            <if test="carouselClass != null  and carouselClass != ''"> and carousel_class = #{carouselClass}</if>
+            <if test="carouselAttr != null  and carouselAttr != ''"> and carousel_attr = #{carouselAttr}</if>
+            <if test="isDelete != null  and isDelete != ''"> and is_delete = #{isDelete}</if>
+        </where>
+    </select>
+    
+    <select id="selectFlightInfoByFlightId" parameterType="String" resultMap="FlightInfoResult">
+        <include refid="selectFlightInfoVo"/>
+        where flight_id = #{flightId}
+    </select>
+        
+    <insert id="insertFlightInfo" parameterType="FlightInfo">
+        insert into flight_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="flightId != null">flight_id,</if>
+            <if test="sendTime != null">send_time,</if>
+            <if test="airlineCd != null">airline_cd,</if>
+            <if test="flightNo != null">flight_no,</if>
+            <if test="scheExecDate != null">sche_exec_date,</if>
+            <if test="flightAttr != null">flight_attr,</if>
+            <if test="craftType != null">craft_type,</if>
+            <if test="craftNo != null">craft_no,</if>
+            <if test="latestOffStatus != null">latest_off_status,</if>
+            <if test="latestOnStatus != null">latest_on_status,</if>
+            <if test="domFlightState != null">dom_flight_state,</if>
+            <if test="intFlightState != null">int_flight_state,</if>
+            <if test="domFlightAbstate != null">dom_flight_abstate,</if>
+            <if test="intFlightAbstate != null">int_flight_abstate,</if>
+            <if test="domAbStateTime != null">dom_ab_state_time,</if>
+            <if test="intAbStateTime != null">int_ab_state_time,</if>
+            <if test="domFlightAbstateReason != null">dom_flight_abstate_reason,</if>
+            <if test="intFlightAbstateReason != null">int_flight_abstate_reason,</if>
+            <if test="domInnerFlightAbstateReason != null">dom_inner_flight_abstate_reason,</if>
+            <if test="intInnerFlightAbstateReason != null">int_inner_flight_abstate_reason,</if>
+            <if test="domFlightAbstateReasonDesc != null">dom_flight_abstate_reason_desc,</if>
+            <if test="intFlightAbstateReasonDesc != null">int_flight_abstate_reason_desc,</if>
+            <if test="airline != null">airline,</if>
+            <if test="station != null">station,</if>
+            <if test="stationCn != null">station_cn,</if>
+            <if test="scheTakeOffTime != null">sche_take_off_time,</if>
+            <if test="estmTakeOffTime != null">estm_take_off_time,</if>
+            <if test="actlTakeOffTime != null">actl_take_off_time,</if>
+            <if test="gateCd != null">gate_cd,</if>
+            <if test="gateAttr != null">gate_attr,</if>
+            <if test="estmStartTime != null">estm_start_time,</if>
+            <if test="estmEndTime != null">estm_end_time,</if>
+            <if test="carouselCd != null">carousel_cd,</if>
+            <if test="carouselClass != null">carousel_class,</if>
+            <if test="carouselAttr != null">carousel_attr,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="isDelete != null">is_delete,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="flightId != null">#{flightId},</if>
+            <if test="sendTime != null">#{sendTime},</if>
+            <if test="airlineCd != null">#{airlineCd},</if>
+            <if test="flightNo != null">#{flightNo},</if>
+            <if test="scheExecDate != null">#{scheExecDate},</if>
+            <if test="flightAttr != null">#{flightAttr},</if>
+            <if test="craftType != null">#{craftType},</if>
+            <if test="craftNo != null">#{craftNo},</if>
+            <if test="latestOffStatus != null">#{latestOffStatus},</if>
+            <if test="latestOnStatus != null">#{latestOnStatus},</if>
+            <if test="domFlightState != null">#{domFlightState},</if>
+            <if test="intFlightState != null">#{intFlightState},</if>
+            <if test="domFlightAbstate != null">#{domFlightAbstate},</if>
+            <if test="intFlightAbstate != null">#{intFlightAbstate},</if>
+            <if test="domAbStateTime != null">#{domAbStateTime},</if>
+            <if test="intAbStateTime != null">#{intAbStateTime},</if>
+            <if test="domFlightAbstateReason != null">#{domFlightAbstateReason},</if>
+            <if test="intFlightAbstateReason != null">#{intFlightAbstateReason},</if>
+            <if test="domInnerFlightAbstateReason != null">#{domInnerFlightAbstateReason},</if>
+            <if test="intInnerFlightAbstateReason != null">#{intInnerFlightAbstateReason},</if>
+            <if test="domFlightAbstateReasonDesc != null">#{domFlightAbstateReasonDesc},</if>
+            <if test="intFlightAbstateReasonDesc != null">#{intFlightAbstateReasonDesc},</if>
+            <if test="airline != null">#{airline},</if>
+            <if test="station != null">#{station},</if>
+            <if test="stationCn != null">#{station_cn},</if>
+            <if test="scheTakeOffTime != null">#{scheTakeOffTime},</if>
+            <if test="estmTakeOffTime != null">#{estmTakeOffTime},</if>
+            <if test="actlTakeOffTime != null">#{actlTakeOffTime},</if>
+            <if test="gateCd != null">#{gateCd},</if>
+            <if test="gateAttr != null">#{gateAttr},</if>
+            <if test="estmStartTime != null">#{estmStartTime},</if>
+            <if test="estmEndTime != null">#{estmEndTime},</if>
+            <if test="carouselCd != null">#{carouselCd},</if>
+            <if test="carouselClass != null">#{carouselClass},</if>
+            <if test="carouselAttr != null">#{carouselAttr},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+        </trim>
+    </insert>
+
+    <update id="updateFlightInfo" parameterType="FlightInfo">
+        update flight_info
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sendTime != null">send_time = #{sendTime},</if>
+            <if test="airlineCd != null">airline_cd = #{airlineCd},</if>
+            <if test="flightNo != null">flight_no = #{flightNo},</if>
+            <if test="scheExecDate != null">sche_exec_date = #{scheExecDate},</if>
+            <if test="flightAttr != null">flight_attr = #{flightAttr},</if>
+            <if test="craftType != null">craft_type = #{craftType},</if>
+            <if test="craftNo != null">craft_no = #{craftNo},</if>
+            <if test="latestOffStatus != null">latest_off_status = #{latestOffStatus},</if>
+            <if test="latestOnStatus != null">latest_on_status = #{latestOnStatus},</if>
+            <if test="domFlightState != null">dom_flight_state = #{domFlightState},</if>
+            <if test="intFlightState != null">int_flight_state = #{intFlightState},</if>
+            <if test="domFlightAbstate != null">dom_flight_abstate = #{domFlightAbstate},</if>
+            <if test="intFlightAbstate != null">int_flight_abstate = #{intFlightAbstate},</if>
+            <if test="domAbStateTime != null">dom_ab_state_time = #{domAbStateTime},</if>
+            <if test="intAbStateTime != null">int_ab_state_time = #{intAbStateTime},</if>
+            <if test="domFlightAbstateReason != null">dom_flight_abstate_reason = #{domFlightAbstateReason},</if>
+            <if test="intFlightAbstateReason != null">int_flight_abstate_reason = #{intFlightAbstateReason},</if>
+            <if test="domInnerFlightAbstateReason != null">dom_inner_flight_abstate_reason = #{domInnerFlightAbstateReason},</if>
+            <if test="intInnerFlightAbstateReason != null">int_inner_flight_abstate_reason = #{intInnerFlightAbstateReason},</if>
+            <if test="domFlightAbstateReasonDesc != null">dom_flight_abstate_reason_desc = #{domFlightAbstateReasonDesc},</if>
+            <if test="intFlightAbstateReasonDesc != null">int_flight_abstate_reason_desc = #{intFlightAbstateReasonDesc},</if>
+            <if test="airline != null">airline = #{airline},</if>
+            <if test="station != null">station = #{station},</if>
+            <if test="stationCn != null">station_cn = #{stationCn},</if>
+            <if test="scheTakeOffTime != null">sche_take_off_time = #{scheTakeOffTime},</if>
+            <if test="estmTakeOffTime != null">estm_take_off_time = #{estmTakeOffTime},</if>
+            <if test="actlTakeOffTime != null">actl_take_off_time = #{actlTakeOffTime},</if>
+            <if test="gateCd != null">gate_cd = #{gateCd},</if>
+            <if test="gateAttr != null">gate_attr = #{gateAttr},</if>
+            <if test="estmStartTime != null">estm_start_time = #{estmStartTime},</if>
+            <if test="estmEndTime != null">estm_end_time = #{estmEndTime},</if>
+            <if test="carouselCd != null">carousel_cd = #{carouselCd},</if>
+            <if test="carouselClass != null">carousel_class = #{carouselClass},</if>
+            <if test="carouselAttr != null">carousel_attr = #{carouselAttr},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+        </trim>
+        where flight_id = #{flightId}
+    </update>
+
+    <delete id="deleteFlightInfoByFlightId" parameterType="String">
+        update flight_info set is_delete=1 where flight_id = #{flightId}
+    </delete>
+
+    <delete id="deleteFlightInfoByFlightIds" parameterType="String">
+        delete from flight_info where flight_id in 
+        <foreach item="flightId" collection="array" open="(" separator="," close=")">
+            #{flightId}
+        </foreach>
+    </delete>
+    
+    <select id="selectUnflownFlights" resultMap="FlightInfoResult">
+        <include refid="selectFlightInfoVo"/>
+        where latest_off_status in ('SCH', 'ETD') and is_delete != '1'
+    </select>
+
+    <select id="selectWillTakeOffFlights" resultMap="FlightInfoResult">
+        <include refid="selectFlightInfoVo"/>
+        where latest_off_status in ('SCH', 'ETD') and is_delete != '1' and sche_exec_date=#{flightDate}
+        and estm_take_off_time-#{currentTime} &lt;= #{earlyTime}
+    </select>
+</mapper>

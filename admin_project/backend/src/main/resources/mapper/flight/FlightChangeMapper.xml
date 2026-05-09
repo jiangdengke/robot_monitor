@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.FlightChangeMapper">
+
+    <resultMap type="FlightChange" id="FlightChangeResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="carrier"    column="carrier"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="arrName"    column="arr_name"    />
+        <result property="deptTime"    column="dept_time"    />
+        <result property="arrTime"    column="arr_time"    />
+        <result property="changeStatus"    column="change_status"    />
+        <result property="changeStatusCn"    column="changeStatusCn"    />
+    </resultMap>
+
+
+
+    <select id="queryList" resultMap="FlightChangeResult">
+       select  f.*,d.dict_label  changeStatusCn from t_flight_change f
+       join sys_dict_data d on f.change_status=d.dict_value and d.dict_type='flight_chage_type'
+    </select>
+
+
+    <select id="queryCmdList" resultType="com.robotmonitor.flight.dto.CmdItemDto">
+       SELECT t.btnName,t.dataType,t.taskType,t.type,t.data_sort dataSort,d.dict_label  name FROM `t_cmd` t
+       join sys_dict_data d on t.type=d.dict_value and d.dict_type='cmd_group_name'
+       WHERE t.status=1
+       ORDER BY type
+    </select>
+
+</mapper>

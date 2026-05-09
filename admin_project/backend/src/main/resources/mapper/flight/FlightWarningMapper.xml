@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.FlightWarningMapper">
+    
+    <resultMap type="FlightWarning" id="FlightWarningResult">
+        <result property="id"    column="id"    />
+        <result property="flightId"    column="flight_id"    />
+        <result property="warningType"    column="warning_type"    />
+        <result property="changeBefore"    column="change_before"    />
+        <result property="changeAfter"    column="change_after"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="userName"    column="user_name"    />
+        <result property="passengerId"    column="passenger_id"    />
+        <result property="regionId"    column="region_id"    />
+    </resultMap>
+
+    <sql id="selectFlightWarningVo">
+        select id, flight_id, warning_type, change_before, change_after, create_time from flight_warning
+    </sql>
+
+    <select id="selectFlightWarningList" parameterType="FlightWarning" resultMap="FlightWarningResult">
+        <include refid="selectFlightWarningVo"/>
+        <where>  
+            <if test="flightId != null  and flightId != ''"> and flight_id = #{flightId}</if>
+            <if test="warningType != null  and warningType != ''"> and warning_type = #{warningType}</if>
+            <if test="changeBefore != null  and changeBefore != ''"> and change_before = #{changeBefore}</if>
+            <if test="changeAfter != null  and changeAfter != ''"> and change_after = #{changeAfter}</if>
+        </where>
+    </select>
+
+    <select id="selectCurrentFlightWarningList" parameterType="FlightWarning" resultMap="FlightWarningResult">
+        select t1.*,t2.flight_no,t3.user_name ,t3.id as passenger_id,t3.region_id from flight_warning t1
+                                                        left join flight_info t2 on t1.flight_id=t2.flight_id
+                                                        left join passenger t3 on t3.flight_id=t1.flight_id
+        where t1.create_time>= #{dNow}
+    </select>
+    
+    <select id="selectFlightWarningById" parameterType="Long" resultMap="FlightWarningResult">
+        <include refid="selectFlightWarningVo"/>
+        where id = #{id}
+    </select>
+        
+    <insert id="insertFlightWarning" parameterType="FlightWarning">
+        insert into flight_warning
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="flightId != null">flight_id,</if>
+            <if test="warningType != null">warning_type,</if>
+            <if test="changeBefore != null">change_before,</if>
+            <if test="changeAfter != null">change_after,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="flightId != null">#{flightId},</if>
+            <if test="warningType != null">#{warningType},</if>
+            <if test="changeBefore != null">#{changeBefore},</if>
+            <if test="changeAfter != null">#{changeAfter},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateFlightWarning" parameterType="FlightWarning">
+        update flight_warning
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="flightId != null">flight_id = #{flightId},</if>
+            <if test="warningType != null">warning_type = #{warningType},</if>
+            <if test="changeBefore != null">change_before = #{changeBefore},</if>
+            <if test="changeAfter != null">change_after = #{changeAfter},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteFlightWarningById" parameterType="Long">
+        delete from flight_warning where id = #{id}
+    </delete>
+
+    <delete id="deleteFlightWarningByIds" parameterType="String">
+        delete from flight_warning where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

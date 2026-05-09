@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.PassengerLocationLogMapper">
+
+    <resultMap type="PassengerLocationLog" id="PassengerLocationLogResult">
+        <result property="id"    column="id"    />
+        <result property="pid"    column="pid"    />
+        <result property="reid"    column="reid"    />
+        <result property="passengerId"    column="passenger_id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="flightDate"    column="flight_date"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="regionName"    column="region_name"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="deviceId"    column="device_id"    />
+        <result property="deviceName"    column="device_name"    />
+        <result property="deepGlintDeviceId"    column="deep_glint_device_id"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="recognitionType"    column="recognition_type"    />
+        <result property="cts"    column="cts"    />
+        <result property="oriImageUrl"    column="ori_image_url"    />
+        <result property="registerImageUrl"    column="register_image_url"    />
+        <result property="isOut"    column="is_out"    />
+        <result property="oriImageUrl"    column="ori_image_url"    />
+        <result property="registerImageUrl"    column="register_image_url"    />
+        <result property="pid"    column="pid"    />
+        <result property="isOut"    column="is_out"    />
+
+    </resultMap>
+
+    <sql id="selectPassengerLocationLogVo">
+        select id, pid, reid, passenger_id, user_name, room_code, flight_no, flight_date, region_id, region_name, coordinate, device_id, device_name, deep_glint_device_id, create_time, recognition_type, cts, ori_image_url, register_image_url, is_out from passenger_location_log
+    </sql>
+
+    <select id="selectPassengerLocationLogList" parameterType="PassengerLocationLog" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        <where>
+            <if test="pid != null  and pid != ''"> and pid = #{pid}</if>
+            <if test="reid != null  and reid != ''"> and reid = #{reid}</if>
+            <if test="passengerId != null  and passengerId != ''"> and passenger_id = #{passengerId}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="roomCode != null  and roomCode != ''"> and room_code = #{roomCode}</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="flightDate != null "> and flight_date = #{flightDate}</if>
+            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="regionName != null  and regionName != ''"> and region_name like concat('%', #{regionName}, '%')</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+            <if test="deviceId != null  and deviceId != ''"> and device_id = #{deviceId}</if>
+            <if test="deviceName != null  and deviceName != ''"> and device_name like concat('%', #{deviceName}, '%')</if>
+            <if test="deepGlintDeviceId != null  and deepGlintDeviceId != ''"> and deep_glint_device_id = #{deepGlintDeviceId}</if>
+            <if test="recognitionType != null  and recognitionType != ''"> and recognition_type = #{recognitionType}</if>
+            <if test="cts != null  and cts != ''"> and cts = #{cts}</if>
+            <if test="oriImageUrl != null  and oriImageUrl != ''"> and ori_image_url = #{oriImageUrl}</if>
+            <if test="registerImageUrl != null  and registerImageUrl != ''"> and register_image_url = #{registerImageUrl}</if>
+            <if test="isOut != null  and isOut != ''"> and is_out = #{isOut}</if>
+        </where>
+    </select>
+
+    <select id="selectPassengerLocationLogById" parameterType="Long" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPassengerLocationLog" parameterType="PassengerLocationLog" useGeneratedKeys="true" keyProperty="id">
+        insert into passenger_location_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pid != null">pid,</if>
+            <if test="reid != null">reid,</if>
+            <if test="passengerId != null">passenger_id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="flightNo != null">flight_no,</if>
+            <if test="flightDate != null">flight_date,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="regionName != null">region_name,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="deviceId != null">device_id,</if>
+            <if test="deviceName != null">device_name,</if>
+            <if test="deepGlintDeviceId != null">deep_glint_device_id,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="recognitionType != null">recognition_type,</if>
+            <if test="cts != null">cts,</if>
+            <if test="oriImageUrl != null">ori_image_url,</if>
+            <if test="registerImageUrl != null">register_image_url,</if>
+            <if test="isOut != null">is_out,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pid != null">#{pid},</if>
+            <if test="reid != null">#{reid},</if>
+            <if test="passengerId != null">#{passengerId},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="flightNo != null">#{flightNo},</if>
+            <if test="flightDate != null">#{flightDate},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="regionName != null">#{regionName},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="deviceId != null">#{deviceId},</if>
+            <if test="deviceName != null">#{deviceName},</if>
+            <if test="deepGlintDeviceId != null">#{deepGlintDeviceId},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="recognitionType != null">#{recognitionType},</if>
+            <if test="cts != null">#{cts},</if>
+            <if test="oriImageUrl != null">#{oriImageUrl},</if>
+            <if test="registerImageUrl != null">#{registerImageUrl},</if>
+            <if test="isOut != null">#{isOut},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePassengerLocationLog" parameterType="PassengerLocationLog">
+        update passenger_location_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pid != null">pid = #{pid},</if>
+            <if test="reid != null">reid = #{reid},</if>
+            <if test="passengerId != null">passenger_id = #{passengerId},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="flightNo != null">flight_no = #{flightNo},</if>
+            <if test="flightDate != null">flight_date = #{flightDate},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="regionName != null">region_name = #{regionName},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="deviceId != null">device_id = #{deviceId},</if>
+            <if test="deviceName != null">device_name = #{deviceName},</if>
+            <if test="deepGlintDeviceId != null">deep_glint_device_id = #{deepGlintDeviceId},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="recognitionType != null">recognition_type = #{recognitionType},</if>
+            <if test="cts != null">cts = #{cts},</if>
+            <if test="oriImageUrl != null">ori_image_url = #{oriImageUrl},</if>
+            <if test="registerImageUrl != null">register_image_url = #{registerImageUrl},</if>
+            <if test="isOut != null">is_out = #{isOut},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePassengerLocationLogById" parameterType="Long">
+        delete from passenger_location_log where id = #{id}
+    </delete>
+
+    <delete id="deletePassengerLocationLogByIds" parameterType="String">
+        delete from passenger_location_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectPassengerLocationLogByCtsId" parameterType="String" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where cts = #{cts}
+    </select>
+
+    <select id="countCurrentPassengers" resultType="int">
+        select  COUNT(*) from passenger_location_log
+        where is_out = '0'
+          and reid is not null
+          and date(create_time) = curdate()
+    </select>
+
+    <select id="countDepartedPassengers" resultType="int">
+        select  COUNT(*) from passenger_location_log
+        where is_out = '1'
+          and reid is not null
+          and date(create_time) = curdate()
+    </select>
+
+    <select id="countVisitors" resultType="int">
+        select  COUNT(*) from passenger_location_log
+        where passenger_id is null and user_name is null
+        and date(create_time) = curdate()
+    </select>
+
+    <select id="selectCurrentPassengerDetails" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where is_out = '0'
+        and reid is not null
+        and date(create_time) = curdate()
+        order by create_time desc
+    </select>
+
+    <select id="selectCurrentPassengerList" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where is_out = '0'
+        and date(create_time) = curdate()
+        and room_code =#{roomCode}
+        order by create_time desc
+    </select>
+
+    <select id="selectDepartedPassengerDetails" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where is_out = '1'
+        and reid is not null
+        and date(create_time) = curdate()
+        order by create_time desc
+    </select>
+
+    <select id="selectVisitorDetails" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where passenger_id is null and user_name is null
+        and date(create_time) = curdate()
+        order by create_time desc
+    </select>
+
+    <select id="selectPassengerLocationLogByPid" parameterType="String" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where pid = #{pid}
+    </select>
+
+    <select id="findUnrecognizedPassenger" parameterType="String" resultMap="PassengerLocationLogResult">
+        <include refid="selectPassengerLocationLogVo"/>
+        where reid is null
+    </select>
+
+    <select id="getCountByArea" parameterType="Long" resultType="long">
+        select count(1) from passenger_location_log
+        where region_id in(select id from config_region where area_id=#{areaId})
+          and create_time>=CURRENT_DATE() and is_out=0
+    </select>
+</mapper>

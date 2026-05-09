@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.bot.mapper.GuideLogMapper">
+
+    <resultMap type="GuideLog" id="GuideLogResult">
+        <result property="id"    column="id"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <resultMap type="GuideLogInfo" id="GuideLogInfoResult">
+        <result property="robotId"    column="robot_id"    />
+        <result property="robotName"    column="robot_name"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="regionName"    column="region_name"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectGuideLogVo">
+        select id, robot_id, region_id, coordinate, create_time from guide_log
+    </sql>
+
+    <sql id="selectGuideLogInfoVo">
+        select gl.robot_id, cr.robot_name, gl.region_id, cre.region_name, cr.room_code, sd.dept_name, gl.coordinate, gl.create_time
+        from guide_log gl,sys_dept sd, config_robot cr, config_region cre
+    </sql>
+
+    <select id="selectGuideLogList" parameterType="GuideLog" resultMap="GuideLogResult">
+        <include refid="selectGuideLogVo"/>
+        <where>
+            <if test="robotId != null  and robotId != ''"> and robot_id = #{robotId}</if>
+            <if test="regionId != null "> and region_id = #{regionId}</if>
+            <if test="coordinate != null  and coordinate != ''"> and coordinate = #{coordinate}</if>
+        </where>
+    </select>
+
+    <select id="selectGuideLogInfoList" parameterType="GuideLogInfoRequest" resultMap="GuideLogInfoResult">
+        <include refid="selectGuideLogInfoVo"/>
+        <where>
+            gl.robot_id = cr.robot_id and gl.region_id = cre.id and cr.room_code = sd.room_code
+            <if test="robotName != null  and robotName != ''"> and cr.robot_name like concat('%', #{robotName}, '%')</if>
+            <if test="roomCode != null "> and cr.room_code = #{roomCode}</if>
+            <if test="startTime != null "><![CDATA[ and gl.create_time >= #{startTime}]]></if>
+            <if test="endTime != null "><![CDATA[ and gl.create_time <= #{endTime}]]></if>
+        </where>
+    </select>
+
+    <select id="selectGuideLogById" parameterType="Long" resultMap="GuideLogResult">
+        <include refid="selectGuideLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGuideLog" parameterType="GuideLog">
+        insert into guide_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="robotId != null">robot_id,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="createTime != null">create_time,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="robotId != null">#{robotId},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="createTime != null">#{createTime},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGuideLog" parameterType="GuideLog">
+        update guide_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGuideLogById" parameterType="Long">
+        delete from guide_log where id = #{id}
+    </delete>
+
+    <delete id="deleteGuideLogByIds" parameterType="String">
+        delete from guide_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

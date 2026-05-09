@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.GetInTmpMapper">
+
+    <resultMap type="GetInTmp" id="GetInTmpResult">
+        <result property="id"    column="id"    />
+        <result property="code"    column="code"    />
+        <result property="userName"    column="user_name"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="orig"    column="orig"    />
+        <result property="dest"    column="dest"    />
+        <result property="cabin"    column="cabin"    />
+        <result property="seat"    column="seat"    />
+        <result property="seg"    column="seg"    />
+        <result property="cardService"    column="card_service"    />
+        <result property="starLevel"    column="star_level"    />
+        <result property="inType"    column="in_type"    />
+    </resultMap>
+
+    <sql id="selectGetInTmpVo">
+        select id, code, user_name, flight_no, orig, dest, cabin, seat, seg, card_service, star_level, in_type from get_in_tmp
+    </sql>
+
+    <select id="selectGetInTmpList" parameterType="GetInTmp" resultMap="GetInTmpResult">
+        <include refid="selectGetInTmpVo"/>
+        <where>
+            <if test="code != null  and code != ''"> and code = #{code}</if>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="orig != null  and orig != ''"> and orig = #{orig}</if>
+            <if test="dest != null  and dest != ''"> and dest = #{dest}</if>
+            <if test="cabin != null  and cabin != ''"> and cabin = #{cabin}</if>
+            <if test="seat != null  and seat != ''"> and seat = #{seat}</if>
+            <if test="seg != null  and seg != ''"> and seg = #{seg}</if>
+            <if test="cardService != null  and cardService != ''"> and card_service = #{cardService}</if>
+            <if test="starLevel != null  and starLevel != ''"> and star_level = #{starLevel}</if>
+            <if test="inType != null  and inType != ''"> and in_type = #{inType}</if>
+        </where>
+    </select>
+
+    <select id="selectGetInTmpById" parameterType="Long" resultMap="GetInTmpResult">
+        <include refid="selectGetInTmpVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertGetInTmp" parameterType="GetInTmp" useGeneratedKeys="true" keyProperty="id">
+        insert into get_in_tmp
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="code != null">code,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="flightNo != null">flight_no,</if>
+            <if test="orig != null">orig,</if>
+            <if test="dest != null">dest,</if>
+            <if test="cabin != null">cabin,</if>
+            <if test="seat != null">seat,</if>
+            <if test="seg != null">seg,</if>
+            <if test="cardService != null">card_service,</if>
+            <if test="starLevel != null">star_level,</if>
+            <if test="inType != null">in_type,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="code != null">#{code},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="flightNo != null">#{flightNo},</if>
+            <if test="orig != null">#{orig},</if>
+            <if test="dest != null">#{dest},</if>
+            <if test="cabin != null">#{cabin},</if>
+            <if test="seat != null">#{seat},</if>
+            <if test="seg != null">#{seg},</if>
+            <if test="cardService != null">#{cardService},</if>
+            <if test="starLevel != null">#{starLevel},</if>
+            <if test="inType != null">#{inType},</if>
+        </trim>
+    </insert>
+
+    <update id="updateGetInTmp" parameterType="GetInTmp">
+        update get_in_tmp
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="code != null">code = #{code},</if>
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="flightNo != null">flight_no = #{flightNo},</if>
+            <if test="orig != null">orig = #{orig},</if>
+            <if test="dest != null">dest = #{dest},</if>
+            <if test="cabin != null">cabin = #{cabin},</if>
+            <if test="seat != null">seat = #{seat},</if>
+            <if test="seg != null">seg = #{seg},</if>
+            <if test="cardService != null">card_service = #{cardService},</if>
+            <if test="starLevel != null">star_level = #{starLevel},</if>
+            <if test="inType != null">in_type = #{inType},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGetInTmpById" parameterType="Long">
+        delete from get_in_tmp where id = #{id}
+    </delete>
+
+    <delete id="deleteGetInTmpByIds" parameterType="String">
+        delete from get_in_tmp where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

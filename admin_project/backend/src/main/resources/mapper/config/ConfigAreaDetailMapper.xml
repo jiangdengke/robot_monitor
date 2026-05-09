@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.config.mapper.ConfigAreaDetailMapper">
+
+    <resultMap type="ConfigAreaDetail" id="ConfigAreaDetailResult">
+        <result property="id"    column="id"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="languageType"    column="language_type"    />
+        <result property="areaName"    column="area_name"    />
+        <result property="label"    column="label"    />
+        <result property="audio"    column="audio"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="arrText"    column="arr_text"    />
+        <result property="arrAudio"    column="arr_audio"    />
+    </resultMap>
+
+    <sql id="selectConfigAreaDetailVo">
+        select id, area_id, language_type, area_name, label, audio, remark, create_by, create_time, update_by, update_time, arr_text, arr_audio from config_area_detail
+    </sql>
+
+    <sql id="selectConfigAreaDetailWithoutAudioVo">
+        select id, area_id, language_type, area_name, label, remark, create_by, create_time, update_by, update_time, arr_text from config_area_detail
+    </sql>
+
+    <select id="selectConfigAreaDetailList" parameterType="ConfigAreaDetail" resultMap="ConfigAreaDetailResult">
+        <include refid="selectConfigAreaDetailVo"/>
+        <where>
+            <if test="areaId != null "> and area_id = #{areaId}</if>
+            <if test="languageType != null  and languageType != ''"> and language_type = #{languageType}</if>
+            <if test="areaName != null  and areaName != ''"> and area_name like concat('%', #{areaName}, '%')</if>
+            <if test="label != null  and label != ''"> and label = #{label}</if>
+            <if test="audio != null  and audio != ''"> and audio = #{audio}</if>
+            <if test="arrText != null  and arrText != ''"> and arr_text = #{arrText}</if>
+            <if test="arrAudio != null  and arrAudio != ''"> and arr_audio = #{arrAudio}</if>
+        </where>
+    </select>
+
+    <select id="selectConfigAreaDetailById" parameterType="Long" resultMap="ConfigAreaDetailResult">
+        <include refid="selectConfigAreaDetailVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertConfigAreaDetail" parameterType="ConfigAreaDetail" useGeneratedKeys="true" keyProperty="id">
+        insert into config_area_detail
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">area_id,</if>
+            <if test="languageType != null">language_type,</if>
+            <if test="areaName != null">area_name,</if>
+            <if test="label != null">label,</if>
+            <if test="audio != null">audio,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="arrText != null">arr_text,</if>
+            <if test="arrAudio != null">arr_audio,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="areaId != null">#{areaId},</if>
+            <if test="languageType != null">#{languageType},</if>
+            <if test="areaName != null">#{areaName},</if>
+            <if test="label != null">#{label},</if>
+            <if test="audio != null">#{audio},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="arrText != null">#{arrText},</if>
+            <if test="arrAudio != null">#{arrAudio},</if>
+        </trim>
+    </insert>
+
+    <update id="updateConfigAreaDetail" parameterType="ConfigAreaDetail">
+        update config_area_detail
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="areaId != null">area_id = #{areaId},</if>
+            <if test="languageType != null">language_type = #{languageType},</if>
+            <if test="areaName != null">area_name = #{areaName},</if>
+            <if test="label != null">label = #{label},</if>
+            <if test="audio != null">audio = #{audio},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="arrText != null">arr_text = #{arrText},</if>
+            <if test="arrAudio != null">arr_audio = #{arrAudio},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigAreaDetailById" parameterType="Long">
+        delete from config_area_detail where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigAreaDetailByIds" parameterType="String">
+        delete from config_area_detail where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteByAreaId" parameterType="Long">
+        delete from config_area_detail where area_id = #{id}
+    </delete>
+
+    <select id="selectDetailListByAreaId" parameterType="Long" resultMap="ConfigAreaDetailResult">
+        <include refid="selectConfigAreaDetailWithoutAudioVo"/>
+        where area_id = #{areaId}
+    </select>
+
+    <select id="selectDetailListWithoutAudioByAreaId" parameterType="Long" resultMap="ConfigAreaDetailResult">
+        <include refid="selectConfigAreaDetailWithoutAudioVo"/>
+        where area_id = #{areaId}
+    </select>
+
+    <select id="findAreaNameByRoomCodeAndLanguageType" resultType="String">
+        SELECT GROUP_CONCAT(cad.area_name SEPARATOR ',') AS area_names
+        FROM config_area ca
+                 JOIN config_area_detail cad ON ca.id = cad.area_id
+        WHERE cad.language_type = #{languageType} and ca.room_code = #{roomCode} order by cad.id;
+
+    </select>
+
+    <select id="selectAreaByRegionId" parameterType="Long" resultMap="ConfigAreaDetailResult">
+        select b.* from config_area a
+                            left join config_area_detail b on b.area_id=a.id
+                            left join config_region c on c.area_id=a.id
+        where c.id= #{id} and b.language_type='CN'
+    </select>
+</mapper>

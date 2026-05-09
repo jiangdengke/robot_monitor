@@ -1,0 +1,33 @@
+# Keep the repository focused on the rebuilt admin project.
+/*
+!/.gitignore
+!/admin_project/
+
+# Backend build/runtime artifacts.
+admin_project/backend/.gradle/
+admin_project/backend/build/
+admin_project/backend/runtime-config/
+admin_project/backend/logs/
+admin_project/backend/scripts/
+admin_project/backend/**/target/
+admin_project/backend/src/main/resources/**/*.class
+admin_project/backend/*.iml
+
+# Frontend build/runtime artifacts.
+admin_project/frontend/node_modules/
+admin_project/frontend/dist/
+admin_project/frontend/.vite/
+admin_project/frontend/.vite-temp/
+admin_project/frontend/*.local
+
+# Keep only the legacy assets that the rebuilt Vue app references directly.
+admin_project/frontend/legacy-dist/**
+!admin_project/frontend/legacy-dist/
+!admin_project/frontend/legacy-dist/favicon.ico
+!admin_project/frontend/legacy-dist/static/
+!admin_project/frontend/legacy-dist/static/jpg/
+!admin_project/frontend/legacy-dist/static/jpg/login-background-Yn3y1TP_.jpg
+
+# Local/editor noise.
+.DS_Store
+*.log

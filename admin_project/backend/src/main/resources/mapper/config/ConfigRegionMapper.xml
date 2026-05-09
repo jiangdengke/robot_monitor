@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.config.mapper.ConfigRegionMapper">
+
+    <resultMap type="ConfigRegion" id="ConfigRegionResult">
+        <result property="id"    column="id"    />
+        <result property="regionName"    column="region_name"    />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="remark"    column="remark"    />
+        <result property="enable"    column="enable"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="imgIds"    column="img_ids"    />
+        <result property="audioKeys"    column="audio_keys"    />
+        <result property="isGuide"    column="is_guide"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="maxCapacity"    column="max_capacity"    />
+        <result property="areaId"    column="area_id"    />
+        <result property="deptName"    column="dept_name"    />
+    </resultMap>
+
+    <sql id="selectConfigRegionVo">
+        select a.id, a.region_name, a.coordinate, a.remark, a.enable, a.create_by, a.create_time, a.update_by, a.update_time, a.room_code, a.img_ids, a.audio_keys, a.is_guide, a.is_show,a.max_capacity,a.area_id,b.dept_name from config_region a
+         left join sys_dept b on a.room_code=b.room_code
+    </sql>
+
+    <select id="selectConfigRegionList" parameterType="ConfigRegion" resultMap="ConfigRegionResult">
+        <include refid="selectConfigRegionVo"/>
+        <where>
+            <if test="regionName != null  and regionName != ''"> and a.region_name like concat('%', #{regionName}, '%')</if>
+            <if test="coordinate != null  and coordinate != ''"> and a.coordinate = #{coordinate}</if>
+            <if test="enable != null "> and a.enable = #{enable}</if>
+            <if test="roomCode != null  and roomCode != ''"> and a.room_code = #{roomCode}</if>
+            <if test="imgIds != null  and imgIds != ''"> and a.img_ids = #{imgIds}</if>
+            <if test="audioKeys != null  and audioKeys != ''"> and a.audio_keys = #{audioKeys}</if>
+            <if test="isGuide != null  and isGuide != ''"> and a.is_guide = #{isGuide}</if>
+            <if test="isShow != null  and isShow != ''"> and a.is_show = #{isShow}</if>
+            <if test="areaId != null  and areaId != ''"> and a.area_id = #{areaId}</if>
+        </where>
+    </select>
+
+    <select id="selectConfigRegionById" parameterType="Long" resultMap="ConfigRegionResult">
+        <include refid="selectConfigRegionVo"/>
+        where a.id = #{id}
+    </select>
+
+    <insert id="insertConfigRegion" parameterType="ConfigRegion">
+        insert into config_region
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="regionName != null">region_name,</if>
+            <if test="coordinate != null">coordinate,</if>
+            <if test="remark != null">remark,</if>
+            <if test="enable != null">enable,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="imgIds != null">img_ids,</if>
+            <if test="audioKeys != null">audio_keys,</if>
+            <if test="isGuide != null">is_guide,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="maxCapacity != null">max_capacity,</if>
+            <if test="areaId != null">area_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="regionName != null">#{regionName},</if>
+            <if test="coordinate != null">#{coordinate},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="imgIds != null">#{imgIds},</if>
+            <if test="audioKeys != null">#{audioKeys},</if>
+            <if test="isGuide != null">#{isGuide},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="maxCapacity != null">#{maxCapacity},</if>
+            <if test="areaId != null">#{areaId},</if>
+        </trim>
+    </insert>
+
+    <update id="updateConfigRegion" parameterType="ConfigRegion">
+        update config_region
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="regionName != null">region_name = #{regionName},</if>
+            <if test="coordinate != null">coordinate = #{coordinate},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="imgIds != null">img_ids = #{imgIds},</if>
+            <if test="audioKeys != null">audio_keys = #{audioKeys},</if>
+            <if test="isGuide != null">is_guide = #{isGuide},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="maxCapacity != null">max_capacity = #{maxCapacity},</if>
+            <if test="areaId != null">area_id = #{areaId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigRegionById" parameterType="Long">
+        delete from config_region where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigRegionByIds" parameterType="String">
+        delete from config_region where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectIsGuideRegion" parameterType="String" resultMap="ConfigRegionResult">
+        <include refid="selectConfigRegionVo"/>
+        where is_guide = '1' and room_code = #{roomCode}
+    </select>
+</mapper>

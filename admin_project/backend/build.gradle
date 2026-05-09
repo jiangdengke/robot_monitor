@@ -1,0 +1,129 @@
+plugins {
+    id 'java'
+    id 'application'
+    id 'nu.studer.jooq' version '9.0'
+}
+
+group = 'com.robotmonitor'
+version = '3.8.2'
+
+def legacyClassesDir = file("$projectDir/legacy-classes")
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/overlay/java', "$buildDir/generated-src/jooq/main"]
+        }
+        resources {
+            srcDirs = ['src/main/resources']
+            exclude 'mapper/**'
+            exclude 'mybatis/**'
+            exclude '**/*.class'
+        }
+    }
+}
+
+configurations {
+    localLibs
+}
+
+dependencies {
+    implementation fileTree(dir: 'lib', include: ['*.jar'])
+    localLibs fileTree(dir: 'lib', include: ['*.jar'])
+    compileOnly files(legacyClassesDir)
+    runtimeOnly files(legacyClassesDir)
+
+    jooqGenerator 'org.jooq:jooq-codegen:3.19.24'
+    jooqGenerator 'org.jooq:jooq-meta:3.19.24'
+    jooqGenerator 'org.jooq:jooq-meta-extensions:3.19.24'
+    jooqGenerator 'com.h2database:h2:2.2.224'
+}
+
+application {
+    mainClass = 'com.robotmonitor.RobotMonitorApplication'
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('compileJava') {
+    dependsOn 'prepareLegacyClasses', 'generateJooq'
+    options.release = 17
+}
+
+jooq {
+    version = '3.19.24'
+    configurations {
+        main {
+            generateSchemaSourceOnCompilation = false
+            generationTool {
+                generator {
+                    database {
+                        name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
+                        properties {
+                            property {
+                                key = 'scripts'
+                                value = 'sql/jooq-schema.sql'
+                            }
+                            property {
+                                key = 'sort'
+                                value = 'semantic'
+                            }
+                            property {
+                                key = 'defaultNameCase'
+                                value = 'lower'
+                            }
+                        }
+                        inputSchema = ''
+                        includes = 'sys_.*|config_.*|flight_.*|food_.*|ai_.*|gen_.*|insp_.*|robot_.*|passenger.*|guide_log|get_in_tmp|message_log|t_flight_change|update_notice_result'
+                        excludes = 'qrtz_.*'
+                    }
+                    generate {
+                        deprecated = false
+                        records = true
+                        pojos = false
+                        daos = false
+                        javaTimeTypes = true
+                    }
+                    target {
+                        packageName = 'com.robotmonitor.jooq.generated'
+                        directory = "$buildDir/generated-src/jooq/main"
+                    }
+                }
+            }
+        }
+    }
+}
+
+tasks.register('syncRuntimeConfig', Sync) {
+    from('src/main/resources') {
+        include '*.yml', '*.yaml', '*.properties', '*.xml', '*.txt'
+        include 'i18n/**'
+    }
+    into layout.projectDirectory.dir('runtime-config')
+}
+
+tasks.register('prepareLegacyClasses', Copy) {
+    from("$buildDir/classes") {
+        exclude 'java/**'
+    }
+    into legacyClassesDir
+}
+
+tasks.named('run') {
+    dependsOn 'classes', 'syncRuntimeConfig', 'prepareLegacyClasses'
+    classpath = files(sourceSets.main.output.classesDirs, legacyClassesDir, layout.projectDirectory.dir('runtime-config')) + sourceSets.main.runtimeClasspath
+    systemProperty 'spring.profiles.active', System.getProperty('spring.profiles.active', 'local')
+    jvmArgs = ['-Dfile.encoding=UTF-8', '-Xms256m', '-Xmx512m', '-XX:MetaspaceSize=64m', '-XX:MaxMetaspaceSize=256m']
+}

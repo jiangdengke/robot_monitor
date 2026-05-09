@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.PassengerLogMapper">
+
+    <resultMap type="PassengerLog" id="PassengerLogResult">
+        <result property="id"    column="id"    />
+        <result property="pId"    column="p_id"    />
+        <result property="collectData"    column="collect_data"    />
+        <result property="getType"    column="get_type"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="isSuccess"    column="is_success"    />
+        <result property="backInfo"    column="back_info"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="createBy"    column="create_by"    />
+    </resultMap>
+
+    <sql id="selectPassengerLogVo">
+        select id, p_id, collect_data, get_type, robot_id, room_code, is_success, back_info, create_time, create_by from passenger_log
+    </sql>
+
+    <select id="selectPassengerLogList" parameterType="PassengerLog" resultMap="PassengerLogResult">
+        <include refid="selectPassengerLogVo"/>
+        <where>
+            <if test="pId != null  and pId != ''"> and p_id = #{pId}</if>
+            <if test="collectData != null  and collectData != ''"> and collect_data = #{collectData}</if>
+            <if test="getType != null  and getType != ''"> and get_type = #{getType}</if>
+            <if test="robotId != null  and robotId != ''"> and robot_id = #{robotId}</if>
+            <if test="roomCode != null  and roomCode != ''"> and room_code = #{roomCode}</if>
+            <if test="isSuccess != null  and isSuccess != ''"> and is_success = #{isSuccess}</if>
+            <if test="backInfo != null  and backInfo != ''"> and back_info = #{backInfo}</if>
+        </where>
+    </select>
+
+    <select id="selectPassengerLogById" parameterType="Long" resultMap="PassengerLogResult">
+        <include refid="selectPassengerLogVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPassengerLog" parameterType="PassengerLog" useGeneratedKeys="true" keyProperty="id">
+        insert into passenger_log
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="pId != null">p_id,</if>
+            <if test="collectData != null">collect_data,</if>
+            <if test="getType != null">get_type,</if>
+            <if test="robotId != null">robot_id,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="isSuccess != null">is_success,</if>
+            <if test="backInfo != null">back_info,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="createBy != null">create_by,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="pId != null">#{pId},</if>
+            <if test="collectData != null">#{collectData},</if>
+            <if test="getType != null">#{getType},</if>
+            <if test="robotId != null">#{robotId},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="isSuccess != null">#{isSuccess},</if>
+            <if test="backInfo != null">#{backInfo},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePassengerLog" parameterType="PassengerLog">
+        update passenger_log
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="pId != null">p_id = #{pId},</if>
+            <if test="collectData != null">collect_data = #{collectData},</if>
+            <if test="getType != null">get_type = #{getType},</if>
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="isSuccess != null">is_success = #{isSuccess},</if>
+            <if test="backInfo != null">back_info = #{backInfo},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePassengerLogById" parameterType="Long">
+        delete from passenger_log where id = #{id}
+    </delete>
+
+    <delete id="deletePassengerLogByIds" parameterType="String">
+        delete from passenger_log where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

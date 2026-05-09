@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.flight.mapper.PassengerMapper">
+
+    <resultMap type="Passenger" id="PassengerResult">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="flightDate"    column="flight_date"    />
+        <result property="orig"    column="orig"    />
+        <result property="dest"    column="dest"    />
+        <result property="cabin"    column="cabin"    />
+        <result property="seat"    column="seat"    />
+        <result property="seq"    column="seq"    />
+        <result property="cardService"    column="card_service"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="memLevel"    column="mem_level"    />
+        <result property="starLevel"    column="star_level"    />
+        <result property="inType"    column="in_type"    />
+        <result property="getInTime"    column="get_in_time"    />
+        <result property="getOutTime"    column="get_out_time"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="reid"    column="reid"    />
+        <result property="pid"    column="pid"    />
+        <result property="flightId"    column="flight_id"    />
+        <result property="photo"    column="photo"    />
+        <result property="origImageUrl"    column="ori_image_url"    />
+        <result property="registerImageUrl"    column="register_image_url"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="followerNum"    column="follower_num"    />
+        <result property="isMember"    column="is_member"    />
+        <result property="colledtId"    column="colledt_id"    />
+    </resultMap>
+
+    <resultMap id="PassengerWithCoordinateResult" type="Passenger">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="flightDate"    column="flight_date"    />
+        <result property="orig"    column="orig"    />
+        <result property="dest"    column="dest"    />
+        <result property="cabin"    column="cabin"    />
+        <result property="seat"    column="seat"    />
+        <result property="seq"    column="seq"    />
+        <result property="cardService"    column="card_service"    />
+        <result property="cardNo"    column="card_no"    />
+        <result property="memLevel"    column="mem_level"    />
+        <result property="starLevel"    column="star_level"    />
+        <result property="inType"    column="in_type"    />
+        <result property="getInTime"    column="get_in_time"    />
+        <result property="getOutTime"    column="get_out_time"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="reid"    column="reid"    />
+        <result property="pid"    column="pid"    />
+        <result property="flightId"    column="flight_id"    />
+        <result property="photo"    column="photo"    />
+        <result property="origImageUrl"    column="ori_image_url"    />
+        <result property="registerImageUrl"    column="register_image_url"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="coordinate" column="coordinate" />
+        <result property="updateTime"    column="update_time"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="followerNum"    column="follower_num"    />
+        <result property="isMember"    column="is_member"    />
+        <result property="colledtId"    column="colledt_id"    />
+    </resultMap>
+
+    <sql id="selectPassengerVo">
+        select id, user_name, room_code, flight_no, flight_date, orig, dest, cabin, seat, seq, card_service, card_no, mem_level, star_level, in_type, get_in_time, get_out_time, status, create_time, update_time, reid, pid, flight_id, region_id, ori_image_url, register_image_url, photo, robot_id, follower_num, is_member, colledt_id from passenger
+    </sql>
+
+    <select id="selectPassengerList" parameterType="Passenger" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        <where>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="roomCode != null  and roomCode != ''"> and room_code = #{roomCode}</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="flightDate != null "> and flight_date = #{flightDate}</if>
+            <if test="orig != null  and orig != ''"> and orig = #{orig}</if>
+            <if test="dest != null  and dest != ''"> and dest = #{dest}</if>
+            <if test="cabin != null  and cabin != ''"> and cabin = #{cabin}</if>
+            <if test="seat != null  and seat != ''"> and seat = #{seat}</if>
+            <if test="seq != null  and seq != ''"> and seq = #{seq}</if>
+            <if test="cardService != null  and cardService != ''"> and card_service = #{cardService}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="memLevel != null  and memLevel != ''"> and mem_level = #{memLevel}</if>
+            <if test="starLevel != null  and starLevel != ''"> and star_level = #{starLevel}</if>
+            <if test="inType != null  and inType != ''"> and in_type = #{inType}</if>
+            <if test="getInTime != null "> and get_in_time = #{getInTime}</if>
+            <if test="getOutTime != null "> and get_out_time = #{getOutTime}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+            <if test="reid != null  and reid != ''"> and reid = #{reid}</if>
+            <if test="pid != null  and pid != ''"> and pid = #{pid}</if>
+            <if test="flightId != null  and flightId != ''"> and flight_id = #{flightId}</if>
+        </where>
+        order by create_time desc
+    </select>
+    <select id="selectPassengerList2" parameterType="PassengerParam" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        <where>
+            <if test="userName != null  and userName != ''"> and user_name like concat('%', #{userName}, '%')</if>
+            <if test="roomCode != null  and roomCode != ''"> and room_code = #{roomCode}</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="flightDate != null "> and flight_date = #{flightDate}</if>
+            <if test="cardService != null  and cardService != ''"> and card_service = #{cardService}</if>
+            <if test="cardNo != null  and cardNo != ''"> and card_no = #{cardNo}</if>
+            <if test="memLevel != null  and memLevel != ''"> and mem_level = #{memLevel}</if>
+            <if test="starLevel != null  and starLevel != ''"> and star_level = #{starLevel}</if>
+            <if test="inType != null  and inType != ''"> and in_type = #{inType}</if>
+            <if test="status != null  and status != ''"> and status = #{status}</if>
+        </where>
+        order by get_in_time desc,get_out_time desc
+    </select>
+
+    <select id="selectPassengerList_Re" parameterType="Passenger" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        <where>
+            <if test="userName != null  and userName != ''"> and user_name = #{userName}</if>
+            <if test="flightNo != null  and flightNo != ''"> and flight_no = #{flightNo}</if>
+            <if test="flightDate != null "> and flight_date = #{flightDate}</if>
+            <if test="seat != null  and seat != ''"> and seat = #{seat}</if>
+            <if test="flightId != null  and flightId != ''"> and flight_id = #{flightId}</if>
+             and status=1
+        </where>
+    </select>
+
+    <select id="selectPassengerById" parameterType="Long" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertPassenger" parameterType="Passenger">
+        insert into passenger
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">id,</if>
+            <if test="userName != null">user_name,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="flightNo != null">flight_no,</if>
+            <if test="flightDate != null">flight_date,</if>
+            <if test="orig != null">orig,</if>
+            <if test="dest != null">dest,</if>
+            <if test="cabin != null">cabin,</if>
+            <if test="seat != null">seat,</if>
+            <if test="seq != null">seq,</if>
+            <if test="cardService != null">card_service,</if>
+            <if test="cardNo != null">card_no,</if>
+            <if test="memLevel != null">mem_level,</if>
+            <if test="starLevel != null">star_level,</if>
+            <if test="inType != null">in_type,</if>
+            <if test="getInTime != null">get_in_time,</if>
+            <if test="getOutTime != null">get_out_time,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="reid != null">reid,</if>
+            <if test="pid != null">pid,</if>
+            <if test="flightId != null  and flightId != ''"> flight_id,</if>
+            <if test="robotId != null  and robotId != ''"> robot_id,</if>
+            <if test="followerNum != null  and followerNum != ''"> follower_num,</if>
+            <if test="isMember != null  and isMember != ''"> is_member,</if>
+            <if test="colledtId != null">colledt_id,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">#{id},</if>
+            <if test="userName != null">#{userName},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="flightNo != null">#{flightNo},</if>
+            <if test="flightDate != null">#{flightDate},</if>
+            <if test="orig != null">#{orig},</if>
+            <if test="dest != null">#{dest},</if>
+            <if test="cabin != null">#{cabin},</if>
+            <if test="seat != null">#{seat},</if>
+            <if test="seq != null">#{seq},</if>
+            <if test="cardService != null">#{cardService},</if>
+            <if test="cardNo != null">#{cardNo},</if>
+            <if test="memLevel != null">#{memLevel},</if>
+            <if test="starLevel != null">#{starLevel},</if>
+            <if test="inType != null">#{inType},</if>
+            <if test="getInTime != null">#{getInTime},</if>
+            <if test="getOutTime != null">#{getOutTime},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="reid != null">#{reid},</if>
+            <if test="pid != null">#{pid},</if>
+            <if test="flightId != null  and flightId != ''"> #{flightId},</if>
+            <if test="robotId != null  and robotId != ''"> #{robotId},</if>
+            <if test="followerNum != null  and followerNum != ''"> #{followerNum},</if>
+            <if test="isMember != null  and isMember != ''"> #{isMember},</if>
+            <if test="colledtId != null">#{colledtId},</if>
+        </trim>
+    </insert>
+
+    <update id="updatePassenger" parameterType="Passenger">
+        update passenger
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userName != null">user_name = #{userName},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="flightNo != null">flight_no = #{flightNo},</if>
+            <if test="flightDate != null">flight_date = #{flightDate},</if>
+            <if test="orig != null">orig = #{orig},</if>
+            <if test="dest != null">dest = #{dest},</if>
+            <if test="cabin != null">cabin = #{cabin},</if>
+            <if test="seat != null">seat = #{seat},</if>
+            <if test="seq != null">seq = #{seq},</if>
+            <if test="cardService != null">card_service = #{cardService},</if>
+            <if test="cardNo != null">card_no = #{cardNo},</if>
+            <if test="memLevel != null">mem_level = #{memLevel},</if>
+            <if test="starLevel != null">star_level = #{starLevel},</if>
+            <if test="inType != null">in_type = #{inType},</if>
+            <if test="getInTime != null">get_in_time = #{getInTime},</if>
+            <if test="getOutTime != null">get_out_time = #{getOutTime},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="reid != null">reid = #{reid},</if>
+            <if test="pid != null">reid = #{pid},</if>
+            <if test="flightId != null  and flightId != ''"> flight_id = #{flightId},</if>
+            <if test="origImageUrl != null">ori_image_url = #{origImageUrl},</if>
+            <if test="registerImageUrl != null">register_image_url = #{registerImageUrl},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="robotId != null  and robotId != ''">robot_id = #{robotId},</if>
+            <if test="followerNum != null  and followerNum != ''"> follower_num=#{followerNum},</if>
+            <if test="isMember != null  and isMember != ''"> is_member=#{isMember},</if>
+            <if test="colledtId != null">colledt_id = #{colledtId},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deletePassengerById" parameterType="Long">
+        delete from passenger where id = #{id}
+    </delete>
+
+    <delete id="deletePassengerByIds" parameterType="String">
+        delete from passenger where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+    <update id="setPassengerGetOut" parameterType="String">
+        update passenger
+        <trim prefix="SET" suffixOverrides=",">
+            status = '0',get_out_time = now(),ori_image_url=#{oriImgUrl},region_id=#{regionId}
+        </trim>
+        where id = #{id}
+    </update>
+
+    <update id="updatePassengerRegionAndStatus" parameterType="map">
+        update passenger
+        <trim prefix="SET" suffixOverrides=",">
+            region_id = #{regionId},
+            ori_image_url = #{origImageUrl},
+            register_image_url = #{registerImageUrl},
+            status = #{status},
+            get_out_time= null,
+            update_time = now()
+        </trim>
+        where id = #{id}
+    </update>
+
+    <select id="selectPassengerWithUnflownFlights" resultMap="PassengerResult">
+        select p.* from passenger p
+                            inner join flight_info f on p.flight_id = f.flight_id
+        where (f.latest_off_status = 'SCH' or f.latest_off_status = 'ETD')
+    </select>
+
+    <select id="selectPassengerOutgoingList" parameterType="Passenger" resultMap="PassengerResult">
+        select p.* from passenger p
+        where p.status = '0'
+        <if test="userName != null and userName != ''">
+            and p.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="flightNo != null and flightNo != ''">
+            and p.flight_no = #{flightNo}
+        </if>
+        <if test="flightDate != null">
+            and p.flight_date = #{flightDate}
+        </if>
+        <if test="getOutTimeStart != null">
+            and p.get_out_time &gt;= #{getOutTimeStart}
+        </if>
+        <if test="getOutTimeEnd != null">
+            and p.get_out_time &lt;= #{getOutTimeEnd}
+        </if>
+        <if test="orig != null and orig != ''">
+            and p.orig = #{orig}
+        </if>
+        <if test="dest != null and dest != ''">
+            and p.dest = #{dest}
+        </if>
+        order by p.get_out_time desc
+    </select>
+
+    <select id="selectPassengerInLoungeList" parameterType="Passenger" resultMap="PassengerWithCoordinateResult">
+        select * from passenger p
+        inner join flight_info f on p.flight_id = f.flight_id
+        where p.status = '1' and (f.latest_off_status = 'SCH' or f.latest_off_status = 'ETD' or f.latest_off_status = 'CLD' or f.latest_off_status = 'OUT')
+          and get_in_time >CURRENT_DATE
+        <if test="userName != null and userName != ''">
+            and p.user_name like concat('%', #{userName}, '%')
+        </if>
+        <if test="flightNo != null and flightNo != ''">
+            and p.flight_no = #{flightNo}
+        </if>
+        <if test="flightDate != null">
+            and p.flight_date = #{flightDate}
+        </if>
+        <if test="orig != null and orig != ''">
+            and p.orig = #{orig}
+        </if>
+        <if test="dest != null and dest != ''">
+            and p.dest = #{dest}
+        </if>
+        <if test="roomCode != null and roomCode != ''">
+            and p.room_code = #{roomCode}
+        </if>
+        order by p.update_time desc
+    </select>
+
+    <update id="updatePassengerCheckoutStatus" parameterType="map">
+        update passenger
+        <trim prefix="SET" suffixOverrides=",">
+            status = #{status},
+            get_out_time = now(),
+            ori_image_url = #{origImageUrl},
+            register_image_url = #{registerImageUrl}
+        </trim>
+        where pid = #{pId}
+    </update>
+
+    <select id="selectPassengerByPid" parameterType="String" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        where pid = #{pid} and create_time>=CURDATE()
+        order by create_time desc
+        limit 1
+    </select>
+
+    <select id="selectPassengerByReid" parameterType="String" resultMap="PassengerResult">
+        <include refid="selectPassengerVo"/>
+        where reid = #{reid}
+        order by create_time desc
+        limit 1
+    </select>
+
+    <resultMap id="FlightChangePassengerResult" type="FlightChangePassengerDTO">
+        <result property="id"    column="id"    />
+        <result property="userName"    column="user_name"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="flightNo"    column="flight_no"    />
+        <result property="flightDate"    column="flight_date"    />
+        <result property="flightId"    column="flight_id"    />
+        <result property="origImageUrl"    column="ori_image_url"    />
+        <result property="registerImageUrl"    column="register_image_url"    />
+        <result property="orig"    column="orig"    />
+        <result property="dest"    column="dest"    />
+        <result property="cabin"    column="cabin"    />
+        <result property="getInTime"    column="get_in_time"    />
+        <result property="getOutTime"    column="get_out_time"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="regionName" column="region_name"  />
+        <result property="remark" column="remark"  />
+        <result property="coordinate"    column="coordinate"    />
+        <result property="warningType"    column="warning_type"    />
+        <result property="warningType"    column="warning_type"    />
+        <result property="changeBefore"    column="change_before"    />
+        <result property="changeAfter"    column="change_after"    />
+    </resultMap>
+
+    <select id="selectPassengerWithFlightChangeList" parameterType="Passenger" resultMap="FlightChangePassengerResult">
+        select
+            p.id,
+            p.user_name,
+            p.room_code,
+            p.flight_no,
+            p.flight_date,
+            p.flight_id,
+            p.ori_image_url,
+            p.register_image_url,
+            p.orig,
+            p.dest,
+            p.cabin,
+            p.get_in_time,
+            p.get_out_time,
+            p.status,
+            p.create_time,
+            p.update_time,
+            p.region_id,
+            r.coordinate,
+            r.region_name,
+            r.remark,
+            fw.warning_type,
+            fw.change_before,
+            fw.change_after
+        from passenger p
+        inner join flight_warning fw on p.flight_id = fw.flight_id
+        left join config_region r on p.region_id = r.id
+        <where>
+            <if test="userName != null  and userName != ''"> and p.user_name like concat('%', #{userName}, '%')</if>
+            <if test="flightId != null  and flightId != ''"> and p.flight_id = #{flightId}</if>
+            <if test="flightNo != null  and flightNo != ''"> and p.flight_no = #{flightNo}</if>
+            <if test="warningType != null  and warningType != ''"> and fw.warning_type = #{warningType}</if>
+        </where>
+        order by p.create_time desc
+    </select>
+
+</mapper>

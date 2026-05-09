@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.robotmonitor.config.mapper.ConfigRobotMapper">
+
+    <resultMap type="ConfigRobot" id="ConfigRobotResult">
+        <result property="id"    column="id"    />
+        <result property="robotId"    column="robot_id"    />
+        <result property="robotName"    column="robot_name"    />
+        <result property="mac"    column="mac"    />
+        <result property="robotIp"    column="robot_ip"    />
+        <result property="chargingState"    column="charging_state"    />
+        <result property="workingState"    column="working_state"    />
+        <result property="standbyState"    column="standby_state"    />
+        <result property="positioningState"    column="positioning_state"    />
+        <result property="regionId"    column="region_id"    />
+        <result property="batteryState"    column="battery_state"    />
+        <result property="network"    column="network"    />
+        <result property="robotError"    column="robot_error"    />
+        <result property="errorMessages"    column="error_messages"    />
+        <result property="robotType"    column="robot_type"    />
+        <result property="belongedCompany"    column="belonged_company"    />
+        <result property="enable"    column="enable"    />
+        <result property="remark"    column="remark"    />
+        <result property="createBy"    column="create_by"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateBy"    column="update_by"    />
+        <result property="updateTime"    column="update_time"    />
+        <result property="roomCode"    column="room_code"    />
+        <result property="taskId"    column="task_id"    />
+        <result property="taskStatus"    column="task_status"    />
+        <result property="isDelete"    column="is_delete"    />
+        <result property="imgIds"    column="img_ids"    />
+        <result property="auditKeys"    column="audit_keys"    />
+        <result property="employeeNo"    column="employee_no"    />
+        <result property="oriCoordinate"    column="ori_coordinate"    />
+        <result property="deptName"    column="dept_name"    />
+        <result property="adminMode"    column="admin_mode"    />
+    </resultMap>
+
+    <sql id="selectConfigRobotVo">
+        select a.id, a.robot_id, a.robot_name, a.mac, a.robot_ip, a.charging_state, a.working_state, a.standby_state, a.positioning_state, a.region_id, a.battery_state, a.network, a.robot_error, a.error_messages,
+               a.robot_type, a.belonged_company, a.enable, a.remark, a.create_by, a.create_time, a.update_by, a.update_time, a.room_code, a.task_id, a.task_status, a.is_delete, a.img_ids, a.audit_keys,a.employee_no,a.ori_coordinate,
+               b.dept_name,a.admin_mode
+        from config_robot a
+         left join sys_dept b on a.room_code=b.room_code
+    </sql>
+
+    <select id="selectConfigRobotList" parameterType="ConfigRobot" resultMap="ConfigRobotResult">
+        <include refid="selectConfigRobotVo"/>
+        <where>
+            <if test="robotId != null "> and a.robot_id = #{robotId}</if>
+            <if test="robotName != null  and robotName != ''"> and a.robot_name like concat('%', #{robotName}, '%')</if>
+            <if test="mac != null  and mac != ''"> and a.mac = #{mac}</if>
+            <if test="robotIp != null  and robotIp != ''"> and a.robot_ip = #{robotIp}</if>
+            <if test="chargingState != null  and chargingState != ''"> and a.charging_state = #{chargingState}</if>
+            <if test="workingState != null  and workingState != ''"> and a.working_state = #{workingState}</if>
+            <if test="standbyState != null  and standbyState != ''"> and a.standby_state = #{standbyState}</if>
+            <if test="positioningState != null  and positioningState != ''"> and a.positioning_state = #{positioningState}</if>
+            <if test="regionId != null and regionId != 0 "> and a.region_id = #{regionId}</if>
+            <if test="batteryState != null "> and a.battery_state = #{batteryState}</if>
+            <if test="network != null "> and a.network = #{network}</if>
+            <if test="robotError != null  and robotError != ''"> and a.robot_error = #{robotError}</if>
+            <if test="errorMessages != null  and errorMessages != ''"> and a.error_messages = #{errorMessages}</if>
+            <if test="robotType != null  and robotType != ''"> and a.robot_type = #{robotType}</if>
+            <if test="belongedCompany != null  and belongedCompany != ''"> and a.belonged_company = #{belongedCompany}</if>
+            <if test="enable != null "> and a.enable = #{enable}</if>
+            <if test="roomCode != null  and roomCode != ''"> and a.room_code = #{roomCode}</if>
+            <if test="taskId != null "> and a.task_id = #{taskId}</if>
+            <if test="taskStatus != null  and taskStatus != ''"> and a.task_status = #{taskStatus}</if>
+            <if test="imgIds != null  and imgIds != ''"> and a.img_ids = #{imgIds}</if>
+            <if test="auditKeys != null  and auditKeys != ''"> and a.audit_keys = #{auditKeys}</if>
+            <if test="employeeNo != null  and employeeNo != ''"> and a.employee_no = #{employeeNo}</if>
+            <if test="oriCoordinate != null  and oriCoordinate != ''"> and a.ori_coordinate = #{oriCoordinate}</if>
+             and a.is_delete=0
+        </where>
+    </select>
+
+    <select id="selectConfigRobotById" parameterType="Long" resultMap="ConfigRobotResult">
+        <include refid="selectConfigRobotVo"/>
+        where a.id = #{id}
+    </select>
+
+    <select id="selectConfigRobotByRobotId" parameterType="String" resultMap="ConfigRobotResult">
+        <include refid="selectConfigRobotVo"/>
+        where a.robot_id = #{id}
+    </select>
+
+    <insert id="insertConfigRobot" parameterType="ConfigRobot" useGeneratedKeys="true" keyProperty="id">
+        insert into config_robot
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="robotId != null">robot_id,</if>
+            <if test="robotName != null">robot_name,</if>
+            <if test="mac != null">mac,</if>
+            <if test="robotIp != null">robot_ip,</if>
+            <if test="chargingState != null">charging_state,</if>
+            <if test="workingState != null">working_state,</if>
+            <if test="standbyState != null">standby_state,</if>
+            <if test="positioningState != null">positioning_state,</if>
+            <if test="regionId != null">region_id,</if>
+            <if test="batteryState != null">battery_state,</if>
+            <if test="network != null">network,</if>
+            <if test="robotError != null">robot_error,</if>
+            <if test="errorMessages != null">error_messages,</if>
+            <if test="robotType != null">robot_type,</if>
+            <if test="belongedCompany != null">belonged_company,</if>
+            <if test="enable != null">enable,</if>
+            <if test="remark != null">remark,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="roomCode != null">room_code,</if>
+            <if test="taskId != null">task_id,</if>
+            <if test="taskStatus != null">task_status,</if>
+            <if test="isDelete != null">is_delete,</if>
+            <if test="imgIds != null">img_ids,</if>
+            <if test="auditKeys != null">audit_keys,</if>
+            <if test="employeeNo != null">employee_no,</if>
+            <if test="oriCoordinate != null">ori_coordinate,</if>
+            <if test="adminMode != null">admin_mode,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="robotId != null">#{robotId},</if>
+            <if test="robotName != null">#{robotName},</if>
+            <if test="mac != null">#{mac},</if>
+            <if test="robotIp != null">#{robotIp},</if>
+            <if test="chargingState != null">#{chargingState},</if>
+            <if test="workingState != null">#{workingState},</if>
+            <if test="standbyState != null">#{standbyState},</if>
+            <if test="positioningState != null">#{positioningState},</if>
+            <if test="regionId != null">#{regionId},</if>
+            <if test="batteryState != null">#{batteryState},</if>
+            <if test="network != null">#{network},</if>
+            <if test="robotError != null">#{robotError},</if>
+            <if test="errorMessages != null">#{errorMessages},</if>
+            <if test="robotType != null">#{robotType},</if>
+            <if test="belongedCompany != null">#{belongedCompany},</if>
+            <if test="enable != null">#{enable},</if>
+            <if test="remark != null">#{remark},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="roomCode != null">#{roomCode},</if>
+            <if test="taskId != null">#{taskId},</if>
+            <if test="taskStatus != null">#{taskStatus},</if>
+            <if test="isDelete != null">#{isDelete},</if>
+            <if test="imgIds != null">#{imgIds},</if>
+            <if test="auditKeys != null">#{auditKeys},</if>
+            <if test="employeeNo != null">employee_no,</if>
+            <if test="oriCoordinate != null">ori_coordinate,</if>
+            <if test="adminMode != null">#{adminMode},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConfigRobot" parameterType="ConfigRobot">
+        update config_robot
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="robotId != null">robot_id = #{robotId},</if>
+            <if test="robotName != null">robot_name = #{robotName},</if>
+            <if test="mac != null">mac = #{mac},</if>
+            <if test="robotIp != null">robot_ip = #{robotIp},</if>
+            <if test="chargingState != null">charging_state = #{chargingState},</if>
+            <if test="workingState != null">working_state = #{workingState},</if>
+            <if test="standbyState != null">standby_state = #{standbyState},</if>
+            <if test="positioningState != null">positioning_state = #{positioningState},</if>
+            <if test="regionId != null">region_id = #{regionId},</if>
+            <if test="batteryState != null">battery_state = #{batteryState},</if>
+            <if test="network != null">network = #{network},</if>
+            <if test="robotError != null">robot_error = #{robotError},</if>
+            <if test="errorMessages != null">error_messages = #{errorMessages},</if>
+            <if test="robotType != null">robot_type = #{robotType},</if>
+            <if test="belongedCompany != null">belonged_company = #{belongedCompany},</if>
+            <if test="enable != null">enable = #{enable},</if>
+            <if test="remark != null">remark = #{remark},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="roomCode != null">room_code = #{roomCode},</if>
+            <if test="taskId != null">task_id = #{taskId},</if>
+            <if test="taskStatus != null">task_status = #{taskStatus},</if>
+            <if test="isDelete != null">is_delete = #{isDelete},</if>
+            <if test="imgIds != null">img_ids = #{imgIds},</if>
+            <if test="auditKeys != null">audit_keys = #{auditKeys},</if>
+            <if test="employeeNo != null">employee_no = #{employeeNo},</if>
+            <if test="oriCoordinate != null">ori_coordinate= #{oriCoordinate},</if>
+            <if test="adminMode != null">admin_mode = #{adminMode},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigRobotById" parameterType="Long">
+        update config_robot set is_delete=1 where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigRobotByIds" parameterType="String">
+        update config_robot set is_delete=1 where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <update id="updateRobotIp">
+        update config_robot set robot_ip =  #{ip} where id = #{id}
+    </update>
+
+    <update id="updateRobotStatus">
+        update config_robot set
+            charging_state = #{chargingState},
+            working_state = #{workingState},
+            standby_state = #{standbyState},
+            positioning_state = #{positioningState},
+            battery_state = #{batteryState},
+            robot_error = #{robotError},
+            error_messages = #{errorMessages},
+            task_id = #{taskId},
+            update_time = now()
+        where robot_id = #{robotId}
+    </update>
+
+    <update id="updateRobotOnlineStatus">
+        update config_robot set
+            <![CDATA[ network = network | #{onlineMode},]]>
+            update_time = now()
+        where robot_id = #{robotId}
+    </update>
+
+    <update id="updateRobotOfflineStatus">
+        update config_robot set
+            <![CDATA[ network = network & ~#{onlineMode},]]>
+            update_time = now()
+        where robot_id = #{robotId}
+    </update>
+</mapper>

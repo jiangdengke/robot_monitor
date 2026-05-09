@@ -1,0 +1,239 @@
+# 数据源配置
+spring:
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.cj.jdbc.Driver
+        druid:
+            # 主库数据源
+            master:
+                url: jdbc:mysql://192.168.112.194:3306/robot_monitor?useSSL=false&useUnicode=true&characterEncoding=UTF8&autoReconnect=true
+                username: robot
+                password: 1qaz2WSX;
+            # 从库数据源
+            slave:
+                # 从数据源开关/默认关闭
+                enabled: false
+                url:
+                username:
+                password:
+            # 初始连接数
+            initialSize: 5
+            # 最小连接池数量
+            minIdle: 10
+            # 最大连接池数量
+            maxActive: 20
+            # 配置获取连接等待超时的时间
+            maxWait: 60000
+            # 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒
+            timeBetweenEvictionRunsMillis: 60000
+            # 配置一个连接在池中最小生存的时间，单位是毫秒
+            minEvictableIdleTimeMillis: 300000
+            # 配置一个连接在池中最大生存的时间，单位是毫秒
+            maxEvictableIdleTimeMillis: 900000
+            # 配置检测连接是否有效
+            validationQuery: SELECT 1 FROM DUAL
+            testWhileIdle: true
+            testOnBorrow: false
+            testOnReturn: false
+            webStatFilter:
+                enabled: true
+            statViewServlet:
+                enabled: true
+                # 设置白名单，不填则允许所有访问
+                allow:
+                url-pattern: /druid/*
+                # 控制台管理用户名和密码
+                login-username: robotmonitor
+                login-password: 123456
+            filter:
+                stat:
+                    enabled: true
+                    # 慢SQL记录
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+    data:
+        # redis 配置
+        redis:
+            client-type: jedis
+            # 地址
+            host: 192.168.112.194
+            # 端口，默认为6379
+            port: 6379
+            # 数据库索引
+            database: 0
+            # 密码
+            password: 1234%%6
+            # 连接超时时间
+            timeout: 10s
+            lettuce:
+                pool:
+                    # 连接池中的最小空闲连接
+                    min-idle: 0
+                    # 连接池中的最大空闲连接
+                    max-idle: 8
+                    # 连接池的最大数据库连接数
+                    max-active: 8
+                    # #连接池最大阻塞等待时间（使用负值表示没有限制）
+                    max-wait: -1ms
+    jackson:
+        default-property-inclusion: always
+        deserialization:
+            fail-on-unknown-properties: false
+            fail-on-null-for-primitives: false
+    ai:
+        openai:
+            #            base-url: http://192.168.54.77:11434/
+            #            base-url: http://192.168.54.78:11434/
+            #            base-url: http://172.21.138.13:11434/
+            base-url: http://192.168.112.194:9997/
+            #            base-url: https://dashscope.aliyuncs.com/compatible-mode/
+            api-key: sk-bf9452a6c57942c2b55230d64b520bd3
+            chat:
+                completions-path: /v1/chat/completions
+                options:
+                    #                    model: Qwen2.5-7B
+                    #                    model: deepseek-r17b.gguf
+                    #                    model: qwen2tools-0.5b.gguf
+                    #                    model: llama3.2-visionlast
+                    #                    model: Qwen3-8B
+                    #                    model: deepseek-r1:14b
+                    #                    model: qwen2.5:7b
+                    #                    model: qwen3:14b
+                    model: qwen3
+            #                    model: qwen-plus
+            #                    model: qwen3
+            embedding:
+                options:
+                    #                    model: bge-m3latest.gguf:latest
+                    model: Qwen3-Embedding-4B
+                    #                    model: Qwen3-Embedding-0.6B
+                    dimensions: 2560
+        vectorstore:
+            redis:
+                index-name: spring_ai_index
+                initialize-schema: true
+                prefix: "doc:"
+    #        mcp:
+    #            client:
+    #                enabled: true
+    #                name: my-mcp-client
+    #                version: 1.0.0
+    #                request-timeout: 120s
+    ##                type: ASYNC  # or ASYNC for reactive applications
+    #                sse:
+    #                    connections:
+    #                        gaode-map:
+    #                            url: https://mcp.amap.com
+    #                            sse-endpoint: /sse?key=f82fc31bd57e37452b2786b943309313
+    #                        bing-search:
+    #                            url: https://mcp.api-inference.modelscope.net
+    #                            sse-endpoint: /c7693fa23d9c48/sse
+    #                        sougou-search:
+    #                            url: https://mcp.api-inference.modelscope.net
+    #                            sse-endpoint: /908df3bda5064e/sse
+
+    kafka:
+        consumer:
+            bootstrap-servers:
+                - 10.150.140.59:9093
+                - 10.150.140.206:9093
+                - 10.150.140.133:9093
+            auto-offset-reset: earliest                           #新建消费组时从什么位置开始消费  latest：最近位置   earliest：最早位置
+            max-poll-records: 2000                              #批量消费一次最大拉取的数据量
+            enable-auto-commit: false                           #是否开启自动提交
+            auto-commit-interval: 1000                          #自动提交的间隔时间，自动提交开启时生效
+            session-timeout: 20000                              #连接超时时间
+            max-poll-interval: 15000                            #手动提交设置与poll的心跳数,如果消息队列中没有消息，等待毫秒后，调用poll()方法。如果队列中有消息，立即消费消息，每次消费的消息的多少可以通过max.poll.records配置。
+            max-partition-fetch-bytes: 10485760                 #设置拉取数据的大小,10M
+            group-id: ARDT_HGH_TO_LI_FLIGHT_XML_V002
+            group-gate-id: ARDT_HGH_TO_LI_FLIGHT_RESOURCE_XML_V001    #消费组
+            topic: OUTBOUND_AIRLINE_HGH_ARDT_FLIGHT_XML_V002
+            topic-gate: OUTBOUND_AIRLINE_HGH_ARDT_FLIGHT_RESOURCE_XML_V001 #主题
+        face:
+            bootstrap-servers: 192.168.1.252:32400
+            group-id: face-group
+            auto-offset-reset: earliest
+            topic: face
+        properties:
+            security:
+                protocol: SASL_PLAINTEXT
+            sasl:
+                mechanism: PLAIN
+                jaas:
+                    config: org.apache.kafka.common.security.plain.PlainLoginModule required username="Gfgop2025" password="V8see@Q4i,ZP7YQ-=x";
+    #        properties:
+    #            sasl:
+    #                mechanism: PLAIN
+    #                jaas:
+    #                    config: org.apache.kafka.common.security.plain.PlainLoginModule required username="admin" password="znyw@212";
+# 开发环境配置
+server:
+    # 服务器的HTTP端口，默认为8080
+    port: 7075
+    servlet:
+        # 应用的访问路径
+        context-path: /api
+    tomcat:
+        # tomcat的URI编码
+        uri-encoding: UTF-8
+        # 连接数满后的排队数，默认为100
+        accept-count: 1000
+        threads:
+            # tomcat最大线程数，默认为200
+            max: 800
+            # Tomcat启动初始化的线程数，默认值10
+            min-spare: 100
+
+# 日志配置
+logging:
+    level:
+        org.springframework.ai.chat.client.advisor: debug
+        com.robotmonitor: debug
+        org.springframework: warn
+        org.springframework.ai: DEBUG
+        org.springframework.ai.tool: TRACE
+        org.springframework.ai.model: DEBUG
+        org.apache.kafka.clients.NetworkClient: WARN
+        org.apache.kafka: WARN
+
+robot:
+    #    url: http://192.168.54.169:8070/robot
+    url: http://192.168.112.194:8070/robot
+    voice-url:
+        #        whisper-voice: http://172.21.138.13:8000/api/model/whisper
+        whisper-voice: http://192.168.112.194:8000/api/model/whisper
+        # 语音转换文字服务地址
+        #        sense-voice: http://192.168.54.169:5432/api/model/SenseVoiceSmall
+        sense-voice: http://192.168.112.194:5432/api/model/SenseVoiceSmall
+robotmonitor:
+    # 休息室编码
+    # roomCode: PEK2DX1
+    # 机场编码
+    # airport: PEK
+    # 承运人CA
+    serviceCode: CA
+    ltsUrl: http://10.211.7.227/openapi
+    ltsAppId: 1983799652275
+    ltsAppKey: 0446a10f281923cb297a47bf8a0c3c1e
+    # 文件路径 示例（ Windows配置D:/robotmonitor/uploadPath，Linux配置 /home/robotmonitor/uploadPath）
+    profile: E:/upload
+    roomCode: roomCode
+
+deepglint:
+    base-url: http://192.168.1.252:3154/api
+    access-key: 7966023d-0eee-4104-9c2f-8efa4279442a
+    secret-key: 9e7b1900-302b-4059-bcaa-047262f3ca3b
+    auth-key: dp-auth-v0
+    repo-id: dcc0b3c4-6656-4ff3-8843-c97f74e7c4fe
+    image-width: 1920
+    image-height: 1080
+    recognition-type: face  # 识别类型: face(人脸), body(人体)
+call-center:
+    es-chat-url: http://10.211.67.106:8080/roadtel-boot/deepseek/es_chat
+    problem-source: 智慧休息
+    agent: 休息室机器人
+    default-long-sentence: 请严格控制在30个字以内回复我，并使用%s语言回答：%s
