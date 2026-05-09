@@ -1,0 +1,132 @@
+<template>
+  <el-card class="page-card">
+    <template #header>
+      <div class="page-header">
+        <div>
+          <h1>引导日志</h1>
+          <p>查询 `/ai/log/infoList`，展示机器人、贵宾室、区域和坐标引导记录。</p>
+        </div>
+        <el-button type="primary" :loading="loading" @click="loadRows">刷新</el-button>
+      </div>
+    </template>
+
+    <el-form :model="query" inline class="toolbar" @submit.prevent="loadRows">
+      <el-form-item label="机器人">
+        <el-input v-model.trim="query.robotName" clearable placeholder="机器人名称" />
+      </el-form-item>
+      <el-form-item label="贵宾室">
+        <el-select v-model="query.roomCode" clearable filterable placeholder="选择贵宾室" class="room-select">
+          <el-option
+            v-for="room in roomList"
+            :key="room.roomCode || room.deptId"
+            :label="room.deptName || room.roomCode"
+            :value="room.roomCode"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item label="时间">
+        <el-date-picker
+          v-model="range"
+          type="datetimerange"
+          value-format="YYYY-MM-DD HH:mm:ss"
+          start-placeholder="开始时间"
+          end-placeholder="结束时间"
+        />
+      </el-form-item>
+      <el-form-item>
+        <el-button type="primary" native-type="submit">查询</el-button>
+        <el-button @click="resetQuery">重置</el-button>
+      </el-form-item>
+    </el-form>
+
+    <el-row :gutter="16" class="summary-row">
+      <el-col :xs="24" :sm="8">
+        <el-card shadow="never"><strong>{{ total }}</strong><span>引导记录</span></el-card>
+      </el-col>
+      <el-col :xs="24" :sm="8">
+        <el-card shadow="never"><strong>{{ robotCount }}</strong><span>机器人数量</span></el-card>
+      </el-col>
+      <el-col :xs="24" :sm="8">
+        <el-card shadow="never"><strong>{{ roomCount }}</strong><span>贵宾室数量</span></el-card>
+      </el-col>
+    </el-row>
+
+    <el-table v-loading="loading" :data="rows" border>
+      <el-table-column prop="robotId" label="机器人编号" min-width="130" />
+      <el-table-column prop="robotName" label="机器人名称" min-width="150" />
+      <el-table-column prop="deptName" label="贵宾室" min-width="160" />
+      <el-table-column prop="roomCode" label="房间编码" min-width="120" />
+      <el-table-column prop="regionName" label="区域" min-width="140" />
+      <el-table-column prop="coordinate" label="坐标" min-width="180" />
+      <el-table-column prop="createTime" label="引导时间" min-width="170" />
+    </el-table>
+
+    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+  </el-card>
+</template>
+
+<script setup>
+import { computed, onMounted, reactive, ref } from 'vue'
+import { getRoomList } from '@/api/system'
+import { request } from '@/api/http'
+
+const rows = ref([])
+const roomList = ref([])
+const total = ref(0)
+const loading = ref(false)
+const errorMessage = ref('')
+const range = ref([])
+const query = reactive({ robotName: '', roomCode: '' })
+const robotCount = computed(() => new Set(rows.value.map((item) => item.robotId).filter(Boolean)).size)
+const roomCount = computed(() => new Set(rows.value.map((item) => item.roomCode).filter(Boolean)).size)
+
+async function loadRows() {
+  loading.value = true
+  errorMessage.value = ''
+  try {
+    const response = await request('/ai/log/infoList', {
+      query: {
+        pageNum: 1,
+        pageSize: 100,
+        robotName: query.robotName,
+        roomCode: query.roomCode,
+        startTime: range.value?.[0],
+        endTime: range.value?.[1]
+      }
+    })
+    rows.value = response.rows || []
+    total.value = response.total || rows.value.length
+  } catch (error) {
+    errorMessage.value = error?.payload?.msg || error?.message || '引导日志加载失败'
+  } finally {
+    loading.value = false
+  }
+}
+
+function resetQuery() {
+  query.robotName = ''
+  query.roomCode = ''
+  range.value = []
+  loadRows()
+}
+
+onMounted(async () => {
+  const roomResponse = await getRoomList()
+  roomList.value = roomResponse.data || []
+  await loadRows()
+})
+</script>
+
+<style scoped>
+.page-card { padding: 24px; }
+.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
+.page-header h1 { margin: 0; font-size: 28px; }
+.page-header p { margin: 8px 0 0; color: var(--text-soft); }
+.toolbar { margin-bottom: 16px; }
+.room-select { width: 220px; }
+.summary-row { margin-bottom: 16px; }
+.summary-row :deep(.el-card__body) { display: grid; gap: 6px; }
+.summary-row strong { font-size: 24px; }
+.summary-row span { color: var(--text-soft); }
+.message-alert { margin-top: 16px; }
+</style>

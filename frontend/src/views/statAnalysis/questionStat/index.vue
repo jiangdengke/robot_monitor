@@ -23,6 +23,7 @@
       <el-form-item>
         <el-button type="primary" native-type="submit">查询</el-button>
         <el-button @click="runClassification">运行自动分类</el-button>
+        <el-button type="success" @click="testAiChat">提交测试问答</el-button>
       </el-form-item>
     </el-form>
 
@@ -40,8 +41,18 @@
 
     <el-table :data="rows" border>
       <el-table-column prop="robotId" label="机器人" min-width="120" />
+      <el-table-column prop="robotName" label="机器人名称" min-width="140" />
+      <el-table-column prop="deptName" label="贵宾室" min-width="140" />
       <el-table-column prop="question" label="问题" min-width="260" />
+      <el-table-column prop="answer" label="回答" min-width="260" />
       <el-table-column prop="chatType" label="会话类型" min-width="120" />
+      <el-table-column label="自动分类" min-width="120">
+        <template #default="{ row }">
+          <el-tag :type="String(row.aiAutoClassification) === '1' ? 'success' : 'warning'">
+            {{ String(row.aiAutoClassification) === '1' ? '已分类' : '待分类' }}
+          </el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="count" label="次数" width="100" />
       <el-table-column prop="createTime" label="时间" min-width="170" />
     </el-table>
@@ -84,10 +95,28 @@ async function loadRows() {
 async function runClassification() {
   try {
     await request('/rest/ai/run-ai-auto-classification')
-    message.value = '已提交自动分类任务'
     await loadRows()
+    message.value = '已提交自动分类任务'
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '提交失败'
+  }
+}
+
+async function testAiChat() {
+  try {
+    await request('/rest/ai/robot-chat', {
+      method: 'POST',
+      body: JSON.stringify({
+        robotId: query.robotId || 'robot-001',
+        message: query.question || '贵宾室在哪里？',
+        language: 'CN',
+        isNeedVoice: false
+      })
+    })
+    await loadRows()
+    message.value = '测试问答已写入统计'
+  } catch (error) {
+    errorMessage.value = error?.payload?.msg || error?.message || '测试问答提交失败'
   }
 }
 

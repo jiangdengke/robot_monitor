@@ -39,6 +39,7 @@ const moduleRoutes = [
   { path: 'configManagment/complaintRecord', component: () => import('@/views/configManagment/complaintRecord/index.vue') },
   { path: 'digitalTwin', component: () => import('@/views/digitalTwin/index.vue') },
   { path: 'knowledgeManagment/ai/knowledge', component: () => import('@/views/knowledgeManagment/ai/knowledge/index.vue') },
+  { path: 'knowledgeManagment/ai/log', component: () => import('@/views/knowledgeManagment/ai/log/index.vue') },
   { path: 'foodManagment/food', component: () => import('@/views/foodManagment/food/index.vue') },
   { path: 'foodManagment/foodMenu', component: () => import('@/views/foodManagment/foodMenu/index.vue') },
   { path: 'foodManagment/foodTable', component: () => import('@/views/foodManagment/foodTable/index.vue') },

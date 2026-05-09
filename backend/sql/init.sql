@@ -1119,7 +1119,8 @@ VALUES
 (503,'桌台视图',5,4,'foodTable','foodManagment/foodTable/index',NULL,'1','0','C','0','0','food:table:list','table','system',NOW(),''),
 (504,'菜单计划',5,5,'foodPlan','foodManagment/foodPlan/index',NULL,'1','0','C','0','0','food:plan:list,food:plan:query,food:plan:add,food:plan:edit,food:plan:remove','calendar','system',NOW(),''),
 
-(600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove','documentation','system',NOW(),'');
+(600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove','documentation','system',NOW(),''),
+(601,'引导日志',6,2,'log','knowledgeManagment/ai/log/index',NULL,'1','0','C','0','0','ai:log:list,ai:log:query,ai:log:export','log','system',NOW(),'');
 
 INSERT INTO `sys_role_menu` (`role_id`,`menu_id`)
 SELECT 1, menu_id FROM sys_menu;
@@ -1131,7 +1132,7 @@ INSERT INTO `sys_role_menu` (`role_id`,`menu_id`) VALUES
 (2,300),(2,301),(2,302),(2,303),(2,304),(2,305),
 (2,400),(2,401),(2,402),
 (2,500),(2,501),(2,502),
-(2,600);
+(2,600),(2,601);
 
 INSERT INTO `sys_config`
 (`config_id`,`config_name`,`config_key`,`config_value`,`config_type`,`create_by`,`create_time`,`remark`)
