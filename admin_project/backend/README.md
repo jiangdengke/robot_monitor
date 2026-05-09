@@ -14,6 +14,7 @@
 - `./gradlew compileJava` 可以通过。
 - 业务 Mapper 已从 MyBatis XML 切到显式 jOOQ 实现。
 - 旧 MyBatis XML 仍保留在 `src/main/resources/mapper` 作为反编译参考，但不再进入运行配置同步。
+- 默认 `local` profile 已补旅客服务 Bean，避免本地启动时因原实现只绑定 `dev/prod` profile 导致缺少 `IPassengerService`。
 
 常用命令：
 
@@ -22,4 +23,11 @@ cd admin_project/backend
 ./gradlew compileJava
 ```
 
-本地启动仍需先准备 MySQL、Redis 和配置。按用户当前指示，后端本地完整启动和前后端端到端验证暂未执行。
+本地启动：
+
+```bash
+cd admin_project/backend
+./gradlew run
+```
+
+默认本地依赖和账号见 `docs/local-start.md`。最近一次完整启动验证因当前机器 Docker daemon 未启动且需要 sudo 密码，无法继续拉起 MySQL/Redis 容器。
