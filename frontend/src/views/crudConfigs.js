@@ -1,3 +1,16 @@
+import {
+  changeRoleStatus,
+  changeUserStatus,
+  downloadUserImportTemplate,
+  exportSystemResource,
+  getRoleDeptTree,
+  importUsers,
+  refreshConfigCache,
+  refreshDictCache,
+  resetUserPassword,
+  updateRoleDataScope
+} from '@/api/system'
+
 const statusOptions = [
   { label: '正常', value: '0' },
   { label: '停用', value: '1' }
@@ -17,6 +30,22 @@ const statusColumn = (prop = 'status') => ({
   map: { 0: '正常', 1: '停用' }
 })
 
+const switchStatusColumn = (action) => ({
+  prop: 'status',
+  label: '状态',
+  width: 100,
+  switch: true,
+  action
+})
+
+const dataScopeOptions = [
+  { label: '全部数据权限', value: '1' },
+  { label: '自定数据权限', value: '2' },
+  { label: '本部门数据权限', value: '3' },
+  { label: '本部门及以下数据权限', value: '4' },
+  { label: '仅本人数据权限', value: '5' }
+]
+
 export const crudPages = {
   user: {
     title: '用户管理',
@@ -35,7 +64,7 @@ export const crudPages = {
       { prop: 'dept.deptName', label: '部门', minWidth: 140 },
       { prop: 'phonenumber', label: '手机号', minWidth: 140 },
       { prop: 'email', label: '邮箱', minWidth: 180 },
-      statusColumn()
+      switchStatusColumn((row, status) => changeUserStatus(row.userId, status))
     ],
     formFields: [
       { prop: 'userName', label: '账号' },
@@ -46,7 +75,40 @@ export const crudPages = {
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0', sex: '2' }
+    defaults: { status: '0', sex: '2', password: '123456' },
+    transformDetail: (response, row) => ({
+      ...(response.data || row),
+      roleIds: response.roleIds || [],
+      postIds: response.postIds || []
+    }),
+    beforeSubmit: (payload, mode) => {
+      if (mode === 'create' && !payload.password) {
+        payload.password = '123456'
+      }
+      return payload
+    },
+    importAction: importUsers,
+    headerActions: [
+      { key: 'import', label: '导入', kind: 'import' },
+      { key: 'template', label: '下载模板', handler: () => downloadUserImportTemplate(), reload: false },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/user/export', query, '用户数据.xlsx'), reload: false }
+    ],
+    rowActions: [
+      {
+        key: 'resetPwd',
+        label: '重置密码',
+        promptTitle: '重置密码',
+        promptDefaults: { password: '123456' },
+        promptFields: [{ prop: 'password', label: '新密码', inputType: 'password' }],
+        handler: (row, { form }) => resetUserPassword(row.userId, form.password)
+      },
+      {
+        key: 'authRole',
+        label: '分配角色',
+        route: (row) => `/system/user-auth/role/${row.userId}`
+      }
+    ],
+    operationWidth: 350
   },
   role: {
     title: '角色管理',
@@ -59,7 +121,7 @@ export const crudPages = {
       { prop: 'roleName', label: '角色名称', minWidth: 150 },
       { prop: 'roleKey', label: '权限标识', minWidth: 160 },
       { prop: 'roleSort', label: '排序', width: 90 },
-      statusColumn(),
+      switchStatusColumn((row, status) => changeRoleStatus(row.roleId, status)),
       { prop: 'remark', label: '备注', minWidth: 180 }
     ],
     formFields: [
@@ -69,7 +131,32 @@ export const crudPages = {
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0', roleSort: 1 }
+    defaults: { status: '0', roleSort: 1, dataScope: '1', menuCheckStrictly: true, deptCheckStrictly: true },
+    headerActions: [
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/role/export', query, '角色数据.xlsx'), reload: false }
+    ],
+    rowActions: [
+      {
+        key: 'dataScope',
+        label: '数据权限',
+        promptTitle: '分配数据权限',
+        promptDefaults: (row) => ({ dataScope: row.dataScope || '1', deptIds: row.deptIds || [] }),
+        promptFields: async (row) => {
+          const response = await getRoleDeptTree(row.roleId)
+          return [
+            { prop: 'dataScope', label: '权限范围', type: 'select', options: dataScopeOptions },
+            { prop: 'deptIds', label: '部门权限', type: 'tree', options: response.depts || [] }
+          ]
+        },
+        handler: (row, { form }) => updateRoleDataScope({ ...row, dataScope: form.dataScope, deptIds: form.deptIds || [] })
+      },
+      {
+        key: 'authUser',
+        label: '分配用户',
+        route: (row) => `/system/role-auth/user/${row.roleId}`
+      }
+    ],
+    operationWidth: 340
   },
   dept: {
     title: '部门管理',
@@ -171,7 +258,11 @@ export const crudPages = {
       { prop: 'configType', label: '是否内置', type: 'select', options: yesNoOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { configType: 'N' }
+    defaults: { configType: 'N' },
+    headerActions: [
+      { key: 'refresh', label: '刷新缓存', type: 'warning', confirm: '确认刷新参数缓存？', handler: refreshConfigCache, successMessage: '参数缓存已刷新' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/config/export', query, '参数数据.xlsx'), reload: false }
+    ]
   },
   notice: {
     title: '通知公告',
@@ -214,7 +305,15 @@ export const crudPages = {
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0' }
+    defaults: { status: '0' },
+    headerActions: [
+      { key: 'refresh', label: '刷新缓存', type: 'warning', confirm: '确认刷新字典缓存？', handler: refreshDictCache, successMessage: '字典缓存已刷新' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/dict/type/export', query, '字典类型.xlsx'), reload: false }
+    ],
+    rowActions: [
+      { key: 'data', label: '字典数据', route: (row) => `/system/dict-data/index/${row.dictId}?dictType=${encodeURIComponent(row.dictType || '')}` }
+    ],
+    operationWidth: 300
   },
   dictData: {
     title: '字典数据',
@@ -240,7 +339,10 @@ export const crudPages = {
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0', isDefault: 'N', dictSort: 1 }
+    defaults: { status: '0', isDefault: 'N', dictSort: 1 },
+    headerActions: [
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/dict/data/export', query, '字典数据.xlsx'), reload: false }
+    ]
   },
   robot: {
     title: '机器人配置',

@@ -1,23 +1,22 @@
-# Admin Project
+# Robot Monitor Admin
 
-This directory contains the reconstructed management backend and frontend.
+This repository contains the reconstructed management backend and frontend.
 
 ## Structure
 
 ```text
-admin_project/
-  backend/
-    src/main/java/          Decompiled reference Java source
-    src/overlay/java/       Active reconstructed source overrides
-    src/main/resources/     Spring Boot resources
-    lib/                    Runtime/compile dependencies from original jar
-    sql/init.sql            Local bootstrap database schema and demo data
-    runtime-config/         Local profile configuration templates
-  frontend/
-    src/                    Reconstructed Vue 3 + Element Plus source project
-    legacy-dist/            Original built frontend assets
-    package.json
-    vite.config.js
+backend/
+  src/main/java/          Decompiled reference Java source
+  src/overlay/java/       Active reconstructed source overrides
+  src/main/resources/     Spring Boot resources
+  lib/                    Runtime/compile dependencies from original jar
+  sql/init.sql            Local bootstrap database schema and demo data
+  runtime-config/         Local profile configuration templates
+frontend/
+  src/                    Reconstructed Vue 3 + Element Plus source project
+  legacy-dist/            Original built frontend assets
+  package.json
+  vite.config.js
 ```
 
 ## Current Status
@@ -28,7 +27,7 @@ admin_project/
 - Backend compilation passes with:
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew compileJava
 ```
 
@@ -37,7 +36,7 @@ cd admin_project/backend
 - Frontend build passes with:
 
 ```bash
-cd admin_project/frontend
+cd frontend
 npm run build
 ```
 

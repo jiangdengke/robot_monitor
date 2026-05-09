@@ -1,6 +1,6 @@
 {
   "generatedAt": "2026-05-09T05:50:09.366Z",
-  "source": "admin_project/frontend/legacy-dist/static/js",
+  "source": "frontend/legacy-dist/static/js",
   "note": "从原部署包 JS chunk 提取，作为功能补齐和验收对照清单。",
   "endpoints": [
     {

@@ -13,7 +13,7 @@
 推荐先验证编译：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew compileJava
 ```
 
@@ -35,7 +35,7 @@ cd admin_project/backend
 数据库初始化脚本：
 
 ```bash
-mysql -uroot -p123456 < admin_project/backend/sql/init.sql
+mysql -uroot -p123456 < backend/sql/init.sql
 ```
 
 默认后台账号：
@@ -47,8 +47,8 @@ mysql -uroot -p123456 < admin_project/backend/sql/init.sql
 
 本地启动优先使用：
 
-- `admin_project/backend/src/main/resources/application-local.yml`
-- `admin_project/backend/sql/init.sql`
+- `backend/src/main/resources/application-local.yml`
+- `backend/sql/init.sql`
 
 如需接入真实业务链路，再替换这些项目：
 
@@ -61,7 +61,7 @@ mysql -uroot -p123456 < admin_project/backend/sql/init.sql
 启动命令：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew run
 ```
 

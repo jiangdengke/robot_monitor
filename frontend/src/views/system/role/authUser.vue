@@ -6,7 +6,10 @@
           <h1>角色授权用户</h1>
           <p>读取 `/system/role/authUser/allocatedList` 与 `/system/role/authUser/unallocatedList`。</p>
         </div>
-        <el-button type="primary" @click="loadRows">刷新</el-button>
+        <div class="header-buttons">
+          <el-button type="primary" @click="router.push(`/system/role-auth/selectUser/${roleId}`)">添加用户</el-button>
+          <el-button @click="loadRows">刷新</el-button>
+        </div>
       </div>
     </template>
 
@@ -61,11 +64,14 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { assignRoleUsers, cancelRoleUsers, listAllocatedUsers, listUnallocatedUsers } from '@/api/system'
 
+const route = useRoute()
+const router = useRouter()
 const allocatedRows = ref([])
 const unallocatedRows = ref([])
-const roleId = ref(1)
+const roleId = ref(Number(route.params.roleId || 1))
 const selectedAllocated = ref([])
 const selectedUnallocated = ref([])
 const errorMessage = ref('')
@@ -124,6 +130,7 @@ onMounted(loadRows)
 .page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
 .page-header h1 { margin: 0; font-size: 28px; }
 .page-header p { margin: 8px 0 0; color: var(--text-soft); }
+.header-buttons { display: flex; gap: 8px; }
 .toolbar { margin-bottom: 16px; }
 .panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .sub-panel h2 { margin: 0; font-size: 18px; }

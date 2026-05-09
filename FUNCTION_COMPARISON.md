@@ -1,6 +1,6 @@
 # 管理后台功能对比
 
-本文档对比原部署包中的管理后台功能，以及当前 `admin_project` 重建后的实现状态。
+本文档对比原部署包中的管理后台功能，以及当前仓库根目录重建后的实现状态。
 
 ## 状态定义
 
@@ -14,7 +14,7 @@
 | --- | --- | --- |
 | 后端源码合并 | `[x]` | 已合并到 `backend/src/main/java`，共 771 个 Java 文件 |
 | jOOQ Mapper 恢复 | `[x]` | 业务 Mapper 已切到显式 jOOQ 实现，使用 `com.robotmonitor.jooq.generated.Tables.*` 生成表对象 |
-| 后端全量编译 | `[x]` | `cd admin_project/backend && ./gradlew compileJava` 已通过 |
+| 后端全量编译 | `[x]` | `cd backend && ./gradlew compileJava` 已通过 |
 | 初始化 SQL | `[x]` | 已提供 `backend/sql/init.sql` |
 | 前端旧静态包保留 | `[x]` | 原构建产物已归档到 `frontend/legacy-dist/` |
 | 前端 `src` 工程源码 | `[x]` | 已建立 `Vite + Vue 3 + Element Plus` 源码工程，普通后台页统一接 CRUD，复杂页单独实现交互 |
@@ -69,7 +69,7 @@
 当前后端全量编译已通过：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew compileJava
 ```
 
@@ -84,7 +84,7 @@ BUILD SUCCESSFUL
 当前前端构建已通过：
 
 ```bash
-cd admin_project/frontend
+cd frontend
 npm run build
 ```
 
@@ -98,7 +98,7 @@ npm run build
 
 ## 结论
 
-当前 `admin_project` 已经完成管理后台主体源码恢复：
+当前仓库已经完成管理后台主体源码恢复：
 
 - 后端源码、jOOQ Mapper、SQL 已落地，并且后端可全量编译。
 - 前端不再只有静态包，已经补出可维护的 `frontend/src` Vue 源码工程。

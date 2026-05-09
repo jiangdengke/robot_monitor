@@ -1,33 +1,40 @@
 # Keep the repository focused on the rebuilt admin project.
 /*
 !/.gitignore
-!/admin_project/
+!/README.md
+!/FRONTEND_REMAINING_PLAN.md
+!/FULL_FUNCTION_IMPLEMENTATION_PLAN.md
+!/FUNCTION_COMPARISON.md
+!/backend/
+!/frontend/
+!/docs/
 
 # Backend build/runtime artifacts.
-admin_project/backend/.gradle/
-admin_project/backend/build/
-admin_project/backend/runtime-config/
-admin_project/backend/logs/
-admin_project/backend/scripts/
-admin_project/backend/**/target/
-admin_project/backend/src/main/resources/**/*.class
-admin_project/backend/*.iml
+backend/.gradle/
+backend/build/
+backend/runtime-config/
+backend/logs/
+backend/scripts/
+backend/**/target/
+backend/src/main/resources/**/*.class
+backend/*.iml
 
 # Frontend build/runtime artifacts.
-admin_project/frontend/node_modules/
-admin_project/frontend/dist/
-admin_project/frontend/.vite/
-admin_project/frontend/.vite-temp/
-admin_project/frontend/*.local
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.vite-temp/
+frontend/*.local
 
 # Keep only the legacy assets that the rebuilt Vue app references directly.
-admin_project/frontend/legacy-dist/**
-!admin_project/frontend/legacy-dist/
-!admin_project/frontend/legacy-dist/favicon.ico
-!admin_project/frontend/legacy-dist/static/
-!admin_project/frontend/legacy-dist/static/jpg/
-!admin_project/frontend/legacy-dist/static/jpg/login-background-Yn3y1TP_.jpg
+frontend/legacy-dist/**
+!frontend/legacy-dist/
+!frontend/legacy-dist/favicon.ico
+!frontend/legacy-dist/static/
+!frontend/legacy-dist/static/jpg/
+!frontend/legacy-dist/static/jpg/login-background-Yn3y1TP_.jpg
 
 # Local/editor noise.
+.local-backup/
 .DS_Store
 *.log

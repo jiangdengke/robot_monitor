@@ -19,14 +19,14 @@
 常用命令：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew compileJava
 ```
 
 本地启动：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew run
 ```
 

@@ -75,4 +75,52 @@ async function upload(path, formData) {
   })
 }
 
-export { API_BASE, TOKEN_KEY, getToken, request, setToken, upload }
+async function downloadFile(path, options = {}) {
+  const token = getToken()
+  const headers = {
+    ...(options.body instanceof FormData ? {} : { 'Content-Type': 'application/json' }),
+    ...(options.headers || {})
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  const response = await fetch(buildUrl(path, options.query), {
+    method: options.method || 'GET',
+    credentials: 'include',
+    headers,
+    body: options.body,
+    signal: options.signal
+  })
+
+  if (!response.ok) {
+    throw new Error(`HTTP ${response.status}`)
+  }
+
+  const contentType = response.headers.get('content-type') || ''
+  if (contentType.includes('application/json')) {
+    const payload = await response.json()
+    if (payload && typeof payload.code === 'number' && payload.code !== 200) {
+      const error = new Error(payload.msg || 'Download failed')
+      error.payload = payload
+      throw error
+    }
+    return payload
+  }
+
+  const blob = await response.blob()
+  const disposition = response.headers.get('content-disposition') || ''
+  const matched = disposition.match(/filename\*?=(?:UTF-8'')?["']?([^;"']+)/i)
+  const fileName = options.fileName || (matched ? decodeURIComponent(matched[1]) : 'download.xlsx')
+  const href = URL.createObjectURL(blob)
+  const anchor = document.createElement('a')
+  anchor.href = href
+  anchor.download = fileName
+  document.body.appendChild(anchor)
+  anchor.click()
+  anchor.remove()
+  URL.revokeObjectURL(href)
+}
+
+export { API_BASE, TOKEN_KEY, downloadFile, getToken, request, setToken, upload }

@@ -20,6 +20,7 @@
       <el-form-item>
         <el-button type="primary" native-type="submit">查询</el-button>
         <el-button type="success" :disabled="!selectedUserIds.length" @click="assignSelected">确认分配</el-button>
+        <el-button @click="router.push(`/system/role-auth/user/${roleId}`)">返回</el-button>
       </el-form-item>
     </el-form>
 
@@ -48,10 +49,13 @@
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
 import { assignRoleUsers, listUnallocatedUsers } from '@/api/system'
 
+const route = useRoute()
+const router = useRouter()
 const rows = ref([])
-const roleId = ref(1)
+const roleId = ref(Number(route.params.roleId || 1))
 const pageNum = ref(1)
 const pageSize = ref(20)
 const total = ref(0)

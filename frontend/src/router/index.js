@@ -9,11 +9,15 @@ import WelcomeView from '@/views/index.vue'
 
 const moduleRoutes = [
   { path: 'system/user', component: () => import('@/views/system/user/index.vue') },
+  { path: 'system/user-auth/role/:userId', component: () => import('@/views/system/user/authRole.vue') },
   { path: 'system/role', component: () => import('@/views/system/role/index.vue') },
+  { path: 'system/role-auth/user/:roleId', component: () => import('@/views/system/role/authUser.vue') },
+  { path: 'system/role-auth/selectUser/:roleId', component: () => import('@/views/system/role/selectUser.vue') },
   { path: 'system/dept', component: () => import('@/views/system/dept/index.vue') },
   { path: 'system/post', component: () => import('@/views/system/post/index.vue') },
   { path: 'system/menu', component: () => import('@/views/system/menu/index.vue') },
   { path: 'system/dict', component: () => import('@/views/system/dict/index.vue') },
+  { path: 'system/dict-data/index/:dictId', component: () => import('@/views/system/dict/data.vue') },
   { path: 'system/config', component: () => import('@/views/system/config/index.vue') },
   { path: 'system/notice', component: () => import('@/views/system/notice/index.vue') },
   { path: 'monitor/online', component: () => import('@/views/monitor/online/index.vue') },

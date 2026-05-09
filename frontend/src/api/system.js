@@ -1,4 +1,4 @@
-import { request } from './http'
+import { downloadFile, request, upload } from './http'
 
 export const login = (payload) =>
   request('/login', {
@@ -280,4 +280,55 @@ export const updateUserRoleAuth = (userId, roleIds) =>
       userId,
       roleIds
     }
+  })
+
+export const changeUserStatus = (userId, status) =>
+  request('/system/user/changeStatus', {
+    method: 'PUT',
+    body: JSON.stringify({ userId, status })
+  })
+
+export const resetUserPassword = (userId, password) =>
+  request('/system/user/resetPwd', {
+    method: 'PUT',
+    body: JSON.stringify({ userId, password })
+  })
+
+export const importUsers = (file, updateSupport = false) => {
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('updateSupport', String(updateSupport))
+  return upload('/system/user/importData', formData)
+}
+
+export const downloadUserImportTemplate = () =>
+  downloadFile('/system/user/importTemplate', { method: 'POST', fileName: '用户导入模板.xlsx' })
+
+export const changeRoleStatus = (roleId, status) =>
+  request('/system/role/changeStatus', {
+    method: 'PUT',
+    body: JSON.stringify({ roleId, status })
+  })
+
+export const updateRoleDataScope = (payload) =>
+  request('/system/role/dataScope', {
+    method: 'PUT',
+    body: JSON.stringify(payload)
+  })
+
+export const getRoleDeptTree = (roleId) => request(`/system/dept/roleDeptTreeselect/${roleId}`)
+
+export const refreshConfigCache = () => request('/system/config/refreshCache', { method: 'DELETE' })
+
+export const refreshDictCache = () => request('/system/dict/type/refreshCache', { method: 'DELETE' })
+
+export const getDictTypeOptions = () => request('/system/dict/type/optionselect')
+
+export const getDictDataByType = (dictType) => request(`/system/dict/data/type/${dictType}`)
+
+export const exportSystemResource = (path, query = {}, fileName = '导出数据.xlsx') =>
+  downloadFile(path, {
+    method: 'POST',
+    query,
+    fileName
   })

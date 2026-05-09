@@ -16,8 +16,8 @@
 - `[ ]` 原后台有的新增、编辑、详情、删除、批量删除、导入、导出、上传、授权、预览按钮，当前都有对应交互。
 - `[ ]` 原后台调用过的接口，当前后端都能返回成功；外设接口可返回 mock 成功。
 - `[ ]` `backend/sql/init.sql` 覆盖所有页面启动所需表结构和示例数据。
-- `[ ]` `cd admin_project/backend && ./gradlew compileJava` 通过。
-- `[ ]` `cd admin_project/frontend && npm run build` 通过。
+- `[ ]` `cd backend && ./gradlew compileJava` 通过。
+- `[ ]` `cd frontend && npm run build` 通过。
 - `[ ]` 核心接口矩阵、代表性写入烟测和前端菜单打开检查通过。
 
 ## 原部署包功能来源
@@ -194,4 +194,3 @@
 | Batch 7 | `[ ]` | 补齐 AI 知识库、引导日志、队列通知和问题统计 |
 | Batch 8 | `[ ]` | 补齐代码生成、表单构建器、Swagger 和公共导入导出 |
 | Batch 9 | `[ ]` | 全量接口矩阵、前端菜单检查、init.sql 示例数据补齐、文档打勾 |
-

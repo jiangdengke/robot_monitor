@@ -3,7 +3,7 @@
 已完成的验证：
 
 ```bash
-cd admin_project/backend
+cd backend
 ./gradlew compileJava
 ```
 

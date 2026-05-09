@@ -27,5 +27,5 @@
 ## 备注
 
 - 当前源码不是原始仓库的 1:1 源码恢复，而是基于部署产物和接口行为重建出的可维护 `.vue` 源码。
-- 前端构建已通过：`cd admin_project/frontend && npm run build`。
+- 前端构建已通过：`cd frontend && npm run build`。
 - 前端已配置 Vue 与 Element Plus vendor 分包，构建不再出现默认大 chunk 警告。

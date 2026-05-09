@@ -38,10 +38,12 @@
 
 <script setup>
 import { onMounted, ref } from 'vue'
+import { useRoute } from 'vue-router'
 import { getUserRoleAuth, updateUserRoleAuth } from '@/api/system'
 
+const route = useRoute()
 const rows = ref([])
-const userId = ref(1)
+const userId = ref(Number(route.params.userId || 1))
 const selectedRoles = ref([])
 const errorMessage = ref('')
 const message = ref('')
