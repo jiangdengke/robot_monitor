@@ -1073,6 +1073,7 @@ VALUES
 (4,'航班旅客',0,4,'flight',NULL,NULL,'1','0','M','0','0','','peoples','system',NOW(),''),
 (5,'休息室点餐',0,5,'food',NULL,NULL,'1','0','M','0','0','','food','system',NOW(),''),
 (6,'AI知识库',0,6,'ai',NULL,NULL,'1','0','M','0','0','','documentation','system',NOW(),''),
+(7,'系统工具',0,7,'tool',NULL,NULL,'1','0','M','0','0','','tool','system',NOW(),''),
 
 (100,'用户管理',1,1,'user','system/user/index',NULL,'1','0','C','0','0','system:user:list,system:user:query,system:user:add,system:user:edit,system:user:remove,system:user:resetPwd,system:user:import,system:user:export','user','system',NOW(),''),
 (101,'角色管理',1,2,'role','system/role/index',NULL,'1','0','C','0','0','system:role:list,system:role:query,system:role:add,system:role:edit,system:role:remove,system:role:export','peoples','system',NOW(),''),
@@ -1120,19 +1121,24 @@ VALUES
 (504,'菜单计划',5,5,'foodPlan','foodManagment/foodPlan/index',NULL,'1','0','C','0','0','food:plan:list,food:plan:query,food:plan:add,food:plan:edit,food:plan:remove','calendar','system',NOW(),''),
 
 (600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove','documentation','system',NOW(),''),
-(601,'引导日志',6,2,'log','knowledgeManagment/ai/log/index',NULL,'1','0','C','0','0','ai:log:list,ai:log:query,ai:log:export','log','system',NOW(),'');
+(601,'引导日志',6,2,'log','knowledgeManagment/ai/log/index',NULL,'1','0','C','0','0','ai:log:list,ai:log:query,ai:log:export','log','system',NOW(),''),
+
+(700,'代码生成',7,1,'gen','tool/gen/index',NULL,'1','0','C','0','0','tool:gen:list,tool:gen:query,tool:gen:import,tool:gen:edit,tool:gen:remove,tool:gen:preview,tool:gen:code','code','system',NOW(),''),
+(701,'表单构建',7,2,'build','tool/build/index',NULL,'1','0','C','0','0','tool:build:view','build','system',NOW(),''),
+(702,'Swagger文档',7,3,'swagger','tool/swagger/index',NULL,'1','0','C','0','0','tool:swagger:view','swagger','system',NOW(),'');
 
 INSERT INTO `sys_role_menu` (`role_id`,`menu_id`)
 SELECT 1, menu_id FROM sys_menu;
 
 INSERT INTO `sys_role_menu` (`role_id`,`menu_id`) VALUES
-(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),
+(2,1),(2,2),(2,3),(2,4),(2,5),(2,6),(2,7),
 (2,100),(2,101),(2,102),(2,103),(2,104),(2,105),(2,106),(2,107),
 (2,200),(2,201),(2,202),(2,203),(2,204),
 (2,300),(2,301),(2,302),(2,303),(2,304),(2,305),
 (2,400),(2,401),(2,402),
 (2,500),(2,501),(2,502),
-(2,600),(2,601);
+(2,600),(2,601),
+(2,700),(2,701),(2,702);
 
 INSERT INTO `sys_config`
 (`config_id`,`config_name`,`config_key`,`config_value`,`config_type`,`create_by`,`create_time`,`remark`)
