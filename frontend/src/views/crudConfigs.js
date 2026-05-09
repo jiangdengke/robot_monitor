@@ -8,7 +8,12 @@ import {
   downloadUserImportTemplate,
   exportSystemResource,
   forceLogoutOnlineUser,
+  getDeptExcludeList,
+  getDeptTree,
+  getMenuTree,
   getRoleDeptTree,
+  getRoleMenuTree,
+  getUserCreateOptions,
   importUsers,
   refreshConfigCache,
   refreshDictCache,
@@ -107,6 +112,60 @@ const dataScopeOptions = [
   { label: '仅本人数据权限', value: '5' }
 ]
 
+function buildTree(rows, idKey, parentKey) {
+  const cloned = (rows || []).map((row) => ({ ...row, children: [] }))
+  const map = new Map(cloned.map((row) => [String(row[idKey]), row]))
+  const roots = []
+  cloned.forEach((row) => {
+    const parent = map.get(String(row[parentKey]))
+    if (parent && parent !== row) {
+      parent.children.push(row)
+    } else {
+      roots.push(row)
+    }
+  })
+  return roots.map((row) => trimEmptyChildren(row))
+}
+
+function trimEmptyChildren(row) {
+  if (row.children?.length) {
+    row.children = row.children.map((child) => trimEmptyChildren(child))
+  } else {
+    delete row.children
+  }
+  return row
+}
+
+function optionsFromRows(rows, valueKey, labelKey) {
+  return (rows || []).map((row) => ({ value: row[valueKey], label: row[labelKey] }))
+}
+
+function toDeptTreeSelect(nodes) {
+  return (nodes || []).map((node) => {
+    const item = {
+      id: node.id ?? node.deptId,
+      label: node.label ?? node.deptName
+    }
+    if (node.children?.length) {
+      item.children = toDeptTreeSelect(node.children)
+    }
+    return item
+  })
+}
+
+function filterTreeById(nodes, id) {
+  if (!id) {
+    return nodes || []
+  }
+  return (nodes || [])
+    .filter((node) => String(node.id) !== String(id))
+    .map((node) => ({
+      ...node,
+      children: filterTreeById(node.children || [], id)
+    }))
+    .map((node) => trimEmptyChildren(node))
+}
+
 export const crudPages = {
   user: {
     title: '用户管理',
@@ -116,7 +175,8 @@ export const crudPages = {
     searchFields: [
       { prop: 'userName', label: '账号' },
       { prop: 'nickName', label: '昵称' },
-      { prop: 'phonenumber', label: '手机号' }
+      { prop: 'phonenumber', label: '手机号' },
+      { prop: 'status', label: '状态', type: 'select', options: statusOptions }
     ],
     columns: [
       { prop: 'userId', label: 'ID', width: 90 },
@@ -127,15 +187,25 @@ export const crudPages = {
       { prop: 'email', label: '邮箱', minWidth: 180 },
       switchStatusColumn((row, status) => changeUserStatus(row.userId, status))
     ],
-    formFields: [
-      { prop: 'userName', label: '账号' },
-      { prop: 'nickName', label: '昵称' },
-      { prop: 'phonenumber', label: '手机号' },
-      { prop: 'email', label: '邮箱' },
-      { prop: 'sex', label: '性别', type: 'select', options: [{ label: '男', value: '0' }, { label: '女', value: '1' }, { label: '未知', value: '2' }] },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ],
+    formFields: async (context) => {
+      const response = context.mode === 'edit' ? context.response : await getUserCreateOptions()
+      const roleOptions = optionsFromRows(response?.roles || [], 'roleId', 'roleName')
+      const postOptions = optionsFromRows(response?.posts || [], 'postId', 'postName')
+      const deptResponse = await getDeptTree()
+      return [
+        { prop: 'deptId', label: '归属部门', type: 'tree', options: deptResponse.data || [] },
+        { prop: 'userName', label: '账号' },
+        { prop: 'nickName', label: '昵称' },
+        { prop: 'password', label: '密码', inputType: 'password', hidden: ({ mode }) => mode === 'edit' },
+        { prop: 'phonenumber', label: '手机号' },
+        { prop: 'email', label: '邮箱' },
+        { prop: 'sex', label: '性别', type: 'select', options: [{ label: '男', value: '0' }, { label: '女', value: '1' }, { label: '未知', value: '2' }] },
+        { prop: 'postIds', label: '岗位', type: 'select', multiple: true, options: postOptions },
+        { prop: 'roleIds', label: '角色', type: 'select', multiple: true, options: roleOptions },
+        { prop: 'status', label: '状态', type: 'select', options: statusOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
     defaults: { status: '0', sex: '2', password: '123456' },
     transformDetail: (response, row) => ({
       ...(response.data || row),
@@ -145,6 +215,9 @@ export const crudPages = {
     beforeSubmit: (payload, mode) => {
       if (mode === 'create' && !payload.password) {
         payload.password = '123456'
+      }
+      if (mode === 'edit') {
+        delete payload.password
       }
       return payload
     },
@@ -185,13 +258,17 @@ export const crudPages = {
       switchStatusColumn((row, status) => changeRoleStatus(row.roleId, status)),
       { prop: 'remark', label: '备注', minWidth: 180 }
     ],
-    formFields: [
-      { prop: 'roleName', label: '角色名称' },
-      { prop: 'roleKey', label: '权限标识' },
-      { prop: 'roleSort', label: '排序', type: 'number' },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions },
-      { prop: 'remark', label: '备注', type: 'textarea' }
-    ],
+    formFields: async (context) => {
+      const treeResponse = context.mode === 'edit' ? await getRoleMenuTree(context.row.roleId) : await getMenuTree()
+      return [
+        { prop: 'roleName', label: '角色名称' },
+        { prop: 'roleKey', label: '权限标识' },
+        { prop: 'roleSort', label: '排序', type: 'number' },
+        { prop: 'menuIds', label: '菜单权限', type: 'tree', multiple: true, showCheckbox: true, options: treeResponse.menus || treeResponse.data || [], defaultValue: treeResponse.checkedKeys || [] },
+        { prop: 'status', label: '状态', type: 'select', options: statusOptions },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
     defaults: { status: '0', roleSort: 1, dataScope: '1', menuCheckStrictly: true, deptCheckStrictly: true },
     headerActions: [
       { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/role/export', query, '角色数据.xlsx'), reload: false }
@@ -204,9 +281,10 @@ export const crudPages = {
         promptDefaults: (row) => ({ dataScope: row.dataScope || '1', deptIds: row.deptIds || [] }),
         promptFields: async (row) => {
           const response = await getRoleDeptTree(row.roleId)
+          const checkedKeys = response.checkedKeys || []
           return [
             { prop: 'dataScope', label: '权限范围', type: 'select', options: dataScopeOptions },
-            { prop: 'deptIds', label: '部门权限', type: 'tree', options: response.depts || [] }
+            { prop: 'deptIds', label: '部门权限', type: 'tree', options: response.depts || [], defaultValue: checkedKeys }
           ]
         },
         handler: (row, { form }) => updateRoleDataScope({ ...row, dataScope: form.dataScope, deptIds: form.deptIds || [] })
@@ -225,6 +303,9 @@ export const crudPages = {
     basePath: '/system/dept',
     rowKey: 'deptId',
     pagination: false,
+    treeTable: true,
+    enableBatchDelete: false,
+    transformRows: (rows) => buildTree(rows, 'deptId', 'parentId'),
     searchFields: [{ prop: 'deptName', label: '部门名称' }, { prop: 'status', label: '状态', type: 'select', options: statusOptions }],
     columns: [
       { prop: 'deptId', label: 'ID', width: 90 },
@@ -235,16 +316,24 @@ export const crudPages = {
       { prop: 'roomCode', label: '房间编码', minWidth: 130 },
       statusColumn()
     ],
-    formFields: [
-      { prop: 'parentId', label: '父级 ID', type: 'number' },
-      { prop: 'deptName', label: '部门名称' },
-      { prop: 'orderNum', label: '排序', type: 'number' },
-      { prop: 'leader', label: '负责人' },
-      { prop: 'phone', label: '电话' },
-      { prop: 'email', label: '邮箱' },
-      { prop: 'roomCode', label: '房间编码' },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions }
-    ],
+    formFields: async (context) => {
+      const response = context.mode === 'edit' && context.row?.deptId
+        ? await getDeptExcludeList(context.row.deptId)
+        : await getDeptTree()
+      const deptTree = response.data && !response.data[0]?.label
+        ? toDeptTreeSelect(buildTree(response.data, 'deptId', 'parentId'))
+        : response.data || []
+      return [
+        { prop: 'parentId', label: '上级部门', type: 'tree', options: [{ id: 0, label: '主类目', children: deptTree }] },
+        { prop: 'deptName', label: '部门名称' },
+        { prop: 'orderNum', label: '排序', type: 'number' },
+        { prop: 'leader', label: '负责人' },
+        { prop: 'phone', label: '电话' },
+        { prop: 'email', label: '邮箱' },
+        { prop: 'roomCode', label: '房间编码' },
+        { prop: 'status', label: '状态', type: 'select', options: statusOptions }
+      ]
+    },
     defaults: { parentId: 0, orderNum: 1, status: '0' }
   },
   menu: {
@@ -253,6 +342,9 @@ export const crudPages = {
     basePath: '/system/menu',
     rowKey: 'menuId',
     pagination: false,
+    treeTable: true,
+    enableBatchDelete: false,
+    transformRows: (rows) => buildTree(rows, 'menuId', 'parentId'),
     searchFields: [{ prop: 'menuName', label: '菜单名称' }, { prop: 'status', label: '状态', type: 'select', options: statusOptions }],
     columns: [
       { prop: 'menuId', label: 'ID', width: 90 },
@@ -263,17 +355,23 @@ export const crudPages = {
       { prop: 'menuType', label: '类型', width: 80 },
       { prop: 'perms', label: '权限', minWidth: 180 }
     ],
-    formFields: [
-      { prop: 'parentId', label: '父级 ID', type: 'number' },
-      { prop: 'menuName', label: '菜单名称' },
-      { prop: 'orderNum', label: '排序', type: 'number' },
-      { prop: 'path', label: '路由路径' },
-      { prop: 'component', label: '组件路径' },
-      { prop: 'menuType', label: '菜单类型', type: 'select', options: [{ label: '目录', value: 'M' }, { label: '菜单', value: 'C' }, { label: '按钮', value: 'F' }] },
-      { prop: 'perms', label: '权限标识' },
-      { prop: 'icon', label: '图标' }
-    ],
-    defaults: { parentId: 0, orderNum: 1, menuType: 'C', icon: '#' }
+    formFields: async (context) => {
+      const response = await getMenuTree()
+      const menuTree = filterTreeById(response.data || [], context.row?.menuId)
+      return [
+        { prop: 'parentId', label: '上级菜单', type: 'tree', options: [{ id: 0, label: '主类目', children: menuTree }] },
+        { prop: 'menuName', label: '菜单名称' },
+        { prop: 'orderNum', label: '排序', type: 'number' },
+        { prop: 'path', label: '路由路径' },
+        { prop: 'component', label: '组件路径' },
+        { prop: 'menuType', label: '菜单类型', type: 'radio', options: [{ label: '目录', value: 'M' }, { label: '菜单', value: 'C' }, { label: '按钮', value: 'F' }] },
+        { prop: 'perms', label: '权限标识', hidden: ({ form }) => form.menuType === 'M' },
+        { prop: 'icon', label: '图标', type: 'icon', hidden: ({ form }) => form.menuType === 'F' },
+        { prop: 'visible', label: '显示状态', type: 'select', options: [{ label: '显示', value: '0' }, { label: '隐藏', value: '1' }] },
+        { prop: 'status', label: '菜单状态', type: 'select', options: statusOptions }
+      ]
+    },
+    defaults: { parentId: 0, orderNum: 1, menuType: 'C', icon: '#', visible: '0', status: '0', isFrame: '1', isCache: '0' }
   },
   post: {
     title: '岗位管理',
@@ -296,7 +394,10 @@ export const crudPages = {
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0', postSort: 1 }
+    defaults: { status: '0', postSort: 1 },
+    headerActions: [
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/system/post/export', query, '岗位数据.xlsx'), reload: false }
+    ]
   },
   config: {
     title: '参数设置',
@@ -343,9 +444,10 @@ export const crudPages = {
       { prop: 'noticeTitle', label: '标题' },
       { prop: 'noticeType', label: '类型', type: 'select', options: [{ label: '通知', value: '1' }, { label: '公告', value: '2' }] },
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
-      { prop: 'noticeContent', label: '内容', type: 'textarea' }
+      { prop: 'noticeContent', label: '内容', type: 'textarea', rows: 8 }
     ],
-    defaults: { noticeType: '1', status: '0' }
+    defaults: { noticeType: '1', status: '0' },
+    operationWidth: 210
   },
   dictType: {
     title: '字典类型',
@@ -388,7 +490,9 @@ export const crudPages = {
       { prop: 'dictLabel', label: '标签', minWidth: 150 },
       { prop: 'dictValue', label: '键值', minWidth: 120 },
       { prop: 'dictType', label: '类型', minWidth: 180 },
-      { prop: 'isDefault', label: '默认', width: 90 },
+      { prop: 'cssClass', label: '样式属性', minWidth: 120 },
+      { prop: 'listClass', label: '回显样式', minWidth: 120 },
+      { prop: 'isDefault', label: '默认', width: 90, map: { Y: '是', N: '否' } },
       statusColumn()
     ],
     formFields: [
@@ -396,6 +500,8 @@ export const crudPages = {
       { prop: 'dictLabel', label: '字典标签' },
       { prop: 'dictValue', label: '字典键值' },
       { prop: 'dictSort', label: '排序', type: 'number' },
+      { prop: 'cssClass', label: '样式属性' },
+      { prop: 'listClass', label: '回显样式', type: 'select', options: [{ label: '默认', value: 'default' }, { label: '主要', value: 'primary' }, { label: '成功', value: 'success' }, { label: '信息', value: 'info' }, { label: '警告', value: 'warning' }, { label: '危险', value: 'danger' }] },
       { prop: 'isDefault', label: '默认值', type: 'select', options: yesNoOptions },
       { prop: 'status', label: '状态', type: 'select', options: statusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }

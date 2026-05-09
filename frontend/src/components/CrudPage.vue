@@ -18,6 +18,16 @@
         <el-select v-if="field.type === 'select'" v-model="query[field.prop]" clearable :placeholder="field.placeholder || field.label">
           <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
+        <el-tree-select
+          v-else-if="field.type === 'tree'"
+          v-model="query[field.prop]"
+          :data="field.options || []"
+          :props="field.props || treeSelectProps"
+          :check-strictly="field.checkStrictly ?? true"
+          clearable
+          filterable
+          :placeholder="field.placeholder || field.label"
+        />
         <el-input v-else v-model.trim="query[field.prop]" clearable :placeholder="field.placeholder || field.label" />
       </el-form-item>
       <el-form-item>
@@ -27,7 +37,7 @@
     </el-form>
 
     <div class="table-actions">
-      <el-button v-if="enableDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
+      <el-button v-if="enableDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
       <el-button
         v-for="action in headerActions"
         :key="action.key"
@@ -48,9 +58,11 @@
       stripe
       highlight-current-row
       :row-key="rowKey"
+      :default-expand-all="treeTable"
+      :tree-props="treeProps"
       @selection-change="selectedRows = $event"
     >
-      <el-table-column v-if="enableDelete" type="selection" width="46" />
+      <el-table-column v-if="enableDelete && enableBatchDelete" type="selection" width="46" />
       <el-table-column v-for="column in columns" :key="column.prop" :label="column.label" :min-width="column.minWidth" :width="column.width">
         <template #default="{ row }">
           <el-switch
@@ -107,13 +119,64 @@
 
     <el-dialog v-model="formVisible" :title="formMode === 'create' ? `新增${title}` : `编辑${title}`" width="720px">
       <el-form label-position="top">
-        <el-form-item v-for="field in formFields" :key="field.prop" :label="field.label">
-          <el-select v-if="field.type === 'select'" v-model="form[field.prop]" clearable :placeholder="field.placeholder || field.label">
+        <el-form-item v-for="field in visibleFormFields" :key="field.prop" :label="field.label">
+          <el-select
+            v-if="field.type === 'select'"
+            v-model="form[field.prop]"
+            :multiple="field.multiple"
+            collapse-tags
+            collapse-tags-tooltip
+            clearable
+            :placeholder="field.placeholder || field.label"
+          >
             <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
           </el-select>
           <el-input-number v-else-if="field.type === 'number'" v-model="form[field.prop]" controls-position="right" :min="field.min ?? 0" />
-          <el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="4" :placeholder="field.placeholder || field.label" />
-          <el-input v-else v-model="form[field.prop]" :placeholder="field.placeholder || field.label" />
+          <el-tree-select
+            v-else-if="field.type === 'tree'"
+            v-model="form[field.prop]"
+            :data="field.options || []"
+            :props="field.props || treeSelectProps"
+            :multiple="field.multiple"
+            :show-checkbox="field.showCheckbox ?? field.multiple"
+            :check-strictly="field.checkStrictly ?? true"
+            clearable
+            filterable
+            default-expand-all
+            :placeholder="field.placeholder || field.label"
+          />
+          <el-radio-group v-else-if="field.type === 'radio'" v-model="form[field.prop]">
+            <el-radio v-for="option in field.options || []" :key="option.value" :value="option.value">{{ option.label }}</el-radio>
+          </el-radio-group>
+          <div v-else-if="field.type === 'icon'" class="icon-picker">
+            <el-input v-model="form[field.prop]" :placeholder="field.placeholder || field.label">
+              <template #prepend>
+                <el-icon v-if="form[field.prop] && form[field.prop] !== '#'" class="selected-icon">
+                  <component :is="form[field.prop]" />
+                </el-icon>
+                <span v-else>#</span>
+              </template>
+            </el-input>
+            <el-popover trigger="click" width="360" popper-class="crud-icon-popper">
+              <template #reference>
+                <el-button>选择图标</el-button>
+              </template>
+              <div class="icon-grid">
+                <button
+                  v-for="icon in field.icons || defaultIcons"
+                  :key="icon"
+                  type="button"
+                  :class="{ active: form[field.prop] === icon }"
+                  @click="form[field.prop] = icon"
+                >
+                  <el-icon><component :is="icon" /></el-icon>
+                  <span>{{ icon }}</span>
+                </button>
+              </div>
+            </el-popover>
+          </div>
+          <el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="field.rows || 4" :placeholder="field.placeholder || field.label" />
+          <el-input v-else v-model="form[field.prop]" :type="field.inputType || 'text'" :placeholder="field.placeholder || field.label" />
         </el-form-item>
       </el-form>
       <template #footer>
@@ -188,7 +251,7 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessageBox } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
@@ -207,9 +270,13 @@ const props = defineProps({
   formFields: { type: Array, default: () => [] },
   defaults: { type: Object, default: () => ({}) },
   initialQuery: { type: Object, default: () => ({}) },
+  transformRows: { type: Function, default: null },
+  treeTable: { type: Boolean, default: false },
+  treeProps: { type: Object, default: () => ({ children: 'children', hasChildren: 'hasChildren' }) },
   enableCreate: { type: Boolean, default: true },
   enableEdit: { type: Boolean, default: true },
   enableDelete: { type: Boolean, default: true },
+  enableBatchDelete: { type: Boolean, default: true },
   showDetail: { type: Boolean, default: true },
   pagination: { type: Boolean, default: true },
   createPath: { type: String, default: '' },
@@ -257,6 +324,54 @@ const formMode = ref('create')
 const detail = ref({})
 const form = reactive({})
 const query = reactive({})
+const resolvedFormFields = ref([])
+const treeSelectProps = { value: 'id', label: 'label', children: 'children' }
+const defaultIcons = [
+  'House',
+  'Menu',
+  'Grid',
+  'Setting',
+  'User',
+  'UserFilled',
+  'Avatar',
+  'Lock',
+  'Key',
+  'Tools',
+  'Monitor',
+  'Cpu',
+  'DataLine',
+  'PieChart',
+  'Histogram',
+  'Document',
+  'Tickets',
+  'Folder',
+  'Files',
+  'Bell',
+  'Message',
+  'Picture',
+  'VideoCamera',
+  'Microphone',
+  'Headset',
+  'MapLocation',
+  'Location',
+  'Guide',
+  'Van',
+  'Dish',
+  'ShoppingCart',
+  'Calendar',
+  'Clock',
+  'Search',
+  'Edit',
+  'Delete',
+  'Plus',
+  'UploadFilled',
+  'Download',
+  'Refresh'
+]
+
+const visibleFormFields = computed(() =>
+  resolvedFormFields.value.filter((field) => !field.hidden?.({ form, mode: formMode.value }))
+)
 
 function resetObject(target, value = {}) {
   Object.keys(target).forEach((key) => delete target[key])
@@ -296,8 +411,9 @@ async function loadRows() {
     const payload = props.listPath
       ? await request(props.listPath, { method: props.listMethod, query: params })
       : await listResource(props.basePath, params, props.listMethod)
-    rows.value = normalizeRows(payload)
-    total.value = normalizeTotal(payload)
+    const normalizedRows = normalizeRows(payload)
+    rows.value = props.transformRows ? props.transformRows(normalizedRows) : normalizedRows
+    total.value = props.pagination ? normalizeTotal(payload) : rows.value.length
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
   } finally {
@@ -315,9 +431,29 @@ function resetSearch() {
   handleSearch()
 }
 
-function openCreate() {
+async function resolveFormFields(context = {}) {
+  const fields = typeof props.formFields === 'function' ? await props.formFields(context) : props.formFields
+  resolvedFormFields.value = fields || []
+  applyFieldDefaults(form, resolvedFormFields.value)
+}
+
+function applyFieldDefaults(target, fields) {
+  fields.forEach((field) => {
+    if (field.defaultValue === undefined) {
+      return
+    }
+    const current = target[field.prop]
+    const emptyArray = Array.isArray(current) && current.length === 0
+    if (current === undefined || current === null || current === '' || emptyArray) {
+      target[field.prop] = typeof field.defaultValue === 'function' ? field.defaultValue() : field.defaultValue
+    }
+  })
+}
+
+async function openCreate() {
   formMode.value = 'create'
   resetObject(form, { ...props.defaults })
+  await resolveFormFields({ mode: 'create', row: null, response: null, form: { ...form } })
   formVisible.value = true
 }
 
@@ -326,11 +462,13 @@ async function openEdit(row) {
   errorMessage.value = ''
   try {
     const response = await getResource(props.basePath, row[props.rowKey])
-    const detailData = props.transformDetail ? props.transformDetail(response, row) : (response.data || row)
+    const detailData = props.transformDetail ? await props.transformDetail(response, row) : (response.data || row)
     resetObject(form, { ...props.defaults, ...detailData })
+    await resolveFormFields({ mode: 'edit', row, response, form: { ...form } })
     formVisible.value = true
   } catch (error) {
     resetObject(form, { ...props.defaults, ...row })
+    await resolveFormFields({ mode: 'edit', row, response: null, form: { ...form } })
     formVisible.value = true
   }
 }
@@ -405,6 +543,7 @@ async function runRowAction(action, row) {
       promptTitle.value = action.promptTitle || action.label
       promptFields.value = await resolvePromptFields(action, row)
       resetObject(promptForm, typeof action.promptDefaults === 'function' ? action.promptDefaults(row) : { ...(action.promptDefaults || {}) })
+      applyFieldDefaults(promptForm, promptFields.value)
       pendingPromptAction.value = action
       pendingPromptRow.value = row
       promptVisible.value = true
@@ -528,4 +667,42 @@ onMounted(() => {
 .message-alert { margin-top: 16px; }
 .table-image { width: 56px; height: 40px; border-radius: 6px; }
 .import-check { margin-top: 14px; }
+.icon-picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 10px;
+}
+.selected-icon {
+  vertical-align: middle;
+}
+.icon-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  max-height: 320px;
+  overflow: auto;
+}
+.icon-grid button {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  padding: 8px;
+  border: 1px solid var(--el-border-color);
+  border-radius: 8px;
+  background: var(--el-bg-color);
+  color: var(--el-text-color-regular);
+  cursor: pointer;
+}
+.icon-grid button:hover,
+.icon-grid button.active {
+  border-color: var(--el-color-primary);
+  color: var(--el-color-primary);
+  background: var(--el-color-primary-light-9);
+}
+.icon-grid span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 </style>

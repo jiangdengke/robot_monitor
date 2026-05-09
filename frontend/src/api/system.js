@@ -288,6 +288,22 @@ export const getDigitalTwinAll = (query = {}) =>
 
 export const getRoomList = () => request('/system/dept/roomList')
 
+export const getDeptTree = (query = {}) =>
+  request('/system/dept/treeselect', {
+    query
+  })
+
+export const getDeptExcludeList = (deptId) => request(`/system/dept/list/exclude/${deptId}`)
+
+export const getMenuTree = (query = {}) =>
+  request('/system/menu/treeselect', {
+    query
+  })
+
+export const getUserCreateOptions = () => request('/system/user/')
+
+export const getRoleMenuTree = (roleId) => request(`/system/menu/roleMenuTreeselect/${roleId}`)
+
 export const listUnallocatedUsers = (query = {}) =>
   request('/system/role/authUser/unallocatedList', {
     query
