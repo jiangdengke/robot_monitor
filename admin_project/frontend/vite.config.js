@@ -18,5 +18,16 @@ export default defineConfig({
         changeOrigin: true
       }
     }
+  },
+  build: {
+    chunkSizeWarningLimit: 1200,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vue: ['vue', 'vue-router'],
+          element: ['element-plus', '@element-plus/icons-vue']
+        }
+      }
+    }
   }
 })
