@@ -341,17 +341,41 @@ public abstract class GenericJooqCrudSupport<T> {
         if ((propertyType == Long.class || propertyType == long.class) && value instanceof Number number) {
             return number.longValue();
         }
+        if ((propertyType == Long.class || propertyType == long.class) && value instanceof String text && !isBlank(text)) {
+            return Long.valueOf(text);
+        }
         if ((propertyType == Integer.class || propertyType == int.class) && value instanceof Number number) {
             return number.intValue();
+        }
+        if ((propertyType == Integer.class || propertyType == int.class) && value instanceof String text && !isBlank(text)) {
+            return Integer.valueOf(text);
         }
         if ((propertyType == Double.class || propertyType == double.class) && value instanceof Number number) {
             return number.doubleValue();
         }
+        if ((propertyType == Double.class || propertyType == double.class) && value instanceof String text && !isBlank(text)) {
+            return Double.valueOf(text);
+        }
         if ((propertyType == BigDecimal.class) && value instanceof Number number) {
             return BigDecimal.valueOf(number.doubleValue());
         }
+        if ((propertyType == BigDecimal.class) && value instanceof String text && !isBlank(text)) {
+            return new BigDecimal(text);
+        }
         if ((propertyType == BigInteger.class) && value instanceof Number number) {
             return BigInteger.valueOf(number.longValue());
+        }
+        if ((propertyType == BigInteger.class) && value instanceof String text && !isBlank(text)) {
+            return new BigInteger(text);
+        }
+        if ((propertyType == Boolean.class || propertyType == boolean.class) && value instanceof Boolean bool) {
+            return bool;
+        }
+        if ((propertyType == Boolean.class || propertyType == boolean.class) && value instanceof Number number) {
+            return number.intValue() != 0;
+        }
+        if ((propertyType == Boolean.class || propertyType == boolean.class) && value instanceof String text && !isBlank(text)) {
+            return "1".equals(text) || "true".equalsIgnoreCase(text) || "yes".equalsIgnoreCase(text);
         }
         if (propertyType == String.class) {
             if (value instanceof LocalDateTime dateTime) {

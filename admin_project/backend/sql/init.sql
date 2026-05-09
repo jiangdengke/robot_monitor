@@ -523,6 +523,7 @@ CREATE TABLE `config_robot` (
   `img_ids` varchar(255) DEFAULT '',
   `audit_keys` varchar(255) DEFAULT '',
   `employee_no` varchar(64) DEFAULT '',
+  `account_id` varchar(64) DEFAULT '',
   `ori_coordinate` text,
   `admin_mode` char(1) DEFAULT '0',
   PRIMARY KEY (`id`),
@@ -1253,9 +1254,9 @@ VALUES
 (2,'A02',2,'PEK2DX1','1','seed','system',NOW(),1,'[[116.4076,39.9044]]','0');
 
 INSERT INTO `config_robot`
-(`id`,`robot_id`,`robot_name`,`mac`,`robot_ip`,`charging_state`,`working_state`,`standby_state`,`positioning_state`,`region_id`,`battery_state`,`network`,`robot_error`,`error_messages`,`robot_type`,`belonged_company`,`enable`,`remark`,`create_by`,`create_time`,`room_code`,`task_id`,`task_status`,`is_delete`,`img_ids`,`audit_keys`,`employee_no`,`ori_coordinate`,`admin_mode`)
+(`id`,`robot_id`,`robot_name`,`mac`,`robot_ip`,`charging_state`,`working_state`,`standby_state`,`positioning_state`,`region_id`,`battery_state`,`network`,`robot_error`,`error_messages`,`robot_type`,`belonged_company`,`enable`,`remark`,`create_by`,`create_time`,`room_code`,`task_id`,`task_status`,`is_delete`,`img_ids`,`audit_keys`,`employee_no`,`account_id`,`ori_coordinate`,`admin_mode`)
 VALUES
-(1,'robot-001','贵宾室机器人01','00:11:22:33:44:55','127.0.0.1','idle','standby','1','1',1,85,1,'0','','多功能机器人','国航','1','演示机器人','system',NOW(),'PEK2DX1',NULL,'IDLE','0','1','','EMP001','[[116.4074,39.9042]]','0');
+(1,'robot-001','贵宾室机器人01','00:11:22:33:44:55','127.0.0.1','idle','standby','1','1',1,85,1,'0','','多功能机器人','国航','1','演示机器人','system',NOW(),'PEK2DX1',NULL,'IDLE','0','1','','EMP001','ACC001','[[116.4074,39.9042]]','0');
 
 INSERT INTO `config_task`
 (`id`,`task_name`,`robot_id`,`command`,`command_cn`,`region`,`priority`,`enable`,`execute_type`,`execute_day`,`execute_time`,`is_return`,`remark`,`create_by`,`create_time`,`room_code`,`is_delete`,`img_ids`,`audit_ids`,`task_type`,`task_subtype`,`task_mode`,`direct_execution`)
