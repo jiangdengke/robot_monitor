@@ -148,6 +148,9 @@ public abstract class GenericJooqCrudSupport<T> {
         try {
             T entity = domainType.getDeclaredConstructor().newInstance();
             for (TableField<?, ?> field : fields.values()) {
+                if (record.field(field) == null) {
+                    continue;
+                }
                 setProperty(entity, propertyName(field), convertForProperty(record.get(field), propertyType(propertyName(field))));
             }
             return entity;
