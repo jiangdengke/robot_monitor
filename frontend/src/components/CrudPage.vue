@@ -8,7 +8,7 @@
         </div>
         <div class="header-actions">
           <el-button @click="loadRows">刷新</el-button>
-          <el-button v-if="enableCreate" type="primary" @click="openCreate">新增</el-button>
+          <el-button v-if="canCreate" type="primary" @click="openCreate">新增</el-button>
         </div>
       </div>
     </template>
@@ -46,9 +46,9 @@
     </el-form>
 
     <div class="table-actions">
-      <el-button v-if="enableDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
+      <el-button v-if="canDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
       <el-button
-        v-for="action in headerActions"
+        v-for="action in visibleHeaderActions"
         :key="action.key"
         :type="action.type || 'default'"
         :disabled="action.disabled?.({ selectedRows, query, rows })"
@@ -71,7 +71,7 @@
       :tree-props="treeProps"
       @selection-change="selectedRows = $event"
     >
-      <el-table-column v-if="enableDelete && enableBatchDelete" type="selection" width="46" />
+      <el-table-column v-if="canDelete && enableBatchDelete" type="selection" width="46" />
       <el-table-column v-for="column in columns" :key="column.prop" :label="column.label" :min-width="column.minWidth" :width="column.width">
         <template #default="{ row }">
           <el-switch
@@ -97,9 +97,9 @@
       <el-table-column v-if="enableEdit || enableDelete || showDetail || rowActions.length" label="操作" fixed="right" :width="operationWidth">
         <template #default="{ row }">
           <el-button v-if="showDetail" link type="primary" @click="openDetail(row)">详情</el-button>
-          <el-button v-if="enableEdit" link type="primary" @click="openEdit(row)">编辑</el-button>
+          <el-button v-if="canEdit" link type="primary" @click="openEdit(row)">编辑</el-button>
           <el-button
-            v-for="action in rowActions"
+            v-for="action in visibleRowActions"
             :key="action.key"
             link
             :type="action.type || 'primary'"
@@ -108,7 +108,7 @@
           >
             {{ action.label }}
           </el-button>
-          <el-button v-if="enableDelete" link type="danger" @click="deleteOne(row)">删除</el-button>
+          <el-button v-if="canDelete" link type="danger" @click="deleteOne(row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -323,6 +323,8 @@ import { ElMessageBox } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { createResource, deleteResource, getResource, listResource, normalizeRows, normalizeTotal, updateResource, uploadFiles } from '@/api/crud'
 import { request } from '@/api/http'
+import { loadDictOptions, resolveDictLabel, resolveDictTagType } from '@/utils/dict'
+import { hasAnyPermission } from '@/utils/permission'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -360,6 +362,7 @@ const props = defineProps({
   rowActions: { type: Array, default: () => [] },
   detailTables: { type: Array, default: () => [] },
   importAction: { type: Function, default: null },
+  permissions: { type: Object, default: () => ({}) },
   operationWidth: { type: Number, default: 260 },
   beforeSubmit: { type: Function, default: null },
   transformDetail: { type: Function, default: null }
@@ -443,6 +446,11 @@ const defaultIcons = [
 const visibleFormFields = computed(() =>
   resolvedFormFields.value.filter((field) => !field.hidden?.({ form, mode: formMode.value }))
 )
+const canCreate = computed(() => props.enableCreate && canAction('add'))
+const canEdit = computed(() => props.enableEdit && canAction('edit'))
+const canDelete = computed(() => props.enableDelete && canAction('remove'))
+const visibleHeaderActions = computed(() => props.headerActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
+const visibleRowActions = computed(() => props.rowActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
 
 function resetObject(target, value = {}) {
   Object.keys(target).forEach((key) => delete target[key])
@@ -459,6 +467,9 @@ function getRawValue(row, column) {
 
 function displayValue(row, column) {
   const raw = getRawValue(row, column)
+  if (column.dictOptions) {
+    return resolveDictLabel(column.dictOptions, raw)
+  }
   if (column.formatter) {
     return column.formatter(raw, row)
   }
@@ -475,7 +486,24 @@ function displayImageValue(row, column) {
 
 function resolveTagType(column, row) {
   const raw = column.prop.includes('.') ? getByPath(row, column.prop) : row?.[column.prop]
+  if (column.dictOptions) {
+    return resolveDictTagType(column.dictOptions, raw)
+  }
   return column.tagMap?.[String(raw)] || column.tag || 'info'
+}
+
+function canAction(action, permissions = null) {
+  const values = permissions || props.permissions?.[action]
+  return !values || hasAnyPermission(Array.isArray(values) ? values : [values])
+}
+
+async function hydrateDictColumns() {
+  const dictColumns = props.columns.filter((column) => column.dictType && !column.dictOptions)
+  if (!dictColumns.length) return
+  await Promise.all(dictColumns.map(async (column) => {
+    column.dictOptions = await loadDictOptions(column.dictType)
+    column.tag = column.tag || 'info'
+  }))
 }
 
 async function loadRows() {
@@ -796,7 +824,7 @@ async function submitImport() {
 
 onMounted(() => {
   resetObject(query, props.initialQuery)
-  loadRows()
+  hydrateDictColumns().finally(loadRows)
 })
 </script>
 

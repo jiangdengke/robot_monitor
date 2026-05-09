@@ -1,14 +1,15 @@
+import { reactive } from 'vue'
 import { getToken, setToken } from '@/api/http'
 import { getRouters, getUserInfo, login as loginRequest } from '@/api/system'
 
-const sessionState = {
+const sessionState = reactive({
   token: getToken(),
   user: null,
   roles: [],
   permissions: [],
   roomList: [],
   routers: []
-}
+})
 
 async function login(payload) {
   const response = await loginRequest(payload)

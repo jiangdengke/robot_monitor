@@ -5,6 +5,7 @@ import 'element-plus/dist/index.css'
 import App from './App.vue'
 import router from './router'
 import './assets/styles.css'
+import { installPermissionDirective } from './utils/permission'
 
 const app = createApp(App)
 
@@ -12,4 +13,5 @@ Object.entries(ElementPlusIconsVue).forEach(([name, component]) => {
   app.component(name, component)
 })
 
+installPermissionDirective(app)
 app.use(router).use(ElementPlus).mount('#app')

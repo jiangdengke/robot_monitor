@@ -473,8 +473,8 @@ export const getDictTypeOptions = () => request('/system/dict/type/optionselect'
 export const getDictDataByType = (dictType) => request(`/system/dict/data/type/${dictType}`)
 
 export const exportSystemResource = (path, query = {}, fileName = '导出数据.xlsx') =>
-  downloadFile(path, {
+  downloadFile('/common/export', {
     method: 'POST',
-    query,
-    fileName
+    query: { ...query, sourcePath: path },
+    fileName: fileName.replace(/\.xlsx$/i, '.csv')
   })

@@ -211,6 +211,7 @@ const statusColumn = (prop = 'status') => ({
   prop,
   label: '状态',
   width: 100,
+  dictType: 'sys_normal_disable',
   tag: 'info',
   tagMap: { 0: 'success', 1: 'danger' },
   map: { 0: '正常', 1: '停用' }
@@ -1772,5 +1773,101 @@ export const crudPages = {
 }
 
 export function getCrudPage(key) {
-  return crudPages[key]
+  const page = crudPages[key]
+  if (!page) {
+    return page
+  }
+  const prefix = page.permissionPrefix || permissionPrefixMap[key] || inferPermissionPrefix(page.basePath)
+  return {
+    ...page,
+    permissions: {
+      ...buildCrudPermissions(prefix),
+      ...(page.permissions || {})
+    }
+  }
+}
+
+const permissionPrefixMap = {
+  user: 'system:user',
+  role: 'system:role',
+  menu: 'system:menu',
+  dept: 'system:dept',
+  post: 'system:post',
+  config: 'system:config',
+  notice: 'system:notice',
+  dictType: 'system:dict',
+  dictData: 'system:dict',
+  robot: 'config:robot',
+  region: 'config:region',
+  image: 'config:photo',
+  audio: 'config:audio',
+  area: 'config:area',
+  device: 'config:device',
+  table: 'config:table',
+  task: 'config:task',
+  complaint: 'flight:complaint',
+  msg: 'config:msg',
+  foodConfig: 'food:config',
+  foodDaily: 'food:daily',
+  foodPlan: 'food:plan',
+  foodOrder: 'food:order',
+  passenger: 'system:passenger',
+  passengerAll: 'system:passenger',
+  outgoingPassenger: 'flight:outGoing',
+  flightInfo: 'flight:info',
+  passengerWarning: 'flight:warning',
+  online: 'monitor:online',
+  logininfor: 'monitor:logininfor',
+  operlog: 'monitor:operlog',
+  job: 'monitor:job',
+  jobLog: 'monitor:job'
+}
+
+const actionPermissionMap = {
+  add: 'add',
+  create: 'add',
+  edit: 'edit',
+  update: 'edit',
+  remove: 'remove',
+  delete: 'remove',
+  export: 'export',
+  import: 'import',
+  template: 'import',
+  resetPwd: 'resetPwd',
+  authRole: 'edit',
+  dataScope: 'edit',
+  authUser: 'edit',
+  bindRegion: 'edit',
+  clearRegion: 'edit',
+  run: 'edit',
+  receive: 'edit',
+  finish: 'edit',
+  cancel: 'edit',
+  checkout: 'edit',
+  forceLogout: 'forceLogout',
+  unlock: 'remove',
+  clean: 'remove',
+  log: 'query',
+  data: 'query',
+  close: null
+}
+
+function buildCrudPermissions(prefix) {
+  if (!prefix) {
+    return {}
+  }
+  return Object.entries(actionPermissionMap).reduce((permissions, [action, suffix]) => {
+    if (suffix) {
+      permissions[action] = `${prefix}:${suffix}`
+    }
+    return permissions
+  }, {})
+}
+
+function inferPermissionPrefix(basePath = '') {
+  const segments = basePath.split('/').filter(Boolean)
+  if (segments.length < 2) {
+    return ''
+  }
+  return `${segments[0]}:${segments[1]}`
 }

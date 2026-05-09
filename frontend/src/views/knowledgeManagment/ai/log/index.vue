@@ -6,7 +6,10 @@
           <h1>引导日志</h1>
           <p>查询 `/ai/log/infoList`，展示机器人、贵宾室、区域和坐标引导记录。</p>
         </div>
-        <el-button type="primary" :loading="loading" @click="loadRows">刷新</el-button>
+        <div class="header-actions">
+          <el-button type="primary" :loading="loading" @click="loadRows">刷新</el-button>
+          <el-button v-if="hasPermission('ai:log:export')" @click="exportRows">导出</el-button>
+        </div>
       </div>
     </template>
 
@@ -67,8 +70,9 @@
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
-import { getRoomList } from '@/api/system'
+import { exportSystemResource, getRoomList } from '@/api/system'
 import { request } from '@/api/http'
+import { hasPermission } from '@/utils/permission'
 
 const rows = ref([])
 const roomList = ref([])
@@ -110,6 +114,15 @@ function resetQuery() {
   loadRows()
 }
 
+function exportRows() {
+  exportSystemResource('/ai/log/export', {
+    robotName: query.robotName,
+    roomCode: query.roomCode,
+    startTime: range.value?.[0],
+    endTime: range.value?.[1]
+  }, '引导日志.xlsx')
+}
+
 onMounted(async () => {
   const roomResponse = await getRoomList()
   roomList.value = roomResponse.data || []
@@ -122,6 +135,7 @@ onMounted(async () => {
 .page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
 .page-header h1 { margin: 0; font-size: 28px; }
 .page-header p { margin: 8px 0 0; color: var(--text-soft); }
+.header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 .toolbar { margin-bottom: 16px; }
 .room-select { width: 220px; }
 .summary-row { margin-bottom: 16px; }

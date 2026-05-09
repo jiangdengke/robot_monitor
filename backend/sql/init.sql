@@ -1120,7 +1120,7 @@ VALUES
 (503,'桌台视图',5,4,'foodTable','foodManagment/foodTable/index',NULL,'1','0','C','0','0','food:table:list','table','system',NOW(),''),
 (504,'菜单计划',5,5,'foodPlan','foodManagment/foodPlan/index',NULL,'1','0','C','0','0','food:plan:list,food:plan:query,food:plan:add,food:plan:edit,food:plan:remove','calendar','system',NOW(),''),
 
-(600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove','documentation','system',NOW(),''),
+(600,'知识库管理',6,1,'knowledge','knowledgeManagment/ai/knowledge/index',NULL,'1','0','C','0','0','ai:knowledge:list,ai:knowledge:query,ai:knowledge:add,ai:knowledge:edit,ai:knowledge:remove,ai:knowledge:embedding,ai:queue:notice','documentation','system',NOW(),''),
 (601,'引导日志',6,2,'log','knowledgeManagment/ai/log/index',NULL,'1','0','C','0','0','ai:log:list,ai:log:query,ai:log:export','log','system',NOW(),''),
 
 (700,'代码生成',7,1,'gen','tool/gen/index',NULL,'1','0','C','0','0','tool:gen:list,tool:gen:query,tool:gen:import,tool:gen:edit,tool:gen:remove,tool:gen:preview,tool:gen:code','code','system',NOW(),''),

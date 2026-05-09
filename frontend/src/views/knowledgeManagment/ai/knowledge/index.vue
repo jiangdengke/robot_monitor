@@ -14,12 +14,12 @@
       <el-card shadow="never" class="table-panel">
         <template #header>
           <div class="toolbar">
-            <el-button type="primary" @click="createDraft">新增草稿</el-button>
-            <el-button type="success" :disabled="!selectedId" @click="enableSelected">启用</el-button>
-            <el-button type="warning" :disabled="!selectedId" @click="disableSelected">禁用</el-button>
-            <el-button :disabled="!selectedId" @click="embeddingSelected">向量化</el-button>
-            <el-button :disabled="!selectedId" @click="queueNotice">队列通知</el-button>
-            <el-button type="danger" :disabled="!selectedId" @click="deleteSelected">删除</el-button>
+            <el-button v-if="canAdd" type="primary" @click="createDraft">新增草稿</el-button>
+            <el-button v-if="canEdit" type="success" :disabled="!selectedId" @click="enableSelected">启用</el-button>
+            <el-button v-if="canEdit" type="warning" :disabled="!selectedId" @click="disableSelected">禁用</el-button>
+            <el-button v-if="canEmbedding" :disabled="!selectedId" @click="embeddingSelected">向量化</el-button>
+            <el-button v-if="canQueueNotice" :disabled="!selectedId" @click="queueNotice">队列通知</el-button>
+            <el-button v-if="canRemove" type="danger" :disabled="!selectedId" @click="deleteSelected">删除</el-button>
           </div>
         </template>
         <el-form inline class="search-form" @submit.prevent="loadRows">
@@ -93,7 +93,7 @@
           <el-form-item label="备注">
             <el-input v-model="draft.remark" type="textarea" :rows="3" placeholder="备注" />
           </el-form-item>
-          <el-button type="primary" @click="saveDraft">保存</el-button>
+          <el-button v-if="selectedId ? canEdit : canAdd" type="primary" @click="saveDraft">保存</el-button>
         </el-form>
       </el-card>
     </div>
@@ -104,9 +104,10 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { computed, onMounted, reactive, ref } from 'vue'
 import { request } from '@/api/http'
 import { addKnowledge, deleteKnowledge, disableKnowledge, editKnowledge, embeddingKnowledge, enableKnowledge, getKnowledgeDetail } from '@/api/system'
+import { hasPermission } from '@/utils/permission'
 
 const rows = ref([])
 const detail = ref(null)
@@ -116,6 +117,11 @@ const query = reactive({ source: '', type: '', enable: '' })
 const errorMessage = ref('')
 const message = ref('')
 const loading = ref(false)
+const canAdd = computed(() => hasPermission('ai:knowledge:add'))
+const canEdit = computed(() => hasPermission('ai:knowledge:edit'))
+const canRemove = computed(() => hasPermission('ai:knowledge:remove'))
+const canEmbedding = computed(() => hasPermission('ai:knowledge:embedding'))
+const canQueueNotice = computed(() => hasPermission('ai:queue:notice'))
 
 async function loadRows() {
   errorMessage.value = ''
