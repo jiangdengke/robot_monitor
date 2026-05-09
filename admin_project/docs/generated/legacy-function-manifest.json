@@ -1,0 +1,2399 @@
+{
+  "generatedAt": "2026-05-09T05:50:09.366Z",
+  "source": "admin_project/frontend/legacy-dist/static/js",
+  "note": "从原部署包 JS chunk 提取，作为功能补齐和验收对照清单。",
+  "endpoints": [
+    {
+      "path": "/DigitalTwin/errorInspection",
+      "chunks": [
+        "digitalTwin-CkcSUkXs.js"
+      ]
+    },
+    {
+      "path": "/DigitalTwin/getAll",
+      "chunks": [
+        "digitalTwin-CkcSUkXs.js"
+      ]
+    },
+    {
+      "path": "/DigitalTwin/handleInspection",
+      "chunks": [
+        "digitalTwin-CkcSUkXs.js"
+      ]
+    },
+    {
+      "path": "/DigitalTwin/humanRemind",
+      "chunks": [
+        "digitalTwin-CkcSUkXs.js"
+      ]
+    },
+    {
+      "path": "/DigitalTwin/notifyCustomer",
+      "chunks": [
+        "digitalTwin-CkcSUkXs.js"
+      ]
+    },
+    {
+      "path": "/ai/knowledge",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "path": "/ai/knowledge/",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "path": "/ai/knowledge/list",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "path": "/ai/log/infoList",
+      "chunks": [
+        "index-DCSuvYkk.js"
+      ]
+    },
+    {
+      "path": "/ai/queue/notice",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/api/common/upload",
+      "chunks": [
+        "index-C3XJh-jK.js",
+        "index-CjQox60l.js"
+      ]
+    },
+    {
+      "path": "/api/rest/image/config/",
+      "chunks": [
+        "index-B0btmxAk.js",
+        "index-tc7rdvgH.js"
+      ]
+    },
+    {
+      "path": "/api/system/user/importData",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "path": "/common/download/resource?resource=",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/common/download?fileName=",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/common/upload",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/config/area",
+      "chunks": [
+        "areaManagment-BcaW8yDq.js"
+      ]
+    },
+    {
+      "path": "/config/area/",
+      "chunks": [
+        "areaManagment-BcaW8yDq.js"
+      ]
+    },
+    {
+      "path": "/config/area/list",
+      "chunks": [
+        "areaManagment-BcaW8yDq.js"
+      ]
+    },
+    {
+      "path": "/config/audio",
+      "chunks": [
+        "vedio-GroKhKtW.js"
+      ]
+    },
+    {
+      "path": "/config/audio/",
+      "chunks": [
+        "vedio-GroKhKtW.js"
+      ]
+    },
+    {
+      "path": "/config/audio/list",
+      "chunks": [
+        "vedio-GroKhKtW.js"
+      ]
+    },
+    {
+      "path": "/config/device",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/device/",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/device/list",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/deviceregion",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/deviceregion/",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/deviceregion/list/",
+      "chunks": [
+        "monitorDevice-si6zug0K.js"
+      ]
+    },
+    {
+      "path": "/config/img",
+      "chunks": [
+        "photo-DLtYKqvp.js"
+      ]
+    },
+    {
+      "path": "/config/img/",
+      "chunks": [
+        "photo-DLtYKqvp.js"
+      ]
+    },
+    {
+      "path": "/config/img/list?imgName=",
+      "chunks": [
+        "photo-DLtYKqvp.js"
+      ]
+    },
+    {
+      "path": "/config/region",
+      "chunks": [
+        "vipRoomRegion-D0UnrD92.js"
+      ]
+    },
+    {
+      "path": "/config/region/",
+      "chunks": [
+        "vipRoomRegion-D0UnrD92.js"
+      ]
+    },
+    {
+      "path": "/config/region/list?regionName=",
+      "chunks": [
+        "vipRoomRegion-D0UnrD92.js"
+      ]
+    },
+    {
+      "path": "/config/robot",
+      "chunks": [
+        "robot-BmpD3MBH.js"
+      ]
+    },
+    {
+      "path": "/config/robot/",
+      "chunks": [
+        "robot-BmpD3MBH.js"
+      ]
+    },
+    {
+      "path": "/config/robot/list",
+      "chunks": [
+        "robot-BmpD3MBH.js"
+      ]
+    },
+    {
+      "path": "/config/robotAudio",
+      "chunks": [
+        "index-BUHm5ZU4.js"
+      ]
+    },
+    {
+      "path": "/config/robotAudio/",
+      "chunks": [
+        "index-BUHm5ZU4.js"
+      ]
+    },
+    {
+      "path": "/config/robotAudio/list",
+      "chunks": [
+        "index-BUHm5ZU4.js"
+      ]
+    },
+    {
+      "path": "/config/table",
+      "chunks": [
+        "index-Ddhj3ChR.js"
+      ]
+    },
+    {
+      "path": "/config/table/",
+      "chunks": [
+        "index-Ddhj3ChR.js"
+      ]
+    },
+    {
+      "path": "/config/table/list",
+      "chunks": [
+        "index-Ddhj3ChR.js"
+      ]
+    },
+    {
+      "path": "/config/task",
+      "chunks": [
+        "index-DhZQX7K4.js"
+      ]
+    },
+    {
+      "path": "/config/task/",
+      "chunks": [
+        "index-DhZQX7K4.js"
+      ]
+    },
+    {
+      "path": "/config/task/list",
+      "chunks": [
+        "index-DhZQX7K4.js"
+      ]
+    },
+    {
+      "path": "/config/task/run/",
+      "chunks": [
+        "index-DhZQX7K4.js"
+      ]
+    },
+    {
+      "path": "/flight/complaint",
+      "chunks": [
+        "index-DFzVjZm_.js"
+      ]
+    },
+    {
+      "path": "/flight/complaint/",
+      "chunks": [
+        "index-DFzVjZm_.js"
+      ]
+    },
+    {
+      "path": "/flight/complaint/list?userName=",
+      "chunks": [
+        "index-DFzVjZm_.js"
+      ]
+    },
+    {
+      "path": "/flight/flightinfo/list",
+      "chunks": [
+        "find-BYj3tu62.js"
+      ]
+    },
+    {
+      "path": "/flight/passenger/inLoungeList",
+      "chunks": [
+        "find-BYj3tu62.js",
+        "index-CTcd37QU.js"
+      ]
+    },
+    {
+      "path": "/flight/passenger/outgoingList?userName=",
+      "chunks": [
+        "index-DhpJs23b.js"
+      ]
+    },
+    {
+      "path": "/flight/passenger/statisticsByInType",
+      "chunks": [
+        "index-DoTCjTMx.js"
+      ]
+    },
+    {
+      "path": "/flight/passengerWarningLog/list",
+      "chunks": [
+        "index-CBjK25hH.js"
+      ]
+    },
+    {
+      "path": "/food/deleteFoodConfigByFoodIds",
+      "chunks": [
+        "food-DYiomgJZ.js"
+      ]
+    },
+    {
+      "path": "/food/deleteFoodPlan",
+      "chunks": [
+        "index-CEb3Htqa.js"
+      ]
+    },
+    {
+      "path": "/food/getFoodPlanById",
+      "chunks": [
+        "index-CEb3Htqa.js"
+      ]
+    },
+    {
+      "path": "/food/insertFoodConfig",
+      "chunks": [
+        "food-DYiomgJZ.js"
+      ]
+    },
+    {
+      "path": "/food/insertFoodDaily",
+      "chunks": [
+        "index-DUutCTNR.js"
+      ]
+    },
+    {
+      "path": "/food/insertFoodPlan",
+      "chunks": [
+        "index-CEb3Htqa.js"
+      ]
+    },
+    {
+      "path": "/food/selectFoodConfigList?name=",
+      "chunks": [
+        "food-DYiomgJZ.js"
+      ]
+    },
+    {
+      "path": "/food/selectFoodDaily",
+      "chunks": [
+        "index-DUutCTNR.js"
+      ]
+    },
+    {
+      "path": "/food/selectFoodPlanList?name=",
+      "chunks": [
+        "index-CEb3Htqa.js"
+      ]
+    },
+    {
+      "path": "/food/updateFoodConfig",
+      "chunks": [
+        "food-DYiomgJZ.js"
+      ]
+    },
+    {
+      "path": "/food/updateFoodDaily",
+      "chunks": [
+        "index-DUutCTNR.js"
+      ]
+    },
+    {
+      "path": "/food/updateFoodPlan",
+      "chunks": [
+        "index-CEb3Htqa.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/clearCacheAll",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/clearCacheKey/",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/clearCacheName/",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/getKeys/",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/getNames",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/cache/getValue/",
+      "chunks": [
+        "cache-C1uKi1WF.js"
+      ]
+    },
+    {
+      "path": "/monitor/job",
+      "chunks": [
+        "index-C3XJh-jK.js",
+        "job-BEzJ9WLt.js",
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "path": "/monitor/job-log",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/monitor/job-log/index/",
+      "chunks": [
+        "index-C5m0AMYu.js"
+      ]
+    },
+    {
+      "path": "/monitor/job/",
+      "chunks": [
+        "job-BEzJ9WLt.js"
+      ]
+    },
+    {
+      "path": "/monitor/job/changeStatus",
+      "chunks": [
+        "job-BEzJ9WLt.js"
+      ]
+    },
+    {
+      "path": "/monitor/job/list",
+      "chunks": [
+        "job-BEzJ9WLt.js"
+      ]
+    },
+    {
+      "path": "/monitor/job/run",
+      "chunks": [
+        "job-BEzJ9WLt.js"
+      ]
+    },
+    {
+      "path": "/monitor/jobLog/",
+      "chunks": [
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "path": "/monitor/jobLog/clean",
+      "chunks": [
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "path": "/monitor/jobLog/list",
+      "chunks": [
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "path": "/monitor/logininfor/",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "path": "/monitor/logininfor/clean",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "path": "/monitor/logininfor/list",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "path": "/monitor/logininfor/unlock/",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "path": "/monitor/online/",
+      "chunks": [
+        "index-8grvndDu.js"
+      ]
+    },
+    {
+      "path": "/monitor/online/list",
+      "chunks": [
+        "index-8grvndDu.js"
+      ]
+    },
+    {
+      "path": "/monitor/operlog/",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "path": "/monitor/operlog/clean",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "path": "/monitor/operlog/list",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "path": "/monitor/server",
+      "chunks": [
+        "index-CM_O2-cP.js"
+      ]
+    },
+    {
+      "path": "/numberModel/hdky.glb",
+      "chunks": [
+        "index-DUF3163l.js"
+      ]
+    },
+    {
+      "path": "/rest/ai/ai-question-stat-list",
+      "chunks": [
+        "index-BuIbL5pW.js"
+      ]
+    },
+    {
+      "path": "/rest/robot/get-position-by-roomcode",
+      "chunks": [
+        "find-BYj3tu62.js"
+      ]
+    },
+    {
+      "path": "/system/config",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/config/",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/config/configKey/",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/config/list",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/config/refreshCache",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dept",
+      "chunks": [
+        "dept-DKRGenbf.js"
+      ]
+    },
+    {
+      "path": "/system/dept/",
+      "chunks": [
+        "dept-DKRGenbf.js"
+      ]
+    },
+    {
+      "path": "/system/dept/list",
+      "chunks": [
+        "dept-DKRGenbf.js",
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/dept/list/exclude/",
+      "chunks": [
+        "dept-DKRGenbf.js"
+      ]
+    },
+    {
+      "path": "/system/dept/roomList",
+      "chunks": [
+        "dept-DKRGenbf.js"
+      ]
+    },
+    {
+      "path": "/system/dict",
+      "chunks": [
+        "data-D-5qEaYg.js",
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict-data",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict-data/index/",
+      "chunks": [
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "path": "/system/dict/data",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict/data/",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict/data/list",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict/data/type/",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/dict/type",
+      "chunks": [
+        "type-BvqrDR6s.js"
+      ]
+    },
+    {
+      "path": "/system/dict/type/",
+      "chunks": [
+        "type-BvqrDR6s.js"
+      ]
+    },
+    {
+      "path": "/system/dict/type/list",
+      "chunks": [
+        "type-BvqrDR6s.js"
+      ]
+    },
+    {
+      "path": "/system/dict/type/optionselect",
+      "chunks": [
+        "type-BvqrDR6s.js"
+      ]
+    },
+    {
+      "path": "/system/dict/type/refreshCache",
+      "chunks": [
+        "type-BvqrDR6s.js"
+      ]
+    },
+    {
+      "path": "/system/menu",
+      "chunks": [
+        "menu-DAj4bQBs.js"
+      ]
+    },
+    {
+      "path": "/system/menu/",
+      "chunks": [
+        "menu-DAj4bQBs.js"
+      ]
+    },
+    {
+      "path": "/system/menu/list",
+      "chunks": [
+        "menu-DAj4bQBs.js"
+      ]
+    },
+    {
+      "path": "/system/menu/roleMenuTreeselect/",
+      "chunks": [
+        "menu-DAj4bQBs.js"
+      ]
+    },
+    {
+      "path": "/system/menu/treeselect",
+      "chunks": [
+        "menu-DAj4bQBs.js"
+      ]
+    },
+    {
+      "path": "/system/notice",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "path": "/system/notice/",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "path": "/system/notice/list",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "path": "/system/post",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "path": "/system/post/",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "path": "/system/post/list",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "path": "/system/role",
+      "chunks": [
+        "authUser-CGda3TEH.js",
+        "index-C3XJh-jK.js",
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role-auth",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/role-auth/user/",
+      "chunks": [
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "path": "/system/role/",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/authUser/allocatedList",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/authUser/cancel",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/authUser/cancelAll",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/authUser/selectAll",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/authUser/unallocatedList",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/changeStatus",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/dataScope",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/deptTree/",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/role/list",
+      "chunks": [
+        "role-DAjqq7Ab.js"
+      ]
+    },
+    {
+      "path": "/system/user",
+      "chunks": [
+        "authRole-Dz8xTPNN.js",
+        "index-C3XJh-jK.js",
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user-auth",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/system/user-auth/role/",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "path": "/system/user/",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/authRole",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/authRole/",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/changeStatus",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/list",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/profile",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/profile/avatar",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/profile/updatePwd",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/system/user/resetPwd",
+      "chunks": [
+        "user-DMF7VOTd.js"
+      ]
+    },
+    {
+      "path": "/tool/gen",
+      "chunks": [
+        "editTable-BJTcoZlL.js",
+        "gen-DeGnv9fa.js",
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/tool/gen-edit",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "path": "/tool/gen-edit/index/",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/batchGenCode?tables=",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/createTable",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/db/list",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/genCode/",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/importTable",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/list",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/preview/",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "/tool/gen/synchDb/",
+      "chunks": [
+        "gen-DeGnv9fa.js"
+      ]
+    },
+    {
+      "path": "monitor/job/export",
+      "chunks": [
+        "index-C5m0AMYu.js"
+      ]
+    },
+    {
+      "path": "monitor/jobLog/export",
+      "chunks": [
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "path": "monitor/logininfor/export",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "path": "monitor/operlog/export",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "path": "numberModel/pic/robot.png",
+      "chunks": [
+        "index-DUF3163l.js"
+      ]
+    },
+    {
+      "path": "system/config/export",
+      "chunks": [
+        "index-B9xmMTGM.js"
+      ]
+    },
+    {
+      "path": "system/dict/data/export",
+      "chunks": [
+        "data-D-5qEaYg.js"
+      ]
+    },
+    {
+      "path": "system/dict/type/export",
+      "chunks": [
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "path": "system/post/export",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "path": "system/role/export",
+      "chunks": [
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "path": "system/user/export",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "path": "system/user/importTemplate",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "path": "system/user/index",
+      "chunks": [
+        "index-CrJ0FZ3F.js"
+      ]
+    }
+  ],
+  "permissions": [
+    {
+      "permission": "ai:knowledge:add",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "permission": "ai:knowledge:edit",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "permission": "ai:knowledge:remove",
+      "chunks": [
+        "index-DgaO_ptr.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:add",
+      "chunks": [
+        "index-C5m0AMYu.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:changeStatus",
+      "chunks": [
+        "index-C5m0AMYu.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:edit",
+      "chunks": [
+        "index-C5m0AMYu.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:export",
+      "chunks": [
+        "index-C5m0AMYu.js",
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:list",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:query",
+      "chunks": [
+        "index-C5m0AMYu.js",
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "permission": "monitor:job:remove",
+      "chunks": [
+        "index-C5m0AMYu.js",
+        "log-CCSqYWoc.js"
+      ]
+    },
+    {
+      "permission": "monitor:logininfor:export",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "permission": "monitor:logininfor:remove",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "permission": "monitor:logininfor:unlock",
+      "chunks": [
+        "index-CVxhuPc_.js"
+      ]
+    },
+    {
+      "permission": "monitor:online:forceLogout",
+      "chunks": [
+        "index-8grvndDu.js"
+      ]
+    },
+    {
+      "permission": "monitor:operlog:export",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "permission": "monitor:operlog:query",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "permission": "monitor:operlog:remove",
+      "chunks": [
+        "index-CsKqCJuM.js"
+      ]
+    },
+    {
+      "permission": "system:config:add",
+      "chunks": [
+        "index-B9xmMTGM.js"
+      ]
+    },
+    {
+      "permission": "system:config:edit",
+      "chunks": [
+        "index-B9xmMTGM.js"
+      ]
+    },
+    {
+      "permission": "system:config:export",
+      "chunks": [
+        "index-B9xmMTGM.js"
+      ]
+    },
+    {
+      "permission": "system:config:remove",
+      "chunks": [
+        "index-B9xmMTGM.js"
+      ]
+    },
+    {
+      "permission": "system:dept:add",
+      "chunks": [
+        "index-DHQzNhj9.js",
+        "index-YfY-AVbe.js"
+      ]
+    },
+    {
+      "permission": "system:dept:edit",
+      "chunks": [
+        "index-DHQzNhj9.js",
+        "index-YfY-AVbe.js"
+      ]
+    },
+    {
+      "permission": "system:dept:remove",
+      "chunks": [
+        "index-DHQzNhj9.js",
+        "index-YfY-AVbe.js"
+      ]
+    },
+    {
+      "permission": "system:dict:add",
+      "chunks": [
+        "data-D-5qEaYg.js",
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "permission": "system:dict:edit",
+      "chunks": [
+        "data-D-5qEaYg.js",
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "permission": "system:dict:export",
+      "chunks": [
+        "data-D-5qEaYg.js",
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "permission": "system:dict:list",
+      "chunks": [
+        "index-C3XJh-jK.js"
+      ]
+    },
+    {
+      "permission": "system:dict:remove",
+      "chunks": [
+        "data-D-5qEaYg.js",
+        "index-A9oc2FXt.js"
+      ]
+    },
+    {
+      "permission": "system:menu:add",
+      "chunks": [
+        "index-CrJ0FZ3F.js"
+      ]
+    },
+    {
+      "permission": "system:menu:edit",
+      "chunks": [
+        "index-CrJ0FZ3F.js"
+      ]
+    },
+    {
+      "permission": "system:menu:remove",
+      "chunks": [
+        "index-CrJ0FZ3F.js"
+      ]
+    },
+    {
+      "permission": "system:notice:add",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "permission": "system:notice:edit",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "permission": "system:notice:remove",
+      "chunks": [
+        "index-D7EnYqyZ.js"
+      ]
+    },
+    {
+      "permission": "system:post:add",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "permission": "system:post:edit",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "permission": "system:post:export",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "permission": "system:post:remove",
+      "chunks": [
+        "index-DVk1T9LC.js"
+      ]
+    },
+    {
+      "permission": "system:role:add",
+      "chunks": [
+        "authUser-CGda3TEH.js",
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "permission": "system:role:edit",
+      "chunks": [
+        "index-C3XJh-jK.js",
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "permission": "system:role:export",
+      "chunks": [
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "permission": "system:role:remove",
+      "chunks": [
+        "authUser-CGda3TEH.js",
+        "index-LFP9hkEV.js"
+      ]
+    },
+    {
+      "permission": "system:user:add",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "system:user:edit",
+      "chunks": [
+        "index-C3XJh-jK.js",
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "system:user:export",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "system:user:import",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "system:user:list",
+      "chunks": [
+        "index-CrJ0FZ3F.js"
+      ]
+    },
+    {
+      "permission": "system:user:remove",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "system:user:resetPwd",
+      "chunks": [
+        "index-CIXn9Age.js"
+      ]
+    },
+    {
+      "permission": "tool:gen:code",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "permission": "tool:gen:edit",
+      "chunks": [
+        "index-C3XJh-jK.js",
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "permission": "tool:gen:import",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "permission": "tool:gen:preview",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    },
+    {
+      "permission": "tool:gen:remove",
+      "chunks": [
+        "index-DjV5gL4L.js"
+      ]
+    }
+  ],
+  "chunks": [
+    {
+      "file": "401-DsA0GxiH.js",
+      "size": 1238,
+      "likelyPage": false
+    },
+    {
+      "file": "404-D8yr0MXL.js",
+      "size": 1281,
+      "likelyPage": false
+    },
+    {
+      "file": "404-Dy3nURRX.js",
+      "size": 1730,
+      "likelyPage": false
+    },
+    {
+      "file": "CodeTypeDialog-B_HlFJxM.js",
+      "size": 1958,
+      "likelyPage": true
+    },
+    {
+      "file": "DraggableItem-DW8TeqRE.js",
+      "size": 5163,
+      "likelyPage": false
+    },
+    {
+      "file": "IconsDialog-CuhAJCBq.js",
+      "size": 1489,
+      "likelyPage": true
+    },
+    {
+      "file": "MessageInfo-Cgys-0JI.js",
+      "size": 5317,
+      "likelyPage": false
+    },
+    {
+      "file": "RightPanel-CQ_kZJ7k.js",
+      "size": 39337,
+      "likelyPage": false
+    },
+    {
+      "file": "TreeNodeDialog-C_0ZybIP.js",
+      "size": 2344,
+      "likelyPage": true
+    },
+    {
+      "file": "areaManagment-BcaW8yDq.js",
+      "size": 425,
+      "likelyPage": true
+    },
+    {
+      "file": "authRole-Dz8xTPNN.js",
+      "size": 3000,
+      "likelyPage": false
+    },
+    {
+      "file": "authUser-CGda3TEH.js",
+      "size": 4351,
+      "likelyPage": false
+    },
+    {
+      "file": "basicInfoForm-B27T6OhY.js",
+      "size": 1982,
+      "likelyPage": false
+    },
+    {
+      "file": "bug-10dePVta.js",
+      "size": 1875,
+      "likelyPage": false
+    },
+    {
+      "file": "build-2jMyI6eP.js",
+      "size": 1196,
+      "likelyPage": true
+    },
+    {
+      "file": "button-BlSCM_GH.js",
+      "size": 2856,
+      "likelyPage": false
+    },
+    {
+      "file": "cache-C1uKi1WF.js",
+      "size": 613,
+      "likelyPage": true
+    },
+    {
+      "file": "canvasImg-DkkE9qTF.js",
+      "size": 136,
+      "likelyPage": false
+    },
+    {
+      "file": "cascader-CXIOcY1C.js",
+      "size": 2589,
+      "likelyPage": false
+    },
+    {
+      "file": "chart-BsLMrzXU.js",
+      "size": 257,
+      "likelyPage": false
+    },
+    {
+      "file": "checkbox-Bpiun3bf.js",
+      "size": 1515,
+      "likelyPage": false
+    },
+    {
+      "file": "clipboard-DaV3cn7f.js",
+      "size": 1193,
+      "likelyPage": false
+    },
+    {
+      "file": "code-DgJ8cT4a.js",
+      "size": 883,
+      "likelyPage": false
+    },
+    {
+      "file": "color-y1Sshoou.js",
+      "size": 4578,
+      "likelyPage": false
+    },
+    {
+      "file": "component-Djp9s69L.js",
+      "size": 2959,
+      "likelyPage": false
+    },
+    {
+      "file": "createTable-CkLAwE7b.js",
+      "size": 1237,
+      "likelyPage": false
+    },
+    {
+      "file": "dashboard-Dy7qt_a2.js",
+      "size": 2799,
+      "likelyPage": false
+    },
+    {
+      "file": "data-D-5qEaYg.js",
+      "size": 9529,
+      "likelyPage": false
+    },
+    {
+      "file": "date-B1FSITvi.js",
+      "size": 3722,
+      "likelyPage": false
+    },
+    {
+      "file": "date-range-B8MgYLb1.js",
+      "size": 2437,
+      "likelyPage": false
+    },
+    {
+      "file": "dept-DKRGenbf.js",
+      "size": 576,
+      "likelyPage": true
+    },
+    {
+      "file": "dept-RXHljmUn.js",
+      "size": 206,
+      "likelyPage": true
+    },
+    {
+      "file": "dict-Bi_GqSXR.js",
+      "size": 3427,
+      "likelyPage": true
+    },
+    {
+      "file": "digital-twin-cancel-BgQ5ZPf2.js",
+      "size": 723,
+      "likelyPage": false
+    },
+    {
+      "file": "digital-twin-confirm-DhAUgZLM.js",
+      "size": 610,
+      "likelyPage": false
+    },
+    {
+      "file": "digital-twin-manual-Derk6Bnc.js",
+      "size": 1387,
+      "likelyPage": false
+    },
+    {
+      "file": "digital-twin-robot-FyR_aZ8p.js",
+      "size": 1032,
+      "likelyPage": true
+    },
+    {
+      "file": "digital-twin-view-CYwvIhzH.js",
+      "size": 1300,
+      "likelyPage": false
+    },
+    {
+      "file": "digitalTwin-CkcSUkXs.js",
+      "size": 7068,
+      "likelyPage": false
+    },
+    {
+      "file": "doTable-rcl4gw1s.js",
+      "size": 135,
+      "likelyPage": false
+    },
+    {
+      "file": "documentation-uH9BvL5U.js",
+      "size": 518,
+      "likelyPage": false
+    },
+    {
+      "file": "download-DeIzgQWH.js",
+      "size": 1355,
+      "likelyPage": false
+    },
+    {
+      "file": "drag-BG1_I1vT.js",
+      "size": 446,
+      "likelyPage": false
+    },
+    {
+      "file": "druid-BybW_S_B.js",
+      "size": 932,
+      "likelyPage": false
+    },
+    {
+      "file": "edit-D0DI9pAq.js",
+      "size": 1004,
+      "likelyPage": false
+    },
+    {
+      "file": "editTable-BJTcoZlL.js",
+      "size": 6557,
+      "likelyPage": false
+    },
+    {
+      "file": "education-47KsSYIl.js",
+      "size": 757,
+      "likelyPage": false
+    },
+    {
+      "file": "email-Dig28Vt2.js",
+      "size": 483,
+      "likelyPage": false
+    },
+    {
+      "file": "enter-KOZ0bgqJ.js",
+      "size": 1342,
+      "likelyPage": false
+    },
+    {
+      "file": "example-CnLLAFb9.js",
+      "size": 633,
+      "likelyPage": false
+    },
+    {
+      "file": "excel-D3hj5F35.js",
+      "size": 555,
+      "likelyPage": false
+    },
+    {
+      "file": "exit-fullscreen-dXhGKlQm.js",
+      "size": 2127,
+      "likelyPage": false
+    },
+    {
+      "file": "eye-DqRz4sMZ.js",
+      "size": 1150,
+      "likelyPage": false
+    },
+    {
+      "file": "eye-open-BxlshWqB.js",
+      "size": 1550,
+      "likelyPage": false
+    },
+    {
+      "file": "find-BYj3tu62.js",
+      "size": 4423,
+      "likelyPage": false
+    },
+    {
+      "file": "food-DJcbaY0t.js",
+      "size": 62,
+      "likelyPage": true
+    },
+    {
+      "file": "food-DYiomgJZ.js",
+      "size": 493,
+      "likelyPage": true
+    },
+    {
+      "file": "form-BDTA_i-I.js",
+      "size": 3006,
+      "likelyPage": false
+    },
+    {
+      "file": "fullscreen-0JHt5yWX.js",
+      "size": 551,
+      "likelyPage": false
+    },
+    {
+      "file": "gen-DeGnv9fa.js",
+      "size": 793,
+      "likelyPage": true
+    },
+    {
+      "file": "genInfoForm-bUgH84P5.js",
+      "size": 9353,
+      "likelyPage": true
+    },
+    {
+      "file": "github-AJ0WQBa2.js",
+      "size": 1956,
+      "likelyPage": false
+    },
+    {
+      "file": "guide-DZWUPi2j.js",
+      "size": 424,
+      "likelyPage": false
+    },
+    {
+      "file": "icon-BtMv6Od8.js",
+      "size": 1292,
+      "likelyPage": false
+    },
+    {
+      "file": "importTable-BB6p1I7O.js",
+      "size": 2931,
+      "likelyPage": false
+    },
+    {
+      "file": "index-8EefShcq.js",
+      "size": 21188,
+      "likelyPage": false
+    },
+    {
+      "file": "index-8grvndDu.js",
+      "size": 3349,
+      "likelyPage": false
+    },
+    {
+      "file": "index-A9oc2FXt.js",
+      "size": 7573,
+      "likelyPage": false
+    },
+    {
+      "file": "index-B0btmxAk.js",
+      "size": 20914,
+      "likelyPage": false
+    },
+    {
+      "file": "index-B9xmMTGM.js",
+      "size": 8363,
+      "likelyPage": false
+    },
+    {
+      "file": "index-BLamUBLt.js",
+      "size": 1661,
+      "likelyPage": false
+    },
+    {
+      "file": "index-BUHm5ZU4.js",
+      "size": 8489,
+      "likelyPage": false
+    },
+    {
+      "file": "index-BccSnCmY.js",
+      "size": 313,
+      "likelyPage": false
+    },
+    {
+      "file": "index-Bly5Obks.js",
+      "size": 309,
+      "likelyPage": false
+    },
+    {
+      "file": "index-BuIbL5pW.js",
+      "size": 3610,
+      "likelyPage": false
+    },
+    {
+      "file": "index-ByVbbfYW.js",
+      "size": 12679,
+      "likelyPage": false
+    },
+    {
+      "file": "index-BzIbElgL.js",
+      "size": 13604,
+      "likelyPage": false
+    },
+    {
+      "file": "index-C3XJh-jK.js",
+      "size": 1723940,
+      "likelyPage": false
+    },
+    {
+      "file": "index-C5m0AMYu.js",
+      "size": 49500,
+      "likelyPage": false
+    },
+    {
+      "file": "index-C7e8E1id.js",
+      "size": 2592,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CAca1V1T.js",
+      "size": 131095,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CBjK25hH.js",
+      "size": 2572,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CEb3Htqa.js",
+      "size": 8057,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CIXn9Age.js",
+      "size": 25758,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CM_O2-cP.js",
+      "size": 9930,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CRN8QvzL.js",
+      "size": 8501,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CTcd37QU.js",
+      "size": 3161,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CVxhuPc_.js",
+      "size": 6393,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CiU0xGRe.js",
+      "size": 620,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CjQox60l.js",
+      "size": 20847,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CmM-Vg-s.js",
+      "size": 8991,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CrJ0FZ3F.js",
+      "size": 22347,
+      "likelyPage": false
+    },
+    {
+      "file": "index-CsKqCJuM.js",
+      "size": 8998,
+      "likelyPage": false
+    },
+    {
+      "file": "index-D5NaJDIn.js",
+      "size": 147707,
+      "likelyPage": false
+    },
+    {
+      "file": "index-D7EnYqyZ.js",
+      "size": 7643,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DCSuvYkk.js",
+      "size": 4003,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DFzVjZm_.js",
+      "size": 9248,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DHQzNhj9.js",
+      "size": 7794,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DUF3163l.js",
+      "size": 5824,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DUutCTNR.js",
+      "size": 7638,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DVk1T9LC.js",
+      "size": 7695,
+      "likelyPage": false
+    },
+    {
+      "file": "index-Ddhj3ChR.js",
+      "size": 8374,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DgaO_ptr.js",
+      "size": 6653,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DhZQX7K4.js",
+      "size": 23870,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DhpJs23b.js",
+      "size": 4734,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DjV5gL4L.js",
+      "size": 8070,
+      "likelyPage": false
+    },
+    {
+      "file": "index-DoTCjTMx.js",
+      "size": 5104,
+      "likelyPage": false
+    },
+    {
+      "file": "index-Dsbkijj-.js",
+      "size": 1042035,
+      "likelyPage": false
+    },
+    {
+      "file": "index-LFP9hkEV.js",
+      "size": 13677,
+      "likelyPage": false
+    },
+    {
+      "file": "index-YfY-AVbe.js",
+      "size": 7671,
+      "likelyPage": false
+    },
+    {
+      "file": "index-tc7rdvgH.js",
+      "size": 25695,
+      "likelyPage": false
+    },
+    {
+      "file": "index-vT-2elU4.js",
+      "size": 229,
+      "likelyPage": false
+    },
+    {
+      "file": "index0202-jT50ecO0.js",
+      "size": 16477,
+      "likelyPage": false
+    },
+    {
+      "file": "input-BJoPMnBW.js",
+      "size": 964,
+      "likelyPage": false
+    },
+    {
+      "file": "international-CmzG1OHg.js",
+      "size": 1429,
+      "likelyPage": false
+    },
+    {
+      "file": "job-BEzJ9WLt.js",
+      "size": 613,
+      "likelyPage": true
+    },
+    {
+      "file": "job-BcmuINx7.js",
+      "size": 2109,
+      "likelyPage": true
+    },
+    {
+      "file": "language-CaW1LMEk.js",
+      "size": 1547,
+      "likelyPage": false
+    },
+    {
+      "file": "link-C93f4PgI.js",
+      "size": 379,
+      "likelyPage": false
+    },
+    {
+      "file": "list-C7O8B4zW.js",
+      "size": 1241,
+      "likelyPage": false
+    },
+    {
+      "file": "list-CZJdtjWu.js",
+      "size": 4587,
+      "likelyPage": false
+    },
+    {
+      "file": "lock-Bexeb9hp.js",
+      "size": 574,
+      "likelyPage": false
+    },
+    {
+      "file": "log-CCSqYWoc.js",
+      "size": 7685,
+      "likelyPage": true
+    },
+    {
+      "file": "log-CF2F-nSs.js",
+      "size": 1890,
+      "likelyPage": true
+    },
+    {
+      "file": "login-DYsqbsXN.js",
+      "size": 61937,
+      "likelyPage": true
+    },
+    {
+      "file": "logininfor-Bm9ZYYR7.js",
+      "size": 2162,
+      "likelyPage": true
+    },
+    {
+      "file": "menu-DAj4bQBs.js",
+      "size": 574,
+      "likelyPage": true
+    },
+    {
+      "file": "menuPlan-WrTzHBLG.js",
+      "size": 1890,
+      "likelyPage": true
+    },
+    {
+      "file": "message-UkR-VIBB.js",
+      "size": 851,
+      "likelyPage": false
+    },
+    {
+      "file": "money-B1qqPuhn.js",
+      "size": 433,
+      "likelyPage": false
+    },
+    {
+      "file": "monitor-gwnnVq4l.js",
+      "size": 1093,
+      "likelyPage": true
+    },
+    {
+      "file": "monitorDevice-si6zug0K.js",
+      "size": 762,
+      "likelyPage": true
+    },
+    {
+      "file": "moon-BOcjHwCq.js",
+      "size": 807,
+      "likelyPage": false
+    },
+    {
+      "file": "more-up-u2qZwiNm.js",
+      "size": 1343,
+      "likelyPage": false
+    },
+    {
+      "file": "nested-B4d5u3hW.js",
+      "size": 1005,
+      "likelyPage": false
+    },
+    {
+      "file": "number-D4hB_nHC.js",
+      "size": 3674,
+      "likelyPage": false
+    },
+    {
+      "file": "online-C2ZP8pdY.js",
+      "size": 4251,
+      "likelyPage": false
+    },
+    {
+      "file": "password-DfGvqQpB.js",
+      "size": 2187,
+      "likelyPage": false
+    },
+    {
+      "file": "pdf-CD9mOGjJ.js",
+      "size": 2008,
+      "likelyPage": false
+    },
+    {
+      "file": "people-CdGMHN63.js",
+      "size": 1489,
+      "likelyPage": false
+    },
+    {
+      "file": "peoples-BRYsIqmI.js",
+      "size": 905,
+      "likelyPage": false
+    },
+    {
+      "file": "phone-BpAUIz0g.js",
+      "size": 1823,
+      "likelyPage": false
+    },
+    {
+      "file": "photo-DLtYKqvp.js",
+      "size": 729,
+      "likelyPage": true
+    },
+    {
+      "file": "post-DrLDyPY9.js",
+      "size": 1523,
+      "likelyPage": false
+    },
+    {
+      "file": "qq-D8j4O83Y.js",
+      "size": 3983,
+      "likelyPage": false
+    },
+    {
+      "file": "question-CvYWQbyW.js",
+      "size": 1456,
+      "likelyPage": false
+    },
+    {
+      "file": "radio-B0t9wPBQ.js",
+      "size": 1614,
+      "likelyPage": false
+    },
+    {
+      "file": "rate-CgnHQvKS.js",
+      "size": 2026,
+      "likelyPage": false
+    },
+    {
+      "file": "redis-D4ECyT6a.js",
+      "size": 3218,
+      "likelyPage": false
+    },
+    {
+      "file": "redis-list-BtKGPnqO.js",
+      "size": 3140,
+      "likelyPage": false
+    },
+    {
+      "file": "register-fOV2ZHAG.js",
+      "size": 3910,
+      "likelyPage": false
+    },
+    {
+      "file": "resetPwd-CobWYXxC.js",
+      "size": 2137,
+      "likelyPage": false
+    },
+    {
+      "file": "robot-BmpD3MBH.js",
+      "size": 427,
+      "likelyPage": true
+    },
+    {
+      "file": "role-DAjqq7Ab.js",
+      "size": 1141,
+      "likelyPage": true
+    },
+    {
+      "file": "row-CRXKIHjm.js",
+      "size": 1051,
+      "likelyPage": false
+    },
+    {
+      "file": "search-CUfclCsR.js",
+      "size": 788,
+      "likelyPage": false
+    },
+    {
+      "file": "select-DhuHHMxz.js",
+      "size": 1621,
+      "likelyPage": false
+    },
+    {
+      "file": "selectUser-BhHWDNz5.js",
+      "size": 3309,
+      "likelyPage": false
+    },
+    {
+      "file": "server-unS7EyF7.js",
+      "size": 1022,
+      "likelyPage": true
+    },
+    {
+      "file": "shopping-CU1IRvxM.js",
+      "size": 2754,
+      "likelyPage": false
+    },
+    {
+      "file": "size-Cj9fB5Rp.js",
+      "size": 287,
+      "likelyPage": false
+    },
+    {
+      "file": "skill-B8f_I4m_.js",
+      "size": 1404,
+      "likelyPage": false
+    },
+    {
+      "file": "slider-BGfehM6X.js",
+      "size": 726,
+      "likelyPage": false
+    },
+    {
+      "file": "star-kST8a72V.js",
+      "size": 711,
+      "likelyPage": false
+    },
+    {
+      "file": "sunny-DvkHW8g8.js",
+      "size": 1831,
+      "likelyPage": false
+    },
+    {
+      "file": "swagger-BHGXZ2Jt.js",
+      "size": 2127,
+      "likelyPage": false
+    },
+    {
+      "file": "switch-CvaargRJ.js",
+      "size": 901,
+      "likelyPage": false
+    },
+    {
+      "file": "system-DcNSH_Fq.js",
+      "size": 3444,
+      "likelyPage": true
+    },
+    {
+      "file": "tab-nA3f0aBt.js",
+      "size": 801,
+      "likelyPage": false
+    },
+    {
+      "file": "table-5PRh60AQ.js",
+      "size": 699,
+      "likelyPage": false
+    },
+    {
+      "file": "textarea-CJWXlgbJ.js",
+      "size": 1019,
+      "likelyPage": true
+    },
+    {
+      "file": "theme-CyGq941x.js",
+      "size": 883,
+      "likelyPage": false
+    },
+    {
+      "file": "time-BVERp0sU.js",
+      "size": 1053,
+      "likelyPage": false
+    },
+    {
+      "file": "time-range-D3dxgtLj.js",
+      "size": 3345,
+      "likelyPage": false
+    },
+    {
+      "file": "tool-D8kXk1l-.js",
+      "size": 3038,
+      "likelyPage": true
+    },
+    {
+      "file": "tree-BCtS3oPD.js",
+      "size": 2164,
+      "likelyPage": false
+    },
+    {
+      "file": "tree-table-CnOS99I9.js",
+      "size": 1148,
+      "likelyPage": false
+    },
+    {
+      "file": "type-BvqrDR6s.js",
+      "size": 604,
+      "likelyPage": false
+    },
+    {
+      "file": "upload-BueI-Il1.js",
+      "size": 1750,
+      "likelyPage": false
+    },
+    {
+      "file": "user-DMF7VOTd.js",
+      "size": 1280,
+      "likelyPage": true
+    },
+    {
+      "file": "user-DqMuW5cU.js",
+      "size": 568,
+      "likelyPage": true
+    },
+    {
+      "file": "userAvatar-BKp3n1yq.js",
+      "size": 33617,
+      "likelyPage": true
+    },
+    {
+      "file": "userInfo-CZ4Ucieg.js",
+      "size": 2309,
+      "likelyPage": true
+    },
+    {
+      "file": "v15-D8m86oVQ.js",
+      "size": 21199,
+      "likelyPage": false
+    },
+    {
+      "file": "validCode-COB1iLxa.js",
+      "size": 1660,
+      "likelyPage": false
+    },
+    {
+      "file": "vedio-GroKhKtW.js",
+      "size": 427,
+      "likelyPage": true
+    },
+    {
+      "file": "vipRoomRegion-D0UnrD92.js",
+      "size": 547,
+      "likelyPage": true
+    },
+    {
+      "file": "walk-CgSQE2tw.js",
+      "size": 132,
+      "likelyPage": false
+    },
+    {
+      "file": "wechat-lmQOcPZu.js",
+      "size": 1457,
+      "likelyPage": false
+    },
+    {
+      "file": "zip-DIOSZc69.js",
+      "size": 1662,
+      "likelyPage": false
+    }
+  ]
+}
