@@ -1,13 +1,20 @@
 import {
   changeRoleStatus,
+  changeJobStatus,
   changeUserStatus,
+  cleanJobLog,
+  cleanLogininfor,
+  cleanOperLog,
   downloadUserImportTemplate,
   exportSystemResource,
+  forceLogoutOnlineUser,
   getRoleDeptTree,
   importUsers,
   refreshConfigCache,
   refreshDictCache,
   resetUserPassword,
+  runJob,
+  unlockLogininfor,
   updateRoleDataScope
 } from '@/api/system'
 
@@ -15,6 +22,49 @@ const statusOptions = [
   { label: '正常', value: '0' },
   { label: '停用', value: '1' }
 ]
+
+const jobStatusOptions = [
+  { label: '正常', value: '0' },
+  { label: '暂停', value: '1' }
+]
+
+const successFailOptions = [
+  { label: '成功', value: '0' },
+  { label: '失败', value: '1' }
+]
+
+const jobGroupOptions = [
+  { label: '默认', value: 'DEFAULT' },
+  { label: '系统', value: 'SYSTEM' }
+]
+
+const businessTypeOptions = [
+  { label: '其它', value: 0 },
+  { label: '新增', value: 1 },
+  { label: '修改', value: 2 },
+  { label: '删除', value: 3 },
+  { label: '授权', value: 4 },
+  { label: '导出', value: 5 },
+  { label: '导入', value: 6 },
+  { label: '强退', value: 7 },
+  { label: '生成代码', value: 8 },
+  { label: '清空数据', value: 9 }
+]
+
+const businessTypeMap = {
+  0: '其它',
+  1: '新增',
+  2: '修改',
+  3: '删除',
+  4: '授权',
+  5: '导出',
+  6: '导入',
+  7: '强退',
+  8: '生成代码',
+  9: '清空数据'
+}
+
+const successFailMap = { 0: '成功', 1: '失败' }
 
 const yesNoOptions = [
   { label: '是', value: 'Y' },
@@ -36,6 +86,17 @@ const switchStatusColumn = (action) => ({
   width: 100,
   switch: true,
   action
+})
+
+const switchJobStatusColumn = (action) => ({
+  prop: 'status',
+  label: '状态',
+  width: 100,
+  switch: true,
+  activeValue: '0',
+  inactiveValue: '1',
+  action,
+  successMessage: '任务状态已更新'
 })
 
 const dataScopeOptions = [
@@ -658,47 +719,198 @@ export const crudPages = {
       { prop: 'warningContent', label: '预警内容', type: 'textarea' }
     ]
   },
+  online: {
+    title: '在线用户',
+    description: '查看当前登录会话，按账号或 IP 检索并执行强制下线。',
+    basePath: '/monitor/online',
+    rowKey: 'tokenId',
+    enableCreate: false,
+    enableEdit: false,
+    enableDelete: false,
+    showDetail: false,
+    searchFields: [{ prop: 'ipaddr', label: '登录地址' }, { prop: 'userName', label: '用户名称' }],
+    columns: [
+      { prop: 'tokenId', label: '会话编号', minWidth: 220 },
+      { prop: 'userName', label: '用户名称', minWidth: 130 },
+      { prop: 'deptName', label: '部门', minWidth: 140 },
+      { prop: 'ipaddr', label: '登录地址', minWidth: 140 },
+      { prop: 'loginLocation', label: '登录地点', minWidth: 140 },
+      { prop: 'browser', label: '浏览器', minWidth: 130 },
+      { prop: 'os', label: '操作系统', minWidth: 140 },
+      { prop: 'loginTime', label: '登录时间', minWidth: 170 }
+    ],
+    formFields: [],
+    rowActions: [
+      {
+        key: 'forceLogout',
+        label: '强退',
+        type: 'danger',
+        confirm: (row) => `确认强退用户"${row.userName || row.tokenId}"？`,
+        handler: (row) => forceLogoutOnlineUser(row.tokenId),
+        successMessage: '强退成功'
+      }
+    ],
+    operationWidth: 120
+  },
+  logininfor: {
+    title: '登录日志',
+    description: '登录日志查询、删除、清空、解锁和导出。',
+    basePath: '/monitor/logininfor',
+    rowKey: 'infoId',
+    enableCreate: false,
+    enableEdit: false,
+    searchFields: [
+      { prop: 'ipaddr', label: '登录地址' },
+      { prop: 'userName', label: '用户名称' },
+      { prop: 'status', label: '登录状态', type: 'select', options: successFailOptions }
+    ],
+    columns: [
+      { prop: 'infoId', label: 'ID', width: 90 },
+      { prop: 'userName', label: '用户名称', minWidth: 130 },
+      { prop: 'ipaddr', label: '登录地址', minWidth: 140 },
+      { prop: 'loginLocation', label: '登录地点', minWidth: 140 },
+      { prop: 'browser', label: '浏览器', minWidth: 130 },
+      { prop: 'os', label: '操作系统', minWidth: 140 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 0: 'success', 1: 'danger' }, map: successFailMap },
+      { prop: 'msg', label: '提示消息', minWidth: 220 },
+      { prop: 'loginTime', label: '访问时间', minWidth: 170 }
+    ],
+    formFields: [],
+    headerActions: [
+      { key: 'clean', label: '清空', type: 'danger', confirm: '确认清空所有登录日志？', handler: cleanLogininfor, successMessage: '登录日志已清空' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/monitor/logininfor/export', query, '登录日志.xlsx'), reload: false }
+    ],
+    rowActions: [
+      {
+        key: 'unlock',
+        label: '解锁',
+        type: 'warning',
+        disabled: (row) => !row.userName,
+        confirm: (row) => `确认解锁用户"${row.userName}"？`,
+        handler: (row) => unlockLogininfor(row.userName),
+        successMessage: '解锁成功'
+      }
+    ],
+    operationWidth: 210
+  },
+  operlog: {
+    title: '操作日志',
+    description: '后台操作日志查询、删除、清空、导出和明细查看。',
+    basePath: '/monitor/operlog',
+    rowKey: 'operId',
+    enableCreate: false,
+    enableEdit: false,
+    searchFields: [
+      { prop: 'title', label: '系统模块' },
+      { prop: 'operName', label: '操作人员' },
+      { prop: 'operIp', label: '操作地址' },
+      { prop: 'businessType', label: '操作类型', type: 'select', options: businessTypeOptions },
+      { prop: 'status', label: '操作状态', type: 'select', options: successFailOptions }
+    ],
+    columns: [
+      { prop: 'operId', label: 'ID', width: 90 },
+      { prop: 'title', label: '系统模块', minWidth: 150 },
+      { prop: 'businessType', label: '操作类型', minWidth: 110, map: businessTypeMap },
+      { prop: 'method', label: '请求方法', minWidth: 220 },
+      { prop: 'requestMethod', label: '请求方式', width: 100 },
+      { prop: 'operName', label: '操作人员', minWidth: 120 },
+      { prop: 'operIp', label: '操作地址', minWidth: 140 },
+      { prop: 'operUrl', label: '请求地址', minWidth: 180 },
+      { prop: 'operParam', label: '请求参数', minWidth: 220 },
+      { prop: 'jsonResult', label: '返回参数', minWidth: 220 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 0: 'success', 1: 'danger' }, map: successFailMap },
+      { prop: 'errorMsg', label: '异常消息', minWidth: 220 },
+      { prop: 'operTime', label: '操作时间', minWidth: 170 },
+      { prop: 'costTime', label: '消耗时间(ms)', minWidth: 120 }
+    ],
+    formFields: [],
+    headerActions: [
+      { key: 'clean', label: '清空', type: 'danger', confirm: '确认清空所有操作日志？', handler: cleanOperLog, successMessage: '操作日志已清空' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/monitor/operlog/export', query, '操作日志.xlsx'), reload: false }
+    ],
+    operationWidth: 170
+  },
   job: {
     title: '定时任务',
-    description: 'Quartz 任务名称、调用目标、Cron 表达式和运行状态。',
+    description: 'Quartz 任务名称、调用目标、Cron 表达式、运行状态和手动执行。',
     basePath: '/monitor/job',
     rowKey: 'jobId',
-    searchFields: [{ prop: 'jobName', label: '任务名称' }, { prop: 'jobGroup', label: '任务组' }],
+    searchFields: [
+      { prop: 'jobName', label: '任务名称' },
+      { prop: 'jobGroup', label: '任务组名', type: 'select', options: jobGroupOptions },
+      { prop: 'status', label: '任务状态', type: 'select', options: jobStatusOptions }
+    ],
     columns: [
       { prop: 'jobId', label: 'ID', width: 90 },
       { prop: 'jobName', label: '任务名称', minWidth: 160 },
-      { prop: 'jobGroup', label: '任务组', minWidth: 120 },
-      { prop: 'invokeTarget', label: '调用目标', minWidth: 220 },
-      { prop: 'cronExpression', label: 'Cron', minWidth: 160 },
-      statusColumn()
+      { prop: 'jobGroup', label: '任务组名', minWidth: 120 },
+      { prop: 'invokeTarget', label: '调用目标字符串', minWidth: 240 },
+      { prop: 'cronExpression', label: 'Cron 表达式', minWidth: 160 },
+      { prop: 'misfirePolicy', label: '执行策略', minWidth: 120, map: { 1: '立即执行', 2: '执行一次', 3: '放弃执行' } },
+      { prop: 'concurrent', label: '并发执行', minWidth: 110, map: { 0: '允许', 1: '禁止' } },
+      switchJobStatusColumn((row, status) => changeJobStatus(row.jobId, status))
     ],
     formFields: [
       { prop: 'jobName', label: '任务名称' },
-      { prop: 'jobGroup', label: '任务组' },
-      { prop: 'invokeTarget', label: '调用目标' },
+      { prop: 'jobGroup', label: '任务组名', type: 'select', options: jobGroupOptions },
+      { prop: 'invokeTarget', label: '调用目标字符串' },
       { prop: 'cronExpression', label: 'Cron 表达式' },
-      { prop: 'status', label: '状态', type: 'select', options: statusOptions },
+      { prop: 'misfirePolicy', label: '执行策略', type: 'select', options: [{ label: '立即执行', value: '1' }, { label: '执行一次', value: '2' }, { label: '放弃执行', value: '3' }] },
+      { prop: 'concurrent', label: '是否并发', type: 'select', options: [{ label: '允许', value: '0' }, { label: '禁止', value: '1' }] },
+      { prop: 'status', label: '状态', type: 'select', options: jobStatusOptions },
       { prop: 'remark', label: '备注', type: 'textarea' }
     ],
-    defaults: { status: '0' }
+    defaults: { status: '1', jobGroup: 'DEFAULT', misfirePolicy: '3', concurrent: '1' },
+    headerActions: [
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/monitor/job/export', query, '定时任务.xlsx'), reload: false },
+      { key: 'log', label: '调度日志', route: '/monitor/job/log', reload: false }
+    ],
+    rowActions: [
+      {
+        key: 'run',
+        label: '执行一次',
+        type: 'warning',
+        confirm: (row) => `确认立即执行一次任务"${row.jobName}"？`,
+        handler: (row) => runJob(row),
+        successMessage: '任务执行请求已提交'
+      },
+      {
+        key: 'log',
+        label: '日志',
+        route: (row) => `/monitor/job/log/${row.jobId}?jobName=${encodeURIComponent(row.jobName || '')}&jobGroup=${encodeURIComponent(row.jobGroup || '')}`
+      }
+    ],
+    operationWidth: 360
   },
   jobLog: {
     title: '调度日志',
-    description: '定时任务执行日志、异常信息和耗时统计。',
+    description: '定时任务执行日志、异常信息、执行状态和耗时统计。',
     basePath: '/monitor/jobLog',
     rowKey: 'jobLogId',
     enableCreate: false,
     enableEdit: false,
-    searchFields: [{ prop: 'jobName', label: '任务名称' }, { prop: 'jobGroup', label: '任务组' }],
+    searchFields: [
+      { prop: 'jobName', label: '任务名称' },
+      { prop: 'jobGroup', label: '任务组名', type: 'select', options: jobGroupOptions },
+      { prop: 'status', label: '执行状态', type: 'select', options: successFailOptions }
+    ],
     columns: [
       { prop: 'jobLogId', label: 'ID', width: 90 },
       { prop: 'jobName', label: '任务名称', minWidth: 150 },
-      { prop: 'jobGroup', label: '任务组', minWidth: 120 },
-      { prop: 'invokeTarget', label: '调用目标', minWidth: 220 },
-      { prop: 'status', label: '状态', width: 100 },
-      { prop: 'createTime', label: '时间', minWidth: 170 }
+      { prop: 'jobGroup', label: '任务组名', minWidth: 120 },
+      { prop: 'invokeTarget', label: '调用目标字符串', minWidth: 240 },
+      { prop: 'jobMessage', label: '日志信息', minWidth: 260 },
+      { prop: 'status', label: '状态', width: 100, tag: 'info', tagMap: { 0: 'success', 1: 'danger' }, map: successFailMap },
+      { prop: 'exceptionInfo', label: '异常信息', minWidth: 260 },
+      { prop: 'createTime', label: '执行时间', minWidth: 170 }
     ],
-    formFields: []
+    formFields: [],
+    headerActions: [
+      { key: 'clean', label: '清空', type: 'danger', confirm: '确认清空所有调度日志？', handler: cleanJobLog, successMessage: '调度日志已清空' },
+      { key: 'export', label: '导出', handler: ({ query }) => exportSystemResource('/monitor/jobLog/export', query, '调度日志.xlsx'), reload: false },
+      { key: 'close', label: '关闭', route: '/monitor/job', reload: false }
+    ],
+    operationWidth: 170
   }
 }
 

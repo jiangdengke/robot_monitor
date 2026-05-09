@@ -28,7 +28,13 @@
 
     <div class="table-actions">
       <el-button v-if="enableDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
-      <el-button v-for="action in headerActions" :key="action.key" :type="action.type || 'default'" @click="runHeaderAction(action)">
+      <el-button
+        v-for="action in headerActions"
+        :key="action.key"
+        :type="action.type || 'default'"
+        :disabled="action.disabled?.({ selectedRows, query, rows })"
+        @click="runHeaderAction(action)"
+      >
         {{ action.label }}
       </el-button>
       <el-button v-if="uploadField" @click="uploadVisible = true">上传文件</el-button>
@@ -200,6 +206,7 @@ const props = defineProps({
   searchFields: { type: Array, default: () => [] },
   formFields: { type: Array, default: () => [] },
   defaults: { type: Object, default: () => ({}) },
+  initialQuery: { type: Object, default: () => ({}) },
   enableCreate: { type: Boolean, default: true },
   enableEdit: { type: Boolean, default: true },
   enableDelete: { type: Boolean, default: true },
@@ -304,7 +311,7 @@ function handleSearch() {
 }
 
 function resetSearch() {
-  resetObject(query)
+  resetObject(query, props.initialQuery)
   handleSearch()
 }
 
@@ -497,7 +504,10 @@ async function submitImport() {
   }
 }
 
-onMounted(loadRows)
+onMounted(() => {
+  resetObject(query, props.initialQuery)
+  loadRows()
+})
 </script>
 
 <style scoped>

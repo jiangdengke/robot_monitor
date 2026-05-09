@@ -152,6 +152,26 @@ export const getServerInfo = () => request('/monitor/server')
 
 export const getCacheInfo = () => request('/monitor/cache')
 
+export const listCacheNames = () => request('/monitor/cache/getNames')
+
+export const listCacheKeys = (cacheName) =>
+  request(`/monitor/cache/getKeys/${encodeURIComponent(cacheName)}`)
+
+export const getCacheValue = (cacheName, cacheKey) =>
+  request(`/monitor/cache/getValue/${encodeURIComponent(cacheName)}/${encodeURIComponent(cacheKey)}`)
+
+export const clearCacheName = (cacheName) =>
+  request(`/monitor/cache/clearCacheName/${encodeURIComponent(cacheName)}`, {
+    method: 'DELETE'
+  })
+
+export const clearCacheKey = (cacheKey) =>
+  request(`/monitor/cache/clearCacheKey/${encodeURIComponent(cacheKey)}`, {
+    method: 'DELETE'
+  })
+
+export const clearCacheAll = () => request('/monitor/cache/clearCacheAll', { method: 'DELETE' })
+
 export const listConfigRobots = (query = {}) =>
   request('/config/robot/list', {
     query
@@ -201,6 +221,32 @@ export const listJobLogs = (query = {}) =>
   request('/monitor/jobLog/list', {
     query
   })
+
+export const forceLogoutOnlineUser = (tokenId) =>
+  request(`/monitor/online/${encodeURIComponent(tokenId)}`, {
+    method: 'DELETE'
+  })
+
+export const cleanLogininfor = () => request('/monitor/logininfor/clean', { method: 'DELETE' })
+
+export const unlockLogininfor = (userName) =>
+  request(`/monitor/logininfor/unlock/${encodeURIComponent(userName)}`)
+
+export const cleanOperLog = () => request('/monitor/operlog/clean', { method: 'DELETE' })
+
+export const changeJobStatus = (jobId, status) =>
+  request('/monitor/job/changeStatus', {
+    method: 'PUT',
+    body: JSON.stringify({ jobId, status })
+  })
+
+export const runJob = (job) =>
+  request('/monitor/job/run', {
+    method: 'PUT',
+    body: JSON.stringify(job)
+  })
+
+export const cleanJobLog = () => request('/monitor/jobLog/clean', { method: 'DELETE' })
 
 export const listFoodConfigs = (query = {}) =>
   request('/food/selectFoodConfigList', {

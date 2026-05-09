@@ -27,6 +27,7 @@ const moduleRoutes = [
   { path: 'monitor/cache', component: () => import('@/views/monitor/cache/index.vue') },
   { path: 'monitor/druid', component: () => import('@/views/monitor/druid/index.vue') },
   { path: 'monitor/job', component: () => import('@/views/monitor/job/index.vue') },
+  { path: 'monitor/job/log/:jobId?', component: () => import('@/views/monitor/job/log.vue') },
   { path: 'configManagment/robot', component: () => import('@/views/configManagment/robot/index.vue') },
   { path: 'configManagment/photo', component: () => import('@/views/configManagment/photo/index.vue') },
   { path: 'configManagment/robotAudio', component: () => import('@/views/configManagment/robotAudio/index.vue') },
