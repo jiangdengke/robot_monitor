@@ -63,19 +63,19 @@ function parsePoint(text, fallbackX, fallbackY) {
 
 function nodeStyle(region) {
   const index = props.regions.findIndex((item) => item.id === region.id)
-  const point = parsePoint(region.cameraCoordinates || region.coordinates, 14 + (index % 4) * 22, 18 + Math.floor(index / 4) * 24)
+  const point = parsePoint(region.coordinate || region.cameraCoordinates || region.coordinates, 14 + (index % 4) * 22, 18 + Math.floor(index / 4) * 24)
   return { left: `${point.x}%`, top: `${point.y}%` }
 }
 
 function robotStyle(robot) {
   const index = props.robots.findIndex((item) => (item.id || item.robotId) === (robot.id || robot.robotId))
-  const point = parsePoint(robot.cameraCoordinates || robot.position, 18 + (index % 5) * 17, 62 + (index % 2) * 13)
+  const point = parsePoint(robot.coordinate || robot.cameraCoordinates || robot.oriCoordinate || robot.position, 18 + (index % 5) * 17, 62 + (index % 2) * 13)
   return { left: `${point.x}%`, top: `${point.y}%` }
 }
 
 function passengerStyle(passenger) {
   const index = props.passengers.findIndex((item) => item.id === passenger.id)
-  const point = parsePoint(passenger.cameraCoordinates || passenger.position, 10 + (index % 6) * 14, 42 + (index % 3) * 12)
+  const point = parsePoint(passenger.coordinate || passenger.cameraCoordinates || passenger.position, 10 + (index % 6) * 14, 42 + (index % 3) * 12)
   return { left: `${point.x}%`, top: `${point.y}%` }
 }
 </script>
