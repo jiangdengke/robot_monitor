@@ -40,6 +40,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
@@ -121,12 +122,20 @@ public class FoodController extends BaseController {
     }
 
     @GetMapping({"selectFoodDaily"})
-    public AjaxResult selectFoodDaily(String foodDate, String roomCode) {
+    public AjaxResult selectFoodDaily(
+        @RequestParam(value = "foodDate", required = false) String foodDate,
+        @RequestParam(value = "roomCode", required = false) String roomCode
+    ) {
         return AjaxResult.success(queryDailyRows(foodDate, roomCode, null, null, 0, Integer.MAX_VALUE));
     }
 
     @PostMapping({"selectFoodDailyList"})
-    public TableDataInfo selectFoodDailyList(String foodDate, String roomCode, String status, String foodName) {
+    public TableDataInfo selectFoodDailyList(
+        @RequestParam(value = "foodDate", required = false) String foodDate,
+        @RequestParam(value = "roomCode", required = false) String roomCode,
+        @RequestParam(value = "status", required = false) String status,
+        @RequestParam(value = "foodName", required = false) String foodName
+    ) {
         PageDomain page = TableSupport.getPageDomain();
         int pageNum = page.getPageNum() == null ? 1 : page.getPageNum();
         int pageSize = page.getPageSize() == null ? 20 : page.getPageSize();

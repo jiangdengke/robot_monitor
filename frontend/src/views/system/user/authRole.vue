@@ -19,7 +19,7 @@
       </el-form-item>
     </el-form>
 
-    <el-table ref="tableRef" :data="rows" border @selection-change="handleSelectionChange">
+    <el-table ref="tableRef" :data="rows" row-key="roleId" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" :selectable="() => true" reserve-selection />
       <el-table-column prop="roleId" label="角色 ID" width="100" />
       <el-table-column prop="roleName" label="角色名称" min-width="140" />
@@ -57,12 +57,16 @@ async function loadRows() {
     rows.value = response.roles || []
     selectedRoles.value = rows.value.filter((item) => item.flag).map((item) => item.roleId)
     requestAnimationFrame(() => {
-      tableRef.value?.clearSelection()
-      rows.value.forEach((row) => {
-        if (row.flag) {
-          tableRef.value?.toggleRowSelection(row, true)
-        }
-      })
+      try {
+        tableRef.value?.clearSelection()
+        rows.value.forEach((row) => {
+          if (row.flag) {
+            tableRef.value?.toggleRowSelection(row, true)
+          }
+        })
+      } catch (error) {
+        errorMessage.value = error?.message || '表格选择状态同步失败'
+      }
     })
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'

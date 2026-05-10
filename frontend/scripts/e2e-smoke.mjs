@@ -52,7 +52,7 @@ let sessionId
 let requestUrls = new Map()
 
 async function main() {
-  await ensureService(`${BACKEND_BASE_URL}/login`, 'backend')
+  await ensureService(`${BACKEND_BASE_URL}/captchaImage`, 'backend')
   await ensureService(FRONTEND_BASE_URL, 'frontend')
 
   const token = await login()
@@ -262,8 +262,11 @@ async function checkRoute(route) {
       bodyText: document.body.innerText.slice(0, 5000),
       hasContent: !!document.querySelector('.content-shell, .page-card, .el-card, table, .el-table'),
       hasLogin: location.pathname === '/login' || document.body.innerText.includes('登录系统'),
-      has404: document.body.innerText.includes('404') || document.body.innerText.includes('页面不存在'),
-      has401: document.body.innerText.includes('401') || document.body.innerText.includes('无权限'),
+      errorHeading: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() || '',
+      has404: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '404'
+        || document.body.innerText.includes('页面不存在或路由尚未映射'),
+      has401: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '401'
+        || document.body.innerText.includes('没有访问该资源的权限'),
       errorTexts: ${JSON.stringify(PAGE_ERROR_TEXTS)}.filter((text) => document.body.innerText.includes(text))
     }))()`)
     const ok = snapshot.path !== '/login'
@@ -473,14 +476,32 @@ async function cleanup() {
   }
   if (chrome && !chrome.killed) {
     chrome.kill('SIGTERM')
+    await waitForProcessExit(chrome, 2500)
   }
   if (tmpProfile) {
-    await rm(tmpProfile, { recursive: true, force: true })
+    try {
+      await rm(tmpProfile, { recursive: true, force: true, maxRetries: 8, retryDelay: 150 })
+    } catch (error) {
+      console.warn(`Failed to remove temporary Chrome profile ${tmpProfile}: ${error.message}`)
+    }
   }
 }
 
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms))
+}
+
+function waitForProcessExit(child, timeoutMs) {
+  if (child.exitCode !== null || child.signalCode) {
+    return Promise.resolve()
+  }
+  return new Promise((resolve) => {
+    const timer = setTimeout(resolve, timeoutMs)
+    child.once('exit', () => {
+      clearTimeout(timer)
+      resolve()
+    })
+  })
 }
 
 main().catch(async (error) => {

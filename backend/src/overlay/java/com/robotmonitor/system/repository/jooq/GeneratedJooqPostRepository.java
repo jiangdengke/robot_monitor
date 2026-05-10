@@ -48,8 +48,15 @@ public class GeneratedJooqPostRepository {
     public List<SysPost> selectPostsByUserName(String userName) {
         return this.dsl.select(
                 SYS_POST.POST_ID,
+                SYS_POST.POST_CODE,
                 SYS_POST.POST_NAME,
-                SYS_POST.POST_CODE
+                SYS_POST.POST_SORT,
+                SYS_POST.STATUS,
+                SYS_POST.CREATE_BY,
+                SYS_POST.CREATE_TIME,
+                SYS_POST.UPDATE_BY,
+                SYS_POST.UPDATE_TIME,
+                SYS_POST.REMARK
             )
             .from(SYS_POST)
             .leftJoin(SYS_USER_POST).on(SYS_USER_POST.POST_ID.eq(SYS_POST.POST_ID))

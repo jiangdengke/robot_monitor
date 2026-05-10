@@ -22,11 +22,12 @@
 | 功能 | 状态 | 说明 |
 | --- | --- | --- |
 | 后端本地完整启动 | `[x]` | 本地 MySQL/Redis 已验证，`cd backend && ./gradlew run` 可启动到 `7075/api` |
-| 前后端端到端功能验证 | `[-]` | 登录、菜单、系统、配置、航班、餐饮、缓存、代码生成、餐桌写入和数字孪生动作核心 API 烟测已通过；浏览器逐页打开和表单全流程仍待补充 |
+| 前后端端到端功能验证 | `[x]` | 已完成本地浏览器逐页烟测：`cd frontend && npm run e2e:smoke`，57/57 页面通过，报告见 `docs/e2e-smoke-report.md` |
 
 ## 备注
 
 - 当前源码不是原始仓库的 1:1 源码恢复，而是基于部署产物和接口行为重建出的可维护 `.vue` 源码。
 - 前端构建已通过：`cd frontend && npm run build`。
+- 浏览器逐页验收已通过：`cd frontend && npm run e2e:smoke`。
 - 前端已配置 Vue 与 Element Plus vendor 分包，构建不再出现默认大 chunk 警告。
 - 后端核心烟测账号：`admin/admin123`。

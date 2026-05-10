@@ -46,13 +46,20 @@ const form = ref({ nickName: '', email: '', phonenumber: '', sex: '2' })
 const message = ref('')
 
 async function loadProfile() {
-  const response = await getProfile()
-  profile.value = response.data || {}
-  form.value = {
-    nickName: profile.value.nickName || '',
-    email: profile.value.email || '',
-    phonenumber: profile.value.phonenumber || '',
-    sex: profile.value.sex || '2'
+  try {
+    const response = await getProfile()
+    profile.value = response.data || {}
+    form.value = {
+      nickName: profile.value.nickName || '',
+      email: profile.value.email || '',
+      phonenumber: profile.value.phonenumber || '',
+      sex: profile.value.sex || '2'
+    }
+    if (!message.value || !message.value.includes('成功')) {
+      message.value = ''
+    }
+  } catch (error) {
+    message.value = error?.payload?.msg || error?.message || '加载失败'
   }
 }
 

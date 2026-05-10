@@ -52,6 +52,8 @@ npm run e2e:smoke
 - `docs/e2e-smoke-report.json`
 - `docs/e2e-smoke-report.md`
 
+当前最近一次本地验收结果：57/57 页面通过。
+
 验收范围：
 
 - 登录接口真实登录并写入前端 token。
