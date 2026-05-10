@@ -21,6 +21,7 @@ const EXTRA_ROUTES = [
   { title: '个人资料', path: '/profile/userInfo' },
   { title: '修改密码', path: '/profile/resetPwd' },
   { title: '头像上传', path: '/profile/userAvatar' },
+  { title: '视频资源', path: '/config/vedio' },
   { title: '字典数据', path: '/system/dict-data/index/1' },
   { title: '角色授权', path: '/system/role-auth/user/1' },
   { title: '选择授权用户', path: '/system/role-auth/selectUser/1' },

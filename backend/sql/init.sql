@@ -1105,6 +1105,7 @@ VALUES
 (307,'区域管理',3,8,'areaManagment','configManagment/areaManagment/index',NULL,'1','0','C','0','0','config:area:list,config:area:query','tree-table','system',NOW(),''),
 (308,'监控设备',3,9,'monitorDevice','configManagment/monitorDevice/index',NULL,'1','0','C','0','0','config:device:list,config:device:query','monitor','system',NOW(),''),
 (309,'投诉记录',3,10,'complaintRecord','configManagment/complaintRecord/index',NULL,'1','0','C','0','0','flight:complaint:list,flight:complaint:query,flight:complaint:add,flight:complaint:edit,flight:complaint:remove','message','system',NOW(),''),
+(310,'视频资源',3,11,'vedio','configManagment/vedio/index',NULL,'1','0','C','0','0','config:video:view,config:video:start,config:video:stop','video-camera','system',NOW(),''),
 
 (400,'旅客信息',4,1,'passenger','statAnalysis/inLoungeList/index',NULL,'1','0','C','0','0','system:passenger:list,system:passenger:query,system:passenger:add,system:passenger:edit,system:passenger:remove,system:passenger:export','people','system',NOW(),''),
 (401,'航班信息',4,2,'flightInfo','statAnalysis/moveStat/index',NULL,'1','0','C','0','0','flight:info:list,flight:info:query','documentation','system',NOW(),''),
