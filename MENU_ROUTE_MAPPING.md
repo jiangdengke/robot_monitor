@@ -21,8 +21,8 @@
 | 字典数据 | `/system/dict-data/index/:dictId` | `system/dict/data` | `frontend/src/views/system/dict/data.vue` |
 | 参数配置 | `/system/config` | `system/config/index` | `frontend/src/views/system/config/index.vue` |
 | 通知公告 | `/system/notice` | `system/notice/index` | `frontend/src/views/system/notice/index.vue` |
-| 个人中心 | `/profile` | `system/user/profile/index` | `frontend/src/views/profile/index.vue` |
-| 头像上传 | `/profile/userAvatar` | `system/user/profile/userAvatar` | `frontend/src/views/profile/userAvatar.vue` |
+| 个人中心 | `/profile` | `system/user/profile/index` | `frontend/src/views/system/user/profile/index.vue` |
+| 头像上传 | `/profile/userAvatar` | `system/user/profile/userAvatar` | `frontend/src/views/system/user/profile/userAvatar.vue` |
 | 角色授权 | `/system/role-auth/user/:roleId` | `system/role/authUser` | `frontend/src/views/system/role/authUser.vue` |
 | 分配角色 | `/system/user-auth/role/:userId` | `system/user/authRole` | `frontend/src/views/system/user/authRole.vue` |
 

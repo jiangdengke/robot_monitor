@@ -43,7 +43,7 @@ const errorMessage = ref('')
 
 const form = reactive({
   username: 'admin',
-  password: 'admin'
+  password: 'admin123'
 })
 
 async function handleSubmit() {

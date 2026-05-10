@@ -10,6 +10,10 @@ import WelcomeView from '@/views/index.vue'
 const moduleRoutes = [
   { path: 'system/user', component: () => import('@/views/system/user/index.vue') },
   { path: 'system/user-auth/role/:userId', component: () => import('@/views/system/user/authRole.vue') },
+  { path: 'profile', component: () => import('@/views/system/user/profile/index.vue') },
+  { path: 'profile/userInfo', component: () => import('@/views/system/user/profile/userInfo.vue') },
+  { path: 'profile/resetPwd', component: () => import('@/views/system/user/profile/resetPwd.vue') },
+  { path: 'profile/userAvatar', component: () => import('@/views/system/user/profile/userAvatar.vue') },
   { path: 'system/role', component: () => import('@/views/system/role/index.vue') },
   { path: 'system/role-auth/user/:roleId', component: () => import('@/views/system/role/authUser.vue') },
   { path: 'system/role-auth/selectUser/:roleId', component: () => import('@/views/system/role/selectUser.vue') },
