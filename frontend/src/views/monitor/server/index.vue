@@ -1,54 +1,50 @@
 <template>
-  <el-card class="page-card server-page">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>服务监控</h1>
-          <p>对齐原后台服务监控页面，展示 CPU、内存、JVM、服务器和磁盘信息。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">服务监控</el-text>
+          <el-text type="info">对齐原后台服务监控页面，展示 CPU、内存、JVM、服务器和磁盘信息。</el-text>
+        </el-space>
         <el-button type="primary" :loading="loading" @click="loadInfo">刷新</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-row :gutter="16" class="metric-row">
+    <el-row :gutter="16">
       <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="never" class="metric-card">
-          <span>CPU 核心数</span>
-          <strong>{{ serverInfo.cpu?.cpuNum ?? '-' }}</strong>
-          <small>系统 {{ formatPercent(serverInfo.cpu?.sys) }} / 用户 {{ formatPercent(serverInfo.cpu?.used) }}</small>
+        <el-card shadow="never">
+          <el-statistic title="CPU 核心数" :value="serverInfo.cpu?.cpuNum ?? '-'" />
+          <el-text type="info">系统 {{ formatPercent(serverInfo.cpu?.sys) }} / 用户 {{ formatPercent(serverInfo.cpu?.used) }}</el-text>
           <el-progress :percentage="numberValue(serverInfo.cpu?.used)" :stroke-width="10" />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="never" class="metric-card">
-          <span>内存使用</span>
-          <strong>{{ formatPercent(serverInfo.mem?.usage) }}</strong>
-          <small>{{ serverInfo.mem?.used ?? '-' }} GB / {{ serverInfo.mem?.total ?? '-' }} GB</small>
+        <el-card shadow="never">
+          <el-statistic title="内存使用" :value="formatPercent(serverInfo.mem?.usage)" />
+          <el-text type="info">{{ serverInfo.mem?.used ?? '-' }} GB / {{ serverInfo.mem?.total ?? '-' }} GB</el-text>
           <el-progress :percentage="numberValue(serverInfo.mem?.usage)" :stroke-width="10" :status="progressStatus(serverInfo.mem?.usage)" />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="never" class="metric-card">
-          <span>JVM 使用</span>
-          <strong>{{ formatPercent(serverInfo.jvm?.usage) }}</strong>
-          <small>{{ serverInfo.jvm?.used ?? '-' }} MB / {{ serverInfo.jvm?.total ?? '-' }} MB</small>
+        <el-card shadow="never">
+          <el-statistic title="JVM 使用" :value="formatPercent(serverInfo.jvm?.usage)" />
+          <el-text type="info">{{ serverInfo.jvm?.used ?? '-' }} MB / {{ serverInfo.jvm?.total ?? '-' }} MB</el-text>
           <el-progress :percentage="numberValue(serverInfo.jvm?.usage)" :stroke-width="10" :status="progressStatus(serverInfo.jvm?.usage)" />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="12" :lg="6">
-        <el-card shadow="never" class="metric-card">
-          <span>CPU 空闲</span>
-          <strong>{{ formatPercent(serverInfo.cpu?.free) }}</strong>
-          <small>等待 {{ formatPercent(serverInfo.cpu?.wait) }}</small>
+        <el-card shadow="never">
+          <el-statistic title="CPU 空闲" :value="formatPercent(serverInfo.cpu?.free)" />
+          <el-text type="info">等待 {{ formatPercent(serverInfo.cpu?.wait) }}</el-text>
           <el-progress :percentage="numberValue(serverInfo.cpu?.free)" :stroke-width="10" status="success" />
         </el-card>
       </el-col>
     </el-row>
 
-    <el-row :gutter="16" class="detail-row">
+    <el-row :gutter="16">
       <el-col :xs="24" :lg="12">
-        <el-card shadow="never" class="info-panel">
-          <template #header><h2>服务器信息</h2></template>
+        <el-card shadow="never">
+          <template #header><el-text tag="b">服务器信息</el-text></template>
           <el-descriptions :column="1" border>
             <el-descriptions-item label="服务器名称">{{ serverInfo.sys?.computerName || '-' }}</el-descriptions-item>
             <el-descriptions-item label="服务器 IP">{{ serverInfo.sys?.computerIp || '-' }}</el-descriptions-item>
@@ -60,8 +56,8 @@
       </el-col>
 
       <el-col :xs="24" :lg="12">
-        <el-card shadow="never" class="info-panel">
-          <template #header><h2>Java 虚拟机信息</h2></template>
+        <el-card shadow="never">
+          <template #header><el-text tag="b">Java 虚拟机信息</el-text></template>
           <el-descriptions :column="1" border>
             <el-descriptions-item label="JVM 名称">{{ serverInfo.jvm?.name || '-' }}</el-descriptions-item>
             <el-descriptions-item label="Java 版本">{{ serverInfo.jvm?.version || '-' }}</el-descriptions-item>
@@ -73,12 +69,12 @@
       </el-col>
     </el-row>
 
-    <el-card shadow="never" class="disk-panel">
+    <el-card shadow="never">
       <template #header>
-        <div class="panel-header">
-          <h2>磁盘状态</h2>
-          <span>展示挂载目录、文件系统类型、容量和使用率。</span>
-        </div>
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b">磁盘状态</el-text>
+          <el-text type="info">展示挂载目录、文件系统类型、容量和使用率。</el-text>
+        </el-space>
       </template>
       <el-table :data="serverInfo.sysFiles || []" border>
         <el-table-column prop="dirName" label="盘符路径" min-width="180" show-overflow-tooltip />
@@ -95,7 +91,7 @@
       </el-table>
     </el-card>
 
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -141,23 +137,3 @@ function progressStatus(value) {
 
 onMounted(loadInfo)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header,
-.panel-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header { margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.metric-row,
-.detail-row { row-gap: 16px; margin-bottom: 16px; }
-.metric-card :deep(.el-card__body) { display: grid; gap: 10px; }
-.metric-card span,
-.metric-card small,
-.panel-header span { color: var(--text-soft); }
-.metric-card strong { font-size: 30px; line-height: 1; }
-.info-panel h2,
-.disk-panel h2 { margin: 0; font-size: 16px; }
-.disk-panel { margin-top: 16px; }
-.message-alert { margin-top: 16px; }
-</style>

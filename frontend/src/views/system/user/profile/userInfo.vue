@@ -1,19 +1,24 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>个人资料</h1>
-          <p>本页已接 `GET /system/user/profile` 和 `PUT /system/user/profile`。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">个人资料</el-text>
+          <el-text type="info">本页已接 `GET /system/user/profile` 和 `PUT /system/user/profile`。</el-text>
+        </el-space>
         <el-button type="primary" @click="loadProfile">刷新</el-button>
-      </div>
+      </el-row>
     </template>
-    <div class="info-grid">
-      <InfoCard title="账号信息" :lines="[`账号：${profile.userName || '-'}`, `昵称：${profile.nickName || '-'}`, `邮箱：${profile.email || '-'}`]" />
-      <InfoCard title="联系信息" :lines="[`手机号：${profile.phonenumber || '-'}`, `性别：${profile.sex || '-'}`, `部门：${profile.dept?.deptName || '-'}`]" />
-    </div>
-    <el-form label-position="top" class="form-grid" @submit.prevent="handleSave">
+    <el-row :gutter="16">
+      <el-col :xs="24" :md="12">
+        <InfoCard title="账号信息" :lines="[`账号：${profile.userName || '-'}`, `昵称：${profile.nickName || '-'}`, `邮箱：${profile.email || '-'}`]" />
+      </el-col>
+      <el-col :xs="24" :md="12">
+        <InfoCard title="联系信息" :lines="[`手机号：${profile.phonenumber || '-'}`, `性别：${profile.sex || '-'}`, `部门：${profile.dept?.deptName || '-'}`]" />
+      </el-col>
+    </el-row>
+    <el-divider />
+    <el-form label-position="top" @submit.prevent="handleSave">
       <el-form-item label="昵称">
         <el-input v-model="form.nickName" placeholder="昵称" />
       </el-form-item>
@@ -31,7 +36,7 @@
         </el-select>
       </el-form-item>
       <el-button type="success" native-type="submit">保存资料</el-button>
-      <el-alert v-if="message" class="message-alert" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
+      <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
     </el-form>
   </el-card>
 </template>
@@ -75,13 +80,3 @@ async function handleSave() {
 
 onMounted(loadProfile)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.form-grid { margin-top: 18px; }
-.message-alert { margin-top: 8px; }
-</style>

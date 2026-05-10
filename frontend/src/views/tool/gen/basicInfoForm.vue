@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="card-header">
-        <h2>基础信息</h2>
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">基础信息</el-text>
         <el-tag v-if="model.tableName" type="info">{{ model.tableName }}</el-tag>
-      </div>
+      </el-row>
     </template>
 
     <el-form :model="model" label-position="top">
@@ -56,8 +56,3 @@ defineProps({
   }
 })
 </script>
-
-<style scoped>
-.card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-h2 { margin: 0; font-size: 16px; }
-</style>

@@ -1,13 +1,13 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>数字孪生总览</h1>
-          <p>区域、机器人、旅客、巡检和桌台数据实时联动，硬件动作在本地以任务方式提交。</p>
-        </div>
-        <div class="header-actions">
-          <el-select v-model="activeRoomCode" clearable placeholder="选择贵宾室" class="room-select" @change="loadDashboard">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">数字孪生总览</el-text>
+          <el-text type="info">区域、机器人、旅客、巡检和桌台数据实时联动，硬件动作在本地以任务方式提交。</el-text>
+        </el-space>
+        <el-space wrap>
+          <el-select v-model="activeRoomCode" clearable placeholder="选择贵宾室" @change="loadDashboard">
             <el-option
               v-for="room in roomList"
               :key="room.roomCode || room.deptId"
@@ -16,20 +16,20 @@
             />
           </el-select>
           <el-button :loading="loading" type="primary" @click="loadDashboard">刷新</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-row :gutter="16" class="dashboard-grid">
+    <el-row :gutter="16">
       <el-col v-for="metric in metrics" :key="metric.label" :xs="24" :sm="12" :md="8" :lg="4">
-        <el-card shadow="hover" class="metric-card">
-          <strong>{{ metric.value }}</strong>
-          <span>{{ metric.label }}</span>
+        <el-card shadow="hover">
+          <el-statistic :title="metric.label" :value="metric.value" />
         </el-card>
       </el-col>
     </el-row>
 
-    <div class="panel-grid">
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="16">
       <CanvasImg
         :room-name="activeRoomName"
         :regions="filteredRegions"
@@ -40,12 +40,15 @@
         @select-robot="selectRobot"
         @select-passenger="selectPassenger"
       />
+      </el-col>
+      <el-col :xs="24" :lg="8">
       <MessageInfo :active-room="activeRoomName" :messages="messages" />
-    </div>
+      </el-col>
+    </el-row>
 
-    <el-alert v-if="actionMessage" class="hint" :title="actionMessage" :type="actionType" :closable="false" show-icon />
+    <el-alert v-if="actionMessage" :title="actionMessage" :type="actionType" :closable="false" show-icon />
 
-    <el-tabs v-model="tab" class="tab-panel">
+    <el-tabs v-model="tab">
       <el-tab-pane label="房间/区域" name="area">
         <el-table v-loading="loading" :data="filteredRegions" border>
           <el-table-column prop="regionName" label="区域名称" min-width="140" />
@@ -91,7 +94,7 @@
           <el-table-column prop="regionId" label="区域" width="90" />
           <el-table-column label="预警" min-width="220">
             <template #default="{ row }">
-              <div v-if="row.warningLogList?.length" class="warning-list">
+              <el-space v-if="row.warningLogList?.length" wrap>
                 <el-tag
                   v-for="warning in row.warningLogList"
                   :key="warning.id"
@@ -100,7 +103,7 @@
                 >
                   {{ warning.warningInfo || warning.warningType || '预警' }}
                 </el-tag>
-              </div>
+              </el-space>
               <span v-else>-</span>
             </template>
           </el-table-column>
@@ -367,26 +370,3 @@ function showAction(message, type = 'success') {
 
 onMounted(loadDashboard)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions { display: flex; align-items: center; gap: 10px; }
-.room-select { width: 240px; }
-.dashboard-grid { margin-top: 18px; }
-.metric-card { display: grid; gap: 6px; }
-.metric-card strong { font-size: 24px; }
-.metric-card span { color: var(--text-soft); font-size: 13px; }
-.panel-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(320px, .6fr); gap: 16px; margin-top: 18px; }
-.tab-panel { margin-top: 18px; }
-.warning-list { display: flex; flex-wrap: wrap; gap: 6px; }
-.hint { margin-top: 16px; }
-@media (max-width: 1100px) {
-  .panel-grid { grid-template-columns: 1fr; }
-  .page-header { align-items: flex-start; flex-direction: column; }
-  .header-actions { width: 100%; }
-  .room-select { flex: 1; width: auto; }
-}
-</style>

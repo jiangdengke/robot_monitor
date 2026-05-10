@@ -1,16 +1,16 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="card-header">
-        <h2>导入表</h2>
-        <div class="actions">
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">导入表</el-text>
+        <el-space wrap>
           <el-button @click="loadRows">刷新</el-button>
           <el-button type="primary" :disabled="!selected.length" @click="submit">导入选中</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-form class="search-form" inline @submit.prevent="loadRows">
+    <el-form inline @submit.prevent="loadRows">
       <el-form-item label="表名">
         <el-input v-model.trim="query.tableName" clearable placeholder="支持模糊查询" />
       </el-form-item>
@@ -74,10 +74,3 @@ async function submit() {
 
 onMounted(loadRows)
 </script>
-
-<style scoped>
-.card-header,
-.actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.search-form { margin-bottom: 12px; }
-h2 { margin: 0; font-size: 16px; }
-</style>

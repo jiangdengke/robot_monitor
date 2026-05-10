@@ -24,7 +24,9 @@
         :closable="false"
         title="树表生成会按节点编码、父节点和节点名称字段输出 el-tree / el-tree-select 代码。"
       />
-      <el-tree class="preview-tree" :data="previewTree" default-expand-all node-key="id" />
+      <el-card shadow="never">
+        <el-tree :data="previewTree" default-expand-all node-key="id" />
+      </el-card>
     </el-form>
     <template #footer>
       <el-button @click="visible = false">取消</el-button>
@@ -77,13 +79,3 @@ function save() {
   visible.value = false
 }
 </script>
-
-<style scoped>
-.preview-tree {
-  margin-top: 14px;
-  padding: 14px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: var(--panel-alt);
-}
-</style>

@@ -1,13 +1,13 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="card-header">
-        <h2>编辑生成表</h2>
-        <div class="actions">
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">编辑生成表</el-text>
+        <el-space wrap>
           <el-button @click="resetDraft">重置</el-button>
           <el-button type="primary" @click="save">保存</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
     <el-tabs v-model="activeTab">
@@ -113,9 +113,3 @@ function save() {
   ElMessage.success('生成表配置已提交')
 }
 </script>
-
-<style scoped>
-.card-header,
-.actions { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-h2 { margin: 0; font-size: 16px; }
-</style>

@@ -1,24 +1,26 @@
 <template>
-  <article
-    class="drag-item"
-    :class="{ active, disabled: field.disabled }"
+  <el-card
+    shadow="never"
     draggable="true"
     @dragstart="$emit('dragstart')"
     @dragover.prevent
     @drop="$emit('drop')"
     @click="$emit('select')"
   >
-    <div class="drag-main">
-      <strong>{{ index + 1 }}. {{ field.label }}</strong>
-      <span>{{ field.prop }} · {{ field.type }} · {{ field.span }}/24</span>
-    </div>
-    <div class="drag-actions">
+    <el-row justify="space-between" align="middle">
+      <el-space direction="vertical" alignment="flex-start">
+        <el-text :type="active ? 'primary' : undefined" tag="b">{{ index + 1 }}. {{ field.label }}</el-text>
+        <el-text type="info" size="small">{{ field.prop }} · {{ field.type }} · {{ field.span }}/24</el-text>
+      </el-space>
+      <el-space wrap>
       <el-tag v-if="field.required" size="small" type="danger">必填</el-tag>
       <el-tag v-if="field.dictType" size="small" type="info">{{ field.dictType }}</el-tag>
+      <el-tag v-if="field.disabled" size="small" type="warning">禁用</el-tag>
       <el-button link type="primary" @click.stop="$emit('duplicate')">复制</el-button>
       <el-button link type="danger" @click.stop="$emit('remove')">删除</el-button>
-    </div>
-  </article>
+      </el-space>
+    </el-row>
+  </el-card>
 </template>
 
 <script setup>
@@ -39,26 +41,3 @@ defineProps({
 
 defineEmits(['select', 'dragstart', 'drop', 'duplicate', 'remove'])
 </script>
-
-<style scoped>
-.drag-item {
-  display: flex;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 12px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #fff;
-  cursor: grab;
-}
-.drag-item.active {
-  border-color: var(--brand);
-  background: #eaf4ff;
-}
-.drag-item.disabled {
-  opacity: .72;
-}
-.drag-main { display: grid; gap: 4px; min-width: 0; }
-.drag-main span { color: var(--text-soft); font-size: 12px; }
-.drag-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 6px; }
-</style>

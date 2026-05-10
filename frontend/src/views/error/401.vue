@@ -1,15 +1,3 @@
 <template>
-  <div class="error-shell">
-    <section class="error-card card">
-      <h1>401</h1>
-      <p>没有访问该资源的权限。</p>
-    </section>
-  </div>
+  <el-result icon="warning" title="401" sub-title="没有访问该资源的权限。" />
 </template>
-
-<style scoped>
-.error-shell { min-height: 100vh; display: grid; place-items: center; padding: 24px; }
-.error-card { width: min(520px,100%); padding: 32px; text-align: center; }
-.error-card h1 { margin: 0; font-size: 56px; }
-.error-card p { margin: 12px 0 0; color: var(--text-soft); }
-</style>

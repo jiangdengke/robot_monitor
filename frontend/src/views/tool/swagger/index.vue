@@ -1,45 +1,48 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>Swagger 文档</h1>
-          <p>保留原后台接口文档入口，并提供本地可用性检查。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">Swagger 文档</el-text>
+          <el-text type="info">保留原后台接口文档入口，并提供本地可用性检查。</el-text>
+        </el-space>
         <el-button type="primary" @click="openSwagger">打开 Swagger</el-button>
-      </div>
+      </el-row>
     </template>
 
     <el-row :gutter="16">
-      <el-col :span="8">
-        <el-card shadow="never" class="entry-card">
-          <h2>Swagger UI</h2>
-          <p>{{ swaggerUrl }}</p>
+      <el-col :xs="24" :md="8">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">Swagger UI</el-text></template>
+          <el-text>{{ swaggerUrl }}</el-text>
+          <el-divider />
           <el-button @click="openUrl(swaggerUrl)">新窗口打开</el-button>
         </el-card>
       </el-col>
-      <el-col :span="8">
-        <el-card shadow="never" class="entry-card">
-          <h2>OpenAPI JSON</h2>
-          <p>{{ apiDocsUrl }}</p>
+      <el-col :xs="24" :md="8">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">OpenAPI JSON</el-text></template>
+          <el-text>{{ apiDocsUrl }}</el-text>
+          <el-divider />
           <el-button @click="openUrl(apiDocsUrl)">查看 JSON</el-button>
         </el-card>
       </el-col>
-      <el-col :span="8">
-        <el-card shadow="never" class="entry-card">
-          <h2>后端跳转</h2>
-          <p>{{ toolSwaggerUrl }}</p>
+      <el-col :xs="24" :md="8">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">后端跳转</el-text></template>
+          <el-text>{{ toolSwaggerUrl }}</el-text>
+          <el-divider />
           <el-button @click="openUrl(toolSwaggerUrl)">访问原入口</el-button>
         </el-card>
       </el-col>
     </el-row>
 
-    <el-card shadow="never" class="status-card">
+    <el-card shadow="never">
       <template #header>
-        <div class="panel-header">
-          <h2>连通性</h2>
+        <el-row justify="space-between" align="middle">
+          <el-text tag="b">连通性</el-text>
           <el-button size="small" @click="checkDocs">检查</el-button>
-        </div>
+        </el-row>
       </template>
       <el-descriptions :column="1" border>
         <el-descriptions-item label="接口前缀">{{ API_BASE }}</el-descriptions-item>
@@ -86,19 +89,3 @@ async function checkDocs() {
   }
 }
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header,
-.panel-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p,
-.entry-card p { margin: 8px 0 0; color: var(--text-soft); }
-h2 { margin: 0; font-size: 16px; }
-.entry-card { min-height: 170px; }
-.entry-card p { min-height: 44px; word-break: break-all; }
-.status-card { margin-top: 16px; }
-@media (max-width: 1080px) {
-  :deep(.el-col) { max-width: 100%; flex: 0 0 100%; margin-bottom: 12px; }
-}
-</style>

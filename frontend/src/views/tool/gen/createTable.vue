@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="card-header">
-        <h2>创建生成表</h2>
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">创建生成表</el-text>
         <el-button type="primary" @click="submit">创建</el-button>
-      </div>
+      </el-row>
     </template>
 
     <el-form ref="formRef" :model="form" :rules="rules" label-position="top">
@@ -54,7 +54,7 @@
                 </template>
               </el-table-column>
             </el-table>
-            <el-button class="add-btn" @click="addColumn">新增字段</el-button>
+            <el-button @click="addColumn">新增字段</el-button>
           </el-form-item>
         </el-col>
       </el-row>
@@ -111,9 +111,3 @@ async function submit() {
   ElMessage.success('创建表单已提交')
 }
 </script>
-
-<style scoped>
-.card-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-h2 { margin: 0; font-size: 16px; }
-.add-btn { margin-top: 10px; }
-</style>

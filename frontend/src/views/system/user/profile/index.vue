@@ -1,30 +1,38 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>个人中心</h1>
-          <p>直接读取 `/system/user/profile` 接口。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">个人中心</el-text>
+          <el-text type="info">直接读取 `/system/user/profile` 接口。</el-text>
+        </el-space>
         <el-button type="primary" @click="loadProfile">刷新</el-button>
-      </div>
+      </el-row>
     </template>
-    <div class="info-grid">
-      <el-card shadow="never" class="info-panel">
-        <template #header><h2>基础信息</h2></template>
-        <p>账号：{{ profile.userName || '-' }}</p>
-        <p>昵称：{{ profile.nickName || '-' }}</p>
-        <p>邮箱：{{ profile.email || '-' }}</p>
-        <p>手机号：{{ profile.phonenumber || '-' }}</p>
-      </el-card>
-      <el-card shadow="never" class="info-panel">
-        <template #header><h2>组织信息</h2></template>
-        <p>角色：{{ roleGroup || '-' }}</p>
-        <p>岗位：{{ postGroup || '-' }}</p>
-        <p>部门：{{ profile.dept?.deptName || '-' }}</p>
-      </el-card>
-    </div>
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-row :gutter="16">
+      <el-col :xs="24" :md="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">基础信息</el-text></template>
+          <el-descriptions :column="1" border>
+            <el-descriptions-item label="账号">{{ profile.userName || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="昵称">{{ profile.nickName || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="邮箱">{{ profile.email || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="手机号">{{ profile.phonenumber || '-' }}</el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+      </el-col>
+      <el-col :xs="24" :md="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">组织信息</el-text></template>
+          <el-descriptions :column="1" border>
+            <el-descriptions-item label="角色">{{ roleGroup || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="岗位">{{ postGroup || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="部门">{{ profile.dept?.deptName || '-' }}</el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+      </el-col>
+    </el-row>
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -51,14 +59,3 @@ async function loadProfile() {
 
 onMounted(loadProfile)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.info-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.info-panel h2 { margin: 0; font-size: 16px; }
-.info-panel p { margin: 8px 0 0; color: var(--text-soft); }
-.message-alert { margin-top: 16px; }
-</style>

@@ -1,24 +1,24 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>引导日志</h1>
-          <p>查询 `/ai/log/infoList`，展示机器人、贵宾室、区域和坐标引导记录。</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">引导日志</el-text>
+          <el-text type="info">查询 `/ai/log/infoList`，展示机器人、贵宾室、区域和坐标引导记录。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button type="primary" :loading="loading" @click="loadRows">刷新</el-button>
           <el-button v-if="hasPermission('ai:log:export')" @click="exportRows">导出</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-form :model="query" inline class="toolbar" @submit.prevent="loadRows">
+    <el-form :model="query" inline @submit.prevent="loadRows">
       <el-form-item label="机器人">
         <el-input v-model.trim="query.robotName" clearable placeholder="机器人名称" />
       </el-form-item>
       <el-form-item label="贵宾室">
-        <el-select v-model="query.roomCode" clearable filterable placeholder="选择贵宾室" class="room-select">
+        <el-select v-model="query.roomCode" clearable filterable placeholder="选择贵宾室">
           <el-option
             v-for="room in roomList"
             :key="room.roomCode || room.deptId"
@@ -42,15 +42,21 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="16" class="summary-row">
+    <el-row :gutter="16">
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ total }}</strong><span>引导记录</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="引导记录" :value="total" />
+        </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ robotCount }}</strong><span>机器人数量</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="机器人数量" :value="robotCount" />
+        </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ roomCount }}</strong><span>贵宾室数量</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="贵宾室数量" :value="roomCount" />
+        </el-card>
       </el-col>
     </el-row>
 
@@ -64,7 +70,7 @@
       <el-table-column prop="createTime" label="引导时间" min-width="170" />
     </el-table>
 
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -129,18 +135,3 @@ onMounted(async () => {
   await loadRows()
 })
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.toolbar { margin-bottom: 16px; }
-.room-select { width: 220px; }
-.summary-row { margin-bottom: 16px; }
-.summary-row :deep(.el-card__body) { display: grid; gap: 6px; }
-.summary-row strong { font-size: 24px; }
-.summary-row span { color: var(--text-soft); }
-.message-alert { margin-top: 16px; }
-</style>

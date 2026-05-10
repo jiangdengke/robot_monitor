@@ -1,16 +1,16 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>问题统计</h1>
-          <p>读取 `/rest/ai/ai-question-stat-list`，按机器人、问题和会话类型统计 AI 问答。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">问题统计</el-text>
+          <el-text type="info">读取 `/rest/ai/ai-question-stat-list`，按机器人、问题和会话类型统计 AI 问答。</el-text>
+        </el-space>
         <el-button type="primary" @click="loadRows">刷新</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-form inline class="toolbar" @submit.prevent="loadRows">
+    <el-form inline @submit.prevent="loadRows">
       <el-form-item label="机器人">
         <el-input v-model.trim="query.robotId" clearable placeholder="robotId" />
       </el-form-item>
@@ -27,15 +27,21 @@
       </el-form-item>
     </el-form>
 
-    <el-row :gutter="16" class="summary-row">
+    <el-row :gutter="16">
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ total }}</strong><span>问题记录</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="问题记录" :value="total" />
+        </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ robotCount }}</strong><span>机器人数量</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="机器人数量" :value="robotCount" />
+        </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never"><strong>{{ typeCount }}</strong><span>会话类型</span></el-card>
+        <el-card shadow="never">
+          <el-statistic title="会话类型" :value="typeCount" />
+        </el-card>
       </el-col>
     </el-row>
 
@@ -57,8 +63,8 @@
       <el-table-column prop="createTime" label="时间" min-width="170" />
     </el-table>
 
-    <el-alert v-if="message" class="message-alert" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="message" :title="message" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -122,16 +128,3 @@ async function testAiChat() {
 
 onMounted(loadRows)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.toolbar { margin-bottom: 16px; }
-.summary-row { margin-bottom: 16px; }
-.summary-row :deep(.el-card__body) { display: grid; gap: 6px; }
-.summary-row strong { font-size: 24px; }
-.summary-row span { color: var(--text-soft); }
-.message-alert { margin-top: 16px; }
-</style>

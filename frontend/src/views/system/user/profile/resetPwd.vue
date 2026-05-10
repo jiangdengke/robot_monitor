@@ -1,14 +1,12 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>修改密码</h1>
-          <p>本页已接 `PUT /system/user/profile/updatePwd`。</p>
-        </div>
-      </div>
+      <el-space direction="vertical" alignment="flex-start">
+        <el-text tag="b" size="large">修改密码</el-text>
+        <el-text type="info">本页已接 `PUT /system/user/profile/updatePwd`。</el-text>
+      </el-space>
     </template>
-    <el-form label-position="top" class="form-grid" @submit.prevent="handleSubmit">
+    <el-form label-position="top" @submit.prevent="handleSubmit">
       <el-form-item label="旧密码">
         <el-input v-model="oldPassword" type="password" show-password placeholder="旧密码" />
       </el-form-item>
@@ -16,7 +14,7 @@
         <el-input v-model="newPassword" type="password" show-password placeholder="新密码" />
       </el-form-item>
       <el-button type="primary" native-type="submit">提交修改</el-button>
-      <el-alert v-if="message" class="message-alert" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
+      <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
     </el-form>
   </el-card>
 </template>
@@ -40,11 +38,3 @@ async function handleSubmit() {
   }
 }
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.form-grid { margin-top: 18px; }
-.message-alert { margin-top: 8px; }
-</style>

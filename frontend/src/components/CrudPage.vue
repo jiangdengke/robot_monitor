@@ -1,19 +1,19 @@
 <template>
-  <el-card class="crud-page">
+  <el-card shadow="never">
     <template #header>
-      <div class="crud-header">
-        <div>
-          <h1>{{ title }}</h1>
-          <p>{{ description }}</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">{{ title }}</el-text>
+          <el-text v-if="description" type="info">{{ description }}</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button @click="loadRows">刷新</el-button>
           <el-button v-if="canCreate" type="primary" @click="openCreate">新增</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-form v-if="searchFields.length" inline class="search-form" @submit.prevent="handleSearch">
+    <el-form v-if="searchFields.length" inline @submit.prevent="handleSearch">
       <el-form-item v-for="field in searchFields" :key="field.prop" :label="field.label">
         <el-select v-if="field.type === 'select'" v-model="query[field.prop]" clearable :placeholder="field.placeholder || field.label">
           <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
@@ -45,7 +45,7 @@
       </el-form-item>
     </el-form>
 
-    <div class="table-actions">
+    <el-space wrap>
       <el-button v-if="canDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
       <el-button
         v-for="action in visibleHeaderActions"
@@ -58,7 +58,7 @@
       </el-button>
       <el-button v-if="uploadField" @click="uploadVisible = true">上传文件</el-button>
       <slot name="actions" :rows="rows" :load-rows="loadRows" />
-    </div>
+    </el-space>
 
     <el-table
       v-loading="loading"
@@ -82,13 +82,10 @@
             :disabled="column.disabled?.(row)"
             @change="handleSwitchChange(column, row, $event)"
           />
-          <el-image
+          <el-avatar
             v-else-if="column.image"
-            class="table-image"
+            shape="square"
             :src="displayImageValue(row, column)"
-            fit="cover"
-            :preview-src-list="[displayImageValue(row, column)]"
-            preview-teleported
           />
           <el-tag v-else-if="column.tag" :type="resolveTagType(column, row)">{{ displayValue(row, column) }}</el-tag>
           <span v-else>{{ displayValue(row, column) }}</span>
@@ -115,7 +112,6 @@
 
     <el-pagination
       v-if="pagination"
-      class="pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       :current-page="pageNum"
@@ -167,34 +163,36 @@
           <el-radio-group v-else-if="field.type === 'radio'" v-model="form[field.prop]">
             <el-radio v-for="option in field.options || []" :key="option.value" :value="option.value">{{ option.label }}</el-radio>
           </el-radio-group>
-          <div v-else-if="field.type === 'icon'" class="icon-picker">
+          <el-space v-else-if="field.type === 'icon'" direction="vertical" fill>
             <el-input v-model="form[field.prop]" :placeholder="field.placeholder || field.label">
               <template #prepend>
-                <el-icon v-if="form[field.prop] && form[field.prop] !== '#'" class="selected-icon">
+                <el-icon v-if="form[field.prop] && form[field.prop] !== '#'">
                   <component :is="form[field.prop]" />
                 </el-icon>
                 <span v-else>#</span>
               </template>
             </el-input>
-            <el-popover trigger="click" width="360" popper-class="crud-icon-popper">
+            <el-popover trigger="click" width="360">
               <template #reference>
                 <el-button>选择图标</el-button>
               </template>
-              <div class="icon-grid">
-                <button
-                  v-for="icon in field.icons || defaultIcons"
-                  :key="icon"
-                  type="button"
-                  :class="{ active: form[field.prop] === icon }"
-                  @click="form[field.prop] = icon"
-                >
-                  <el-icon><component :is="icon" /></el-icon>
-                  <span>{{ icon }}</span>
-                </button>
-              </div>
+              <el-scrollbar max-height="320px">
+                <el-space wrap>
+                  <el-button
+                    v-for="icon in field.icons || defaultIcons"
+                    :key="icon"
+                    :plain="form[field.prop] !== icon"
+                    :type="form[field.prop] === icon ? 'primary' : 'default'"
+                    @click="form[field.prop] = icon"
+                  >
+                    <el-icon><component :is="icon" /></el-icon>
+                    <span>{{ icon }}</span>
+                  </el-button>
+                </el-space>
+              </el-scrollbar>
             </el-popover>
-          </div>
-          <div v-else-if="field.type === 'imageBase64'" class="image-base64-field">
+          </el-space>
+          <el-space v-else-if="field.type === 'imageBase64'" direction="vertical" fill>
             <el-upload
               :auto-upload="false"
               :limit="1"
@@ -205,13 +203,13 @@
               <el-button>选择图片</el-button>
             </el-upload>
             <el-input v-model="form[field.prop]" type="textarea" :rows="3" :placeholder="field.placeholder || '上传后自动回填 base64，也可手动粘贴 data:image 内容'" />
-            <el-image v-if="form[field.prop]" class="form-image-preview" :src="form[field.prop]" fit="cover" :preview-src-list="[form[field.prop]]" preview-teleported />
-          </div>
-          <div v-else-if="field.type === 'imagePreview'" class="image-preview-field">
-            <el-image v-if="resolvePreviewUrl(field, form)" class="form-image-preview" :src="resolvePreviewUrl(field, form)" fit="cover" :preview-src-list="[resolvePreviewUrl(field, form)]" preview-teleported />
+            <el-avatar v-if="form[field.prop]" shape="square" :src="form[field.prop]" />
+          </el-space>
+          <el-space v-else-if="field.type === 'imagePreview'" direction="vertical" fill>
+            <el-avatar v-if="resolvePreviewUrl(field, form)" shape="square" :src="resolvePreviewUrl(field, form)" />
             <el-input v-model="form[field.prop]" :placeholder="field.placeholder || field.label" />
-          </div>
-          <div v-else-if="field.type === 'editableList'" class="editable-list-field">
+          </el-space>
+          <el-space v-else-if="field.type === 'editableList'" direction="vertical" fill>
             <el-button size="small" type="primary" plain @click="addEditableListRow(field)">新增明细</el-button>
             <el-table :data="form[field.prop] || []" border size="small">
               <el-table-column v-for="child in field.children || []" :key="child.prop" :label="child.label" :min-width="child.minWidth || 130">
@@ -230,7 +228,7 @@
                 </template>
               </el-table-column>
             </el-table>
-          </div>
+          </el-space>
           <el-input v-else-if="field.type === 'textarea'" v-model="form[field.prop]" type="textarea" :rows="field.rows || 4" :placeholder="field.placeholder || field.label" />
           <el-input v-else v-model="form[field.prop]" :type="field.inputType || 'text'" :placeholder="field.placeholder || field.label" />
         </el-form-item>
@@ -264,7 +262,7 @@
         <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
         <div class="el-upload__text">拖入文件或点击选择</div>
       </el-upload>
-      <el-alert v-if="uploadMessage" class="message-alert" :title="uploadMessage" :type="uploadMessageType" :closable="false" />
+      <el-alert v-if="uploadMessage" :title="uploadMessage" :type="uploadMessageType" :closable="false" />
       <template #footer>
         <el-button @click="uploadVisible = false">关闭</el-button>
         <el-button type="primary" :disabled="!pendingFiles.length" @click="submitUpload">上传</el-button>
@@ -303,16 +301,16 @@
         <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
         <div class="el-upload__text">拖入 Excel 文件或点击选择</div>
       </el-upload>
-      <el-checkbox v-model="importUpdateSupport" class="import-check">更新已存在数据</el-checkbox>
-      <el-alert v-if="importMessage" class="message-alert" :title="importMessage" :type="importMessageType" :closable="false" />
+      <el-checkbox v-model="importUpdateSupport">更新已存在数据</el-checkbox>
+      <el-alert v-if="importMessage" :title="importMessage" :type="importMessageType" :closable="false" />
       <template #footer>
         <el-button @click="importVisible = false">关闭</el-button>
         <el-button type="primary" :disabled="!importFile" @click="submitImport">导入</el-button>
       </template>
     </el-dialog>
 
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
-    <el-alert v-if="successMessage" class="message-alert" :title="successMessage" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false" />
   </el-card>
 </template>
 
@@ -827,76 +825,3 @@ onMounted(() => {
   hydrateDictColumns().finally(loadRows)
 })
 </script>
-
-<style scoped>
-.crud-page { padding: 24px; }
-.crud-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-.crud-header h1 { margin: 0; font-size: 28px; }
-.crud-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions,
-.table-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.search-form { margin: 18px 0 6px; }
-.table-actions { margin: 10px 0 16px; }
-.pagination { justify-content: flex-end; margin-top: 18px; }
-.message-alert { margin-top: 16px; }
-.table-image { width: 56px; height: 40px; border-radius: 6px; }
-.import-check { margin-top: 14px; }
-.icon-picker {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 10px;
-}
-.selected-icon {
-  vertical-align: middle;
-}
-.icon-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
-  max-height: 320px;
-  overflow: auto;
-}
-.icon-grid button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  min-width: 0;
-  padding: 8px;
-  border: 1px solid var(--el-border-color);
-  border-radius: 8px;
-  background: var(--el-bg-color);
-  color: var(--el-text-color-regular);
-  cursor: pointer;
-}
-.icon-grid button:hover,
-.icon-grid button.active {
-  border-color: var(--el-color-primary);
-  color: var(--el-color-primary);
-  background: var(--el-color-primary-light-9);
-}
-.icon-grid span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-.image-base64-field,
-.image-preview-field {
-  display: grid;
-  gap: 10px;
-}
-.form-image-preview {
-  width: 128px;
-  height: 88px;
-  border-radius: 8px;
-  border: 1px solid var(--el-border-color);
-}
-.editable-list-field {
-  display: grid;
-  gap: 10px;
-}
-</style>

@@ -1,20 +1,20 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>桌台模型</h1>
-          <p>桌台列表、桌态提交、机器人引导、查找和路径预览已接入真实接口。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">桌台模型</el-text>
+          <el-text type="info">桌台列表、桌态提交、机器人引导、查找和路径预览已接入真实接口。</el-text>
+        </el-space>
         <el-button type="primary" @click="loadTables">刷新桌台</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-row :gutter="16" class="table-summary">
+    <el-row :gutter="16">
       <el-col v-for="table in tables" :key="table.id" :xs="24" :sm="12" :md="8" :lg="6">
-        <el-card shadow="hover" class="metric-card">
-          <strong>{{ table.tableNo }}</strong>
-          <span>{{ table.regionName || table.roomCode || '-' }}</span>
+        <el-card shadow="hover">
+          <el-statistic title="桌号" :value="table.tableNo" />
+          <el-text type="info">{{ table.regionName || table.roomCode || '-' }}</el-text>
           <el-tag size="small" :type="String(table.status) === '1' ? 'warning' : 'success'">
             {{ String(table.status) === '1' ? '翻台' : '空闲' }}
           </el-tag>
@@ -22,7 +22,7 @@
       </el-col>
     </el-row>
 
-    <el-tabs v-model="mode" class="mode-tabs">
+    <el-tabs v-model="mode">
       <el-tab-pane label="执行" name="execute">
         <DoTable :tables="tables" @refresh="loadTables" />
       </el-tab-pane>
@@ -33,7 +33,7 @@
         <WalkPanel :tables="tables" />
       </el-tab-pane>
     </el-tabs>
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -60,16 +60,3 @@ async function loadTables() {
 
 onMounted(loadTables)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.table-summary { margin-top: 18px; }
-.metric-card { display: grid; gap: 8px; }
-.metric-card strong { font-size: 20px; }
-.metric-card span { color: var(--text-soft); }
-.mode-tabs { margin-top: 18px; }
-.message-alert { margin-top: 16px; }
-</style>

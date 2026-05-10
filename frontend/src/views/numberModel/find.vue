@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <h2>桌台查找</h2>
+      <el-text tag="b">桌台查找</el-text>
     </template>
     <el-input v-model="keyword" placeholder="输入桌号、区域或坐标" clearable />
-    <el-table :data="matched" border class="match-table">
+    <el-table :data="matched" border>
       <el-table-column prop="tableNo" label="桌号" width="120" />
       <el-table-column prop="regionName" label="区域" min-width="140" />
       <el-table-column prop="cameraCoordinates" label="坐标" min-width="180" />
@@ -29,8 +29,3 @@ const matched = computed(() => {
   )
 })
 </script>
-
-<style scoped>
-.mini-card h2 { margin: 0 0 10px; font-size: 16px; }
-.match-table { margin-top: 12px; }
-</style>

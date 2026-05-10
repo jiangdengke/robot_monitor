@@ -1,12 +1,10 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>{{ title }}</h1>
-          <p>{{ description }}</p>
-        </div>
-      </div>
+      <el-space direction="vertical" alignment="flex-start">
+        <el-text tag="b" size="large">{{ title }}</el-text>
+        <el-text type="info">{{ description }}</el-text>
+      </el-space>
     </template>
     <slot />
   </el-card>
@@ -18,9 +16,3 @@ defineProps({
   description: { type: String, default: '可复用页面容器。' }
 })
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-</style>

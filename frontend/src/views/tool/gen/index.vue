@@ -1,21 +1,21 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>代码生成</h1>
-          <p>数据库表导入、生成配置、字段联动、代码预览、同步和下载均接入本地后端。</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">代码生成</el-text>
+          <el-text type="info">数据库表导入、生成配置、字段联动、代码预览、同步和下载均接入本地后端。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button @click="loadRows">刷新</el-button>
           <el-button type="primary" @click="openImport">导入表</el-button>
           <el-button :disabled="!selectedRows.length" @click="batchDownload">批量生成</el-button>
           <el-button type="danger" plain :disabled="!selectedRows.length" @click="batchRemove">批量删除</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-form class="search-form" inline @submit.prevent="loadRows">
+    <el-form inline @submit.prevent="loadRows">
       <el-form-item label="表名">
         <el-input v-model="query.tableName" clearable placeholder="请输入表名" />
       </el-form-item>
@@ -28,9 +28,10 @@
       </el-form-item>
     </el-form>
 
-    <div class="layout-grid">
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="13">
       <el-card shadow="never">
-        <template #header><h2>已导入表</h2></template>
+        <template #header><el-text tag="b">已导入表</el-text></template>
         <el-table
           :data="rows"
           border
@@ -55,9 +56,11 @@
           </el-table-column>
         </el-table>
       </el-card>
+      </el-col>
 
+      <el-col :xs="24" :lg="11">
       <el-card shadow="never">
-        <template #header><h2>生成配置</h2></template>
+        <template #header><el-text tag="b">生成配置</el-text></template>
         <el-form v-if="detail?.info" label-position="top">
           <el-row :gutter="12">
             <el-col :span="12">
@@ -110,24 +113,25 @@
               </el-form-item>
             </el-col>
           </el-row>
-          <div class="action-row">
+          <el-space wrap>
             <el-button type="success" @click="saveConfig">保存配置和字段</el-button>
             <el-button @click="syncDb()">同步数据库</el-button>
             <el-button @click="previewCode()">预览代码</el-button>
             <el-button type="primary" @click="generateCode">生成</el-button>
             <el-button @click="downloadCode()">下载</el-button>
-          </div>
+          </el-space>
         </el-form>
         <el-empty v-else description="选择一张表后配置生成规则" />
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
 
-    <el-card v-if="detail?.rows?.length" shadow="never" class="column-panel">
+    <el-card v-if="detail?.rows?.length" shadow="never">
       <template #header>
-        <div class="panel-header">
-          <h2>字段联动配置</h2>
-          <span>字段开关、查询方式、表单控件和字典类型会随保存落库。</span>
-        </div>
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b">字段联动配置</el-text>
+          <el-text type="info">字段开关、查询方式、表单控件和字典类型会随保存落库。</el-text>
+        </el-space>
       </template>
       <el-table :data="detail.rows" border row-key="columnId">
         <el-table-column label="排序" width="82">
@@ -199,16 +203,16 @@
       </el-table>
     </el-card>
 
-    <el-card v-if="previewEntries.length" shadow="never" class="preview-output">
+    <el-card v-if="previewEntries.length" shadow="never">
       <template #header>
-        <div class="panel-header">
-          <h2>代码预览</h2>
+        <el-row justify="space-between" align="middle">
+          <el-text tag="b">代码预览</el-text>
           <el-button size="small" @click="copyActivePreview">复制当前代码</el-button>
-        </div>
+        </el-row>
       </template>
       <el-tabs v-model="activePreview">
         <el-tab-pane v-for="item in previewEntries" :key="item.name" :name="item.name" :label="item.name">
-          <pre>{{ item.code }}</pre>
+          <el-input :model-value="item.code" type="textarea" :rows="18" readonly />
         </el-tab-pane>
       </el-tabs>
     </el-card>
@@ -420,21 +424,3 @@ async function copyActivePreview() {
 
 onMounted(loadRows)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header,
-.panel-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions,
-.action-row { display: flex; flex-wrap: wrap; gap: 8px; }
-.search-form { margin-top: 18px; }
-h2 { margin: 0; font-size: 16px; }
-.layout-grid { display: grid; grid-template-columns: 1.1fr .9fr; gap: 16px; margin-top: 8px; }
-.column-panel,
-.preview-output { margin-top: 16px; }
-.panel-header span { color: var(--text-soft); font-size: 13px; }
-.preview-output pre { margin: 0; max-height: 560px; overflow: auto; white-space: pre-wrap; color: var(--text-soft); }
-@media (max-width: 1180px) { .layout-grid { grid-template-columns: 1fr; } }
-</style>

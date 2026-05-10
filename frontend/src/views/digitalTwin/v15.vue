@@ -1,57 +1,65 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>数字孪生模型视图</h1>
-          <p>用于承接 v15 模型/平面点位视图，当前以区域坐标、机器人和旅客轨迹做本地可运行展示。</p>
-        </div>
-        <div class="header-actions">
-          <el-select v-model="activeRoomCode" clearable placeholder="选择贵宾室" class="room-select" @change="loadModel">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">数字孪生模型视图</el-text>
+          <el-text type="info">用于承接 v15 模型/平面点位视图，当前以区域坐标、机器人和旅客轨迹做本地可运行展示。</el-text>
+        </el-space>
+        <el-space wrap>
+          <el-select v-model="activeRoomCode" clearable placeholder="选择贵宾室" @change="loadModel">
             <el-option v-for="room in rooms" :key="room.roomCode || room.deptId" :label="room.deptName || room.roomCode" :value="room.roomCode" />
           </el-select>
           <el-button type="primary" :loading="loading" @click="loadModel">刷新</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <div class="model-layout">
-      <section class="model-canvas">
-        <div class="canvas-grid"></div>
-        <button
-          v-for="region in regions"
-          :key="`r-${region.id}`"
-          type="button"
-          class="point region"
-          :style="pointStyle(region)"
-          @click="selectItem('区域', region)"
-        >
-          {{ region.regionName || region.areaName || region.id }}
-        </button>
-        <button
-          v-for="robot in robots"
-          :key="`robot-${robot.robotId || robot.id}`"
-          type="button"
-          class="point robot"
-          :style="pointStyle(robot, 8)"
-          @click="selectItem('机器人', robot)"
-        >
-          {{ robot.robotName || robot.robotId }}
-        </button>
-        <button
-          v-for="passenger in passengers"
-          :key="`p-${passenger.id}`"
-          type="button"
-          class="point passenger"
-          :style="pointStyle(passenger, -8)"
-          @click="selectItem('旅客', passenger)"
-        >
-          {{ passenger.userName || passenger.cardNo || passenger.id }}
-        </button>
-      </section>
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="16">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">模型点位</el-text></template>
+          <el-tabs>
+            <el-tab-pane label="区域">
+              <el-table :data="regions" border @row-click="selectItem('区域', $event)">
+                <el-table-column prop="regionName" label="区域" min-width="140">
+                  <template #default="{ row }">{{ row.regionName || row.areaName || row.id }}</template>
+                </el-table-column>
+                <el-table-column prop="roomCode" label="贵宾室" min-width="120" />
+                <el-table-column label="坐标" min-width="180">
+                  <template #default="{ row }">{{ pointText(row) || '-' }}</template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="机器人">
+              <el-table :data="robots" border @row-click="selectItem('机器人', $event)">
+                <el-table-column prop="robotName" label="机器人" min-width="140">
+                  <template #default="{ row }">{{ row.robotName || row.robotId }}</template>
+                </el-table-column>
+                <el-table-column prop="regionId" label="区域" min-width="100" />
+                <el-table-column label="坐标" min-width="180">
+                  <template #default="{ row }">{{ pointText(row) || '-' }}</template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+            <el-tab-pane label="旅客">
+              <el-table :data="passengers" border @row-click="selectItem('旅客', $event)">
+                <el-table-column prop="userName" label="旅客" min-width="120">
+                  <template #default="{ row }">{{ row.userName || row.cardNo || row.id }}</template>
+                </el-table-column>
+                <el-table-column prop="flightNo" label="航班" min-width="120" />
+                <el-table-column label="坐标" min-width="180">
+                  <template #default="{ row }">{{ pointText(row) || '-' }}</template>
+                </el-table-column>
+              </el-table>
+            </el-tab-pane>
+          </el-tabs>
+        </el-card>
+      </el-col>
 
-      <el-card shadow="never" class="side-panel">
-        <template #header><h2>点位详情</h2></template>
+      <el-col :xs="24" :lg="8">
+      <el-card shadow="never">
+        <template #header><el-text tag="b">点位详情</el-text></template>
         <el-descriptions v-if="selected" :column="1" border>
           <el-descriptions-item label="类型">{{ selected.type }}</el-descriptions-item>
           <el-descriptions-item label="名称">{{ selected.name }}</el-descriptions-item>
@@ -68,7 +76,8 @@
           <el-checkbox-button label="passenger" value="passenger">旅客</el-checkbox-button>
         </el-checkbox-group>
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 
@@ -119,80 +128,9 @@ function selectItem(type, item) {
   }
 }
 
-function pointStyle(item, offset = 0) {
-  const { x, y } = parsePoint(item)
-  return {
-    left: `${Math.max(4, Math.min(94, x + offset / 8))}%`,
-    top: `${Math.max(6, Math.min(90, y + offset / 10))}%`
-  }
-}
-
-function parsePoint(item) {
-  const text = pointText(item)
-  const values = String(text).match(/-?\d+(\.\d+)?/g)?.map(Number) || []
-  if (values.length >= 2) {
-    return { x: normalize(values[0]), y: normalize(values[1]) }
-  }
-  const seed = Number(item.id || item.regionId || String(item.robotId || item.cardNo || '').replace(/\D/g, '') || 1)
-  return { x: 12 + ((seed * 17) % 76), y: 12 + ((seed * 23) % 72) }
-}
-
-function normalize(value) {
-  const abs = Math.abs(value)
-  if (abs <= 100) return abs
-  return abs % 100
-}
-
 function pointText(item) {
   return item.coordinate || item.cameraCoordinates || item.oriCoordinate || item.position || item.coordinates || ''
 }
 
 onMounted(loadModel)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions { display: flex; align-items: center; gap: 10px; }
-.room-select { width: 220px; }
-.model-layout { display: grid; grid-template-columns: minmax(0, 1fr) 360px; gap: 16px; margin-top: 18px; }
-.model-canvas {
-  position: relative;
-  min-height: 640px;
-  overflow: hidden;
-  border: 1px solid rgba(27, 102, 166, .22);
-  border-radius: 20px;
-  background:
-    radial-gradient(circle at 24% 28%, rgba(47, 128, 237, .2), transparent 26%),
-    linear-gradient(135deg, #eff7ff, #f8fbff 48%, #eaf4ff);
-}
-.canvas-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(27, 102, 166, .12) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(27, 102, 166, .12) 1px, transparent 1px);
-  background-size: 42px 42px;
-}
-.point {
-  position: absolute;
-  transform: translate(-50%, -50%);
-  max-width: 132px;
-  padding: 8px 10px;
-  border: 0;
-  border-radius: 999px;
-  color: #fff;
-  font-size: 12px;
-  box-shadow: 0 10px 24px rgba(5, 37, 69, .18);
-  cursor: pointer;
-}
-.point.region { background: #2f80ed; }
-.point.robot { background: #f2994a; }
-.point.passenger { background: #27ae60; }
-.side-panel h2 { margin: 0; font-size: 16px; }
-@media (max-width: 1100px) {
-  .model-layout { grid-template-columns: 1fr; }
-}
-</style>

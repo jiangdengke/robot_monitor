@@ -1,19 +1,19 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>角色授权用户</h1>
-          <p>读取 `/system/role/authUser/allocatedList` 与 `/system/role/authUser/unallocatedList`。</p>
-        </div>
-        <div class="header-buttons">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">角色授权用户</el-text>
+          <el-text type="info">读取 `/system/role/authUser/allocatedList` 与 `/system/role/authUser/unallocatedList`。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button type="primary" @click="router.push(`/system/role-auth/selectUser/${roleId}`)">添加用户</el-button>
           <el-button @click="loadRows">刷新</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <el-form inline class="toolbar">
+    <el-form inline>
       <el-form-item label="角色 ID">
         <el-input-number v-model="roleId" :min="1" controls-position="right" />
       </el-form-item>
@@ -29,10 +29,11 @@
       </el-form-item>
     </el-form>
 
-    <div class="panel-grid">
-      <el-card shadow="never" class="sub-panel">
+    <el-row :gutter="16">
+      <el-col :xs="24" :md="12">
+      <el-card shadow="never">
         <template #header>
-          <h2>已分配用户</h2>
+          <el-text tag="b">已分配用户</el-text>
         </template>
         <el-table :data="allocatedRows" border @selection-change="handleAllocatedChange">
           <el-table-column type="selection" width="55" />
@@ -42,10 +43,12 @@
           <el-table-column prop="phonenumber" label="手机号" min-width="140" />
         </el-table>
       </el-card>
+      </el-col>
 
-      <el-card shadow="never" class="sub-panel">
+      <el-col :xs="24" :md="12">
+      <el-card shadow="never">
         <template #header>
-          <h2>未分配用户</h2>
+          <el-text tag="b">未分配用户</el-text>
         </template>
         <el-table :data="unallocatedRows" border @selection-change="handleUnallocatedChange">
           <el-table-column type="selection" width="55" />
@@ -55,10 +58,11 @@
           <el-table-column prop="phonenumber" label="手机号" min-width="140" />
         </el-table>
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
 
-    <el-alert v-if="message" class="message-alert" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="message" :title="message" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -124,16 +128,3 @@ async function cancelSelected() {
 
 onMounted(loadRows)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-buttons { display: flex; gap: 8px; }
-.toolbar { margin-bottom: 16px; }
-.panel-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-.sub-panel h2 { margin: 0; font-size: 18px; }
-.message-alert { margin-top: 16px; }
-@media (max-width: 960px) { .panel-grid { grid-template-columns: 1fr; } }
-</style>

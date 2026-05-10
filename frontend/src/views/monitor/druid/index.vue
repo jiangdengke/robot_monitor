@@ -1,19 +1,15 @@
 <template>
-  <section class="page-card card">
-    <header class="page-header">
-      <div>
-        <h1>Druid 监控</h1>
-        <p>后端监控地址可直接跳转到 `/api/druid/`。</p>
-      </div>
-      <a class="link-button" href="http://127.0.0.1:7075/api/druid/" target="_blank" rel="noreferrer">打开 Druid</a>
-    </header>
-  </section>
+  <el-card shadow="never">
+    <template #header>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">Druid 监控</el-text>
+          <el-text type="info">后端监控地址可直接跳转到 `/api/druid/`。</el-text>
+        </el-space>
+        <el-button tag="a" href="http://127.0.0.1:7075/api/druid/" target="_blank" rel="noreferrer" type="primary">
+          打开 Druid
+        </el-button>
+      </el-row>
+    </template>
+  </el-card>
 </template>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.link-button { height: 40px; padding: 0 16px; display: inline-flex; align-items: center; border-radius: 10px; background: var(--brand); color: #fff; }
-</style>

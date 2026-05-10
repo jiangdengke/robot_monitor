@@ -1,7 +1,7 @@
 <template>
   <el-dialog v-model="visible" title="选择代码类型" width="620px">
     <el-input v-model.trim="keyword" clearable placeholder="搜索类型，如 String、Long、LocalDateTime" />
-    <el-table class="type-table" :data="filteredTypes" border highlight-current-row @row-dblclick="selectType">
+    <el-table :data="filteredTypes" border highlight-current-row @row-dblclick="selectType">
       <el-table-column prop="name" label="类型" width="170" />
       <el-table-column prop="javaType" label="Java 类型" width="180" />
       <el-table-column prop="description" label="说明" />
@@ -45,7 +45,3 @@ function selectType(row) {
   visible.value = false
 }
 </script>
-
-<style scoped>
-.type-table { margin-top: 12px; }
-</style>

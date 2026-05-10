@@ -1,51 +1,51 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>表单构建器</h1>
-          <p>拖拽排序、字段属性、选项、校验规则和 Element Plus 代码输出已实时联动。</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">表单构建器</el-text>
+          <el-text type="info">拖拽排序、字段属性、选项、校验规则和 Element Plus 代码输出已实时联动。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button @click="loadExample">示例表单</el-button>
           <el-button @click="openImport">导入 Schema</el-button>
           <el-button @click="copySchema">复制 Schema</el-button>
           <el-button type="primary" @click="copyVue">复制 Vue 源码</el-button>
           <el-button type="danger" plain @click="clearFields">清空</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <div class="builder-layout">
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="7">
       <el-card shadow="never">
-        <template #header><h2>控件库</h2></template>
-        <div class="palette">
+        <template #header><el-text tag="b">控件库</el-text></template>
+        <el-space wrap>
           <el-button v-for="item in palette" :key="item.type" @click="addField(item)">{{ item.label }}</el-button>
-        </div>
+        </el-space>
 
         <el-divider />
 
-        <h2>字段列表</h2>
-        <div class="field-list">
-          <div
-            v-for="(field, index) in fields"
-            :key="field.id"
-            class="field-item"
-            :class="{ active: field.id === activeId }"
-            draggable="true"
-            @dragstart="dragIndex = index"
-            @dragover.prevent
-            @drop="dropField(index)"
-            @click="activeId = field.id"
-          >
-            <strong>{{ index + 1 }}. {{ field.label }}</strong>
-            <span>{{ field.prop }} · {{ field.type }} · {{ field.span }}/24</span>
-          </div>
-        </div>
+        <el-text tag="b">字段列表</el-text>
+        <el-table :data="fields" highlight-current-row @current-change="(row) => activeId = row?.id">
+          <el-table-column label="序号" type="index" width="70" />
+          <el-table-column prop="label" label="字段" min-width="120" />
+          <el-table-column prop="type" label="组件" min-width="100" />
+          <el-table-column label="排序" width="140">
+            <template #default="{ $index }">
+              <el-button-group>
+                <el-button size="small" :disabled="$index === 0" @click="moveField($index, -1)">上</el-button>
+                <el-button size="small" :disabled="$index === fields.length - 1" @click="moveField($index, 1)">下</el-button>
+              </el-button-group>
+            </template>
+          </el-table-column>
+        </el-table>
       </el-card>
+      </el-col>
 
+      <el-col :xs="24" :lg="8">
       <el-card shadow="never">
-        <template #header><h2>属性面板</h2></template>
+        <template #header><el-text tag="b">属性面板</el-text></template>
         <el-form v-if="activeField" label-position="top">
           <el-row :gutter="12">
             <el-col :span="12">
@@ -91,16 +91,18 @@
               <el-form-item label="禁用"><el-switch v-model="activeField.disabled" /></el-form-item>
             </el-col>
           </el-row>
-          <div class="action-row">
+          <el-space wrap>
             <el-button @click="duplicateActive">复制字段</el-button>
             <el-button type="danger" @click="removeActive">删除字段</el-button>
-          </div>
+          </el-space>
         </el-form>
         <el-empty v-else description="选择字段后编辑属性" />
       </el-card>
+      </el-col>
 
+      <el-col :xs="24" :lg="9">
       <el-card shadow="never">
-        <template #header><h2>Element Plus 预览</h2></template>
+        <template #header><el-text tag="b">Element Plus 预览</el-text></template>
         <el-form :model="preview" label-position="top">
           <el-row :gutter="12">
             <el-col v-for="field in fields" :key="field.id" :span="field.span">
@@ -127,19 +129,20 @@
           </el-row>
         </el-form>
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
 
-    <el-row :gutter="16" class="output-row">
-      <el-col :span="12">
-        <el-card shadow="never" class="schema-panel">
-          <template #header><h2>Schema 预览</h2></template>
-          <pre>{{ schemaText }}</pre>
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">Schema 预览</el-text></template>
+          <el-input :model-value="schemaText" type="textarea" :rows="18" readonly />
         </el-card>
       </el-col>
-      <el-col :span="12">
-        <el-card shadow="never" class="schema-panel">
-          <template #header><h2>Vue 源码预览</h2></template>
-          <pre>{{ generatedVue }}</pre>
+      <el-col :xs="24" :lg="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">Vue 源码预览</el-text></template>
+          <el-input :model-value="generatedVue" type="textarea" :rows="18" readonly />
         </el-card>
       </el-col>
     </el-row>
@@ -229,6 +232,13 @@ function dropField(targetIndex) {
   const moved = fields.value.splice(dragIndex.value, 1)[0]
   fields.value.splice(targetIndex, 0, moved)
   dragIndex.value = -1
+}
+
+function moveField(index, direction) {
+  const target = index + direction
+  if (target < 0 || target >= fields.value.length) return
+  const moved = fields.value.splice(index, 1)[0]
+  fields.value.splice(target, 0, moved)
 }
 
 function options(field) {
@@ -369,25 +379,3 @@ ${options(field).map((option) => `            <el-checkbox label="${option}" val
 
 loadExample()
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions,
-.action-row,
-.palette { display: flex; flex-wrap: wrap; gap: 8px; }
-.builder-layout { display: grid; grid-template-columns: .78fr .95fr 1.25fr; gap: 16px; margin-top: 18px; }
-h2 { margin: 0; font-size: 16px; }
-.field-list { display: grid; gap: 10px; margin-top: 12px; }
-.field-item { display: grid; gap: 4px; padding: 12px; border: 1px solid var(--line); border-radius: 12px; background: #fff; cursor: grab; }
-.field-item.active { border-color: var(--brand); background: #eaf4ff; }
-.field-item span { color: var(--text-soft); font-size: 12px; }
-.output-row { margin-top: 16px; }
-.schema-panel pre { margin: 0; max-height: 520px; overflow: auto; white-space: pre-wrap; color: var(--text-soft); }
-@media (max-width: 1180px) {
-  .builder-layout { grid-template-columns: 1fr; }
-  .output-row :deep(.el-col) { max-width: 100%; flex: 0 0 100%; }
-}
-</style>

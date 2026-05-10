@@ -1,6 +1,6 @@
 <template>
-  <el-card shadow="never" class="mini-card">
-    <template #header><h2>生成信息</h2></template>
+  <el-card shadow="never">
+    <template #header><el-text tag="b">生成信息</el-text></template>
 
     <el-form :model="model" label-position="top">
       <el-row :gutter="12">
@@ -26,7 +26,7 @@
         </el-col>
         <el-col :span="12">
           <el-form-item label="生成模板">
-            <el-select v-model="model.tplCategory" style="width: 100%">
+            <el-select v-model="model.tplCategory">
               <el-option label="单表 CRUD" value="crud" />
               <el-option label="树表" value="tree" />
               <el-option label="主子表" value="sub" />
@@ -84,7 +84,3 @@ defineProps({
   }
 })
 </script>
-
-<style scoped>
-h2 { margin: 0; font-size: 16px; }
-</style>

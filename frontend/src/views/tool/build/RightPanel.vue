@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="card-header">
-        <h2>属性面板</h2>
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">属性面板</el-text>
         <el-button v-if="model" type="danger" link @click="$emit('remove')">删除字段</el-button>
-      </div>
+      </el-row>
     </template>
 
     <el-form v-if="model" label-position="top">
@@ -90,10 +90,10 @@
           <el-form-item label="隐藏"><el-switch v-model="model.hidden" /></el-form-item>
         </el-col>
       </el-row>
-      <div class="action-row">
+      <el-space wrap>
         <el-button @click="$emit('duplicate')">复制字段</el-button>
         <el-button @click="$emit('pick-tree-node')">树节点配置</el-button>
-      </div>
+      </el-space>
     </el-form>
     <el-empty v-else description="选择字段后编辑属性" />
   </el-card>
@@ -130,9 +130,3 @@ function normalizeByType() {
   }
 }
 </script>
-
-<style scoped>
-.card-header,
-.action-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-h2 { margin: 0; font-size: 16px; }
-</style>

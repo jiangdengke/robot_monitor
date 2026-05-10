@@ -1,8 +1,12 @@
 <template>
-  <article class="info-panel">
-    <h2>{{ title }}</h2>
-    <p v-for="line in lines" :key="line">{{ line }}</p>
-  </article>
+  <el-card shadow="never">
+    <template #header>
+      <el-text tag="b">{{ title }}</el-text>
+    </template>
+    <el-space direction="vertical" alignment="flex-start">
+      <el-text v-for="line in lines" :key="line">{{ line }}</el-text>
+    </el-space>
+  </el-card>
 </template>
 
 <script setup>
@@ -11,9 +15,3 @@ defineProps({
   lines: { type: Array, default: () => [] }
 })
 </script>
-
-<style scoped>
-.info-panel { padding: 18px; border-radius: 12px; border: 1px solid var(--line); background: var(--panel-alt); }
-.info-panel h2 { margin: 0 0 10px; font-size: 16px; }
-.info-panel p { margin: 8px 0 0; color: var(--text-soft); }
-</style>

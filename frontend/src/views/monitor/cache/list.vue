@@ -1,29 +1,29 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>缓存详情</h1>
-          <p>按缓存名称查看 Redis key、缓存值和清理操作，和缓存监控主页面共用真实接口。</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">缓存详情</el-text>
+          <el-text type="info">按缓存名称查看 Redis key、缓存值和清理操作，和缓存监控主页面共用真实接口。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button @click="loadNames">刷新缓存名</el-button>
           <el-button type="danger" plain @click="clearAll">清空全部</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <div class="cache-layout">
+    <el-row :gutter="16">
+      <el-col :xs="24" :lg="8">
       <el-card shadow="never">
         <template #header>
-          <div class="panel-header">
-            <h2>缓存名称</h2>
+          <el-row justify="space-between" align="middle">
+            <el-text tag="b">缓存名称</el-text>
             <el-tag>{{ cacheNames.length }}</el-tag>
-          </div>
+          </el-row>
         </template>
         <el-input v-model.trim="nameFilter" clearable placeholder="过滤缓存名" />
         <el-table
-          class="compact-table"
           :data="filteredNames"
           highlight-current-row
           row-key="cacheName"
@@ -38,17 +38,18 @@
           </el-table-column>
         </el-table>
       </el-card>
+      </el-col>
 
+      <el-col :xs="24" :lg="8">
       <el-card shadow="never">
         <template #header>
-          <div class="panel-header">
-            <h2>缓存键</h2>
+          <el-row justify="space-between" align="middle">
+            <el-text tag="b">缓存键</el-text>
             <el-tag type="success">{{ cacheKeys.length }}</el-tag>
-          </div>
+          </el-row>
         </template>
         <el-input v-model.trim="keyFilter" clearable placeholder="过滤 key" />
         <el-table
-          class="compact-table"
           :data="filteredKeys"
           highlight-current-row
           row-key="cacheKey"
@@ -62,22 +63,25 @@
           </el-table-column>
         </el-table>
       </el-card>
+      </el-col>
 
+      <el-col :xs="24" :lg="8">
       <el-card shadow="never">
         <template #header>
-          <div class="panel-header">
-            <h2>缓存值</h2>
+          <el-row justify="space-between" align="middle">
+            <el-text tag="b">缓存值</el-text>
             <el-button size="small" :disabled="!currentKey" @click="reloadValue">刷新值</el-button>
-          </div>
+          </el-row>
         </template>
         <el-descriptions v-if="cacheValue" :column="1" border>
           <el-descriptions-item label="缓存名称">{{ cacheValue.cacheName }}</el-descriptions-item>
           <el-descriptions-item label="缓存键">{{ cacheValue.cacheKey }}</el-descriptions-item>
         </el-descriptions>
-        <pre v-if="cacheValue" class="value-box">{{ formatValue(cacheValue.cacheValue) }}</pre>
+        <el-input v-if="cacheValue" :model-value="formatValue(cacheValue.cacheValue)" type="textarea" :rows="16" readonly />
         <el-empty v-else description="选择缓存 key 后查看缓存值" />
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 
@@ -187,30 +191,3 @@ function formatValue(value) {
 
 onMounted(loadNames)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header,
-.panel-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions { display: flex; flex-wrap: wrap; gap: 8px; }
-.cache-layout { display: grid; grid-template-columns: .9fr 1.15fr 1.25fr; gap: 16px; margin-top: 18px; }
-h2 { margin: 0; font-size: 16px; }
-.compact-table { margin-top: 12px; }
-.value-box {
-  margin: 16px 0 0;
-  min-height: 320px;
-  max-height: 560px;
-  overflow: auto;
-  padding: 16px;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  background: #101828;
-  color: #d1e7ff;
-  white-space: pre-wrap;
-}
-@media (max-width: 1180px) {
-  .cache-layout { grid-template-columns: 1fr; }
-}
-</style>

@@ -1,41 +1,49 @@
 <template>
-  <el-card class="page-card cache-page">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>缓存监控</h1>
-          <p>Redis 摘要、缓存名称、缓存键和值内容联动管理。</p>
-        </div>
-        <div class="header-actions">
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">缓存监控</el-text>
+          <el-text type="info">Redis 摘要、缓存名称、缓存键和值内容联动管理。</el-text>
+        </el-space>
+        <el-space wrap>
           <el-button @click="loadAll">刷新</el-button>
           <el-button type="danger" @click="clearAll">清理全部</el-button>
-        </div>
-      </div>
+        </el-space>
+      </el-row>
     </template>
 
-    <div class="summary-grid">
-      <el-card shadow="never" class="info-panel">
-        <template #header><h2>基础信息</h2></template>
-        <p>Key 数量：{{ cacheInfo.dbSize || '-' }}</p>
-        <p>Redis 版本：{{ cacheInfo.info?.redis_version || '-' }}</p>
-        <p>运行模式：{{ cacheInfo.info?.redis_mode || '-' }}</p>
-      </el-card>
-      <el-card shadow="never" class="info-panel">
-        <template #header><h2>命令统计</h2></template>
-        <p v-for="item in cacheInfo.commandStats || []" :key="item.name">
-          {{ item.name }}：{{ item.value }}
-        </p>
-      </el-card>
-    </div>
+    <el-row :gutter="16">
+      <el-col :xs="24" :md="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">基础信息</el-text></template>
+          <el-descriptions :column="1" border>
+            <el-descriptions-item label="Key 数量">{{ cacheInfo.dbSize || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="Redis 版本">{{ cacheInfo.info?.redis_version || '-' }}</el-descriptions-item>
+            <el-descriptions-item label="运行模式">{{ cacheInfo.info?.redis_mode || '-' }}</el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+      </el-col>
+      <el-col :xs="24" :md="12">
+        <el-card shadow="never">
+          <template #header><el-text tag="b">命令统计</el-text></template>
+          <el-descriptions :column="1" border>
+            <el-descriptions-item v-for="item in cacheInfo.commandStats || []" :key="item.name" :label="item.name">
+              {{ item.value }}
+            </el-descriptions-item>
+          </el-descriptions>
+        </el-card>
+      </el-col>
+    </el-row>
 
-    <el-row class="cache-grid" :gutter="16">
+    <el-row :gutter="16">
       <el-col :lg="8" :md="24">
-        <el-card shadow="never" class="cache-panel">
+        <el-card shadow="never">
           <template #header>
-            <div class="panel-header">
-              <span>缓存列表</span>
+            <el-row justify="space-between" align="middle">
+              <el-text tag="b">缓存列表</el-text>
               <el-button link type="primary" @click="loadNames">刷新</el-button>
-            </div>
+            </el-row>
           </template>
           <el-table
             v-loading="namesLoading"
@@ -58,12 +66,12 @@
       </el-col>
 
       <el-col :lg="8" :md="24">
-        <el-card shadow="never" class="cache-panel">
+        <el-card shadow="never">
           <template #header>
-            <div class="panel-header">
-              <span>键名列表</span>
+            <el-row justify="space-between" align="middle">
+              <el-text tag="b">键名列表</el-text>
               <el-button link type="primary" :disabled="!selectedName" @click="loadKeys(selectedName)">刷新</el-button>
-            </div>
+            </el-row>
           </template>
           <el-table
             v-loading="keysLoading"
@@ -85,12 +93,12 @@
       </el-col>
 
       <el-col :lg="8" :md="24">
-        <el-card shadow="never" class="cache-panel">
+        <el-card shadow="never">
           <template #header>
-            <div class="panel-header">
-              <span>缓存内容</span>
+            <el-row justify="space-between" align="middle">
+              <el-text tag="b">缓存内容</el-text>
               <el-button link type="primary" :disabled="!selectedKey" @click="selectKey(selectedKey)">刷新</el-button>
-            </div>
+            </el-row>
           </template>
           <el-form label-position="top" :model="cacheValue">
             <el-form-item label="缓存名称">
@@ -107,8 +115,8 @@
       </el-col>
     </el-row>
 
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
-    <el-alert v-if="successMessage" class="message-alert" :title="successMessage" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false" />
   </el-card>
 </template>
 
@@ -249,22 +257,3 @@ function formatCacheKey(row) {
 
 onMounted(loadAll)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.header-actions,
-.panel-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
-.summary-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
-.info-panel h2 { margin: 0; font-size: 16px; }
-.info-panel p { margin: 8px 0 0; color: var(--text-soft); }
-.cache-grid { margin-top: 16px; }
-.cache-panel { min-height: 500px; }
-.message-alert { margin-top: 16px; }
-@media (max-width: 960px) {
-  .summary-grid { grid-template-columns: 1fr; }
-  .cache-panel { margin-bottom: 16px; }
-}
-</style>

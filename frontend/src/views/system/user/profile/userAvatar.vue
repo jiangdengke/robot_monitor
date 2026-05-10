@@ -1,20 +1,18 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>头像设置</h1>
-          <p>头像上传与资料更新都已经走真实接口。</p>
-        </div>
-      </div>
+      <el-space direction="vertical" alignment="flex-start">
+        <el-text tag="b" size="large">头像设置</el-text>
+        <el-text type="info">头像上传与资料更新都已经走真实接口。</el-text>
+      </el-space>
     </template>
-    <div class="info-grid">
-      <el-card shadow="never" class="info-panel">
+    <el-row :gutter="16">
+      <el-col :xs="24" :md="12">
+      <el-card shadow="never">
         <template #header>
-          <h2>上传头像</h2>
+          <el-text tag="b">上传头像</el-text>
         </template>
         <el-upload
-          class="avatar-uploader"
           :auto-upload="false"
           :show-file-list="true"
           :limit="1"
@@ -24,19 +22,24 @@
           <template #trigger>
             <el-button>选择图片</el-button>
           </template>
-          <el-button type="primary" class="upload-button" :disabled="!file" @click="handleUpload">上传</el-button>
+          <el-button type="primary" :disabled="!file" @click="handleUpload">上传</el-button>
         </el-upload>
-        <el-alert v-if="message" class="message-alert" :title="message" :type="messageType" :closable="false" />
+        <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
       </el-card>
-      <el-card shadow="never" class="info-panel">
+      </el-col>
+      <el-col :xs="24" :md="12">
+      <el-card shadow="never">
         <template #header>
-          <h2>上传结果</h2>
+          <el-text tag="b">上传结果</el-text>
         </template>
-        <p>文件名：{{ uploadedInfo.originalFilenames || '-' }}</p>
-        <p>访问地址：{{ uploadedInfo.urls || '-' }}</p>
-        <p>头像字段：{{ avatarPath || '-' }}</p>
+        <el-descriptions :column="1" border>
+          <el-descriptions-item label="文件名">{{ uploadedInfo.originalFilenames || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="访问地址">{{ uploadedInfo.urls || '-' }}</el-descriptions-item>
+          <el-descriptions-item label="头像字段">{{ avatarPath || '-' }}</el-descriptions-item>
+        </el-descriptions>
       </el-card>
-    </div>
+      </el-col>
+    </el-row>
   </el-card>
 </template>
 
@@ -78,15 +81,3 @@ async function handleUpload() {
   }
 }
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 18px; }
-.info-panel h2 { margin: 0 0 10px; font-size: 16px; }
-.info-panel p { margin: 8px 0 0; color: var(--text-soft); }
-.avatar-uploader { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
-.upload-button { margin-left: 8px; }
-.message-alert { margin-top: 16px; }
-</style>

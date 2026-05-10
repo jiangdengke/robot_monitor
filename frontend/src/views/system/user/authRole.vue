@@ -1,16 +1,16 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>用户授权角色</h1>
-          <p>读取 `/system/user/authRole/{userId}` 并提交角色授权。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">用户授权角色</el-text>
+          <el-text type="info">读取 `/system/user/authRole/{userId}` 并提交角色授权。</el-text>
+        </el-space>
         <el-button type="primary" @click="loadRows">刷新</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-form inline class="toolbar">
+    <el-form inline>
       <el-form-item label="用户 ID">
         <el-input-number v-model="userId" :min="1" controls-position="right" />
       </el-form-item>
@@ -31,8 +31,8 @@
       </el-table-column>
     </el-table>
 
-    <el-alert v-if="message" class="message-alert" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="message" :title="message" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -89,12 +89,3 @@ async function saveRoles() {
 
 onMounted(loadRows)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.toolbar { margin-bottom: 16px; }
-.message-alert { margin-top: 16px; }
-</style>

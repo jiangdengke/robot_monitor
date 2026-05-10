@@ -1,7 +1,7 @@
 <template>
-  <el-card shadow="never" class="mini-card">
+  <el-card shadow="never">
     <template #header>
-      <h2>桌台动作提交</h2>
+      <el-text tag="b">桌台动作提交</el-text>
     </template>
     <el-form label-position="top">
       <el-form-item label="桌台">
@@ -21,7 +21,7 @@
       </el-form-item>
       <el-button type="primary" @click="submit">提交动作</el-button>
     </el-form>
-    <el-alert v-if="message" class="message-alert" :title="message" :type="messageType" :closable="false" />
+    <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
   </el-card>
 </template>
 
@@ -84,8 +84,3 @@ async function submit() {
   }
 }
 </script>
-
-<style scoped>
-.mini-card h2 { margin: 0; font-size: 16px; }
-.message-alert { margin-top: 16px; }
-</style>

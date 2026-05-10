@@ -1,18 +1,18 @@
 <template>
-  <el-card class="page-card">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>通行统计</h1>
-          <p>按贵宾室、航班日期、卡号、准入类型和在舱状态查询旅客通行记录。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">通行统计</el-text>
+          <el-text type="info">按贵宾室、航班日期、卡号、准入类型和在舱状态查询旅客通行记录。</el-text>
+        </el-space>
         <el-button @click="loadRows">刷新</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-form ref="queryRef" :model="query" inline class="search-form" @submit.prevent="handleSearch">
+    <el-form ref="queryRef" :model="query" inline @submit.prevent="handleSearch">
       <el-form-item label="贵宾室编码" prop="roomCode">
-        <el-select v-model="query.roomCode" clearable filterable placeholder="请选择贵宾室编码" style="width: 220px">
+        <el-select v-model="query.roomCode" clearable filterable placeholder="请选择贵宾室编码">
           <el-option v-for="room in rooms" :key="room.roomCode" :label="roomLabel(room)" :value="room.roomCode" />
         </el-select>
       </el-form-item>
@@ -23,12 +23,12 @@
         <el-input v-model.trim="query.cardNo" clearable placeholder="请输入卡号" />
       </el-form-item>
       <el-form-item label="准入类型" prop="inType">
-        <el-select v-model="query.inType" clearable placeholder="请选择准入类型" style="width: 160px">
+        <el-select v-model="query.inType" clearable placeholder="请选择准入类型">
           <el-option v-for="option in inTypeOptions" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="在舱状态" prop="status">
-        <el-select v-model="query.status" clearable placeholder="请选择状态" style="width: 140px">
+        <el-select v-model="query.status" clearable placeholder="请选择状态">
           <el-option label="在舱" value="1" />
           <el-option label="不在" value="0" />
         </el-select>
@@ -59,7 +59,7 @@
       <el-table-column prop="getOutTime" label="出舱时间" min-width="170" />
       <el-table-column prop="origImageUrl" label="最后照片" width="100">
         <template #default="{ row }">
-          <el-image v-if="row.origImageUrl" class="table-image" :src="row.origImageUrl" fit="cover" :preview-src-list="[row.origImageUrl]" preview-teleported />
+          <el-avatar v-if="row.origImageUrl" shape="square" :src="row.origImageUrl" />
           <span v-else>-</span>
         </template>
       </el-table-column>
@@ -67,7 +67,6 @@
 
     <el-pagination
       v-if="total > 0"
-      class="pagination"
       background
       layout="total, sizes, prev, pager, next, jumper"
       :current-page="query.pageNum"
@@ -78,7 +77,7 @@
       @size-change="query.pageSize = $event; query.pageNum = 1; loadRows()"
     />
 
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -155,19 +154,3 @@ onMounted(() => {
   loadRows()
 })
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-}
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.search-form { margin: 18px 0 12px; }
-.table-image { width: 54px; height: 42px; border-radius: 6px; }
-.pagination { justify-content: flex-end; margin-top: 18px; }
-.message-alert { margin-top: 16px; }
-</style>

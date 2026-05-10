@@ -1,39 +1,36 @@
 <template>
-  <el-card class="page-card video-page">
+  <el-card shadow="never">
     <template #header>
-      <div class="page-header">
-        <div>
-          <h1>视频资源</h1>
-          <p>本地 mock 视频流控制台，可启动、停止、刷新并查看活跃机器人视频会话。</p>
-        </div>
+      <el-row justify="space-between" align="middle">
+        <el-space direction="vertical" alignment="flex-start">
+          <el-text tag="b" size="large">视频资源</el-text>
+          <el-text type="info">本地 mock 视频流控制台，可启动、停止、刷新并查看活跃机器人视频会话。</el-text>
+        </el-space>
         <el-button type="primary" :loading="loading" @click="loadActiveStreams">刷新</el-button>
-      </div>
+      </el-row>
     </template>
 
-    <el-row :gutter="16" class="summary-row">
+    <el-row :gutter="16">
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never" class="summary-card">
-          <span>活跃视频流</span>
-          <strong>{{ activeRows.length }}</strong>
+        <el-card shadow="never">
+          <el-statistic title="活跃视频流" :value="activeRows.length" />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never" class="summary-card">
-          <span>当前机器人</span>
-          <strong>{{ form.robotId || '-' }}</strong>
+        <el-card shadow="never">
+          <el-statistic title="当前机器人" :value="form.robotId || '-'" />
         </el-card>
       </el-col>
       <el-col :xs="24" :sm="8">
-        <el-card shadow="never" class="summary-card">
-          <span>控制模式</span>
-          <strong>mock</strong>
+        <el-card shadow="never">
+          <el-statistic title="控制模式" value="mock" />
         </el-card>
       </el-col>
     </el-row>
 
-    <el-card shadow="never" class="control-panel">
-      <template #header><h2>视频流控制</h2></template>
-      <el-form ref="formRef" :model="form" :rules="rules" inline class="toolbar" @submit.prevent="startStream">
+    <el-card shadow="never">
+      <template #header><el-text tag="b">视频流控制</el-text></template>
+      <el-form ref="formRef" :model="form" :rules="rules" inline @submit.prevent="startStream">
         <el-form-item label="机器人" prop="robotId">
           <el-input v-model.trim="form.robotId" placeholder="如 ROBOT-001" />
         </el-form-item>
@@ -48,7 +45,7 @@
       </el-form>
     </el-card>
 
-    <el-table v-loading="loading" class="stream-table" :data="activeRows" border>
+    <el-table v-loading="loading" :data="activeRows" border>
       <el-table-column prop="robotId" label="机器人" min-width="140" />
       <el-table-column prop="userId" label="用户" min-width="120" />
       <el-table-column prop="mode" label="模式" width="110" />
@@ -70,8 +67,8 @@
       </el-table-column>
     </el-table>
 
-    <el-alert v-if="message" class="message-alert" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" class="message-alert" :title="errorMessage" type="error" :closable="false" />
+    <el-alert v-if="message" :title="message" type="success" :closable="false" />
+    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -165,18 +162,3 @@ function useRow(row) {
 
 onMounted(loadActiveStreams)
 </script>
-
-<style scoped>
-.page-card { padding: 24px; }
-.page-header { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-bottom: 18px; }
-.page-header h1 { margin: 0; font-size: 28px; }
-.page-header p { margin: 8px 0 0; color: var(--text-soft); }
-.summary-row { row-gap: 16px; margin-bottom: 16px; }
-.summary-card :deep(.el-card__body) { display: grid; gap: 8px; }
-.summary-card span { color: var(--text-soft); }
-.summary-card strong { font-size: 28px; line-height: 1; }
-.control-panel h2 { margin: 0; font-size: 16px; }
-.toolbar { margin-bottom: -18px; }
-.stream-table { margin-top: 16px; }
-.message-alert { margin-top: 16px; }
-</style>

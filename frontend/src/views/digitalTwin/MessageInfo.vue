@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never" class="message-panel">
+  <el-card shadow="never">
     <template #header>
-      <div class="panel-header">
-        <h2>实时消息</h2>
+      <el-row justify="space-between" align="middle">
+        <el-text tag="b">实时消息</el-text>
         <el-tag type="success">{{ activeRoom || '全部房间' }}</el-tag>
-      </div>
+      </el-row>
     </template>
     <el-timeline>
       <el-timeline-item v-for="item in messages" :key="item.id" :timestamp="item.time" :type="item.type">
@@ -21,9 +21,3 @@ defineProps({
   messages: { type: Array, default: () => [] }
 })
 </script>
-
-<style scoped>
-.message-panel { min-height: 100%; }
-.panel-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-.panel-header h2 { margin: 0; font-size: 16px; }
-</style>

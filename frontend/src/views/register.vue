@@ -1,13 +1,16 @@
 <template>
-  <div class="auth-shell">
-    <el-card class="auth-card">
-      <div class="auth-copy">
-        <span class="eyebrow">Account Register</span>
-        <h1>注册账号</h1>
-        <p>注册开关由系统参数 `sys.account.registerUser` 控制；开启后会直接调用本地后端 `/register`。</p>
-      </div>
+  <el-container>
+    <el-main>
+      <el-card shadow="never">
+        <template #header>
+          <el-space direction="vertical" alignment="flex-start">
+            <el-text type="primary">Account Register</el-text>
+            <el-text tag="b" size="large">注册账号</el-text>
+            <el-text type="info">注册开关由系统参数 `sys.account.registerUser` 控制；开启后会直接调用本地后端 `/register`。</el-text>
+          </el-space>
+        </template>
 
-      <el-form ref="formRef" :model="form" :rules="rules" label-position="top" class="auth-form" @submit.prevent="submit">
+      <el-form ref="formRef" :model="form" :rules="rules" label-position="top" @submit.prevent="submit">
         <el-form-item label="用户名" prop="username">
           <el-input v-model.trim="form.username" autocomplete="username" placeholder="请输入 2-20 位账号" />
         </el-form-item>
@@ -18,24 +21,23 @@
           <el-input v-model="form.confirmPassword" type="password" show-password autocomplete="new-password" placeholder="请再次输入密码" />
         </el-form-item>
         <el-form-item v-if="captchaOnOff" label="验证码" prop="code">
-          <div class="captcha-row">
+          <el-space fill>
             <el-input v-model.trim="form.code" placeholder="请输入验证码" />
-            <button class="captcha-image" type="button" @click="loadCaptcha">
-              <img v-if="captchaImage" :src="captchaImage" alt="验证码" />
-              <span v-else>刷新验证码</span>
-            </button>
-          </div>
+            <el-image v-if="captchaImage" :src="captchaImage" alt="验证码" @click="loadCaptcha" />
+            <el-button v-else @click="loadCaptcha">刷新验证码</el-button>
+          </el-space>
         </el-form-item>
 
-        <el-button class="submit" type="primary" :loading="submitting" native-type="submit">
+        <el-button type="primary" :loading="submitting" native-type="submit">
           {{ submitting ? '提交中...' : '提交注册' }}
         </el-button>
-        <el-button class="submit" plain @click="router.push('/login')">返回登录</el-button>
+        <el-button plain @click="router.push('/login')">返回登录</el-button>
 
         <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
       </el-form>
-    </el-card>
-  </div>
+      </el-card>
+    </el-main>
+  </el-container>
 </template>
 
 <script setup>
@@ -126,39 +128,3 @@ function showMessage(text, type = 'success') {
 
 onMounted(loadCaptcha)
 </script>
-
-<style scoped>
-.auth-shell {
-  min-height: 100vh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  background:
-    radial-gradient(circle at top left, rgba(50, 129, 214, .34), transparent 32%),
-    linear-gradient(135deg, #071c34, #0d4e83);
-}
-.auth-card { width: min(560px, 100%); padding: 34px; }
-.eyebrow {
-  color: var(--brand);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-}
-.auth-copy h1 { margin: 10px 0 0; font-size: 30px; }
-.auth-copy p { margin: 10px 0 0; color: var(--text-soft); line-height: 1.7; }
-.auth-form { display: grid; gap: 2px; margin-top: 22px; }
-.captcha-row { display: grid; grid-template-columns: 1fr 128px; gap: 10px; width: 100%; }
-.captcha-image {
-  display: grid;
-  place-items: center;
-  min-height: 40px;
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  background: #fff;
-  color: var(--text-soft);
-  cursor: pointer;
-}
-.captcha-image img { max-width: 112px; max-height: 36px; }
-.submit { width: 100%; margin-left: 0; }
-</style>
