@@ -26,7 +26,6 @@
       </el-form-item>
       <el-button type="primary" :loading="submitting" @click="submitWalk">提交行走路径</el-button>
     </el-form>
-    <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
     <el-empty v-else description="选择一个桌台查看路径信息" />
   </el-card>
 </template>
@@ -34,6 +33,7 @@
 <script setup>
 import { ref, watch } from 'vue'
 import { request } from '@/api/http'
+import { showToast } from '@/utils/toast'
 
 const props = defineProps({
   tables: { type: Array, default: () => [] }
@@ -70,9 +70,11 @@ async function submitWalk() {
     })
     messageType.value = 'success'
     message.value = '行走路径已提交'
+    showToast(messageType.value, message.value)
   } catch (error) {
     messageType.value = 'error'
     message.value = error?.payload?.msg || error?.message || '行走路径提交失败'
+    showToast(messageType.value, message.value)
   } finally {
     submitting.value = false
   }

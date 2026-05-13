@@ -77,13 +77,13 @@
       @size-change="query.pageSize = $event; query.pageNum = 1; loadRows()"
     />
 
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { onMounted, reactive, ref } from 'vue'
 import { getRoomList, listPassengerStatisticsByInType } from '@/api/system'
+import { toastError } from '@/utils/toast'
 
 const today = new Date().toISOString().slice(0, 10)
 const queryRef = ref(null)
@@ -131,6 +131,7 @@ async function loadRows() {
     total.value = Number(response.total || rows.value.length || 0)
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   } finally {
     loading.value = false
   }

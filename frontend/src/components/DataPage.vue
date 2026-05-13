@@ -34,12 +34,14 @@
           </template>
         </el-table-column>
       </el-table>
-      <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
     </el-space>
   </el-card>
 </template>
 
 <script setup>
+import { watch } from 'vue'
+import { toastError } from '@/utils/toast'
+
 const props = defineProps({
   title: { type: String, required: true },
   description: { type: String, required: true },
@@ -51,6 +53,15 @@ const props = defineProps({
 })
 
 defineEmits(['refresh'])
+
+watch(
+  () => props.errorMessage,
+  (message) => {
+    if (message) {
+      toastError(message)
+    }
+  }
+)
 
 function getByPath(target, path) {
   return path.split('.').reduce((current, segment) => current?.[segment], target)

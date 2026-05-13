@@ -21,13 +21,13 @@
       </el-form-item>
       <el-button type="primary" @click="submit">提交动作</el-button>
     </el-form>
-    <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { computed, ref, watch } from 'vue'
 import { request } from '@/api/http'
+import { showToast } from '@/utils/toast'
 
 const props = defineProps({
   tables: { type: Array, default: () => [] }
@@ -77,10 +77,12 @@ async function submit() {
       message.value = action.value === 'turnover' ? '已设置为翻台' : '已设置为空闲'
     }
     messageType.value = 'success'
+    showToast(messageType.value, message.value)
     emit('refresh')
   } catch (error) {
     messageType.value = 'error'
     message.value = error?.payload?.msg || error?.message || '提交失败'
+    showToast(messageType.value, message.value)
   }
 }
 </script>

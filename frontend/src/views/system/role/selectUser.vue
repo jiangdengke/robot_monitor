@@ -41,8 +41,6 @@
       @current-change="pageNum = $event; loadRows()"
     />
 
-    <el-alert v-if="message" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -50,6 +48,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { assignRoleUsers, listUnallocatedUsers } from '@/api/system'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const route = useRoute()
 const router = useRouter()
@@ -78,6 +77,7 @@ async function loadRows() {
     selectedUserIds.value = []
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -85,9 +85,11 @@ async function assignSelected() {
   try {
     await assignRoleUsers(roleId.value, selectedUserIds.value)
     message.value = '用户分配成功'
+    toastSuccess(message.value)
     await loadRows()
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '分配失败'
+    toastError(errorMessage.value)
   }
 }
 

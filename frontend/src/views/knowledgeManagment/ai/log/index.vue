@@ -70,7 +70,6 @@
       <el-table-column prop="createTime" label="引导时间" min-width="170" />
     </el-table>
 
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -79,6 +78,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { exportSystemResource, getRoomList } from '@/api/system'
 import { request } from '@/api/http'
 import { hasPermission } from '@/utils/permission'
+import { toastError } from '@/utils/toast'
 
 const rows = ref([])
 const roomList = ref([])
@@ -108,6 +108,7 @@ async function loadRows() {
     total.value = response.total || rows.value.length
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '引导日志加载失败'
+    toastError(errorMessage.value)
   } finally {
     loading.value = false
   }

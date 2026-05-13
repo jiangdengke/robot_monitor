@@ -18,12 +18,7 @@
           </el-form-item>
         </el-col>
       </el-row>
-      <el-alert
-        type="info"
-        show-icon
-        :closable="false"
-        title="树表生成会按节点编码、父节点和节点名称字段输出 el-tree / el-tree-select 代码。"
-      />
+      <el-text type="info">树表生成会按节点编码、父节点和节点名称字段输出 `el-tree / el-tree-select` 代码。</el-text>
       <el-card shadow="never">
         <el-tree :data="previewTree" default-expand-all node-key="id" />
       </el-card>

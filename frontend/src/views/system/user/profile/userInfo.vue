@@ -36,7 +36,6 @@
         </el-select>
       </el-form-item>
       <el-button type="success" native-type="submit">保存资料</el-button>
-      <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
     </el-form>
   </el-card>
 </template>
@@ -45,6 +44,7 @@
 import { onMounted, ref } from 'vue'
 import InfoCard from '@/components/InfoCard.vue'
 import { getProfile, updateProfile } from '@/api/system'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const profile = ref({})
 const form = ref({ nickName: '', email: '', phonenumber: '', sex: '2' })
@@ -65,6 +65,7 @@ async function loadProfile() {
     }
   } catch (error) {
     message.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(message.value)
   }
 }
 
@@ -72,9 +73,11 @@ async function handleSave() {
   try {
     await updateProfile({ ...form.value })
     message.value = '保存成功'
+    toastSuccess(message.value)
     await loadProfile()
   } catch (error) {
     message.value = error?.payload?.msg || error?.message || '保存失败'
+    toastError(message.value)
   }
 }
 

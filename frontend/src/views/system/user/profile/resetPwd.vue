@@ -14,7 +14,6 @@
         <el-input v-model="newPassword" type="password" show-password placeholder="新密码" />
       </el-form-item>
       <el-button type="primary" native-type="submit">提交修改</el-button>
-      <el-alert v-if="message" :title="message" :type="message.includes('成功') ? 'success' : 'error'" :closable="false" />
     </el-form>
   </el-card>
 </template>
@@ -22,6 +21,7 @@
 <script setup>
 import { ref } from 'vue'
 import { updatePassword } from '@/api/system'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const oldPassword = ref('')
 const newPassword = ref('')
@@ -31,10 +31,12 @@ async function handleSubmit() {
   try {
     await updatePassword(oldPassword.value, newPassword.value)
     message.value = '密码修改成功'
+    toastSuccess(message.value)
     oldPassword.value = ''
     newPassword.value = ''
   } catch (error) {
     message.value = error?.payload?.msg || error?.message || '修改失败'
+    toastError(message.value)
   }
 }
 </script>

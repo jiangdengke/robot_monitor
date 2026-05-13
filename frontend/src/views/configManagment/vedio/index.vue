@@ -67,14 +67,13 @@
       </el-table-column>
     </el-table>
 
-    <el-alert v-if="message" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { request } from '@/api/http'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const formRef = ref(null)
 const form = reactive({ robotId: '', userId: 'admin' })
@@ -104,6 +103,7 @@ async function loadActiveStreams() {
     activeStreams.value = response.data || {}
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   } finally {
     loading.value = false
   }
@@ -123,10 +123,12 @@ async function startStream() {
       body: JSON.stringify({ robotId: form.robotId, userId: form.userId })
     })
     activeStreams.value = response.data || activeStreams.value
-    message.value = '视频流已启动'
+    message.value = response.msg || '视频流已启动'
+    toastSuccess(message.value)
     await loadActiveStreams()
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '启动失败'
+    toastError(errorMessage.value)
   } finally {
     submitting.value = false
   }
@@ -141,10 +143,12 @@ async function stopStream(robotId = form.robotId) {
       body: JSON.stringify({ robotId })
     })
     activeStreams.value = response.data || activeStreams.value
-    message.value = '视频流已停止'
+    message.value = response.msg || '视频流已停止'
+    toastSuccess(message.value)
     await loadActiveStreams()
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '停止失败'
+    toastError(errorMessage.value)
   } finally {
     submitting.value = false
   }

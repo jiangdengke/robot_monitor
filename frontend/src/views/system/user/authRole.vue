@@ -31,8 +31,6 @@
       </el-table-column>
     </el-table>
 
-    <el-alert v-if="message" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -40,6 +38,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getUserRoleAuth, updateUserRoleAuth } from '@/api/system'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const route = useRoute()
 const rows = ref([])
@@ -66,10 +65,12 @@ async function loadRows() {
         })
       } catch (error) {
         errorMessage.value = error?.message || '表格选择状态同步失败'
+        toastError(errorMessage.value)
       }
     })
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -81,9 +82,11 @@ async function saveRoles() {
   try {
     await updateUserRoleAuth(userId.value, selectedRoles.value)
     message.value = '授权成功'
+    toastSuccess(message.value)
     await loadRows()
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '授权失败'
+    toastError(errorMessage.value)
   }
 }
 

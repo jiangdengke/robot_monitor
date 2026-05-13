@@ -24,7 +24,6 @@
           </template>
           <el-button type="primary" :disabled="!file" @click="handleUpload">上传</el-button>
         </el-upload>
-        <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
       </el-card>
       </el-col>
       <el-col :xs="24" :md="12">
@@ -47,6 +46,7 @@
 import { ref } from 'vue'
 import { upload } from '@/api/http'
 import { updateAvatar } from '@/api/system'
+import { showToast } from '@/utils/toast'
 
 const file = ref(null)
 const message = ref('')
@@ -75,9 +75,11 @@ async function handleUpload() {
       messageType.value = 'warning'
       message.value = '上传成功，但未拿到头像路径'
     }
+    showToast(messageType.value, message.value)
   } catch (error) {
     messageType.value = 'error'
     message.value = error?.payload?.msg || error?.message || '上传失败'
+    showToast(messageType.value, message.value)
   }
 }
 </script>

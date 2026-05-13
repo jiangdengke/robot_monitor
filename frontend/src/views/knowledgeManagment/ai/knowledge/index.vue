@@ -102,8 +102,6 @@
       </el-col>
     </el-row>
 
-    <el-alert v-if="message" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -112,6 +110,7 @@ import { computed, onMounted, reactive, ref } from 'vue'
 import { request } from '@/api/http'
 import { addKnowledge, deleteKnowledge, disableKnowledge, editKnowledge, embeddingKnowledge, enableKnowledge, getKnowledgeDetail } from '@/api/system'
 import { hasPermission } from '@/utils/permission'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const rows = ref([])
 const detail = ref(null)
@@ -139,6 +138,7 @@ async function loadRows() {
     }
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   } finally {
     loading.value = false
   }
@@ -165,6 +165,7 @@ async function selectRow(row) {
     }
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '详情加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -183,9 +184,11 @@ async function saveDraft() {
       await addKnowledge({ ...draft.value })
       message.value = '知识已新增'
     }
+    toastSuccess(message.value)
     await loadRows()
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '保存失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -193,6 +196,7 @@ async function enableSelected() {
   if (!selectedId.value) return
   await enableKnowledge([selectedId.value])
   message.value = '已启用所选知识'
+  toastSuccess(message.value)
   await loadRows()
 }
 
@@ -200,6 +204,7 @@ async function disableSelected() {
   if (!selectedId.value) return
   await disableKnowledge([selectedId.value])
   message.value = '已禁用所选知识'
+  toastSuccess(message.value)
   await loadRows()
 }
 
@@ -207,6 +212,7 @@ async function embeddingSelected() {
   if (!selectedId.value) return
   await embeddingKnowledge([selectedId.value])
   message.value = '已提交向量化任务'
+  toastSuccess(message.value)
   await loadRows()
 }
 
@@ -214,6 +220,7 @@ async function deleteSelected() {
   if (!selectedId.value) return
   await deleteKnowledge([selectedId.value])
   message.value = '已删除所选知识'
+  toastSuccess(message.value)
   createDraft()
   await loadRows()
 }
@@ -230,8 +237,10 @@ async function queueNotice() {
       })
     })
     message.value = 'AI 队列通知已提交'
+    toastSuccess(message.value)
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '队列通知提交失败'
+    toastError(errorMessage.value)
   }
 }
 

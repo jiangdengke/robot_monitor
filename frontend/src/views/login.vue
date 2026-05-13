@@ -18,14 +18,10 @@
           </el-form-item>
         </el-form>
 
-        <el-alert type="info" :closable="false" title="当前默认账号：admin；当前默认密码：admin123" />
-
         <el-divider />
         <el-button :loading="submitting" type="primary" @click="handleSubmit">
           {{ submitting ? '登录中...' : '登录系统' }}
         </el-button>
-
-        <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
       </el-card>
     </el-main>
   </el-container>
@@ -35,6 +31,7 @@
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { hydrateSession, login } from '@/stores/session'
+import { toastError, toastInfo } from '@/utils/toast'
 
 const router = useRouter()
 const submitting = ref(false)
@@ -57,8 +54,11 @@ async function handleSubmit() {
     await router.push('/system/user')
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '登录失败'
+    toastError(errorMessage.value)
   } finally {
     submitting.value = false
   }
 }
+
+toastInfo('当前默认账号：admin；当前默认密码：admin123')
 </script>

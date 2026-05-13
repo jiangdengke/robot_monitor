@@ -91,13 +91,13 @@
       </el-table>
     </el-card>
 
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getServerInfo } from '@/api/system'
+import { toastError } from '@/utils/toast'
 
 const serverInfo = ref({})
 const errorMessage = ref('')
@@ -111,6 +111,7 @@ async function loadInfo() {
     serverInfo.value = response.data || {}
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   } finally {
     loading.value = false
   }

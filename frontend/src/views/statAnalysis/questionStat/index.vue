@@ -63,14 +63,13 @@
       <el-table-column prop="createTime" label="时间" min-width="170" />
     </el-table>
 
-    <el-alert v-if="message" :title="message" type="success" :closable="false" />
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { request } from '@/api/http'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const rows = ref([])
 const total = ref(0)
@@ -95,6 +94,7 @@ async function loadRows() {
     total.value = response.total || rows.value.length
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -103,8 +103,10 @@ async function runClassification() {
     await request('/rest/ai/run-ai-auto-classification')
     await loadRows()
     message.value = '已提交自动分类任务'
+    toastSuccess(message.value)
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '提交失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -121,8 +123,10 @@ async function testAiChat() {
     })
     await loadRows()
     message.value = '测试问答已写入统计'
+    toastSuccess(message.value)
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '测试问答提交失败'
+    toastError(errorMessage.value)
   }
 }
 

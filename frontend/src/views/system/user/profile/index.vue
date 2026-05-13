@@ -32,13 +32,13 @@
         </el-card>
       </el-col>
     </el-row>
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
 <script setup>
 import { onMounted, ref } from 'vue'
 import { getProfile } from '@/api/system'
+import { toastError } from '@/utils/toast'
 
 const profile = ref({})
 const roleGroup = ref('')
@@ -54,6 +54,7 @@ async function loadProfile() {
     postGroup.value = response.postGroup || ''
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   }
 }
 

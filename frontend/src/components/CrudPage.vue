@@ -250,7 +250,6 @@
         <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
         <div class="el-upload__text">拖入文件或点击选择</div>
       </el-upload>
-      <el-alert v-if="uploadMessage" :title="uploadMessage" :type="uploadMessageType" :closable="false" />
       <template #footer>
         <el-button @click="uploadVisible = false">关闭</el-button>
         <el-button type="primary" :disabled="!pendingFiles.length" @click="submitUpload">上传</el-button>
@@ -290,27 +289,24 @@
         <div class="el-upload__text">拖入 Excel 文件或点击选择</div>
       </el-upload>
       <el-checkbox v-model="importUpdateSupport">更新已存在数据</el-checkbox>
-      <el-alert v-if="importMessage" :title="importMessage" :type="importMessageType" :closable="false" />
       <template #footer>
         <el-button @click="importVisible = false">关闭</el-button>
         <el-button type="primary" :disabled="!importFile" @click="submitImport">导入</el-button>
       </template>
     </el-dialog>
-
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
-    <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false" />
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessageBox } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { UploadFilled } from '@element-plus/icons-vue'
 import { createResource, deleteResource, getResource, listResource, normalizeRows, normalizeTotal, updateResource, uploadFiles } from '@/api/crud'
 import { request } from '@/api/http'
 import { loadDictOptions, resolveDictLabel, resolveDictTagType } from '@/utils/dict'
 import { hasAnyPermission } from '@/utils/permission'
+import { resolveFeedbackMessage } from '@/utils/toast'
 
 const props = defineProps({
   title: { type: String, required: true },
@@ -484,6 +480,17 @@ function canAction(action, permissions = null) {
   return !values || hasAnyPermission(Array.isArray(values) ? values : [values])
 }
 
+function showMessage(type, message) {
+  if (!message) {
+    return
+  }
+  ElMessage({
+    type,
+    message,
+    grouping: true
+  })
+}
+
 async function hydrateDictColumns() {
   const dictColumns = props.columns.filter((column) => column.dictType && !column.dictOptions)
   if (!dictColumns.length) return
@@ -522,7 +529,9 @@ async function loadRows() {
     rows.value = props.transformRows ? props.transformRows(normalizedRows) : normalizedRows
     total.value = props.pagination ? normalizeTotal(payload) : rows.value.length
   } catch (error) {
-    errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    const message = error?.payload?.msg || error?.message || '加载失败'
+    errorMessage.value = message
+    showMessage('error', message)
   } finally {
     loading.value = false
   }
@@ -604,17 +613,21 @@ async function submitForm() {
     const payload = props.beforeSubmit ? props.beforeSubmit(normalizedPayload, formMode.value) : normalizedPayload
     if (formMode.value === 'create') {
       const path = props.createPath || props.basePath
-      await createResource(path, payload, props.createMethod)
-      successMessage.value = '新增成功'
+      const response = await createResource(path, payload, props.createMethod)
+      successMessage.value = resolveFeedbackMessage(response, '新增成功')
+      showMessage('success', successMessage.value)
     } else {
       const path = props.updatePath || props.basePath
-      await updateResource(path, payload, props.updateMethod)
-      successMessage.value = '保存成功'
+      const response = await updateResource(path, payload, props.updateMethod)
+      successMessage.value = resolveFeedbackMessage(response, '保存成功')
+      showMessage('success', successMessage.value)
     }
     formVisible.value = false
     await loadRows()
   } catch (error) {
-    errorMessage.value = error?.payload?.msg || error?.message || '保存失败'
+    const message = error?.payload?.msg || error?.message || '保存失败'
+    errorMessage.value = message
+    showMessage('error', message)
   }
 }
 
@@ -683,10 +696,13 @@ async function handleSwitchChange(column, row, value) {
   try {
     await column.action(row, value)
     successMessage.value = column.successMessage || '状态已更新'
+    showMessage('success', successMessage.value)
     await loadRows()
   } catch (error) {
     row[column.prop] = previous
-    errorMessage.value = error?.payload?.msg || error?.message || '状态更新失败'
+    const message = error?.payload?.msg || error?.message || '状态更新失败'
+    errorMessage.value = message
+    showMessage('error', message)
   }
 }
 
@@ -705,14 +721,19 @@ async function runHeaderAction(action) {
       await router.push(typeof action.route === 'function' ? action.route({ query: { ...query }, selectedRows: selectedRows.value }) : action.route)
       return
     }
-    await action.handler?.({ rows: rows.value, selectedRows: selectedRows.value, query: { ...query }, loadRows })
-    successMessage.value = action.successMessage || successMessage.value
+    const response = await action.handler?.({ rows: rows.value, selectedRows: selectedRows.value, query: { ...query }, loadRows })
+    successMessage.value = resolveFeedbackMessage(response, action.successMessage || successMessage.value)
+    if (successMessage.value) {
+      showMessage('success', successMessage.value)
+    }
     if (action.reload !== false) {
       await loadRows()
     }
   } catch (error) {
     if (error !== 'cancel') {
-      errorMessage.value = error?.payload?.msg || error?.message || action.errorMessage || '操作失败'
+      const message = error?.payload?.msg || error?.message || action.errorMessage || '操作失败'
+      errorMessage.value = message
+      showMessage('error', message)
     }
   }
 }
@@ -736,14 +757,17 @@ async function runRowAction(action, row) {
     if (action.confirm) {
       await ElMessageBox.confirm(typeof action.confirm === 'function' ? action.confirm(row) : action.confirm, action.confirmTitle || '操作确认', { type: action.confirmType || 'warning' })
     }
-    await action.handler?.(row, { loadRows })
-    successMessage.value = action.successMessage || '操作成功'
+    const response = await action.handler?.(row, { loadRows })
+    successMessage.value = resolveFeedbackMessage(response, action.successMessage || '操作成功')
+    showMessage('success', successMessage.value)
     if (action.reload !== false) {
       await loadRows()
     }
   } catch (error) {
     if (error !== 'cancel') {
-      errorMessage.value = error?.payload?.msg || error?.message || action.errorMessage || '操作失败'
+      const message = error?.payload?.msg || error?.message || action.errorMessage || '操作失败'
+      errorMessage.value = message
+      showMessage('error', message)
     }
   }
 }
@@ -755,12 +779,15 @@ async function resolvePromptFields(action, row) {
 
 async function submitPromptAction() {
   try {
-    await pendingPromptAction.value?.handler?.(pendingPromptRow.value, { form: { ...promptForm }, loadRows })
+    const response = await pendingPromptAction.value?.handler?.(pendingPromptRow.value, { form: { ...promptForm }, loadRows })
     promptVisible.value = false
-    successMessage.value = pendingPromptAction.value?.successMessage || '操作成功'
+    successMessage.value = resolveFeedbackMessage(response, pendingPromptAction.value?.successMessage || '操作成功')
+    showMessage('success', successMessage.value)
     await loadRows()
   } catch (error) {
-    errorMessage.value = error?.payload?.msg || error?.message || '操作失败'
+    const message = error?.payload?.msg || error?.message || '操作失败'
+    errorMessage.value = message
+    showMessage('error', message)
   }
 }
 
@@ -776,12 +803,15 @@ async function deleteByIds(ids) {
   try {
     await ElMessageBox.confirm('确认删除所选数据？', '删除确认', { type: 'warning' })
     const path = props.deletePath || props.basePath
-    await deleteResource(path, ids, props.deleteMethod)
-    successMessage.value = '删除成功'
+    const response = await deleteResource(path, ids, props.deleteMethod)
+    successMessage.value = resolveFeedbackMessage(response, '删除成功')
+    showMessage('success', successMessage.value)
     await loadRows()
   } catch (error) {
     if (error !== 'cancel') {
-      errorMessage.value = error?.payload?.msg || error?.message || '删除失败'
+      const message = error?.payload?.msg || error?.message || '删除失败'
+      errorMessage.value = message
+      showMessage('error', message)
     }
   }
 }
@@ -794,13 +824,15 @@ async function submitUpload() {
   try {
     const response = await uploadFiles(pendingFiles.value)
     uploadMessageType.value = 'success'
-    uploadMessage.value = `上传成功：${response.originalFilenames || response.fileNames || ''}`
+    uploadMessage.value = resolveFeedbackMessage(response, `上传成功：${response.originalFilenames || response.fileNames || ''}`)
+    showMessage('success', uploadMessage.value)
     if (props.uploadField && formVisible.value) {
       form[props.uploadField] = String(response.fileNames || '').split(',')[0] || form[props.uploadField]
     }
   } catch (error) {
     uploadMessageType.value = 'error'
     uploadMessage.value = error?.payload?.msg || error?.message || '上传失败'
+    showMessage('error', uploadMessage.value)
   }
 }
 
@@ -815,11 +847,13 @@ async function submitImport() {
   try {
     const response = await props.importAction(importFile.value, importUpdateSupport.value)
     importMessageType.value = 'success'
-    importMessage.value = response.msg || response.data || '导入成功'
+    importMessage.value = resolveFeedbackMessage(response, '导入成功')
+    showMessage('success', importMessage.value)
     await loadRows()
   } catch (error) {
     importMessageType.value = 'error'
     importMessage.value = error?.payload?.msg || error?.message || '导入失败'
+    showMessage('error', importMessage.value)
   }
 }
 

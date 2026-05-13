@@ -46,8 +46,6 @@
       </el-col>
     </el-row>
 
-    <el-alert v-if="actionMessage" :title="actionMessage" :type="actionType" :closable="false" show-icon />
-
     <el-tabs v-model="tab">
       <el-tab-pane label="ALL" name="all">
         <el-row :gutter="16">
@@ -161,6 +159,7 @@ import MessageInfo from './MessageInfo.vue'
 import CanvasImg from './canvasImg.vue'
 import { getDigitalTwinAll, getRoomList } from '@/api/system'
 import { request } from '@/api/http'
+import { showToast } from '@/utils/toast'
 
 const tab = ref('all')
 const activeRoomCode = ref('')
@@ -363,6 +362,7 @@ function pointText(item) {
 function showAction(message, type = 'success') {
   actionMessage.value = message
   actionType.value = type
+  showToast(type, message)
 }
 
 onMounted(loadDashboard)

@@ -115,8 +115,6 @@
       </el-col>
     </el-row>
 
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
-    <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false" />
   </el-card>
 </template>
 
@@ -124,6 +122,7 @@
 import { onMounted, ref } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import { clearCacheAll, clearCacheKey, clearCacheName, getCacheInfo, getCacheValue, listCacheKeys, listCacheNames } from '@/api/system'
+import { toastError, toastSuccess } from '@/utils/toast'
 
 const cacheInfo = ref({})
 const cacheNames = ref([])
@@ -143,6 +142,7 @@ async function loadInfo() {
     cacheInfo.value = response.data || {}
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -154,6 +154,7 @@ async function loadNames() {
     cacheNames.value = response.data || []
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '缓存名称加载失败'
+    toastError(errorMessage.value)
   } finally {
     namesLoading.value = false
   }
@@ -172,6 +173,7 @@ async function loadKeys(cacheName) {
     cacheKeys.value = response.data || []
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '缓存键名加载失败'
+    toastError(errorMessage.value)
   } finally {
     keysLoading.value = false
   }
@@ -201,6 +203,7 @@ async function selectKey(row) {
     cacheValue.value = response.data || {}
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '缓存内容加载失败'
+    toastError(errorMessage.value)
   }
 }
 
@@ -209,10 +212,12 @@ async function clearName(row) {
     await ElMessageBox.confirm(`确认清理缓存名称"${row.cacheName}"？`, '清理确认', { type: 'warning' })
     await clearCacheName(row.cacheName)
     successMessage.value = '缓存名称已清理'
+    toastSuccess(successMessage.value)
     await loadKeys(row.cacheName)
   } catch (error) {
     if (error !== 'cancel') {
       errorMessage.value = error?.payload?.msg || error?.message || '缓存名称清理失败'
+      toastError(errorMessage.value)
     }
   }
 }
@@ -223,10 +228,12 @@ async function clearKey(row) {
     await ElMessageBox.confirm(`确认清理缓存键"${cacheKey}"？`, '清理确认', { type: 'warning' })
     await clearCacheKey(cacheKey)
     successMessage.value = '缓存键已清理'
+    toastSuccess(successMessage.value)
     await loadKeys(selectedName.value)
   } catch (error) {
     if (error !== 'cancel') {
       errorMessage.value = error?.payload?.msg || error?.message || '缓存键清理失败'
+      toastError(errorMessage.value)
     }
   }
 }
@@ -236,12 +243,14 @@ async function clearAll() {
     await ElMessageBox.confirm('确认清理全部缓存？', '清理确认', { type: 'warning' })
     await clearCacheAll()
     successMessage.value = '全部缓存已清理'
+    toastSuccess(successMessage.value)
     cacheKeys.value = []
     cacheValue.value = {}
     await loadInfo()
   } catch (error) {
     if (error !== 'cancel') {
       errorMessage.value = error?.payload?.msg || error?.message || '全部缓存清理失败'
+      toastError(errorMessage.value)
     }
   }
 }

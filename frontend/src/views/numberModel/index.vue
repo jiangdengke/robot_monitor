@@ -33,7 +33,6 @@
         <DoTable :tables="tables" @refresh="loadTables" />
       </el-tab-pane>
     </el-tabs>
-    <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
   </el-card>
 </template>
 
@@ -43,6 +42,7 @@ import DoTable from './doTable.vue'
 import FindPanel from './find.vue'
 import WalkPanel from './walk.vue'
 import { request } from '@/api/http'
+import { toastError } from '@/utils/toast'
 
 const mode = ref('find')
 const tables = ref([])
@@ -55,6 +55,7 @@ async function loadTables() {
     tables.value = response.rows || response.data || []
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '桌台加载失败'
+    toastError(errorMessage.value)
   }
 }
 

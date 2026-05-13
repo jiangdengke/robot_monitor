@@ -33,7 +33,6 @@
         </el-button>
         <el-button plain @click="router.push('/login')">返回登录</el-button>
 
-        <el-alert v-if="message" :title="message" :type="messageType" :closable="false" />
       </el-form>
       </el-card>
     </el-main>
@@ -44,6 +43,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { getCaptchaImage, registerAccount } from '@/api/system'
+import { showToast } from '@/utils/toast'
 
 const router = useRouter()
 const formRef = ref()
@@ -124,6 +124,7 @@ async function submit() {
 function showMessage(text, type = 'success') {
   message.value = text
   messageType.value = type
+  showToast(type, text)
 }
 
 onMounted(loadCaptcha)
