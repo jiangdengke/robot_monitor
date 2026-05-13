@@ -208,13 +208,23 @@ onMounted(async () => {
 })
 
 const menus = computed(() => {
-  const source = session.routers?.length ? normalizeRouterMenus(session.routers) : buildFallbackMenus()
-  return sortByMenuOrder(source, (group) => group.path)
+  const availablePaths = session.routers?.length ? collectAvailablePaths(session.routers) : null
+  const source = buildFallbackMenus()
     .map((group) => ({
       ...group,
-      children: sortByMenuOrder(group.children || [], (item) => item.path)
+      children: (group.children || []).filter((item) => !availablePaths || availablePaths.has(item.path))
     }))
-    .filter((group) => group.path || group.children.length)
+    .filter((group) => {
+      if (!availablePaths) {
+        return group.path || group.children.length
+      }
+      return availablePaths.has(group.path) || group.children.length
+    })
+
+  return sortByMenuOrder(source, (group) => group.path).map((group) => ({
+    ...group,
+    children: sortByMenuOrder(group.children || [], (item) => item.path)
+  }))
 })
 
 const flatMenus = computed(() =>
@@ -275,6 +285,18 @@ function normalizeRouterMenus(routers) {
           })
       }
     })
+}
+
+function collectAvailablePaths(routers) {
+  return new Set(
+    normalizeRouterMenus(routers).flatMap((group) => {
+      const paths = [group.path]
+      for (const child of group.children || []) {
+        paths.push(child.path)
+      }
+      return paths.filter(Boolean)
+    })
+  )
 }
 
 function addCurrentTag() {

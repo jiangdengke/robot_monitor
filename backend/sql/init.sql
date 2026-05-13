@@ -1109,9 +1109,9 @@ VALUES
 (604,'参数设置',6,5,'config','system/config/index',NULL,'1','0','C','0','0','system:config:list,system:config:query,system:config:add,system:config:edit,system:config:remove,system:config:export','edit','system',NOW(),''),
 
 (700,'在线用户',7,1,'online','monitor/online/index',NULL,'1','0','C','0','0','monitor:online:list,monitor:online:forceLogout','online','system',NOW(),''),
-(701,'缓存监控',7,2,'cache','monitor/cache/index',NULL,'1','0','C','0','0','monitor:cache:list','redis','system',NOW(),''),
+(701,'数据监控',7,2,'druid','monitor/druid/index',NULL,'1','0','C','0','0','monitor:druid:list','druid','system',NOW(),''),
 (702,'服务监控',7,3,'server','monitor/server/index',NULL,'1','0','C','0','0','monitor:server:list','server','system',NOW(),''),
-(703,'定时任务',7,4,'job','monitor/job/index',NULL,'1','0','C','0','0','monitor:job:list,monitor:job:query,monitor:job:add,monitor:job:edit,monitor:job:remove,monitor:job:changeStatus,monitor:job:export','job','system',NOW(),'');
+(703,'缓存监控',7,4,'cache','monitor/cache/index',NULL,'1','0','C','0','0','monitor:cache:list','redis','system',NOW(),'');
 
 INSERT INTO `sys_role_menu` (`role_id`,`menu_id`)
 SELECT 1, menu_id FROM sys_menu;

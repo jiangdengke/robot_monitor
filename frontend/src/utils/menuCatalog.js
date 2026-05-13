@@ -72,9 +72,9 @@ const catalog = [
     icon: 'monitor',
     children: [
       ['在线用户', '/monitor/online', 'online'],
-      ['缓存监控', '/monitor/cache', 'redis'],
+      ['数据监控', '/monitor/druid', 'druid'],
       ['服务监控', '/monitor/server', 'server'],
-      ['定时任务', '/monitor/job', 'job']
+      ['缓存监控', '/monitor/cache', 'redis']
     ]
   },
   {
@@ -125,20 +125,17 @@ const auxiliaryRoutes = [
   ['角色授权', '/system/role-auth/user', 'peoples'],
   ['选择授权用户', '/system/role-auth/selectUser', 'peoples'],
   ['用户分配角色', '/system/user-auth/role', 'user'],
-  ['调度日志', '/monitor/job/log', 'log'],
-  ['调度日志', '/monitor/job-log', 'log'],
+  ['命令日志', '/monitor/job/log', 'log'],
+  ['命令日志', '/monitor/job-log', 'log'],
   ['桌台模型', '/numberModel', 'table'],
   ['数字孪生', '/flight/digitalTwin', 'digital-twin-view'],
   ['部门管理', '/system/dept', 'tree'],
   ['岗位管理', '/system/post', 'post'],
   ['通知公告', '/system/notice', 'message'],
-  ['数据库监控', '/monitor/druid', 'druid'],
   ['点餐订单', '/foodManagment/foodMenu', 'shopping'],
   ['投诉记录', '/configManagment/complaintRecord', 'message'],
   ['视频资源', '/configManagment/vedio', 'video-camera'],
-  ['代码生成', '/tool/gen', 'code'],
-  ['表单构建', '/tool/build', 'build'],
-  ['Swagger文档', '/tool/swagger', 'swagger']
+  ['定时任务', '/monitor/job', 'job']
 ]
 
 const canonicalAliases = [
