@@ -30,6 +30,7 @@ import {
   listConfigImages,
   listConfigRegions,
   listConfigRobots,
+  listConfigRobotAudios,
   listConfigTables,
   listDeviceRegions,
   listFoodConfigs,
@@ -117,7 +118,8 @@ const guideOptions = [
 const languageOptions = [
   { label: '中文', value: 'CN' },
   { label: '英文', value: 'EN' },
-  { label: '俄文', value: 'RU' }
+  { label: '俄文', value: 'RU' },
+  { label: '日文', value: 'JP' }
 ]
 
 const executeTypeOptions = [
@@ -817,8 +819,37 @@ export const crudPages = {
     defaults: { imgType: '1', enable: 1, width: 0, height: 0, isDelete: '0' }
   },
   audio: {
-    title: '机器人语音',
-    description: '机器人语音资源、音频 Key 和播放内容管理。',
+    title: '音频',
+    description: '音频资源、音频 Key、语音类别和播放内容管理。',
+    basePath: '/config/audio',
+    rowKey: 'id',
+    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'audioType', label: '语音类别' }, { prop: 'roomCode', label: '房间编码' }],
+    columns: [
+      { prop: 'id', label: 'ID', width: 90 },
+      { prop: 'audioKey', label: 'Key', minWidth: 150 },
+      { prop: 'languageType', label: '语言', width: 90 },
+      { prop: 'audioType', label: '语音类别', minWidth: 120 },
+      { prop: 'textInfo', label: '文字内容', minWidth: 240 },
+      { prop: 'audioValue', label: '音频内容', minWidth: 180 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 150 }
+    ],
+    formFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'audioKey', label: '音频 Key' },
+        { prop: 'languageType', label: '语言', type: 'select', options: languageOptions },
+        { prop: 'audioType', label: '语音类别' },
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
+        { prop: 'textInfo', label: '文字内容', type: 'textarea', rows: 5 },
+        { prop: 'audioValue', label: '音频内容/mock 返回', type: 'textarea', rows: 3 },
+        { prop: 'remark', label: '备注', type: 'textarea' }
+      ]
+    },
+    defaults: { languageType: 'CN' }
+  },
+  robotAudio: {
+    title: '机器人音频',
+    description: '机器人端同步使用的音频 Key、语言和播放内容管理。',
     basePath: '/config/robotAudio',
     rowKey: 'id',
     searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'roomCode', label: '房间编码' }],
@@ -837,11 +868,29 @@ export const crudPages = {
         { prop: 'languageType', label: '语言', type: 'select', options: languageOptions },
         { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.rooms },
         { prop: 'textInfo', label: '文字内容', type: 'textarea', rows: 5 },
-        { prop: 'audioValue', label: '音频内容/mock 返回', type: 'textarea', rows: 3 },
+        { prop: 'audioValue', label: '音频内容', type: 'textarea', rows: 3 },
         { prop: 'remark', label: '备注', type: 'textarea' }
       ]
     },
-    defaults: { languageType: 'CN' }
+    defaults: { languageType: 'CN' },
+    rowActions: [
+      {
+        key: 'sync',
+        label: '同步',
+        handler: async (row) => {
+          const response = await listConfigRobotAudios({
+            robotId: row.robotId || '',
+            lastUpdateTime: row.updateTime || row.createTime || '1970-01-01 00:00:00'
+          })
+          return response
+        },
+        successMessage: '同步查询已完成'
+      }
+    ],
+    permissions: {
+      sync: ['config:audio:query', 'config:robotAudio:query']
+    },
+    operationWidth: 300
   },
   region: {
     title: '贵宾室区域',
@@ -1801,6 +1850,7 @@ const permissionPrefixMap = {
   region: 'config:region',
   image: 'config:photo',
   audio: 'config:audio',
+  robotAudio: 'config:audio',
   area: 'config:area',
   device: 'config:device',
   table: 'config:table',

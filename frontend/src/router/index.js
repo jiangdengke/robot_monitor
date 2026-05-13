@@ -6,6 +6,9 @@ import RegisterView from '@/views/register.vue'
 import NotFoundView from '@/views/error/404.vue'
 import UnauthorizedView from '@/views/error/401.vue'
 import WelcomeView from '@/views/index.vue'
+import { getMenuTitle, normalizePath } from '@/utils/menuCatalog'
+
+const pageTitle = (path, fallback = '') => getMenuTitle(path, fallback) || fallback
 
 const moduleRoutes = [
   { path: 'system/user', component: () => import('@/views/system/user/index.vue') },
@@ -40,7 +43,9 @@ const moduleRoutes = [
   { path: 'configManagment/photo', component: () => import('@/views/configManagment/photo/index.vue') },
   { path: 'config/photo', component: () => import('@/views/configManagment/photo/index.vue') },
   { path: 'configManagment/robotAudio', component: () => import('@/views/configManagment/robotAudio/index.vue') },
-  { path: 'config/audio', component: () => import('@/views/configManagment/robotAudio/index.vue') },
+  { path: 'config/robotAudio', component: () => import('@/views/configManagment/robotAudio/index.vue') },
+  { path: 'configManagment/audio', component: () => import('@/views/configManagment/audio/index.vue') },
+  { path: 'config/audio', component: () => import('@/views/configManagment/audio/index.vue') },
   { path: 'configManagment/monitorDevice', component: () => import('@/views/configManagment/monitorDevice/index.vue') },
   { path: 'config/monitorDevice', component: () => import('@/views/configManagment/monitorDevice/index.vue') },
   { path: 'configManagment/vipRoom', component: () => import('@/views/configManagment/vipRoom/index.vue') },
@@ -56,6 +61,7 @@ const moduleRoutes = [
   { path: 'config/table', component: () => import('@/views/foodManagment/foodTable/index.vue') },
   { path: 'config/task', component: () => import('@/views/taskManagment/taskList/index.vue') },
   { path: 'digitalTwin', component: () => import('@/views/digitalTwin/index.vue') },
+  { path: 'digitalTwin/v15', component: () => import('@/views/digitalTwin/v15.vue') },
   { path: 'flight/digitalTwin', component: () => import('@/views/digitalTwin/index.vue') },
   { path: 'knowledgeManagment/ai/knowledge', component: () => import('@/views/knowledgeManagment/ai/knowledge/index.vue') },
   { path: 'ai/knowledge', component: () => import('@/views/knowledgeManagment/ai/knowledge/index.vue') },
@@ -89,7 +95,13 @@ const moduleRoutes = [
   { path: 'flight/outGoing', component: () => import('@/views/viewManagment/outGoing/index.vue') },
   { path: 'numberModel', component: () => import('@/views/numberModel/index.vue') },
   { path: 'redirect', component: () => import('@/views/redirect/index.vue') }
-]
+].map((route) => ({
+  ...route,
+  meta: {
+    ...(route.meta || {}),
+    title: pageTitle(`/${route.path.split('/:')[0]}`, route.meta?.title || '')
+  }
+}))
 
 const routes = [
   { path: '/login', component: LoginView, meta: { title: '登录' } },
@@ -127,7 +139,8 @@ router.beforeEach((to) => {
 })
 
 router.afterEach((to) => {
-  const title = to.meta?.title ? `${to.meta.title} - 国航智慧贵宾室管理系统` : '国航智慧贵宾室管理系统'
+  const routeTitle = getMenuTitle(normalizePath(to.path), to.meta?.title || '')
+  const title = routeTitle ? `${routeTitle} - 国航智慧贵宾室管理系统` : '国航智慧贵宾室管理系统'
   document.title = title
 })
 

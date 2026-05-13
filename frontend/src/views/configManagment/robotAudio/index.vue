@@ -6,5 +6,5 @@
 import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
 
-const config = getCrudPage('audio')
+const config = getCrudPage('robotAudio')
 </script>

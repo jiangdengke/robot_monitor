@@ -22,15 +22,15 @@
       </el-col>
     </el-row>
 
-    <el-tabs v-model="mode">
-      <el-tab-pane label="执行" name="execute">
-        <DoTable :tables="tables" @refresh="loadTables" />
-      </el-tab-pane>
-      <el-tab-pane label="查找" name="find">
+    <el-tabs v-model="mode" type="card">
+      <el-tab-pane label="找客" name="find">
         <FindPanel :tables="tables" />
       </el-tab-pane>
-      <el-tab-pane label="路径" name="walk">
+      <el-tab-pane label="巡检" name="walk">
         <WalkPanel :tables="tables" />
+      </el-tab-pane>
+      <el-tab-pane label="翻台" name="table">
+        <DoTable :tables="tables" @refresh="loadTables" />
       </el-tab-pane>
     </el-tabs>
     <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
@@ -44,7 +44,7 @@ import FindPanel from './find.vue'
 import WalkPanel from './walk.vue'
 import { request } from '@/api/http'
 
-const mode = ref('execute')
+const mode = ref('find')
 const tables = ref([])
 const errorMessage = ref('')
 

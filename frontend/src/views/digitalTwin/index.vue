@@ -49,50 +49,52 @@
     <el-alert v-if="actionMessage" :title="actionMessage" :type="actionType" :closable="false" show-icon />
 
     <el-tabs v-model="tab">
-      <el-tab-pane label="房间/区域" name="area">
-        <el-table v-loading="loading" :data="filteredRegions" border>
-          <el-table-column prop="regionName" label="区域名称" min-width="140" />
-          <el-table-column prop="areaName" label="功能区" min-width="130" />
-          <el-table-column prop="roomCode" label="房间编码" min-width="120" />
-          <el-table-column prop="curCapacity" label="当前人数" width="100" />
-          <el-table-column prop="maxCapacity" label="容量" width="90" />
-          <el-table-column label="坐标" min-width="180">
-            <template #default="{ row }">{{ pointText(row) }}</template>
-          </el-table-column>
-          <el-table-column label="操作" width="150" fixed="right">
-            <template #default="{ row }">
-              <el-button size="small" type="primary" :loading="actionLoading" @click="guideRegion(row)">机器人引导</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
+      <el-tab-pane label="ALL" name="all">
+        <el-row :gutter="16">
+          <el-col :xs="24" :lg="12">
+            <el-table v-loading="loading" :data="filteredRegions" border>
+              <el-table-column prop="regionName" label="区域名称" min-width="140" />
+              <el-table-column prop="areaName" label="功能区" min-width="130" />
+              <el-table-column prop="roomCode" label="房间编码" min-width="120" />
+              <el-table-column prop="curCapacity" label="当前人数" width="100" />
+              <el-table-column prop="maxCapacity" label="容量" width="90" />
+              <el-table-column label="坐标" min-width="180">
+                <template #default="{ row }">{{ pointText(row) }}</template>
+              </el-table-column>
+              <el-table-column label="操作" width="150" fixed="right">
+                <template #default="{ row }">
+                  <el-button size="small" type="primary" :loading="actionLoading" @click="guideRegion(row)">机器人引导</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-col>
+          <el-col :xs="24" :lg="12">
+            <el-table v-loading="loading" :data="filteredRobots" border>
+              <el-table-column prop="robotId" label="机器人编号" min-width="130" />
+              <el-table-column prop="robotName" label="名称" min-width="140" />
+              <el-table-column prop="regionId" label="区域" width="100" />
+              <el-table-column label="坐标" min-width="170">
+                <template #default="{ row }">{{ pointText(row) }}</template>
+              </el-table-column>
+              <el-table-column prop="workingState" label="工作状态" min-width="120" />
+              <el-table-column label="操作" width="140" fixed="right">
+                <template #default="{ row }">
+                  <el-button size="small" :loading="actionLoading" @click="interruptRobot(row)">停止任务</el-button>
+                </template>
+              </el-table-column>
+            </el-table>
+          </el-col>
+        </el-row>
       </el-tab-pane>
 
-      <el-tab-pane label="机器人" name="robot">
-        <el-table v-loading="loading" :data="filteredRobots" border>
-          <el-table-column prop="robotId" label="机器人编号" min-width="130" />
-          <el-table-column prop="robotName" label="名称" min-width="140" />
-          <el-table-column prop="regionId" label="区域" width="100" />
-          <el-table-column label="坐标" min-width="170">
-            <template #default="{ row }">{{ pointText(row) }}</template>
-          </el-table-column>
-          <el-table-column prop="workingState" label="工作状态" min-width="120" />
-          <el-table-column label="操作" width="140" fixed="right">
-            <template #default="{ row }">
-              <el-button size="small" :loading="actionLoading" @click="interruptRobot(row)">停止任务</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
-      </el-tab-pane>
-
-      <el-tab-pane label="旅客/预警" name="passenger">
+      <el-tab-pane label="在舱旅客" name="passenger">
         <el-table v-loading="loading" :data="filteredPassengers" border>
-          <el-table-column prop="userName" label="旅客" min-width="120" />
-          <el-table-column prop="flightNo" label="航班" min-width="120" />
-          <el-table-column prop="memLevel" label="会员等级" min-width="110" />
-          <el-table-column prop="estmTakeOffTime" label="预计起飞" min-width="110" />
-          <el-table-column prop="latestOffStatus" label="航班状态" min-width="120" />
-          <el-table-column prop="regionId" label="区域" width="90" />
-          <el-table-column label="预警" min-width="220">
+          <el-table-column prop="userName" label="旅客姓名" min-width="120" />
+          <el-table-column prop="flightNo" label="航班号" min-width="120" />
+          <el-table-column prop="estmTakeOffTime" label="预计起飞时间" min-width="140" />
+          <el-table-column prop="latestOffStatus" label="旅客状态" min-width="120" />
+          <el-table-column prop="regionId" label="位置" width="100" />
+          <el-table-column label="提醒内容" min-width="220">
             <template #default="{ row }">
               <el-space v-if="row.warningLogList?.length" wrap>
                 <el-tag
@@ -118,15 +120,12 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="巡检异常" name="inspection">
+      <el-tab-pane label="巡检预警" name="inspection">
         <el-table v-loading="loading" :data="inspectionList" border>
-          <el-table-column prop="inspTaskId" label="任务ID" width="100" />
-          <el-table-column prop="robotId" label="机器人" min-width="120" />
-          <el-table-column prop="areaName" label="功能区" min-width="120" />
-          <el-table-column prop="point" label="点位" min-width="100" />
+          <el-table-column prop="areaName" label="位置" min-width="120" />
+          <el-table-column prop="abnormalInfo" label="提醒内容" min-width="220" />
           <el-table-column prop="abnormal" label="状态" min-width="100" />
-          <el-table-column prop="abnormalInfo" label="异常信息" min-width="220" />
-          <el-table-column label="坐标" min-width="170">
+          <el-table-column label="位置坐标" min-width="170">
             <template #default="{ row }">{{ pointText(row) }}</template>
           </el-table-column>
           <el-table-column label="操作" width="120" fixed="right">
@@ -137,13 +136,11 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="桌台" name="table">
+      <el-tab-pane label="翻台提醒" name="tableChange">
         <el-table v-loading="loading" :data="tableList" border>
-          <el-table-column prop="tableNo" label="桌号" min-width="110" />
-          <el-table-column prop="areaName" label="区域" min-width="130" />
+          <el-table-column prop="tableNo" label="餐桌编号" min-width="120" />
           <el-table-column prop="status" label="状态" min-width="100" />
-          <el-table-column prop="isEnable" label="启用" width="90" />
-          <el-table-column prop="cameraCoordinates" label="坐标" min-width="170" />
+          <el-table-column prop="cameraCoordinates" label="位置" min-width="170" />
         </el-table>
       </el-tab-pane>
     </el-tabs>
@@ -165,7 +162,7 @@ import CanvasImg from './canvasImg.vue'
 import { getDigitalTwinAll, getRoomList } from '@/api/system'
 import { request } from '@/api/http'
 
-const tab = ref('area')
+const tab = ref('all')
 const activeRoomCode = ref('')
 const roomList = ref([])
 const regions = ref([])

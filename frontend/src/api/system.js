@@ -65,6 +65,8 @@ export const getImageDetail = (id) => request(`/config/img/${id}`)
 
 export const getAudioDetail = (id) => request(`/config/audio/${id}`)
 
+export const getRobotAudioDetail = (id) => request(`/config/robotAudio/${id}`)
+
 export const getTaskDetail = (id) => request(`/config/task/${id}`)
 
 export const getKnowledgeDetail = (id) => request(`/ai/knowledge/${id}`)
@@ -205,6 +207,11 @@ export const listConfigTables = (query = {}) =>
 
 export const listConfigAudios = (query = {}) =>
   request('/config/audio/list', {
+    query
+  })
+
+export const listConfigRobotAudios = (query = {}) =>
+  request('/config/robotAudio/list', {
     query
   })
 

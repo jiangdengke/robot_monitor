@@ -11,11 +11,8 @@
     </template>
 
     <el-tabs v-model="activeTab">
-      <el-tab-pane label="基础信息" name="basic">
+      <el-tab-pane label="基本信息" name="basic">
         <basic-info-form :model="draft" />
-      </el-tab-pane>
-      <el-tab-pane label="生成信息" name="gen">
-        <gen-info-form :model="draft" />
       </el-tab-pane>
       <el-tab-pane label="字段信息" name="columns">
         <el-table :data="draft.columns" border row-key="columnName">
@@ -57,6 +54,9 @@
             <template #default="{ row }"><el-input v-model.trim="row.dictType" placeholder="sys_normal_disable" /></template>
           </el-table-column>
         </el-table>
+      </el-tab-pane>
+      <el-tab-pane label="生成信息" name="gen">
+        <gen-info-form :model="draft" />
       </el-tab-pane>
     </el-tabs>
   </el-card>

@@ -6,9 +6,5 @@
 import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
 
-const config = {
-  ...getCrudPage('passenger'),
-  title: '旅客信息',
-  description: '旅客基础信息、当前在厅状态、航班和区域记录。'
-}
+const config = getCrudPage('audio')
 </script>

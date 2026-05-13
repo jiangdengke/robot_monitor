@@ -1,18 +1,5 @@
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <el-row justify="space-between" align="middle">
-        <el-space direction="vertical" alignment="flex-start">
-          <el-text tag="b" size="large">{{ title }}</el-text>
-          <el-text v-if="description" type="info">{{ description }}</el-text>
-        </el-space>
-        <el-space wrap>
-          <el-button @click="loadRows">刷新</el-button>
-          <el-button v-if="canCreate" type="primary" @click="openCreate">新增</el-button>
-        </el-space>
-      </el-row>
-    </template>
-
+  <div class="app-container crud-page">
     <el-form v-if="searchFields.length" inline @submit.prevent="handleSearch">
       <el-form-item v-for="field in searchFields" :key="field.prop" :label="field.label">
         <el-select v-if="field.type === 'select'" v-model="query[field.prop]" clearable :placeholder="field.placeholder || field.label">
@@ -45,7 +32,8 @@
       </el-form-item>
     </el-form>
 
-    <el-space wrap>
+    <el-space class="mb8" wrap>
+      <el-button v-if="canCreate" type="primary" @click="openCreate">新增</el-button>
       <el-button v-if="canDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
       <el-button
         v-for="action in visibleHeaderActions"
@@ -311,7 +299,7 @@
 
     <el-alert v-if="errorMessage" :title="errorMessage" type="error" :closable="false" />
     <el-alert v-if="successMessage" :title="successMessage" type="success" :closable="false" />
-  </el-card>
+  </div>
 </template>
 
 <script setup>
