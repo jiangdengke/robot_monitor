@@ -58,20 +58,25 @@
             </Policies>
             <DefaultRolloverStrategy max="60"/>
         </RollingFile>
+
+        <Console name="SysUserConsole" target="SYSTEM_OUT">
+            <PatternLayout pattern="${console.pattern}"/>
+        </Console>
     </Appenders>
 
     <Loggers>
         <Logger name="com.robotmonitor" level="info"/>
-        <Logger name="org.springframework" level="warn"/>
-        <Logger name="org.jooq" level="warn"/>
-        <Logger name="com.alibaba.druid" level="warn"/>
-        <Logger name="org.apache.catalina" level="warn"/>
-        <Logger name="org.apache.coyote" level="warn"/>
-        <Logger name="org.apache.tomcat" level="warn"/>
-        <Logger name="org.hibernate.validator" level="warn"/>
-        <Logger name="org.quartz" level="warn"/>
+        <Logger name="org.springframework" level="info"/>
+        <Logger name="org.jooq" level="info"/>
+        <Logger name="com.alibaba.druid" level="info"/>
+        <Logger name="org.apache.catalina" level="info"/>
+        <Logger name="org.apache.coyote" level="info"/>
+        <Logger name="org.apache.tomcat" level="info"/>
+        <Logger name="org.hibernate.validator" level="info"/>
+        <Logger name="org.quartz" level="info"/>
 
         <Logger name="sys-user" level="info" additivity="false">
+            <AppenderRef ref="SysUserConsole"/>
             <AppenderRef ref="SysUser"/>
         </Logger>
 

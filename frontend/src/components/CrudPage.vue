@@ -1,7 +1,7 @@
 <template>
   <div class="app-container crud-page">
-    <el-form v-if="searchFields.length" inline @submit.prevent="handleSearch">
-      <el-form-item v-for="field in searchFields" :key="field.prop" :label="field.label">
+    <el-form v-if="resolvedSearchFields.length" inline @submit.prevent="handleSearch">
+      <el-form-item v-for="field in resolvedSearchFields" :key="field.prop" :label="field.label">
         <el-select v-if="field.type === 'select'" v-model="query[field.prop]" clearable :placeholder="field.placeholder || field.label">
           <el-option v-for="option in field.options || []" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
@@ -385,6 +385,7 @@ const detail = ref({})
 const form = reactive({})
 const query = reactive({})
 const resolvedFormFields = ref([])
+const resolvedSearchFields = ref([])
 const treeSelectProps = { value: 'id', label: 'label', children: 'children' }
 const defaultIcons = [
   'House',
@@ -490,6 +491,20 @@ async function hydrateDictColumns() {
     column.dictOptions = await loadDictOptions(column.dictType)
     column.tag = column.tag || 'info'
   }))
+}
+
+async function resolveSearchFields() {
+  resolvedSearchFields.value = await Promise.all(
+    (props.searchFields || []).map(async (field) => {
+      if (typeof field.options === 'function') {
+        return {
+          ...field,
+          options: await field.options()
+        }
+      }
+      return field
+    })
+  )
 }
 
 async function loadRows() {
@@ -810,6 +825,6 @@ async function submitImport() {
 
 onMounted(() => {
   resetObject(query, props.initialQuery)
-  hydrateDictColumns().finally(loadRows)
+  Promise.all([hydrateDictColumns(), resolveSearchFields()]).finally(loadRows)
 })
 </script>

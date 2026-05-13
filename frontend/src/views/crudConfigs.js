@@ -335,6 +335,16 @@ async function loadConfigOptions() {
   }
 }
 
+async function roomOptionsLoader() {
+  const options = await loadConfigOptions()
+  return options.rooms
+}
+
+async function robotOptionsLoader() {
+  const options = await loadConfigOptions()
+  return options.robots
+}
+
 async function loadFoodOptions() {
   const [configOptions, foodResponse] = await Promise.all([
     loadConfigOptions(),
@@ -740,7 +750,7 @@ export const crudPages = {
     description: '机器人编号、名称、IP、区域和运行状态配置。',
     basePath: '/config/robot',
     rowKey: 'id',
-    searchFields: [{ prop: 'robotId', label: '机器人编号' }, { prop: 'robotName', label: '机器人名称' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'robotId', label: '机器人编号' }, { prop: 'robotName', label: '机器人名称' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'robotId', label: '机器人编号', minWidth: 140 },
@@ -792,7 +802,7 @@ export const crudPages = {
     description: '贵宾室图片、地图底图和展示资源管理。',
     basePath: '/config/img',
     rowKey: 'id',
-    searchFields: [{ prop: 'imgName', label: '图片名称' }, { prop: 'imgType', label: '图片类别' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'imgName', label: '图片名称' }, { prop: 'imgType', label: '图片类别' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'id', label: '预览', width: 90, image: true, imageUrl: (row) => `/api/rest/image/config/${row.id}` },
@@ -823,7 +833,7 @@ export const crudPages = {
     description: '音频资源、音频 Key、语音类别和播放内容管理。',
     basePath: '/config/audio',
     rowKey: 'id',
-    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'audioType', label: '语音类别' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'audioType', label: '语音类别' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'audioKey', label: 'Key', minWidth: 150 },
@@ -852,7 +862,7 @@ export const crudPages = {
     description: '机器人端同步使用的音频 Key、语言和播放内容管理。',
     basePath: '/config/robotAudio',
     rowKey: 'id',
-    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'audioKey', label: '音频 Key' }, { prop: 'languageType', label: '语言', type: 'select', options: languageOptions }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'audioKey', label: 'Key', minWidth: 150 },
@@ -897,7 +907,7 @@ export const crudPages = {
     description: '贵宾室区域编码、坐标和展示状态管理。',
     basePath: '/config/region',
     rowKey: 'id',
-    searchFields: [{ prop: 'regionName', label: '区域名称' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'regionName', label: '区域名称' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'regionName', label: '区域名称', minWidth: 160 },
@@ -939,7 +949,7 @@ export const crudPages = {
     description: '贵宾室功能区、容量、图片和语音配置。',
     basePath: '/config/area',
     rowKey: 'id',
-    searchFields: [{ prop: 'areaName', label: '功能区名称' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'areaName', label: '功能区名称' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'areaName', label: '功能区', minWidth: 160 },
@@ -992,7 +1002,7 @@ export const crudPages = {
     description: '摄像头、监控设备编码、IP 和区域绑定维护。',
     basePath: '/config/device',
     rowKey: 'id',
-    searchFields: [{ prop: 'deviceName', label: '设备名称' }, { prop: 'deviceType', label: '设备类型' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'deviceName', label: '设备名称' }, { prop: 'deviceType', label: '设备类型', type: 'select', options: deviceTypeOptions }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'deviceName', label: '设备名称', minWidth: 160 },
@@ -1060,7 +1070,7 @@ export const crudPages = {
     description: '桌号、坐标、区域和翻台状态管理。',
     basePath: '/config/table',
     rowKey: 'id',
-    searchFields: [{ prop: 'tableNo', label: '桌号' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'tableNo', label: '桌号' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'tableNo', label: '桌号', minWidth: 120 },
@@ -1089,7 +1099,7 @@ export const crudPages = {
     description: '机器人任务、任务状态和执行目标管理。',
     basePath: '/config/task',
     rowKey: 'id',
-    searchFields: [{ prop: 'taskName', label: '任务名称' }, { prop: 'robotId', label: '机器人' }],
+    searchFields: [{ prop: 'taskName', label: '任务名称' }, { prop: 'robotId', label: '机器人', type: 'select', options: robotOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'taskName', label: '任务名称', minWidth: 160 },
@@ -1212,7 +1222,7 @@ export const crudPages = {
     deleteMethod: 'POST',
     detailLoader: (row) => getFoodConfig(row.foodId),
     rowKey: 'foodId',
-    searchFields: [{ prop: 'name', label: '菜品名称' }, { prop: 'dicTypeCode', label: '分类' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'name', label: '菜品名称' }, { prop: 'dicTypeCode', label: '分类', type: 'select', options: foodTypeOptions }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'foodId', label: 'ID', width: 90 },
       { prop: 'imgIds', label: '图片', width: 90, image: true, imageUrl: (row) => row.imgUrlList?.[0] || (parseIds(row.imgIds)[0] ? `/api/rest/image/config/${parseIds(row.imgIds)[0]}` : '') },
@@ -1296,7 +1306,7 @@ export const crudPages = {
     deleteMethod: 'POST',
     detailLoader: (row) => getFoodPlan(row.id),
     rowKey: 'id',
-    searchFields: [{ prop: 'roomCode', label: '房间编码' }, { prop: 'startDay', label: '开始日期', type: 'date' }, { prop: 'endDay', label: '结束日期', type: 'date' }],
+    searchFields: [{ prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }, { prop: 'startDay', label: '开始日期', type: 'date' }, { prop: 'endDay', label: '结束日期', type: 'date' }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'roomCode', label: '房间编码', minWidth: 130 },
@@ -1355,7 +1365,7 @@ export const crudPages = {
     rowKey: 'id',
     enableCreate: true,
     enableEdit: false,
-    searchFields: [{ prop: 'orderCode', label: '订单号' }, { prop: 'status', label: '状态', type: 'select', options: orderStatusOptions }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'orderCode', label: '订单号' }, { prop: 'status', label: '状态', type: 'select', options: orderStatusOptions }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'orderCode', label: '订单号', minWidth: 160 },
@@ -1449,7 +1459,7 @@ export const crudPages = {
     basePath: '/flight/passenger',
     listPath: '/flight/passenger/inLoungeList',
     rowKey: 'id',
-    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }, { prop: 'roomCode', label: '房间编码' }],
+    searchFields: [{ prop: 'userName', label: '旅客姓名' }, { prop: 'flightNo', label: '航班号' }, { prop: 'roomCode', label: '贵宾室', type: 'select', options: roomOptionsLoader }],
     columns: [
       { prop: 'id', label: 'ID', width: 90 },
       { prop: 'userName', label: '旅客', minWidth: 130 },

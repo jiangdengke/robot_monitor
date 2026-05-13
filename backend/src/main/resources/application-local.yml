@@ -116,13 +116,14 @@ server:
 logging:
   level:
     com.robotmonitor: info
-    org.springframework: warn
-    org.jooq: warn
-    com.alibaba.druid: warn
-    org.apache.catalina: warn
-    org.apache.coyote: warn
-    org.apache.tomcat: warn
-    org.hibernate.validator: warn
+    org.springframework: info
+    org.jooq: info
+    com.alibaba.druid: info
+    org.apache.catalina: info
+    org.apache.coyote: info
+    org.apache.tomcat: info
+    org.hibernate.validator: info
+    org.quartz: info
     org.apache.kafka: warn
 
 robot:

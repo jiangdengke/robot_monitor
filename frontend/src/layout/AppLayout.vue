@@ -2,7 +2,7 @@
   <div :class="['app-wrapper', { hideSidebar: sidebarCollapsed }]">
     <aside class="sidebar-container">
       <div class="sidebar-logo-container">
-        <span class="sidebar-logo">CA</span>
+        <img class="sidebar-logo" src="/legacy-dist/favicon-old.ico" alt="国航" />
         <span class="sidebar-title">国航智慧贵宾室</span>
       </div>
       <el-scrollbar class="sidebar-scrollbar">

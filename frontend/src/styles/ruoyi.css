@@ -51,16 +51,12 @@ a {
 }
 
 .sidebar-logo {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
+  display: inline-block;
+  width: 34px;
+  height: 34px;
   margin-right: 10px;
-  color: #fff;
-  font-weight: 700;
-  background: #409eff;
-  border-radius: 4px;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 
 .sidebar-title {
@@ -121,7 +117,7 @@ a {
   height: 50px;
   padding: 0 16px;
   background: #fff;
-  box-shadow: 0 1px 4px rgb(0 21 41 / 8%);
+  border-bottom: 1px solid #dfe4ed;
 }
 
 .navbar-left,
@@ -177,12 +173,12 @@ a {
   padding: 0 8px;
   background: #fff;
   border-bottom: 1px solid #d8dce5;
-  box-shadow: 0 1px 3px 0 rgb(0 0 0 / 12%), 0 0 3px 0 rgb(0 0 0 / 4%);
+  box-shadow: none;
 }
 
 .tags-view-wrapper {
   display: flex;
-  gap: 4px;
+  gap: 2px;
   width: 100%;
   overflow-x: auto;
 }
@@ -190,18 +186,19 @@ a {
 .tags-view-item {
   display: inline-flex;
   align-items: center;
-  height: 26px;
-  padding: 0 8px;
+  height: 28px;
+  padding: 0 10px;
   color: #495060;
   white-space: nowrap;
+  background: #fff;
   border: 1px solid #d8dce5;
   cursor: pointer;
 }
 
 .tags-view-item.active {
   color: #fff;
-  background: #42b983;
-  border-color: #42b983;
+  background: #409eff;
+  border-color: #409eff;
 }
 
 .tags-view-item .close {
@@ -211,7 +208,7 @@ a {
 
 .app-main {
   min-height: calc(100vh - 84px);
-  padding: 20px;
+  padding: 14px;
 }
 
 .crud-page {
@@ -220,7 +217,7 @@ a {
 
 .crud-page > .el-form {
   padding: 0;
-  margin: 0 0 2px;
+  margin: 0 0 8px;
 }
 
 .crud-page > .el-space {
@@ -255,7 +252,23 @@ a {
 
 .el-form--inline .el-form-item {
   margin-right: 16px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
+}
+
+.crud-page .el-input,
+.crud-page .el-select,
+.crud-page .el-date-editor,
+.crud-page .el-tree-select {
+  width: 240px;
+}
+
+.crud-page .el-form-item__label {
+  color: #606266;
+  font-weight: 600;
+}
+
+.crud-page .el-table th.el-table__cell {
+  background: #f8f8f9;
 }
 
 .el-table {
