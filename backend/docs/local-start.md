@@ -27,8 +27,8 @@ cd backend
 - 数据库：`robot_monitor`
 - MySQL 用户名：`root`
 - MySQL 密码：`123456`
-- Redis：`127.0.0.1:6380`
-- Redis 密码：`1234%%6`
+- Redis：`127.0.0.1:6379`
+- Redis 密码：`123456`
 - 后端端口：`7075`
 - 后端 context-path：`/api`
 
@@ -41,7 +41,7 @@ mysql -uroot -p123456 < backend/sql/init.sql
 本轮验证使用的容器信息：
 
 - MySQL：容器 `mysql8`，版本 `8.4.7`，端口 `127.0.0.1:3306`
-- Redis：容器 `redis7-auth`，端口 `127.0.0.1:6380`
+- Redis：容器 `redis`，端口 `127.0.0.1:6379`
 
 默认后台账号：
 

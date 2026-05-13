@@ -1,6 +1,8 @@
 # Local bootstrap profile for the single Spring Boot backend
 
 spring:
+  main:
+    banner-mode: off
   autoconfigure:
     exclude:
       - org.springframework.ai.vectorstore.redis.autoconfigure.RedisVectorStoreAutoConfiguration
@@ -45,9 +47,9 @@ spring:
     redis:
       client-type: jedis
       host: 127.0.0.1
-      port: 6380
+      port: 6379
       database: 0
-      password: 1234%%6
+      password: 123456
       timeout: 10s
       lettuce:
         pool:
@@ -115,6 +117,12 @@ logging:
   level:
     com.robotmonitor: info
     org.springframework: warn
+    org.jooq: warn
+    com.alibaba.druid: warn
+    org.apache.catalina: warn
+    org.apache.coyote: warn
+    org.apache.tomcat: warn
+    org.hibernate.validator: warn
     org.apache.kafka: warn
 
 robot:

@@ -38,10 +38,12 @@ configurations {
 }
 
 dependencies {
-    implementation fileTree(dir: 'lib', include: ['*.jar'])
-    localLibs fileTree(dir: 'lib', include: ['*.jar'])
+    implementation fileTree(dir: 'lib', include: ['*.jar'], exclude: ['logback-classic-*.jar', 'logback-core-*.jar', 'log4j-to-slf4j-*.jar'])
+    localLibs fileTree(dir: 'lib', include: ['*.jar'], exclude: ['logback-classic-*.jar', 'logback-core-*.jar', 'log4j-to-slf4j-*.jar'])
     compileOnly files(legacyClassesDir)
     runtimeOnly files(legacyClassesDir)
+    implementation 'org.apache.logging.log4j:log4j-core:2.23.1'
+    implementation 'org.apache.logging.log4j:log4j-slf4j2-impl:2.23.1'
 
     jooqGenerator 'org.jooq:jooq-codegen:3.19.24'
     jooqGenerator 'org.jooq:jooq-meta:3.19.24'
@@ -68,6 +70,7 @@ jooq {
         main {
             generateSchemaSourceOnCompilation = false
             generationTool {
+                logging = 'WARN'
                 generator {
                     database {
                         name = 'org.jooq.meta.extensions.ddl.DDLDatabase'
@@ -110,6 +113,9 @@ tasks.register('syncRuntimeConfig', Sync) {
     from('src/main/resources') {
         include '*.yml', '*.yaml', '*.properties', '*.xml', '*.txt'
         include 'i18n/**'
+        exclude 'logback.xml'
+        exclude 'log4j2-spring.xml'
+        exclude 'banner.txt'
     }
     into layout.projectDirectory.dir('runtime-config')
 }

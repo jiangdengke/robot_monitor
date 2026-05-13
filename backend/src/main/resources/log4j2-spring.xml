@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="log.path">./logs/admin</Property>
+        <Property name="console.pattern">%d{HH:mm:ss} %-5level %c{1.} - %msg%n</Property>
+        <Property name="file.pattern">%d{HH:mm:ss.SSS} [%t] %-5level %c{20} - %msg%n</Property>
+    </Properties>
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${console.pattern}"/>
+        </Console>
+
+        <RollingFile name="FileInfo"
+                     fileName="${log.path}/sys-info.log"
+                     filePattern="${log.path}/sys-info.%d{yyyy-MM-dd}.log"
+                     createOnDemand="true">
+            <PatternLayout pattern="${file.pattern}"/>
+            <Filters>
+                <LevelRangeFilter minLevel="INFO" maxLevel="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            </Filters>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="60"/>
+        </RollingFile>
+
+        <RollingFile name="FileError"
+                     fileName="${log.path}/sys-error.log"
+                     filePattern="${log.path}/sys-error.%d{yyyy-MM-dd}.log"
+                     createOnDemand="true">
+            <PatternLayout pattern="${file.pattern}"/>
+            <ThresholdFilter level="ERROR" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="60"/>
+        </RollingFile>
+
+        <RollingFile name="SysUser"
+                     fileName="${log.path}/sys-user.log"
+                     filePattern="${log.path}/sys-user.%d{yyyy-MM-dd}.log"
+                     createOnDemand="true">
+            <PatternLayout pattern="${file.pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="60"/>
+        </RollingFile>
+
+        <RollingFile name="PassengerTask"
+                     fileName="${log.path}/passenger-location-out-task.log"
+                     filePattern="${log.path}/passenger-location-out-task.%d{yyyy-MM-dd}.log"
+                     createOnDemand="true">
+            <PatternLayout pattern="${file.pattern}"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>
+            </Policies>
+            <DefaultRolloverStrategy max="60"/>
+        </RollingFile>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.robotmonitor" level="info"/>
+        <Logger name="org.springframework" level="warn"/>
+        <Logger name="org.jooq" level="warn"/>
+        <Logger name="com.alibaba.druid" level="warn"/>
+        <Logger name="org.apache.catalina" level="warn"/>
+        <Logger name="org.apache.coyote" level="warn"/>
+        <Logger name="org.apache.tomcat" level="warn"/>
+        <Logger name="org.hibernate.validator" level="warn"/>
+        <Logger name="org.quartz" level="warn"/>
+
+        <Logger name="sys-user" level="info" additivity="false">
+            <AppenderRef ref="SysUser"/>
+        </Logger>
+
+        <Logger name="task" level="info" additivity="false">
+            <AppenderRef ref="PassengerTask"/>
+        </Logger>
+
+        <Logger name="passenger-location-out-task" level="info" additivity="false">
+            <AppenderRef ref="PassengerTask"/>
+        </Logger>
+
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="FileInfo"/>
+            <AppenderRef ref="FileError"/>
+        </Root>
+    </Loggers>
+</Configuration>
