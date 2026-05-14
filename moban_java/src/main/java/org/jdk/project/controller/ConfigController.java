@@ -9,6 +9,7 @@ import org.jdk.project.dto.config.AudioUpsertRequest;
 import org.jdk.project.dto.config.ComplaintDto;
 import org.jdk.project.dto.config.ComplaintUpsertRequest;
 import org.jdk.project.dto.config.DeviceDto;
+import org.jdk.project.dto.config.DeviceRegionBindingUpsertRequest;
 import org.jdk.project.dto.config.DeviceUpsertRequest;
 import org.jdk.project.dto.config.ImageDto;
 import org.jdk.project.dto.config.ImageUpsertRequest;
@@ -166,6 +167,16 @@ public class ConfigController {
     configCommandService.deleteDevice(id);
   }
 
+  @PostMapping("/device-region-bindings")
+  public void saveDeviceRegionBinding(@RequestBody DeviceRegionBindingUpsertRequest request) {
+    configCommandService.saveDeviceRegionBinding(request);
+  }
+
+  @DeleteMapping("/device-region-bindings/{deviceId}/{regionId}")
+  public void deleteDeviceRegionBinding(@PathVariable Long deviceId, @PathVariable Long regionId) {
+    configCommandService.deleteDeviceRegionBinding(deviceId, regionId);
+  }
+
   @GetMapping("/tables")
   public ListResponse<TableDto> listTables() {
     return configQueryService.listTables();
@@ -224,6 +235,11 @@ public class ConfigController {
   @DeleteMapping("/tasks/{id}")
   public void deleteTask(@PathVariable Long id) {
     configCommandService.deleteTask(id);
+  }
+
+  @PostMapping("/tasks/{id}/run")
+  public Long runTask(@PathVariable Long id) {
+    return configCommandService.runTask(id);
   }
 
   @GetMapping("/complaints")

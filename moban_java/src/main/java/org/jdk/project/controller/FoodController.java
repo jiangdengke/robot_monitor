@@ -106,4 +106,19 @@ public class FoodController {
   public void deleteOrder(@PathVariable Long id) {
     foodService.deleteFoodOrder(id);
   }
+
+  @PostMapping("/orders/{id}/receive")
+  public void receiveOrder(@PathVariable Long id) {
+    foodService.receiveOrder(id);
+  }
+
+  @PostMapping("/orders/{id}/finish")
+  public void finishOrder(@PathVariable Long id) {
+    foodService.finishOrder(id);
+  }
+
+  @PostMapping("/orders/{id}/cancel")
+  public void cancelOrder(@PathVariable Long id) {
+    foodService.cancelOrder(id);
+  }
 }

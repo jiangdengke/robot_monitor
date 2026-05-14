@@ -4,6 +4,7 @@ import static org.jooq.generated.project.Tables.AREA;
 import static org.jooq.generated.project.Tables.AREA_I18N;
 import static org.jooq.generated.project.Tables.COMPLAINT_RECORD;
 import static org.jooq.generated.project.Tables.DEVICE;
+import static org.jooq.generated.project.Tables.DEVICE_REGION_BINDING;
 import static org.jooq.generated.project.Tables.DINING_TABLE;
 import static org.jooq.generated.project.Tables.LOUNGE;
 import static org.jooq.generated.project.Tables.MEDIA_AUDIO;
@@ -19,6 +20,7 @@ import org.jdk.project.dto.config.AreaUpsertRequest;
 import org.jdk.project.dto.config.AudioUpsertRequest;
 import org.jdk.project.dto.config.ComplaintUpsertRequest;
 import org.jdk.project.dto.config.DeviceUpsertRequest;
+import org.jdk.project.dto.config.DeviceRegionBindingUpsertRequest;
 import org.jdk.project.dto.config.ImageUpsertRequest;
 import org.jdk.project.dto.config.LoungeUpsertRequest;
 import org.jdk.project.dto.config.RegionUpsertRequest;
@@ -31,6 +33,7 @@ import org.jooq.generated.project.tables.pojos.Area;
 import org.jooq.generated.project.tables.pojos.AreaI18n;
 import org.jooq.generated.project.tables.pojos.ComplaintRecord;
 import org.jooq.generated.project.tables.pojos.Device;
+import org.jooq.generated.project.tables.pojos.DeviceRegionBinding;
 import org.jooq.generated.project.tables.pojos.DiningTable;
 import org.jooq.generated.project.tables.pojos.Lounge;
 import org.jooq.generated.project.tables.pojos.MediaAudio;
@@ -279,6 +282,29 @@ public class ConfigCommandService {
   }
 
   @Transactional
+  public void saveDeviceRegionBinding(DeviceRegionBindingUpsertRequest request) {
+    DeviceRegionBinding binding = new DeviceRegionBinding();
+    binding.setDeviceId(requiredId(request.getDeviceId(), "设备不能为空"));
+    binding.setRegionId(requiredId(request.getRegionId(), "区域不能为空"));
+    binding.setImageId(request.getImageId());
+    binding.setCoordinate(defaultString(request.getCoordinate(), ""));
+    binding.setRemark(defaultString(request.getRemark(), ""));
+    dsl.deleteFrom(DEVICE_REGION_BINDING)
+        .where(DEVICE_REGION_BINDING.DEVICE_ID.eq(binding.getDeviceId()))
+        .and(DEVICE_REGION_BINDING.REGION_ID.eq(binding.getRegionId()))
+        .execute();
+    dsl.insertInto(DEVICE_REGION_BINDING).set(dsl.newRecord(DEVICE_REGION_BINDING, binding)).execute();
+  }
+
+  @Transactional
+  public void deleteDeviceRegionBinding(Long deviceId, Long regionId) {
+    dsl.deleteFrom(DEVICE_REGION_BINDING)
+        .where(DEVICE_REGION_BINDING.DEVICE_ID.eq(deviceId))
+        .and(DEVICE_REGION_BINDING.REGION_ID.eq(regionId))
+        .execute();
+  }
+
+  @Transactional
   public Long createTable(TableUpsertRequest request) {
     DiningTable table = new DiningTable();
     table.setLoungeId(requiredId(request.getLoungeId(), "贵宾室不能为空"));
@@ -429,6 +455,31 @@ public class ConfigCommandService {
   @Transactional
   public void deleteTask(Long id) {
     dsl.deleteFrom(ROBOT_TASK_TEMPLATE).where(ROBOT_TASK_TEMPLATE.ID.eq(id)).execute();
+  }
+
+  @Transactional
+  public Long runTask(Long id) {
+    RobotTaskTemplate template =
+        dsl.selectFrom(ROBOT_TASK_TEMPLATE)
+            .where(ROBOT_TASK_TEMPLATE.ID.eq(id))
+            .fetchOneInto(RobotTaskTemplate.class);
+    if (template == null) {
+      throw new BusinessException("任务不存在");
+    }
+    var record =
+        dsl.insertInto(org.jooq.generated.project.Tables.ROBOT_TASK_LOG)
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.ROBOT_ID, template.getRobotId())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_TEMPLATE_ID, template.getId())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_NAME, template.getName())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_TYPE, template.getTaskType())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_SUBTYPE, template.getTaskSubtype())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_MODE, template.getTaskMode())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.TASK_STATUS, "SUBMITTED")
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.DIRECT_EXECUTION, template.getDirectExecution())
+            .set(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.COMMAND_PAYLOAD, template.getCommandName())
+            .returningResult(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.ID)
+            .fetchOne();
+    return record == null ? null : record.get(org.jooq.generated.project.Tables.ROBOT_TASK_LOG.ID);
   }
 
   @Transactional

@@ -204,6 +204,21 @@ public class FoodService {
     dsl.deleteFrom(FOOD_ORDER).where(FOOD_ORDER.ID.eq(id)).execute();
   }
 
+  @Transactional
+  public void receiveOrder(Long id) {
+    updateOrderStatus(id, "RECEIVED", "订单不存在");
+  }
+
+  @Transactional
+  public void finishOrder(Long id) {
+    updateOrderStatus(id, "FINISHED", "订单不存在");
+  }
+
+  @Transactional
+  public void cancelOrder(Long id) {
+    updateOrderStatus(id, "CANCELED", "订单不存在");
+  }
+
   private void replacePlanItems(Long planId, List<Long> foodItemIds) {
     dsl.deleteFrom(FOOD_PLAN_ITEM).where(FOOD_PLAN_ITEM.FOOD_PLAN_ID.eq(planId)).execute();
     if (foodItemIds == null) return;
@@ -225,6 +240,12 @@ public class FoodService {
       orderItem.setUnitPrice(item.getUnitPrice());
       dsl.insertInto(FOOD_ORDER_ITEM).set(dsl.newRecord(FOOD_ORDER_ITEM, orderItem)).execute();
     }
+  }
+
+  private void updateOrderStatus(Long id, String status, String message) {
+    ensureUpdated(
+        dsl.update(FOOD_ORDER).set(FOOD_ORDER.STATUS, status).where(FOOD_ORDER.ID.eq(id)).execute(),
+        message);
   }
 
   private void ensureUpdated(int updated, String message) {
