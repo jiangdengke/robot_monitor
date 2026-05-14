@@ -9,6 +9,7 @@
 !/backend/
 !/frontend/
 !/docs/
+!/moban_java/
 
 # Backend build/runtime artifacts.
 backend/.gradle/
@@ -39,3 +40,7 @@ frontend/legacy-dist/**
 .local-backup/
 .DS_Store
 *.log
+
+# moban_java build/runtime artifacts.
+moban_java/.gradle/
+moban_java/build/
