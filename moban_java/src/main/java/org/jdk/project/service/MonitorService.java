@@ -10,6 +10,7 @@ import org.jooq.DSLContext;
 import org.jooq.generated.project.tables.pojos.LoginLog;
 import org.jooq.generated.project.tables.pojos.OperationLog;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -27,5 +28,15 @@ public class MonitorService {
     List<OperationLog> rows =
         dsl.selectFrom(OPERATION_LOG).orderBy(OPERATION_LOG.ID.desc()).fetchInto(OperationLog.class);
     return ListResponse.of(rows.size(), rows);
+  }
+
+  @Transactional
+  public void clearLoginLogs() {
+    dsl.deleteFrom(LOGIN_LOG).execute();
+  }
+
+  @Transactional
+  public void clearOperationLogs() {
+    dsl.deleteFrom(OPERATION_LOG).execute();
   }
 }

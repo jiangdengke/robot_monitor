@@ -5,6 +5,7 @@ import org.jdk.project.dto.ListResponse;
 import org.jooq.generated.project.tables.pojos.LoginLog;
 import org.jooq.generated.project.tables.pojos.OperationLog;
 import org.jdk.project.service.MonitorService;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,5 +25,15 @@ public class MonitorController {
   @GetMapping("/operation-logs")
   public ListResponse<OperationLog> listOperationLogs() {
     return monitorService.listOperationLogs();
+  }
+
+  @DeleteMapping("/login-logs")
+  public void clearLoginLogs() {
+    monitorService.clearLoginLogs();
+  }
+
+  @DeleteMapping("/operation-logs")
+  public void clearOperationLogs() {
+    monitorService.clearOperationLogs();
   }
 }
