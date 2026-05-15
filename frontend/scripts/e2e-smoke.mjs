@@ -46,7 +46,7 @@ let sessionId
 let requestUrls = new Map()
 
 async function main() {
-  await ensureService(`${BACKEND_BASE_URL}/auth/captcha`, 'backend')
+  await ensureService(`${BACKEND_BASE_URL}/auth/login`, 'backend')
   await ensureService(FRONTEND_BASE_URL, 'frontend')
 
   const token = await login()

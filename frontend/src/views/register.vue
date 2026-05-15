@@ -20,13 +20,6 @@
         <el-form-item label="确认密码" prop="confirmPassword">
           <el-input v-model="form.confirmPassword" type="password" show-password autocomplete="new-password" placeholder="请再次输入密码" />
         </el-form-item>
-        <el-form-item v-if="captchaOnOff" label="验证码" prop="code">
-          <el-space fill>
-            <el-input v-model.trim="form.code" placeholder="请输入验证码" />
-            <el-image v-if="captchaImage" :src="captchaImage" alt="验证码" @click="loadCaptcha" />
-            <el-button v-else @click="loadCaptcha">刷新验证码</el-button>
-          </el-space>
-        </el-form-item>
 
         <el-button type="primary" :loading="submitting" native-type="submit">
           {{ submitting ? '提交中...' : '提交注册' }}
@@ -40,62 +33,35 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue'
+import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { getCaptchaImage, registerAccount } from '@/api/system'
+import { registerAccount } from '@/api/system'
 import { showToast } from '@/utils/toast'
 
 const router = useRouter()
 const formRef = ref()
 const submitting = ref(false)
-const captchaOnOff = ref(false)
-const captchaImage = ref('')
 const message = ref('')
 const messageType = ref('success')
 
 const form = reactive({
   username: '',
   password: '',
-  confirmPassword: '',
-  code: '',
-  uuid: ''
+  confirmPassword: ''
 })
 
-const rules = {
-  username: [
-    { required: true, message: '请输入用户名', trigger: 'blur' },
-    { min: 2, max: 20, message: '账号长度必须在 2 到 20 个字符之间', trigger: 'blur' }
-  ],
-  password: [
-    { required: true, message: '请输入密码', trigger: 'blur' },
-    { min: 5, max: 20, message: '密码长度必须在 5 到 20 个字符之间', trigger: 'blur' }
-  ],
-  confirmPassword: [
-    { required: true, message: '请确认密码', trigger: 'blur' },
-    {
-      validator: (_, value, callback) => {
-        if (value !== form.password) {
-          callback(new Error('两次输入的密码不一致'))
-          return
-        }
-        callback()
-      },
-      trigger: 'blur'
-    }
-  ],
-  code: [{ required: true, message: '请输入验证码', trigger: 'blur' }]
+function validateConfirmPassword(_, value, callback) {
+  if (value !== form.password) {
+    callback(new Error('两次输入的密码不一致'))
+    return
+  }
+  callback()
 }
 
-async function loadCaptcha() {
-  try {
-    const response = await getCaptchaImage()
-    captchaOnOff.value = response.captchaOnOff !== false
-    form.uuid = response.uuid || ''
-    captchaImage.value = response.img ? `data:image/gif;base64,${response.img}` : ''
-  } catch (error) {
-    captchaOnOff.value = false
-    showMessage(error?.payload?.msg || error?.message || '验证码加载失败，已按关闭验证码处理', 'warning')
-  }
+const rules = {
+  username: [{ required: true, message: '请输入用户名', trigger: 'blur' }, { min: 2, max: 20, message: '账号长度必须在 2 到 20 个字符之间', trigger: 'blur' }],
+  password: [{ required: true, message: '请输入密码', trigger: 'blur' }, { min: 5, max: 20, message: '密码长度必须在 5 到 20 个字符之间', trigger: 'blur' }],
+  confirmPassword: [{ required: true, message: '请确认密码', trigger: 'blur' }, { validator: validateConfirmPassword, trigger: 'blur' }]
 }
 
 async function submit() {
@@ -105,17 +71,11 @@ async function submit() {
   try {
     await registerAccount({
       username: form.username,
-      password: form.password,
-      code: form.code,
-      uuid: form.uuid
+      password: form.password
     })
     showMessage('注册成功，请返回登录', 'success')
   } catch (error) {
     showMessage(error?.payload?.msg || error?.message || '注册失败', 'error')
-    if (captchaOnOff.value) {
-      await loadCaptcha()
-      form.code = ''
-    }
   } finally {
     submitting.value = false
   }
@@ -126,6 +86,4 @@ function showMessage(text, type = 'success') {
   messageType.value = type
   showToast(type, text)
 }
-
-onMounted(loadCaptcha)
 </script>

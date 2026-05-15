@@ -8,7 +8,6 @@ import org.jdk.project.config.security.Jwt;
 import org.jdk.project.dto.sign.SignInDto;
 import org.jdk.project.dto.sign.SignUpDto;
 import org.jooq.generated.project.tables.pojos.User;
-import org.jdk.project.service.CaptchaService;
 import org.jdk.project.service.SignService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +31,6 @@ public class SignController {
   private final Jwt jwt;
 
   private final UserRepository userRepository;
-  private final CaptchaService captchaService;
 
   /**
    * 登录并下发 JWT 到 Cookie。
@@ -88,15 +86,5 @@ public class SignController {
       user.setPassword(null);
     }
     return user;
-  }
-
-  /**
-   * 图形验证码：返回 {id, image(data-url)}。
-   */
-  @ResponseStatus(HttpStatus.OK)
-  @GetMapping("/captcha")
-  public Map<String, String> captcha() {
-    CaptchaService.Captcha cap = captchaService.generate(120, 40, 4);
-    return Map.of("id", cap.id, "image", cap.dataUrl);
   }
 }

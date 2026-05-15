@@ -63,7 +63,7 @@ public class WebSecurityConfig {
                 authorize
                     .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/sign-up")
                     .permitAll()
-                    .requestMatchers(HttpMethod.GET, "/auth/captcha", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
+                    .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
                     .permitAll()
                     .requestMatchers("/error")
                     .permitAll()

@@ -6,8 +6,6 @@ export const login = (payload) =>
     body: JSON.stringify(payload)
   })
 
-export const getCaptchaImage = () => request('/auth/captcha')
-
 export const registerAccount = (payload) =>
   request('/auth/sign-up', {
     method: 'POST',

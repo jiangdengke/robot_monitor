@@ -8,7 +8,6 @@
 - `POST /auth/sign-up`
 - `POST /auth/sign-out`
 - `GET /auth/me`
-- `GET /auth/captcha`
 
 ## 用户与个人中心
 
