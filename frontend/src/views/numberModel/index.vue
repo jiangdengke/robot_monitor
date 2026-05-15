@@ -1,10 +1,10 @@
 <template>
-  <el-card shadow="never">
+  <el-card shadow="never" class="page-card">
     <template #header>
       <el-row justify="space-between" align="middle">
         <el-space direction="vertical" alignment="flex-start">
           <el-text tag="b" size="large">桌台模型</el-text>
-          <el-text type="info">桌台列表、桌态提交、机器人引导、查找和路径预览已接入真实接口。</el-text>
+          <el-text type="info">桌台列表、桌态切换、查找和路径预览已接入当前单体后端。</el-text>
         </el-space>
         <el-button type="primary" @click="loadTables">刷新桌台</el-button>
       </el-row>
@@ -41,7 +41,7 @@ import { onMounted, ref } from 'vue'
 import DoTable from './doTable.vue'
 import FindPanel from './find.vue'
 import WalkPanel from './walk.vue'
-import { request } from '@/api/http'
+import { listTables } from '@/api/system'
 import { toastError } from '@/utils/toast'
 
 const mode = ref('find')
@@ -51,7 +51,7 @@ const errorMessage = ref('')
 async function loadTables() {
   errorMessage.value = ''
   try {
-    const response = await request('/rest/food/tableList', { query: { pageNum: 1, pageSize: 100 } })
+    const response = await listTables()
     tables.value = response.rows || response.data || []
   } catch (error) {
     errorMessage.value = error?.payload?.msg || error?.message || '桌台加载失败'

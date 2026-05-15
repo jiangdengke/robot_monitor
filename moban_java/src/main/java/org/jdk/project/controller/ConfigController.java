@@ -192,6 +192,11 @@ public class ConfigController {
     configCommandService.updateTable(id, request);
   }
 
+  @PutMapping("/tables/{id}/status")
+  public void updateTableStatus(@PathVariable Long id, @RequestBody String status) {
+    configCommandService.updateTableStatus(id, status);
+  }
+
   @DeleteMapping("/tables/{id}")
   public void deleteTable(@PathVariable Long id) {
     configCommandService.deleteTable(id);

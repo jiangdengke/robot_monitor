@@ -1,10 +1,10 @@
 {
   "summary": {
-    "generatedAt": "2026-05-10T10:51:24.268Z",
-    "frontendBaseUrl": "http://127.0.0.1:4174",
-    "backendBaseUrl": "http://127.0.0.1:7075/api",
-    "total": 57,
-    "passed": 57,
+    "generatedAt": "2026-05-15T03:29:37.614Z",
+    "frontendBaseUrl": "http://127.0.0.1:4180",
+    "backendBaseUrl": "http://127.0.0.1:8081",
+    "total": 29,
+    "passed": 29,
     "failed": 0
   },
   "results": [
@@ -12,11 +12,11 @@
       "title": "用户管理",
       "path": "/system/user",
       "ok": true,
-      "durationMs": 1819,
+      "durationMs": 1032,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "用户管理 - 国航智慧贵宾室管理系统",
         "path": "/system/user",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n用户管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n用户管理\n用户、部门、角色、岗位等账号基础资料管理。\n刷新\n新增\n账号\n昵称\n手机号\n状态\n状态\n查询\n重置\n批量删除\n导入\n下载模板\n导出\n\t\nID\n\t\n账号\n\t\n昵称\n\t\n部门\n\t\n手机号\n\t\n邮箱\n\t\n状态\n\t\n操作\n\t\n1\n\t\nadmin\n\t\n管理员\n\t\n国航智慧贵宾室\n\t\n13800000000\n\t\nadmin@example.com\n\t\n\t\n详情\n编辑\n重置密码\n分配角色\n删除\n\n\n\t\n2\n\t\noperator\n\t\n运营人员\n\t\n国航智慧贵宾室\n\t\n13800000001\n\t\noperator@example.com\n\t\n\t\n详情\n编辑\n重置密码\n分配角色\n删除\nTotal 2\n20/page\n1\nGo to",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n系统管理/\n用户管理\n管\n管理员\n首页\n用户管理\n新 增\n批量删除\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -24,25 +24,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "角色管理",
-      "path": "/system/role",
+      "title": "在舱记录",
+      "path": "/statAnalysis/inLoungeList",
       "ok": true,
-      "durationMs": 1823,
+      "durationMs": 1273,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/role",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n角色管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n角色管理\n角色、权限标识、数据范围和角色状态管理。\n刷新\n新增\n角色名称\n权限标识\n查询\n重置\n批量删除\n导出\n\t\nID\n\t\n角色名称\n\t\n权限标识\n\t\n排序\n\t\n状态\n\t\n备注\n\t\n操作\n\t\n1\n\t\n超级管理员\n\t\nadmin\n\t\n1\n\t\n\t\n系统内置角色\n\t\n详情\n编辑\n数据权限\n分配用户\n删除\n\n\n\t\n2\n\t\n普通运营\n\t\noperator\n\t\n2\n\t\n\t\n示例运营角色\n\t\n详情\n编辑\n数据权限\n分配用户\n删除\nTotal 2\n20/page\n1\nGo to",
+        "title": "在舱记录 - 国航智慧贵宾室管理系统",
+        "path": "/statAnalysis/inLoungeList",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n在舱记录\n管\n管理员\n首页\n在舱记录\n\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -50,25 +46,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "菜单管理",
-      "path": "/system/menu",
+      "title": "准出记录",
+      "path": "/viewManagment/outGoing",
       "ok": true,
-      "durationMs": 1572,
+      "durationMs": 1794,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/menu",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n菜单管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n菜单管理\n后台菜单、路由路径、组件路径和权限标识维护。\n刷新\n新增\n菜单名称\n状态\n状态\n查询\n重置\nID\n\t\n菜单名称\n\t\n父级\n\t\n路径\n\t\n组件\n\t\n类型\n\t\n权限\n\t\n操作\n1\n\t\n系统管理\n\t\n0\n\t\nsystem\n\t\n-\n\t\nM\n\t\n-\n\t\n详情\n编辑\n删除\n\n\n100\n\t\n用户管理\n\t\n1\n\t\nuser\n\t\nsystem/user/index\n\t\nC\n\t\nsystem:user:list,system:user:query,system:user:add,system:user:edit,system:user:remove,system:user:resetPwd,system:user:import,system:user:export\n\t\n详情\n编辑\n删除\n\n\n101\n\t\n角色管理\n\t\n1\n\t\nrole\n\t\nsystem/role/index\n\t\nC\n\t\nsystem:role:list,system:role:query,system:role:add,system:role:edit,system:role:remove,system:role:export\n\t\n详情\n编辑\n删除\n\n\n102\n\t\n菜单管理\n\t\n1\n\t\nmenu\n\t\nsystem/menu/index\n\t\nC\n\t\nsystem:menu:list,system:menu:query,system:menu:add,system:menu:edit,system:menu:remove\n\t\n详情\n编辑\n删除\n\n\n103\n\t\n部门管理\n\t\n1\n\t\ndept\n\t\nsystem/dept/index\n\t\nC\n\t\nsystem:dept:list,system:dept:query,system:dept:add,system:dept:edit,system:dept:remove\n\t\n详情\n编辑\n删除\n\n\n104\n\t\n岗位管理\n\t\n1\n\t\npost\n\t\nsystem/post/index\n\t\nC\n\t\nsystem:post:list,system:post:query,system:post:add,system:post:edit,system:post:remove\n\t\n详情\n编辑\n删除\n\n\n105\n\t\n字典类型\n\t\n1\n\t\ndict\n\t\nsystem/dict/index\n\t\nC\n\t\nsystem:dict:list,system:dict:query,system:dict:add,system:dict:edit,system:dict:remove,system:dict:export\n\t\n详情\n编辑\n删除\n\n\n106\n\t\n参数配置\n\t\n1\n\t\nconfig\n\t\nsystem/config/index\n\t\nC\n\t\nsystem:config:list,system:config:query,system:config:add,system:config:edit,system:config:remove,system:config:export\n\t\n详情\n编辑\n删除\n\n\n107\n\t\n通知公告\n\t\n1\n\t\nnotice\n\t\nsystem/notice/index\n\t\nC\n\t\nsystem:notice:list,system:notice:query,system:notice:add,system:notice:edit,system:notice:remove\n\t\n详情\n编辑\n删除\n\n\n2\n\t\n监控管理\n\t\n0\n\t\nmonitor\n\t\n-\n\t\nM\n\t\n-\n\t\n详情\n编辑\n删除\n\n\n200\n\t\n在线用户\n\t\n2\n\t\nonline\n\t\nmonitor/online/index\n\t\nC\n\t\nmonitor:online:list,monitor:online:forceLogout\n\t\n详情\n编辑\n删除\n\n\n201\n\t\n操作日志\n\t\n2\n\t\noperlog\n\t\nmonitor/operlog/index\n\t\nC\n\t\nmonitor:operlog:list,monitor:operlog:query,monitor:operlog:remove,monitor:operlog:export\n\t\n详情\n编辑\n删除\n\n\n202\n\t\n登录日志\n\t\n2\n\t\nlogininfor\n\t\nmonitor/logininfor/index\n\t\nC\n\t\nmonitor:logininfor:list,monitor:logininfor:query,monitor:logininfor:remove,monitor:logininfor:export\n\t\n详情\n编辑\n删除\n\n\n203\n\t\n缓存监控\n\t\n2\n\t\ncache\n\t\nmonitor/cache/index\n\t\nC\n\t\nmonitor:cache:list\n\t\n详情\n编辑\n删除\n\n\n204\n\t\n定时任务\n\t\n2\n\t\njob\n\t\nmonitor/job/index\n\t\nC\n\t\nmonitor:job:list,monitor:job:query,monitor:job:add,monitor:job:edit,monitor:job:remove,monitor:job:changeStatus,monitor:job:export\n\t\n详情\n编辑\n删除\n\n\n205\n\t\n调度日志\n\t\n2\n\t\njob-log\n\t\nmonitor/job/log\n\t\nC\n\t\nmonitor:job:query\n\t\n详情\n编辑\n删除\n\n\n206\n\t\n登录日志\n\t\n2\n\t\nlogin-log\n\t\nmonitor/logininfor/index\n\t\nC\n\t\nmonitor:logininfor:list,monitor:logininfor:query\n\t\n详情\n编辑\n删除\n\n\n207\n\t\n操作日志\n\t\n2\n\t\noper-log\n\t\nmonitor/operlog/index\n\t\nC\n\t\nmonitor:operlog:list,monitor:operlog:query\n\t\n详情\n编辑\n删除\n\n\n208\n\t\n服务监控\n\t\n2\n\t\nserver\n\t\nmonitor/server/index\n\t\nC\n\t\nmonitor:server:list\n\t\n详情\n编辑\n删除\n\n\n209\n\t\n数据库监控\n\t\n2\n\t\ndruid\n\t\nmonitor/druid/index\n\t\nC\n\t\nmonitor:druid:list\n\t\n详情\n编辑\n删除\n\n\n3\n\t\n机器人配置\n\t\n0\n\t\nconfig\n\t\n-\n\t\nM\n\t\n-\n\t\n详情\n编辑\n删除\n\n\n300\n\t\n机器人配置\n\t\n3\n\t\nrobot\n\t\nconfigManagment/robot/index\n\t\nC\n\t\nconfig:robot:list,config:robot:query,config:robot:add,config:robot:edit,config:robot:remove\n\t\n详情\n编辑\n删除\n\n\n301\n\t\n区域配置\n\t\n3\n\t\nregion\n\t\nconfigManagment/vipRoomRegion/index\n\t\nC\n\t\nconfig:region:list,config:region:query,config:region:add,config:region:edit,config:region:remove,config:region:export\n\t\n详情\n编辑\n删除\n\n\n302\n\t\n图片素材\n\t\n3\n\t\nphoto\n\t\nconfigManagment/photo/index\n\t\nC\n\t\nconfig:photo:list,config:photo:query,config:photo:add,config:photo:edit,config:photo:remove\n\t\n详情\n编辑\n删除\n\n\n303\n\t\n桌台配置\n\t\n3\n\t\ntable\n\t\nfoodManagment/foodTable/index\n\t\nC\n\t\nconfig:table:list,config:table:query,config:table:add,config:table:edit,config:table:remove\n\t\n详情\n编辑\n删除\n\n\n304\n\t\n语音配置\n\t\n3\n\t\naudio\n\t\nconfigManagment/robotAudio/index\n\t\nC\n\t\nconfig:audio:list,config:audio:query,config:audio:add,config:audio:edit,config:audio:remove\n\t\n详情\n编辑\n删除\n\n\n305\n\t\n任务配置\n\t\n3\n\t\ntask\n\t\ntaskManagment/taskList/index\n\t\nC\n\t\nconfig:task:list,config:task:query,config:task:add,config:task:edit,config:task:remove\n\t\n详情\n编辑\n删除\n\n\n306\n\t\n贵宾室配置\n\t\n3\n\t\nvipRoom\n\t\nconfigManagment/vipRoom/index\n\t\nC\n\t\nconfig:vipRoom:list,config:vipRoom:query\n\t\n详情\n编辑\n删除\n\n\n307\n\t\n区域管理\n\t\n3\n\t\nareaManagment\n\t\nconfigManagment/areaManagment/index\n\t\nC\n\t\nconfig:area:list,config:area:query\n\t\n详情\n编辑\n删除\n\n\n308\n\t\n监控设备\n\t\n3\n\t\nmonitorDevice\n\t\nconfigManagment/monitorDevice/index\n\t\nC\n\t\nconfig:device:list,config:device:query\n\t\n详情\n编辑\n删除\n\n\n309\n\t\n投诉记录\n\t\n3\n\t\ncomplaintRecord\n\t\nconfigManagment/complaintRecord/index\n\t\nC\n\t\nflight:complaint:list,flight:complaint:query,flight:complaint:add,flight:complaint:edit,flight:complaint:remove\n\t\n详情\n编辑\n删除\n\n\n310\n\t\n视频资源\n\t\n3\n\t\nvedio\n\t\nconfigManagment/vedio/index\n\t\nC\n\t\nconfig:video:view,config:video:start,config:video:stop\n\t\n详情\n编辑\n删除\n\n\n4\n\t\n航班旅客\n\t\n0\n\t\nflight\n\t\n-\n\t\nM\n\t\n-\n\t\n详情\n编辑\n删除\n\n\n400\n\t\n旅客信息\n\t\n4\n\t\npassenger\n\t\nstatAnalysis/inLoungeList/index\n\t\nC\n\t\nsystem:passenger:list,system:passenger:query,system:passenger:add,system:passenger:edit,system:passenger:remove,system:passenger:export\n\t\n详情\n编辑\n删除\n\n\n401\n\t\n航班信息\n\t\n4\n\t\nflightInfo\n\t\nstatAnalysis/moveStat/index\n\t\nC\n\t\nflight:info:list,f",
+        "title": "准出记录 - 国航智慧贵宾室管理系统",
+        "path": "/viewManagment/outGoing",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n准出记录\n管\n管理员\n首页\n准出记录\n\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -76,25 +68,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "部门管理",
-      "path": "/system/dept",
+      "title": "准入记录",
+      "path": "/statAnalysis/goingStat",
       "ok": true,
-      "durationMs": 1553,
+      "durationMs": 2011,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/dept",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n部门管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n部门管理\n组织架构、贵宾室房间编码和部门状态维护。\n刷新\n新增\n部门名称\n状态\n状态\n查询\n重置\nID\n\t\n部门名称\n\t\n父级\n\t\n负责人\n\t\n电话\n\t\n房间编码\n\t\n状态\n\t\n操作\n100\n\t\n国航智慧贵宾室\n\t\n0\n\t\nadmin\n\t\n13800000000\n\t\nPEK2DX1\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n101\n\t\n国航T2休息室A区\n\t\n100\n\t\nadmin\n\t\n13800000000\n\t\nPEK2DX1-A\n\t\n正常\n\t\n详情\n编辑\n删除",
+        "title": "准入记录 - 国航智慧贵宾室管理系统",
+        "path": "/statAnalysis/goingStat",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n准入记录\n管\n管理员\n首页\n准入记录\n贵宾室编码\n请选择贵宾室编码\n航班日期\n卡号\n准入类型\n请选择准入类型\n在舱状态\n请选择状态\n搜 索\n重 置\n\t\t\t\t\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -103,24 +91,51 @@
         "errorTexts": []
       },
       "safeActions": [
-        "刷新",
-        "查询",
+        "搜索",
         "重置"
       ],
+      "consoleErrors": [
+        "Warning: `prop` is deprecated. Please use `name` instead.",
+        "Warning: `prop` is deprecated. Please use `name` instead.",
+        "Warning: `prop` is deprecated. Please use `name` instead.",
+        "Warning: `prop` is deprecated. Please use `name` instead.",
+        "Warning: `prop` is deprecated. Please use `name` instead."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "问询统计",
+      "path": "/statAnalysis/inquiry",
+      "ok": true,
+      "durationMs": 1160,
+      "snapshot": {
+        "title": "问询统计 - 国航智慧贵宾室管理系统",
+        "path": "/statAnalysis/inquiry",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n问询统计\n管\n管理员\n首页\n问询统计\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "岗位管理",
-      "path": "/system/post",
+      "title": "引导统计",
+      "path": "/statAnalysis/guide",
       "ok": true,
-      "durationMs": 1657,
+      "durationMs": 1098,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/post",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n岗位管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n岗位管理\n岗位编码、岗位名称和岗位排序维护。\n刷新\n新增\n岗位编码\n岗位名称\n查询\n重置\n批量删除\n导出\n\t\nID\n\t\n岗位编码\n\t\n岗位名称\n\t\n排序\n\t\n状态\n\t\n备注\n\t\n操作\n\t\n1\n\t\nceo\n\t\n管理员\n\t\n1\n\t\n正常\n\t\n默认岗位\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
+        "title": "引导统计 - 国航智慧贵宾室管理系统",
+        "path": "/statAnalysis/guide",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n引导统计\n管\n管理员\n首页\n引导统计\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -128,25 +143,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "字典类型",
-      "path": "/system/dict",
+      "title": "菜品管理",
+      "path": "/foodManagment/food",
       "ok": true,
-      "durationMs": 1625,
+      "durationMs": 1115,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/dict",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n字典类型\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n字典类型\n字典类型、名称和状态管理。\n刷新\n新增\n字典名称\n字典类型\n查询\n重置\n批量删除\n刷新缓存\n导出\n\t\nID\n\t\n字典名称\n\t\n字典类型\n\t\n状态\n\t\n备注\n\t\n操作\n\t\n1\n\t\n显示/隐藏\n\t\nsys_show_hide\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n2\n\t\n停用/正常\n\t\nsys_normal_disable\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n3\n\t\n是/否\n\t\nsys_yes_no\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n4\n\t\n通用状态\n\t\nsys_common_status\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n5\n\t\n公告状态\n\t\nsys_notice_status\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n6\n\t\n操作类型\n\t\nsys_oper_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n7\n\t\n任务分组\n\t\nsys_job_group\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n8\n\t\n机器人启用状态\n\t\nrobot_enable_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n9\n\t\n机器人类型\n\t\nrobot_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n10\n\t\n区域引导标记\n\t\nregion_guide_flag\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n11\n\t\n设备启用状态\n\t\ndevice_enable_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n12\n\t\n图片可用状态\n\t\nphoto_enable_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n13\n\t\n图片类型\n\t\npic_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n14\n\t\n任务启用状态\n\t\ntask_enable_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n15\n\t\n音频启用状态\n\t\naudio_enable_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n16\n\t\n欢迎语类型\n\t\nwelcome_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n17\n\t\n菜单状态\n\t\ndaily_menu_status\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n18\n\t\n聊天事件类型\n\t\nchat_event_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n19\n\t\n知识库状态\n\t\nai_knowledge_base_status\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\n\n\n\t\n20\n\t\n食品类型\n\t\nfood_type\n\t\n正常\n\t\n-\n\t\n详情\n编辑\n字典数据\n删除\nTotal 20\n20/page\n1\nGo to",
+        "title": "菜品管理 - 国航智慧贵宾室管理系统",
+        "path": "/foodManagment/food",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n菜品管理\n管\n管理员\n首页\n菜品管理\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -154,25 +165,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "参数配置",
-      "path": "/system/config",
+      "title": "菜单计划",
+      "path": "/foodManagment/foodPlan",
       "ok": true,
-      "durationMs": 1598,
+      "durationMs": 1106,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/config",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n参数配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n参数设置\n系统参数键值、内置标记和缓存刷新相关配置。\n刷新\n新增\n参数名称\n参数键名\n查询\n重置\n批量删除\n刷新缓存\n导出\n\t\nID\n\t\n参数名称\n\t\n参数键名\n\t\n参数键值\n\t\n内置\n\t\n备注\n\t\n操作\n\t\n1\n\t\n用户登录验证码开关\n\t\nsys.account.captchaOnOff\n\t\nfalse\n\t\n是\n\t\n本地演示默认关闭验证码\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\n演示环境开关\n\t\nsys.demo.enabled\n\t\nfalse\n\t\n是\n\t\n-\n\t\n详情\n编辑\n删除\n\n\n\t\n3\n\t\n贵宾室默认编码\n\t\nrobotmonitor.defaultRoomCode\n\t\nPEK2DX1\n\t\n是\n\t\n-\n\t\n详情\n编辑\n删除\nTotal 3\n20/page\n1\nGo to",
+        "title": "菜单计划 - 国航智慧贵宾室管理系统",
+        "path": "/foodManagment/foodPlan",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n菜单计划\n管\n管理员\n首页\n菜单计划\n新 增\n批量删除\n\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -180,25 +187,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "通知公告",
-      "path": "/system/notice",
+      "title": "每日菜单",
+      "path": "/foodManagment/menuPlan",
       "ok": true,
-      "durationMs": 1561,
+      "durationMs": 1266,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/notice",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n用户管理\n角色管理\n菜单管理\n部门管理\n岗位管理\n字典类型\n参数配置\n通知公告\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n通知公告\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n通知公告\n公告标题、类型、状态和正文维护。\n刷新\n新增\n标题\n创建人\n查询\n重置\n批量删除\n\t\nID\n\t\n标题\n\t\n类型\n\t\n状态\n\t\n创建人\n\t\n创建时间\n\t\n操作\n\t\n1\n\t\n系统初始化完成\n\t\n通知\n\t\n正常\n\t\nsystem\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
+        "title": "每日菜单 - 国航智慧贵宾室管理系统",
+        "path": "/foodManagment/menuPlan",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n每日菜单\n管\n管理员\n首页\n每日菜单\n新 增\n批量删除\n\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -206,25 +209,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "在线用户",
-      "path": "/monitor/online",
+      "title": "点餐订单",
+      "path": "/foodManagment/foodMenu",
       "ok": true,
-      "durationMs": 1726,
+      "durationMs": 1485,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/online",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n在线用户\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n在线用户\n查看当前登录会话，按账号或 IP 检索并执行强制下线。\n刷新\n登录地址\n用户名称\n查询\n重置\n会话编号\n\t\n用户名称\n\t\n部门\n\t\n登录地址\n\t\n登录地点\n\t\n浏览器\n\t\n操作系统\n\t\n登录时间\n\t\n操作\naaaf0b9a-b590-4150-aa28-9d23605f4947\n\t\nadmin\n\t\n国航智慧贵宾室\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n1778410029868\n\t\n强退\n\n\n6b370453-b93a-49e9-af38-9dad756e200e\n\t\nadmin\n\t\n国航智慧贵宾室\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n1778410191064\n\t\n强退\nTotal 2\n20/page\n1\nGo to",
+        "title": "点餐订单 - 国航智慧贵宾室管理系统",
+        "path": "/foodManagment/foodMenu",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n点餐订单\n管\n管理员\n首页\n点餐订单\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -232,25 +231,21 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "操作日志",
-      "path": "/monitor/operlog",
+      "title": "贵宾室",
+      "path": "/configManagment/vipRoom",
       "ok": true,
-      "durationMs": 1746,
+      "durationMs": 866,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/operlog",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n操作日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n操作日志\n后台操作日志查询、删除、清空、导出和明细查看。\n刷新\n系统模块\n操作人员\n操作地址\n操作类型\n操作类型\n操作状态\n操作状态\n查询\n重置\n批量删除\n清空\n导出\n\t\nID\n\t\n系统模块\n\t\n操作类型\n\t\n请求方法\n\t\n请求方式\n\t\n操作人员\n\t\n操作地址\n\t\n请求地址\n\t\n请求参数\n\t\n返回参数\n\t\n状态\n\t\n异常消息\n\t\n操作时间\n\t\n消耗时间(ms)\n\t\n操作\n\t\n1\n\t\n用户管理\n\t\n新增\n\t\nSysUserController.list\n\t\nGET\n\t\nadmin\n\t\n127.0.0.1\n\t\n/system/user/list\n\t\n{}\n\t\n{}\n\t\n成功\n\t\n-\n\t\n2026-05-10 13:03:15\n\t\n-\n\t\n详情\n删除\nTotal 1\n20/page\n1\nGo to",
+        "title": "贵宾室 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/vipRoom",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n贵宾室\n管\n管理员\n首页\n贵宾室\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -258,11 +253,227 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "功能区",
+      "path": "/configManagment/areaManagment",
+      "ok": true,
+      "durationMs": 1364,
+      "snapshot": {
+        "title": "功能区 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/areaManagment",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n功能区\n管\n管理员\n首页\n功能区\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "区域",
+      "path": "/configManagment/vipRoomRegion",
+      "ok": true,
+      "durationMs": 1245,
+      "snapshot": {
+        "title": "区域 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/vipRoomRegion",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n区域\n管\n管理员\n首页\n区域\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "餐桌管理",
+      "path": "/foodManagment/foodTable",
+      "ok": true,
+      "durationMs": 1117,
+      "snapshot": {
+        "title": "餐桌管理 - 国航智慧贵宾室管理系统",
+        "path": "/foodManagment/foodTable",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n餐桌管理\n管\n管理员\n首页\n餐桌管理\n\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "摄像头",
+      "path": "/configManagment/monitorDevice",
+      "ok": true,
+      "durationMs": 1096,
+      "snapshot": {
+        "title": "摄像头 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/monitorDevice",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n摄像头\n管\n管理员\n首页\n摄像头\n新 增\n批量删除\n\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "机器人",
+      "path": "/configManagment/robot",
+      "ok": true,
+      "durationMs": 1089,
+      "snapshot": {
+        "title": "机器人 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/robot",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n机器人\n管\n管理员\n首页\n机器人\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "机器人音频",
+      "path": "/configManagment/robotAudio",
+      "ok": true,
+      "durationMs": 1047,
+      "snapshot": {
+        "title": "机器人音频 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/robotAudio",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n机器人音频\n管\n管理员\n首页\n机器人音频\n\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "音频",
+      "path": "/configManagment/audio",
+      "ok": true,
+      "durationMs": 1135,
+      "snapshot": {
+        "title": "音频 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/audio",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n音频\n管\n管理员\n首页\n音频\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "图片",
+      "path": "/configManagment/photo",
+      "ok": true,
+      "durationMs": 1189,
+      "snapshot": {
+        "title": "图片 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/photo",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n图片\n管\n管理员\n首页\n图片\n新 增\n批量删除\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "任务列表",
+      "path": "/taskManagment/taskList",
+      "ok": true,
+      "durationMs": 1274,
+      "snapshot": {
+        "title": "任务列表 - 国航智慧贵宾室管理系统",
+        "path": "/taskManagment/taskList",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n任务列表\n管\n管理员\n首页\n任务列表\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "投诉记录",
+      "path": "/configManagment/complaintRecord",
+      "ok": true,
+      "durationMs": 1309,
+      "snapshot": {
+        "title": "投诉记录 - 国航智慧贵宾室管理系统",
+        "path": "/configManagment/complaintRecord",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n投诉记录\n管\n管理员\n首页\n投诉记录\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
@@ -272,11 +483,11 @@
       "title": "登录日志",
       "path": "/monitor/logininfor",
       "ok": true,
-      "durationMs": 1620,
+      "durationMs": 1223,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "登录日志 - 国航智慧贵宾室管理系统",
         "path": "/monitor/logininfor",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n登录日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n登录日志\n登录日志查询、删除、清空、解锁和导出。\n刷新\n登录地址\n用户名称\n登录状态\n登录状态\n查询\n重置\n批量删除\n清空\n导出\n\t\nID\n\t\n用户名称\n\t\n登录地址\n\t\n登录地点\n\t\n浏览器\n\t\n操作系统\n\t\n状态\n\t\n提示消息\n\t\n访问时间\n\t\n操作\n\t\n8\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n7\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n6\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n5\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n4\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n3\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n2\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nDownloading Tool\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n1\n\t\nadmin\n\t\n127.0.0.1\n\t\nLOCAL\n\t\nChrome\n\t\nLinux\n\t\n成功\n\t\n登录成功\n\t\n2026-05-10 13:03:15\n\t\n详情\n解锁\n删除\nTotal 8\n20/page\n1\nGo to",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n日志管理/\n登录日志\n管\n管理员\n首页\n登录日志\n清 空\n\t\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -284,114 +495,7 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "缓存监控",
-      "path": "/monitor/cache",
-      "ok": true,
-      "durationMs": 1673,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/cache",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n缓存监控\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n缓存监控\nRedis 摘要、缓存名称、缓存键和值内容联动管理。\n刷新\n清理全部\n基础信息\nKey 数量\t26\nRedis 版本\t7.4.7\n运行模式\tstandalone\n命令统计\nset\t69\nkeys\t186\nget\t1906\nping\t90\nclient|setinfo\t54\nunsubscribe\t4\nauth\t27\nsubscribe\t6\ninfo\t23\ndbsize\t11\nsetex\t7\n缓存列表\n刷新\n序号\n\t\n缓存名称\n\t\n备注\n\t\n操作\n1\n\t\nlogin_tokens\n\t\n用户登录令牌\n\t\n清理\n\n\n2\n\t\nsys_config\n\t\n系统配置\n\t\n清理\n\n\n3\n\t\nsys_dict\n\t\n数据字典\n\t\n清理\n键名列表\n刷新\n序号\n\t\n缓存键名\n\t\n操作\nNo Data\n缓存内容\n刷新\n缓存名称\n缓存键名\n缓存内容",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "刷新"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "定时任务",
-      "path": "/monitor/job",
-      "ok": true,
-      "durationMs": 1685,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/job",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n定时任务\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n定时任务\nQuartz 任务名称、调用目标、Cron 表达式、运行状态和手动执行。\n刷新\n新增\n任务名称\n任务组名\n任务组名\n任务状态\n任务状态\n查询\n重置\n批量删除\n导出\n调度日志\n\t\nID\n\t\n任务名称\n\t\n任务组名\n\t\n调用目标字符串\n\t\nCron 表达式\n\t\n执行策略\n\t\n并发执行\n\t\n状态\n\t\n操作\n\t\n1\n\t\n演示心跳任务\n\t\nSYSTEM\n\t\nryTask.ryNoParams\n\t\n0 0/30 * * * ?\n\t\n放弃执行\n\t\n禁止\n\t\n\t\n详情\n编辑\n执行一次\n日志\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "调度日志",
-      "path": "/monitor/job-log",
-      "ok": true,
-      "durationMs": 1668,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/job-log",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n调度日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n调度日志\n定时任务执行日志、异常信息、执行状态和耗时统计。\n刷新\n任务名称\n任务组名\n任务组名\n执行状态\n执行状态\n查询\n重置\n批量删除\n清空\n导出\n关闭\n\t\nID\n\t\n任务名称\n\t\n任务组名\n\t\n调用目标字符串\n\t\n日志信息\n\t\n状态\n\t\n异常信息\n\t\n执行时间\n\t\n操作\n\t\n1\n\t\n演示心跳任务\n\t\nSYSTEM\n\t\nryTask.ryNoParams\n\t\n初始化示例日志\n\t\n成功\n\t\n-\n\t\n2026-05-10 13:03:15\n\t\n详情\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "登录日志",
-      "path": "/monitor/login-log",
-      "ok": true,
-      "durationMs": 1796,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/login-log",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n登录日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n登录日志\n登录日志查询、删除、清空、解锁和导出。\n刷新\n登录地址\n用户名称\n登录状态\n登录状态\n查询\n重置\n批量删除\n清空\n导出\n\t\nID\n\t\n用户名称\n\t\n登录地址\n\t\n登录地点\n\t\n浏览器\n\t\n操作系统\n\t\n状态\n\t\n提示消息\n\t\n访问时间\n\t\n操作\n\t\n8\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n7\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n6\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n5\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n4\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n3\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nUnknown\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n2\n\t\nadmin\n\t\n127.0.0.1\n\t\n内网IP\n\t\nDownloading Tool\n\t\nUnknown\n\t\n成功\n\t\n登录成功\n\t\n-\n\t\n详情\n解锁\n删除\n\n\n\t\n1\n\t\nadmin\n\t\n127.0.0.1\n\t\nLOCAL\n\t\nChrome\n\t\nLinux\n\t\n成功\n\t\n登录成功\n\t\n2026-05-10 13:03:15\n\t\n详情\n解锁\n删除\nTotal 8\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
@@ -399,776 +503,13 @@
     },
     {
       "title": "操作日志",
-      "path": "/monitor/oper-log",
+      "path": "/monitor/operlog",
       "ok": true,
-      "durationMs": 1691,
+      "durationMs": 1108,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/oper-log",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n操作日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n操作日志\n后台操作日志查询、删除、清空、导出和明细查看。\n刷新\n系统模块\n操作人员\n操作地址\n操作类型\n操作类型\n操作状态\n操作状态\n查询\n重置\n批量删除\n清空\n导出\n\t\nID\n\t\n系统模块\n\t\n操作类型\n\t\n请求方法\n\t\n请求方式\n\t\n操作人员\n\t\n操作地址\n\t\n请求地址\n\t\n请求参数\n\t\n返回参数\n\t\n状态\n\t\n异常消息\n\t\n操作时间\n\t\n消耗时间(ms)\n\t\n操作\n\t\n1\n\t\n用户管理\n\t\n新增\n\t\nSysUserController.list\n\t\nGET\n\t\nadmin\n\t\n127.0.0.1\n\t\n/system/user/list\n\t\n{}\n\t\n{}\n\t\n成功\n\t\n-\n\t\n2026-05-10 13:03:15\n\t\n-\n\t\n详情\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "服务监控",
-      "path": "/monitor/server",
-      "ok": true,
-      "durationMs": 927,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/server",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n服务监控\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n服务监控\n对齐原后台服务监控页面，展示 CPU、内存、JVM、服务器和磁盘信息。\n刷新\nCPU 核心数\n-\n系统 0% / 用户 0%\n0%\n内存使用\n0%\n- GB / - GB\nJVM 使用\n0%\n- MB / - MB\nCPU 空闲\n0%\n等待 0%\n服务器信息\n服务器名称\t-\n服务器 IP\t-\n操作系统\t-\n系统架构\t-\n项目路径\t-\nJava 虚拟机信息\nJVM 名称\t-\nJava 版本\t-\n启动时间\t-\n运行时长\t-\n安装路径\t-\n磁盘状态\n展示挂载目录、文件系统类型、容量和使用率。\n盘符路径\n\t\n文件系统\n\t\n类型名称\n\t\n总大小\n\t\n可用大小\n\t\n已用大小\n\t\n使用率\nNo Data",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "数据库监控",
-      "path": "/monitor/druid",
-      "ok": true,
-      "durationMs": 911,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/druid",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n在线用户\n操作日志\n登录日志\n缓存监控\n定时任务\n调度日志\n登录日志\n操作日志\n服务监控\n数据库监控\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n数据库监控\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\nDruid 监控\n后端监控地址可直接跳转到 `/api/druid/`。\n打开 Druid",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "机器人配置",
-      "path": "/config/robot",
-      "ok": true,
-      "durationMs": 1594,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/robot",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n机器人配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n机器人配置\n机器人编号、名称、IP、区域和运行状态配置。\n刷新\n新增\n机器人编号\n机器人名称\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n机器人编号\n\t\n名称\n\t\nIP\n\t\n贵宾室\n\t\n当前位置\n\t\n电量\n\t\n工作\n\t\n启用\n\t\n操作\n\t\n1\n\t\nrobot-001\n\t\n贵宾室机器人01\n\t\n127.0.0.1\n\t\n国航智慧贵宾室\n\t\n入口区域\n\t\n85\n\t\n-\n\t\n启用\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "区域配置",
-      "path": "/config/region",
-      "ok": true,
-      "durationMs": 1767,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/region",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n区域配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n贵宾室区域\n贵宾室区域编码、坐标和展示状态管理。\n刷新\n新增\n区域名称\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n区域名称\n\t\n贵宾室\n\t\n坐标\n\t\n功能区\n\t\n容量\n\t\n引导\n\t\n展示\n\t\n操作\n\t\n1\n\t\n入口区域\n\t\n国航智慧贵宾室\n\t\n[[116.4074,39.9042],[116.40745,39.90425]]\n\t\n-\n\t\n10\n\t\n支持\n\t\n展示\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\n餐饮区域\n\t\n国航智慧贵宾室\n\t\n[[116.4075,39.9043],[116.40755,39.90435]]\n\t\n-\n\t\n20\n\t\n不支持\n\t\n展示\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "图片素材",
-      "path": "/config/photo",
-      "ok": true,
-      "durationMs": 1566,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/photo",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n图片素材\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n图片管理\n贵宾室图片、地图底图和展示资源管理。\n刷新\n新增\n图片名称\n图片类别\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n预览\n\t\n名称\n\t\n类别\n\t\n贵宾室\n\t\n宽\n\t\n高\n\t\n启用\n\t\n操作\n\t\n1\n\t\n\t\n机器人示例图\n\t\n1\n\t\n国航智慧贵宾室\n\t\n512\n\t\n512\n\t\n启用\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\n\t\n菜品示例图\n\t\n1\n\t\n国航智慧贵宾室\n\t\n512\n\t\n512\n\t\n启用\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "桌台配置",
-      "path": "/config/table",
-      "ok": true,
-      "durationMs": 1621,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/table",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n桌台配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n餐桌配置\n桌号、坐标、区域和翻台状态管理。\n刷新\n新增\n桌号\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n桌号\n\t\n贵宾室\n\t\n区域\n\t\n坐标\n\t\n占用状态\n\t\n可用\n\t\n操作\n\t\n1\n\t\nA01\n\t\n国航智慧贵宾室\n\t\n餐饮区域\n\t\n[[116.4075,39.9043]]\n\t\n空闲\n\t\n可用\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\nA02\n\t\n国航智慧贵宾室\n\t\n餐饮区域\n\t\n[[116.4076,39.9044]]\n\t\n空闲\n\t\n可用\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "语音配置",
-      "path": "/config/audio",
-      "ok": true,
-      "durationMs": 1740,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/audio",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n语音配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n机器人语音\n机器人语音资源、音频 Key 和播放内容管理。\n刷新\n新增\n音频 Key\n语言\n语言\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\nKey\n\t\n语言\n\t\n文字内容\n\t\n音频内容\n\t\n贵宾室\n\t\n操作\n\t\n1\n\t\nrobot_online_cn\n\t\nCN\n\t\n机器人已上线。\n\t\n-\n\t\n国航智慧贵宾室\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "任务配置",
-      "path": "/config/task",
-      "ok": true,
-      "durationMs": 1667,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/task",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n任务配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n任务配置\n机器人任务、任务状态和执行目标管理。\n刷新\n新增\n任务名称\n机器人\n查询\n重置\n批量删除\n\t\nID\n\t\n任务名称\n\t\n机器人\n\t\n指令\n\t\n执行类型\n\t\n贵宾室\n\t\n启用\n\t\n创建时间\n\t\n操作\n\t\n1\n\t\n欢迎巡游\n\t\n1\n\t\n欢迎动作\n\t\nmanual\n\t\n国航智慧贵宾室\n\t\n启用\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n执行\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "贵宾室配置",
-      "path": "/config/vipRoom",
-      "ok": true,
-      "durationMs": 1611,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/vipRoom",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n贵宾室配置\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n部门管理\n组织架构、贵宾室房间编码和部门状态维护。\n刷新\n新增\n部门名称\n状态\n状态\n查询\n重置\nID\n\t\n部门名称\n\t\n父级\n\t\n负责人\n\t\n电话\n\t\n房间编码\n\t\n状态\n\t\n操作\n100\n\t\n国航智慧贵宾室\n\t\n0\n\t\nadmin\n\t\n13800000000\n\t\nPEK2DX1\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n101\n\t\n国航T2休息室A区\n\t\n100\n\t\nadmin\n\t\n13800000000\n\t\nPEK2DX1-A\n\t\n正常\n\t\n详情\n编辑\n删除",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "区域管理",
-      "path": "/config/areaManagment",
-      "ok": true,
-      "durationMs": 1545,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/areaManagment",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n区域管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n功能区管理\n贵宾室功能区、容量、图片和语音配置。\n刷新\n新增\n功能区名称\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n功能区\n\t\n贵宾室\n\t\n坐标\n\t\n容量\n\t\n图片\n\t\n引导\n\t\n展示\n\t\n操作\n\t\n1\n\t\nA区候机区\n\t\n国航智慧贵宾室\n\t\n[[116.4074,39.9042],[116.4075,39.9043]]\n\t\n30\n\t\n1\n\t\n支持\n\t\n展示\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\nB区休息区\n\t\n国航智慧贵宾室\n\t\n[[116.4076,39.9044],[116.4077,39.9045]]\n\t\n20\n\t\n1\n\t\n不支持\n\t\n展示\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "监控设备",
-      "path": "/config/monitorDevice",
-      "ok": true,
-      "durationMs": 1631,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/monitorDevice",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n监控设备\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n监控设备\n摄像头、监控设备编码、IP 和区域绑定维护。\n刷新\n新增\n设备名称\n设备类型\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n设备名称\n\t\n设备类型\n\t\n格灵设备 ID\n\t\n贵宾室\n\t\n启用\n\t\n操作\n\t\n1\n\t\n入口摄像头01\n\t\ncamera\n\t\ndg-device-001\n\t\n国航智慧贵宾室\n\t\n启用\n\t\n详情\n编辑\n区域绑定\n清空绑定\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "投诉记录",
-      "path": "/config/complaintRecord",
-      "ok": true,
-      "durationMs": 1914,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/complaintRecord",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n投诉记录\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n投诉记录\n旅客客诉、发卡方、卡号、客诉内容和处理反馈维护。\n刷新\n新增\n姓名\n查询\n重置\n批量删除\n\t\nID\n\t\n姓名\n\t\n贵宾室\n\t\n发卡方\n\t\n卡号\n\t\n客诉内容\n\t\n客诉反馈\n\t\n创建时间\n\t\n操作\n\t\n1\n\t\n张三\n\t\nPEK2DX1\n\t\n国航凤凰知音\n\t\nCA888888\n\t\n旅客反馈餐食等待时间偏长。\n\t\n已通知餐食服务员优先处理并记录。\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "视频资源",
-      "path": "/config/vedio",
-      "ok": true,
-      "durationMs": 1639,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/config/vedio",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n机器人配置\n区域配置\n图片素材\n桌台配置\n语音配置\n任务配置\n贵宾室配置\n区域管理\n监控设备\n投诉记录\n视频资源\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n视频资源\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n视频资源\n本地 mock 视频流控制台，可启动、停止、刷新并查看活跃机器人视频会话。\n刷新\n活跃视频流\n0\n当前机器人\n-\n控制模式\nmock\n视频流控制\n机器人\n用户\n开始视频流\n停止视频流\n示例\n机器人\n\t\n用户\n\t\n模式\n\t\n开始时间\n\t\n帧数\n\t\n最后帧时间\n\t\n状态\n\t\n操作\nNo Data",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "旅客信息",
-      "path": "/flight/passenger",
-      "ok": true,
-      "durationMs": 1617,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/passenger",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n旅客信息\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n在厅旅客列表\n当前贵宾室在厅旅客、航班和区域记录。\n刷新\n新增\n旅客姓名\n航班号\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n旅客\n\t\n航班\n\t\n航班日期\n\t\n区域 ID\n\t\n坐标\n\t\n入厅时间\n\t\n更新时间\n\t\n操作\n\t\n1\n\t\n张三\n\t\nCA1234\n\t\n2026-05-10\n\t\n1\n\t\n[[116.4074,39.9042]]\n\t\n2026-05-10 13:03:15\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n出厅\n删除\n\n\n\t\n2\n\t\n李四\n\t\nCA5678\n\t\n2026-05-10\n\t\n2\n\t\n[[116.4075,39.9043]]\n\t\n2026-05-10 13:03:15\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n出厅\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "航班信息",
-      "path": "/flight/flightInfo",
-      "ok": true,
-      "durationMs": 1740,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/flightInfo",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n航班信息\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n航班信息\n航班计划、状态、登机口、行李转盘和临时航班维护。\n刷新\n新增\n航班号\n航班日期\n起飞状态\n起飞状态\n查询\n重置\n批量删除\n导入临时航班\n导出\n\t\n航班 ID\n\t\n航班号\n\t\n执行日期\n\t\n航司\n\t\n起飞状态\n\t\n到达状态\n\t\n登机口\n\t\n转盘\n\t\n预计起飞\n\t\n更新时间\n\t\n操作\n\t\nCA1234-20260506\n\t\nCA1234\n\t\n2026-05-10\n\t\nCA\n\t\nSCH\n\t\nON\n\t\nG12\n\t\nC01\n\t\n20260510150315\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n删除\n\n\n\t\nCA5678-20260506\n\t\nCA5678\n\t\n2026-05-10\n\t\nCA\n\t\nETD\n\t\nON\n\t\nG08\n\t\nC02\n\t\n20260510160315\n\t\n2026-05-10 13:03:15\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "数字孪生",
-      "path": "/flight/digitalTwin",
-      "ok": true,
-      "durationMs": 1954,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/digitalTwin",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n数字孪生\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n数字孪生总览\n区域、机器人、旅客、巡检和桌台数据实时联动，硬件动作在本地以任务方式提交。\n国航T2休息室A区\n刷新\n房间数\n1\n区域点位\n0\n机器人\n0\n旅客\n0\n待处理预警\n0\n巡检异常\n2\n国航T2休息室A区\n选择区域查看联动数据\n0 台机器人\n区域\n机器人\n旅客\n区域\n\t\n容量\n\t\n坐标\nNo Data\n实时消息\n国航T2休息室A区\nrobot-001 巡检 A区候机区：无异常\nrobot-001 巡检 A区候机区：摄像头视野遮挡\n房间/区域\n机器人\n旅客/预警\n巡检异常\n桌台\n区域名称\n\t\n功能区\n\t\n房间编码\n\t\n当前人数\n\t\n容量\n\t\n坐标\n\t\n操作\nNo Data",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "出厅统计",
-      "path": "/flight/outGoing",
-      "ok": true,
-      "durationMs": 1749,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/outGoing",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n出厅统计\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n出厅旅客\n旅客出厅、离开贵宾室和航班记录。\n刷新\n旅客姓名\n航班号\n始发\n到达\n查询\n重置\n旅客\n\t\n航班\n\t\n航班日期\n\t\n抓拍图\n\t\n注册图\n\t\n出厅时间\nNo Data\nTotal 0\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "通行统计",
-      "path": "/flight/goingStat",
-      "ok": true,
-      "durationMs": 1997,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/goingStat",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n通行统计\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n通行统计\n按贵宾室、航班日期、卡号、准入类型和在舱状态查询旅客通行记录。\n刷新\n贵宾室编码\n请选择贵宾室编码\n航班日期\n卡号\n准入类型\n请选择准入类型\n在舱状态\n请选择状态\n搜索\n重置\n序号\n\t\n旅客姓名\n\t\n贵宾室编码\n\t\n航班号\n\t\n航班日期\n\t\n发卡方\n\t\n卡号\n\t\n准入类型\n\t\n在舱状态\n\t\n入舱时间\n\t\n出舱时间\n\t\n最后照片\n1\n\t\n张三\n\t\nPEK2DX1\n\t\nCA1234\n\t\n2026-05-10\n\t\n贵宾卡\n\t\nCARD001\n\t\nface\n\t\n在舱\n\t\n2026-05-10 13:03:15\n\t\n\t\n\n\n2\n\t\n李四\n\t\nPEK2DX1\n\t\nCA5678\n\t\n2026-05-10\n\t\n白金卡\n\t\nCARD002\n\t\nbarcode\n\t\n在舱\n\t\n2026-05-10 13:03:15\n\t\n\t\nTotal 2\n10/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "搜索",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "问题统计",
-      "path": "/flight/questionStat",
-      "ok": true,
-      "durationMs": 1500,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/questionStat",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n问题统计\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n问题统计\n读取 `/rest/ai/ai-question-stat-list`，按机器人、问题和会话类型统计 AI 问答。\n刷新\n机器人\n问题\n类型\n查询\n运行自动分类\n提交测试问答\n问题记录\n2\n机器人数量\n1\n会话类型\n2\n机器人\n\t\n机器人名称\n\t\n贵宾室\n\t\n问题\n\t\n回答\n\t\n会话类型\n\t\n自动分类\n\t\n次数\n\t\n时间\nrobot-001\n\t\n贵宾室机器人01\n\t\n国航智慧贵宾室\n\t\n我想点咖啡\n\t\n您可以在点餐页面选择美式咖啡。\n\t\nNORMAL\n\t\n待分类\n\t\n1\n\t\n2026-05-10T13:03:15\n\n\nrobot-001\n\t\n贵宾室机器人01\n\t\n国航智慧贵宾室\n\t\n贵宾室在哪里？\n\t\n贵宾室就在前方左侧。\n\t\nFAQ\n\t\n已分类\n\t\n1\n\t\n2026-05-10T13:03:15",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "预警记录",
-      "path": "/flight/passengerWarning",
-      "ok": true,
-      "durationMs": 1681,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/flight/passengerWarning",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n旅客信息\n航班信息\n数字孪生\n出厅统计\n通行统计\n问题统计\n预警记录\n休息室点餐\nAI知识库\n系统工具\n预警记录\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n旅客预警日志\n旅客越界、超时和重点旅客预警记录。\n刷新\n新增\n旅客 ID\n航班 ID\n预警类型\n查询\n重置\n批量删除\n\t\nID\n\t\n旅客 ID\n\t\n航班 ID\n\t\n预警类型\n\t\n内容\n\t\n提醒方式\n\t\n结果\n\t\n时间\n\t\n操作\nNo Data\nTotal 0\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "菜品管理",
-      "path": "/food/foodConfig",
-      "ok": true,
-      "durationMs": 1693,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/food/foodConfig",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\n菜品管理\n今日菜单\n点餐订单\n桌台视图\n菜单计划\nAI知识库\n系统工具\n菜品管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n菜品管理\n菜品名称、分类、价格、热量、图片和贵宾室维度管理。\n刷新\n新增\n菜品名称\n分类\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n图片\n\t\n名称\n\t\n分类\n\t\n贵宾室\n\t\n价格\n\t\n热量\n\t\n备注\n\t\n操作\nNo Data\nTotal 0\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "今日菜单",
-      "path": "/food/dailyMenu",
-      "ok": true,
-      "durationMs": 1817,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/food/dailyMenu",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\n菜品管理\n今日菜单\n点餐订单\n桌台视图\n菜单计划\nAI知识库\n系统工具\n今日菜单\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n今日菜单\n按日期、贵宾室和菜品维护每日上架菜单。\n刷新\n新增\n日期\n房间编码\n状态\n状态\n查询\n重置\n批量删除\n\t\nID\n\t\n日期\n\t\n菜品\n\t\n分类\n\t\n贵宾室\n\t\n价格\n\t\n热量\n\t\n状态\n\t\n操作\n\t\n3\n\t\n2026-05-10\n\t\n美式咖啡\n\t\n饮料\n\t\n国航智慧贵宾室\n\t\n18\n\t\n20\n\t\n上架\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\n2026-05-10\n\t\n水果拼盘\n\t\n甜品\n\t\n国航智慧贵宾室\n\t\n28\n\t\n180\n\t\n上架\n\t\n详情\n编辑\n删除\n\n\n\t\n1\n\t\n2026-05-10\n\t\n宫保鸡丁\n\t\n热菜\n\t\n国航智慧贵宾室\n\t\n58\n\t\n520\n\t\n上架\n\t\n详情\n编辑\n删除\nTotal 3\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "点餐订单",
-      "path": "/food/foodOrder",
-      "ok": true,
-      "durationMs": 1679,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/food/foodOrder",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\n菜品管理\n今日菜单\n点餐订单\n桌台视图\n菜单计划\nAI知识库\n系统工具\n点餐订单\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n订单管理\n点餐订单、桌号、旅客和订单状态管理。\n刷新\n新增\n订单号\n状态\n状态\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n订单号\n\t\n桌号\n\t\n房间编码\n\t\n会员卡号\n\t\n金额\n\t\n状态\n\t\n创建时间\n\t\n备注\n\t\n操作\n\t\n1\n\t\nFO202605060001\n\t\nA01\n\t\nPEK2DX1\n\t\n-\n\t\n76.00\n\t\n已取消\n\t\n2026-05-10 13:03:15\n\t\n少辣\n\t\n详情\n接单\n完成\n取消\n删除\n\n\n\t\n2\n\t\nFO202605060002\n\t\nA02\n\t\nPEK2DX1\n\t\n-\n\t\n28.00\n\t\n已下单\n\t\n2026-05-10 13:03:15\n\t\n少冰\n\t\n详情\n接单\n完成\n取消\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "桌台视图",
-      "path": "/food/foodTable",
-      "ok": true,
-      "durationMs": 1630,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/food/foodTable",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\n菜品管理\n今日菜单\n点餐订单\n桌台视图\n菜单计划\nAI知识库\n系统工具\n桌台视图\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n餐桌配置\n桌号、坐标、区域和翻台状态管理。\n刷新\n新增\n桌号\n房间编码\n查询\n重置\n批量删除\n\t\nID\n\t\n桌号\n\t\n贵宾室\n\t\n区域\n\t\n坐标\n\t\n占用状态\n\t\n可用\n\t\n操作\n\t\n1\n\t\nA01\n\t\n国航智慧贵宾室\n\t\n餐饮区域\n\t\n[[116.4075,39.9043]]\n\t\n空闲\n\t\n可用\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\nA02\n\t\n国航智慧贵宾室\n\t\n餐饮区域\n\t\n[[116.4076,39.9044]]\n\t\n空闲\n\t\n可用\n\t\n详情\n编辑\n删除\nTotal 2\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "菜单计划",
-      "path": "/food/foodPlan",
-      "ok": true,
-      "durationMs": 1932,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/food/foodPlan",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\n菜品管理\n今日菜单\n点餐订单\n桌台视图\n菜单计划\nAI知识库\n系统工具\n菜单计划\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n菜单计划\n贵宾室餐食计划、日期和房间维度管理。\n刷新\n新增\n房间编码\n开始日期\n结束日期\n查询\n重置\n批量删除\n\t\nID\n\t\n房间编码\n\t\n贵宾室\n\t\n开始日期\n\t\n结束日期\n\t\n菜品\n\t\n操作\n\t\n1\n\t\nPEK2DX1\n\t\n国航智慧贵宾室\n\t\n2026-05-10\n\t\n2026-05-17\n\t\n宫保鸡丁,水果拼盘,美式咖啡\n\t\n详情\n编辑\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "知识库管理",
-      "path": "/ai/knowledge",
-      "ok": true,
-      "durationMs": 1839,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/ai/knowledge",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n知识库管理\n引导日志\n系统工具\n知识库管理\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n知识库管理\n读取 `/ai/knowledge/list` 与 `/ai/knowledge/{id}`，并提供新增、编辑、启停、向量化和删除。\n刷新\n新增草稿\n启用\n禁用\n向量化\n队列通知\n删除\n来源\n类型\n类型\n启用\n启用状态\n查询\n重置\nID\n\t\n来源\n\t\n类型\n\t\n状态\n\t\n启用\n\t\n更新时间\n1\n\t\nseed\n\t\nfaq\n\t\n已向量化\n\t\n启用\n\t\n2026-05-10T13:03:15\n详情与编辑\nID\t1\n来源\tseed\n类型\tfaq\n状态\t已向量化\n启用\t启用\n向量ID\tvec-001\n知识内容\n来源\n类型\nFAQ\n备注\n保存",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "引导日志",
-      "path": "/ai/log",
-      "ok": true,
-      "durationMs": 1669,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/ai/log",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n知识库管理\n引导日志\n系统工具\n引导日志\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n引导日志\n查询 `/ai/log/infoList`，展示机器人、贵宾室、区域和坐标引导记录。\n刷新\n导出\n机器人\n贵宾室\n选择贵宾室\n时间\n-\n查询\n重置\n引导记录\n2\n机器人数量\n1\n贵宾室数量\n1\n机器人编号\n\t\n机器人名称\n\t\n贵宾室\n\t\n房间编码\n\t\n区域\n\t\n坐标\n\t\n引导时间\nrobot-001\n\t\n贵宾室机器人01\n\t\n国航智慧贵宾室\n\t\nPEK2DX1\n\t\n入口区域\n\t\n[[116.4074,39.9042],[116.4075,39.9043]]\n\t\n2026-05-10 13:03:15\n\n\nrobot-001\n\t\n贵宾室机器人01\n\t\n国航智慧贵宾室\n\t\nPEK2DX1\n\t\n餐饮区域\n\t\n[[116.4075,39.9043],[116.4076,39.9044]]\n\t\n2026-05-10 13:03:15",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "代码生成",
-      "path": "/tool/gen",
-      "ok": true,
-      "durationMs": 1600,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/tool/gen",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n代码生成\n表单构建\nSwagger文档\n代码生成\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n代码生成\n数据库表导入、生成配置、字段联动、代码预览、同步和下载均接入本地后端。\n刷新\n导入表\n批量生成\n批量删除\n表名\n说明\n查询\n重置\n已导入表\n\t\n表名\n\t\n说明\n\t\n类名\n\t\n模块\n\t\n操作\n\t\nconfig_robot\n\t\n机器人配置表\n\t\nConfigRobot\n\t\nconfig\n\t\n配置\n预览\n同步\n下载\n删除\n生成配置\n表名\n实体类名\n功能名称\n作者\n包路径\n生成路径\n模块名\n业务名\n模板\n单表 CRUD\n保存配置和字段\n同步数据库\n预览代码\n生成\n下载\n字段联动配置\n字段开关、查询方式、表单控件和字典类型会随保存落库。\n排序\n\t\n字段\n\t\nJava 字段\n\t\n说明\n\t\nJava 类型\n\t\n必填\n\t\n新增\n\t\n编辑\n\t\n列表\n\t\n查询\n\t\n查询方式\n\t\n控件\n\t\n字典类型\n上\n下\n\t\nid\n\t\n\t\n\t\nLong\n\t\n\t\n\t\n\t\n\t\n\t\n等于\n\t\n输入框\n\t\n\n\n上\n下\n\t\nrobot_name\n\t\n\t\n\t\nString\n\t\n\t\n\t\n\t\n\t\n\t\n模糊\n\t\n输入框\n\t",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "表单构建",
-      "path": "/tool/build",
-      "ok": true,
-      "durationMs": 1380,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/tool/build",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n代码生成\n表单构建\nSwagger文档\n表单构建\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n表单构建器\n拖拽排序、字段属性、选项、校验规则和 Element Plus 代码输出已实时联动。\n示例表单\n导入 Schema\n复制 Schema\n复制 Vue 源码\n清空\n控件库\n输入框\n多行文本\n下拉选择\n单选框\n复选框\n数字输入\n日期\n开关\n上传\n字段列表\n序号\n\t\n字段\n\t\n组件\n\t\n排序\n1\n\t\n机器人名称\n\t\ninput\n\t\n上\n下\n\n\n2\n\t\n机器人类型\n\t\nselect\n\t\n上\n下\n\n\n3\n\t\n电量阈值\n\t\nnumber\n\t\n上\n下\n\n\n4\n\t\n启用状态\n\t\nradio\n\t\n上\n下\n\n\n5\n\t\n备注\n\t\ntextarea\n\t\n上\n下\n属性面板\n字段标签\n字段名\n组件类型\n输入框\n栅格宽度\n提示文案\n默认值\n字典类型\n必填\n禁用\n复制字段\n删除字段\nElement Plus 预览\n机器人名称\n机器人类型\n请选择\n电量阈值\n启用状态\n启用\n禁用\n备注\nSchema 预览\nVue 源码预览\n\n已加载示例表单",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "Swagger文档",
-      "path": "/tool/swagger",
-      "ok": true,
-      "durationMs": 1016,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/tool/swagger",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n代码生成\n表单构建\nSwagger文档\nSwagger文档\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\nSwagger 文档\n保留原后台接口文档入口，并提供本地可用性检查。\n打开 Swagger\nSwagger UI\nhttp://127.0.0.1:4174/api/swagger-ui.html\n新窗口打开\nOpenAPI JSON\nhttp://127.0.0.1:4174/api/v3/api-docs\n查看 JSON\n后端跳转\nhttp://127.0.0.1:4174/api/tool/swagger\n访问原入口\n连通性\n检查\n接口前缀\t/api\n检查结果\t\n未检查\n\n说明\t本地后端未启用 Swagger UI 时，页面仍会保留跳转入口；不影响管理后台其他接口。",
+        "title": "操作日志 - 国航智慧贵宾室管理系统",
+        "path": "/monitor/operlog",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n日志管理/\n操作日志\n管\n管理员\n首页\n操作日志\n清 空\n\t\t\t\n\n\nNo data\n\n1",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1186,11 +527,11 @@
       "title": "首页",
       "path": "/",
       "ok": true,
-      "durationMs": 982,
+      "durationMs": 1202,
       "snapshot": {
         "title": "首页 - 国航智慧贵宾室管理系统",
         "path": "/",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n后台首页\n当前首页展示本地单体后台状态和恢复进度。\n后端状态\n单体 Spring Boot 后端已本地启动。\n接口前缀：`/api`\n前端状态\n页面已从静态包重建为可维护的 `.vue` 源码，并接入本地后台接口。",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n首页\n管\n管理员\n首页\n后台首页\n当前首页展示本地单体后台状态和恢复进度。\n后端状态\n单体 Spring Boot 后端已具备运行入口。\n当前 API 以 `moban_java/API_SUMMARY.md` 为准。\n前端状态\n前端正在迁移到 Ant Design Vue。\n接口层已开始对接新的单体后端。",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1208,11 +549,11 @@
       "title": "个人中心",
       "path": "/profile",
       "ok": true,
-      "durationMs": 1581,
+      "durationMs": 1139,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "个人中心 - 国航智慧贵宾室管理系统",
         "path": "/profile",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n个人中心\n直接读取 `/system/user/profile` 接口。\n刷新\n基础信息\n账号\tadmin\n昵称\t管理员\n邮箱\tadmin@example.com\n手机号\t13800000000\n组织信息\n角色\t超级管理员\n岗位\t管理员\n部门\t国航智慧贵宾室",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n个人中心\n管\n管理员\n首页\n个人中心\n个人中心\n直接读取新的 `/me` 接口。\n基础信息\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n辅助信息\n性别：2\n状态：启用\n备注：默认管理员",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1220,9 +561,7 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
@@ -1232,11 +571,11 @@
       "title": "个人资料",
       "path": "/profile/userInfo",
       "ok": true,
-      "durationMs": 1572,
+      "durationMs": 1212,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "个人资料 - 国航智慧贵宾室管理系统",
         "path": "/profile/userInfo",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n个人资料\n本页已接 `GET /system/user/profile` 和 `PUT /system/user/profile`。\n刷新\n账号信息\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n联系信息\n手机号：13800000000\n性别：1\n部门：国航智慧贵宾室\n昵称\n邮箱\n手机号\n性别\n女\n保存资料",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n个人资料\n管\n管理员\n首页\n个人资料\n个人资料\n本页对接新的 `/me` 与 `PUT /me`。\n当前账号\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n昵称\n邮箱\n手机号\n性别\n未知\n保存资料",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1244,9 +583,7 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],
@@ -1256,11 +593,11 @@
       "title": "修改密码",
       "path": "/profile/resetPwd",
       "ok": true,
-      "durationMs": 935,
+      "durationMs": 1139,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "修改密码 - 国航智慧贵宾室管理系统",
         "path": "/profile/resetPwd",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n修改密码\n本页已接 `PUT /system/user/profile/updatePwd`。\n旧密码\n新密码\n提交修改",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n修改密码\n管\n管理员\n首页\n修改密码\n修改密码\n本页对接 `PUT /me/password`。\n旧密码\n新密码\n提交修改",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1278,11 +615,11 @@
       "title": "头像上传",
       "path": "/profile/userAvatar",
       "ok": true,
-      "durationMs": 967,
+      "durationMs": 1091,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "头像上传 - 国航智慧贵宾室管理系统",
         "path": "/profile/userAvatar",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n头像设置\n头像上传与资料更新都已经走真实接口。\n上传头像\n选择图片\n上传\n上传结果\n文件名\t-\n访问地址\t-\n头像字段\t-",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n头像上传\n管\n管理员\n首页\n头像上传\n头像设置\n头像上传与资料更新都走新的文件与头像接口。\n上传头像\n选择图片\n上 传\n上传结果\n文件路径：-\n头像字段：-",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1297,139 +634,14 @@
       "httpErrors": []
     },
     {
-      "title": "字典数据",
-      "path": "/system/dict-data/index/1",
-      "ok": true,
-      "durationMs": 1837,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/dict-data/index/1",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n字典数据\n字典标签、键值、样式和默认值维护。\n刷新\n新增\n字典类型\n字典标签\n查询\n重置\n批量删除\n导出\n\t\nID\n\t\n排序\n\t\n标签\n\t\n键值\n\t\n类型\n\t\n样式属性\n\t\n回显样式\n\t\n默认\n\t\n状态\n\t\n操作\n\t\n15\n\t\n1\n\t\n默认\n\t\nDEFAULT\n\t\nsys_job_group\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n29\n\t\n1\n\t\n启用\n\t\n1\n\t\ntask_enable_type\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n27\n\t\n1\n\t\n图片\n\t\n1\n\t\npic_type\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n25\n\t\n1\n\t\n启用\n\t\n1\n\t\nphoto_enable_type\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n31\n\t\n1\n\t\n启用\n\t\n1\n\t\naudio_enable_type\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n23\n\t\n1\n\t\n启用\n\t\n1\n\t\ndevice_enable_type\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n21\n\t\n1\n\t\n可引导\n\t\n1\n\t\nregion_guide_flag\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n33\n\t\n1\n\t\n欢迎词\n\t\nwelcome\n\t\nwelcome_type\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n19\n\t\n1\n\t\n多功能机器人\n\t\n多功能机器人\n\t\nrobot_type\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n17\n\t\n1\n\t\n启用\n\t\n1\n\t\nrobot_enable_type\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n35\n\t\n1\n\t\n上架\n\t\n1\n\t\ndaily_menu_status\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n37\n\t\n1\n\t\n普通聊天\n\t\nNORMAL\n\t\nchat_event_type\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n11\n\t\n1\n\t\n新增\n\t\n1\n\t\nsys_oper_type\n\t\n-\n\t\nprimary\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n40\n\t\n1\n\t\n待处理\n\t\n0\n\t\nai_knowledge_base_status\n\t\n-\n\t\nwarning\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n9\n\t\n1\n\t\n正常\n\t\n0\n\t\nsys_notice_status\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n7\n\t\n1\n\t\n正常\n\t\n0\n\t\nsys_common_status\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n42\n\t\n1\n\t\n冷菜\n\t\n冷菜\n\t\nfood_type\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n5\n\t\n1\n\t\n是\n\t\nY\n\t\nsys_yes_no\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n3\n\t\n1\n\t\n正常\n\t\n0\n\t\nsys_normal_disable\n\t\n-\n\t\nsuccess\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n1\n\t\n1\n\t\n显示\n\t\n0\n\t\nsys_show_hide\n\t\n-\n\t\nprimary\n\t\n是\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n38\n\t\n2\n\t\n问答\n\t\nFAQ\n\t\nchat_event_type\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n36\n\t\n2\n\t\n下架\n\t\n0\n\t\ndaily_menu_status\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n2\n\t\n2\n\t\n隐藏\n\t\n1\n\t\nsys_show_hide\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n34\n\t\n2\n\t\n播报词\n\t\nbroadcast\n\t\nwelcome_type\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n41\n\t\n2\n\t\n已处理\n\t\n1\n\t\nai_knowledge_base_status\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n32\n\t\n2\n\t\n禁用\n\t\n0\n\t\naudio_enable_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n43\n\t\n2\n\t\n热菜\n\t\n热菜\n\t\nfood_type\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n30\n\t\n2\n\t\n禁用\n\t\n0\n\t\ntask_enable_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n26\n\t\n2\n\t\n禁用\n\t\n0\n\t\nphoto_enable_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n24\n\t\n2\n\t\n禁用\n\t\n0\n\t\ndevice_enable_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n22\n\t\n2\n\t\n不可引导\n\t\n0\n\t\nregion_guide_flag\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n20\n\t\n2\n\t\n迎宾机器人\n\t\n迎宾机器人\n\t\nrobot_type\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n18\n\t\n2\n\t\n禁用\n\t\n0\n\t\nrobot_enable_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n16\n\t\n2\n\t\n系统\n\t\nSYSTEM\n\t\nsys_job_group\n\t\n-\n\t\nsuccess\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n28\n\t\n2\n\t\n视频\n\t\n2\n\t\npic_type\n\t\n-\n\t\nwarning\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n12\n\t\n2\n\t\n修改\n\t\n2\n\t\nsys_oper_type\n\t\n-\n\t\nwarning\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n4\n\t\n2\n\t\n停用\n\t\n1\n\t\nsys_normal_disable\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n10\n\t\n2\n\t\n关闭\n\t\n1\n\t\nsys_notice_status\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n8\n\t\n2\n\t\n停用\n\t\n1\n\t\nsys_common_status\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n6\n\t\n2\n\t\n否\n\t\nN\n\t\nsys_yes_no\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n13\n\t\n3\n\t\n删除\n\t\n3\n\t\nsys_oper_type\n\t\n-\n\t\ndanger\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n44\n\t\n3\n\t\n甜品\n\t\n甜品\n\t\nfood_type\n\t\n-\n\t\nwarning\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n39\n\t\n3\n\t\n无命中\n\t\nNONE\n\t\nchat_event_type\n\t\n-\n\t\nwarning\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n14\n\t\n4\n\t\n导出\n\t\n5\n\t\nsys_oper_type\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\n\n\n\t\n45\n\t\n4\n\t\n饮料\n\t\n饮料\n\t\nfood_type\n\t\n-\n\t\ninfo\n\t\n否\n\t\n正常\n\t\n详情\n编辑\n删除\nTotal 45\n20/page\n1\n2\n3\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "角色授权",
-      "path": "/system/role-auth/user/1",
-      "ok": true,
-      "durationMs": 2012,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/role-auth/user/1",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n角色授权用户\n读取 `/system/role/authUser/allocatedList` 与 `/system/role/authUser/unallocatedList`。\n添加用户\n刷新\n角色 ID\n分配选中用户\n取消已分配\n已分配用户\n\t\n用户 ID\n\t\n账号\n\t\n昵称\n\t\n手机号\n\t\n1\n\t\nadmin\n\t\n管理员\n\t\n13800000000\n未分配用户\n\t\n用户 ID\n\t\n账号\n\t\n昵称\n\t\n手机号\n\t\n2\n\t\noperator\n\t\n运营人员\n\t\n13800000001",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "选择授权用户",
-      "path": "/system/role-auth/selectUser/1",
-      "ok": true,
-      "durationMs": 1610,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/role-auth/selectUser/1",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n选择用户\n读取未分配用户列表，并把勾选用户分配到指定角色。\n刷新\n角色 ID\n账号\n查询\n确认分配\n返回\n\t\n用户 ID\n\t\n账号\n\t\n昵称\n\t\n手机号\n\t\n2\n\t\noperator\n\t\n运营人员\n\t\n13800000001\nTotal 1\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "用户分配角色",
-      "path": "/system/user-auth/role/1",
-      "ok": true,
-      "durationMs": 1586,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/system/user-auth/role/1",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n用户授权角色\n读取 `/system/user/authRole/{userId}` 并提交角色授权。\n刷新\n用户 ID\n保存授权\n\t\n角色 ID\n\t\n角色名称\n\t\n权限标识\n\t\n已分配\n\t\n1\n\t\n超级管理员\n\t\nadmin\n\t\n是\n\n\n\t\n2\n\t\n普通运营\n\t\noperator\n\t\n否",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "调度日志详情",
-      "path": "/monitor/job/log/1",
-      "ok": true,
-      "durationMs": 1568,
-      "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
-        "path": "/monitor/job/log/1",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n调度日志\n定时任务执行日志、异常信息、执行状态和耗时统计。\n刷新\n任务名称\n任务组名\n任务组名\n执行状态\n执行状态\n查询\n重置\n批量删除\n清空\n导出\n关闭\n\t\nID\n\t\n任务名称\n\t\n任务组名\n\t\n调用目标字符串\n\t\n日志信息\n\t\n状态\n\t\n异常信息\n\t\n执行时间\n\t\n操作\n\t\n1\n\t\n演示心跳任务\n\t\nSYSTEM\n\t\nryTask.ryNoParams\n\t\n初始化示例日志\n\t\n成功\n\t\n-\n\t\n2026-05-10 13:03:15\n\t\n详情\n删除\nTotal 1\n20/page\n1\nGo to",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "刷新",
-        "查询",
-        "重置"
-      ],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
       "title": "桌台模型",
       "path": "/numberModel",
       "ok": true,
-      "durationMs": 1550,
+      "durationMs": 1258,
       "snapshot": {
-        "title": "国航智慧贵宾室管理系统",
+        "title": "桌台模型 - 国航智慧贵宾室管理系统",
         "path": "/numberModel",
-        "bodyText": "CA\n智慧贵宾室\n单体后台重建工程\n当前用户\t管理员\n账号\tadmin\n角色\tadmin\n系统管理\n监控管理\n机器人配置\n航班旅客\n休息室点餐\nAI知识库\n系统工具\n管理后台\n当前前端页面已直接对接本地运行中的单体 Spring Boot 后端。\n退出\n桌台模型\n桌台列表、桌态提交、机器人引导、查找和路径预览已接入真实接口。\n刷新桌台\n桌号\nA01\n餐饮区域\n空闲\n桌号\nA02\n餐饮区域\n空闲\n执行\n查找\n路径\n桌台动作提交\n桌台\nA01\n动作\n设为空闲\n设置翻台\n机器人引导\n提交动作",
+        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n桌台模型\n管\n管理员\n首页\n桌台模型\n桌号\nA01\nB区空闲\n桌号\nA02\nB区翻台\n\t\t\t\n\n\nNo data\n\nA01\nA02\n桌号\nA01\n\t\n区域\nB区\n\n\n坐标\n[520,180]\n\t\n状态\n0\n桌台\n选择桌台\n动作\n设为空闲\n设置翻台\n提交动作",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -1437,9 +649,7 @@
         "has401": false,
         "errorTexts": []
       },
-      "safeActions": [
-        "刷新桌台"
-      ],
+      "safeActions": [],
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],

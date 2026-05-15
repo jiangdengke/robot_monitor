@@ -1,45 +1,38 @@
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <el-row justify="space-between" align="middle">
-        <el-space direction="vertical" alignment="flex-start">
-          <el-text tag="b" size="large">{{ title }}</el-text>
-          <el-text type="info">{{ description }}</el-text>
-        </el-space>
-        <el-button type="primary" @click="$emit('refresh')">刷新</el-button>
-      </el-row>
+  <a-card :bordered="false">
+    <template #title>
+      <div class="data-page-title">
+        <div>
+          <div class="headline">{{ title }}</div>
+          <div class="desc">{{ description }}</div>
+        </div>
+        <a-button type="primary" @click="$emit('refresh')">刷新</a-button>
+      </div>
     </template>
-    <el-space direction="vertical" fill>
-      <el-row v-if="cards?.length" :gutter="16">
-        <el-col v-for="card in cards" :key="card.title" :xs="24" :md="8">
-          <el-card shadow="never">
-            <template #header>
-              <el-text tag="b">{{ card.title }}</el-text>
-            </template>
-            <el-space direction="vertical" alignment="flex-start">
-              <el-text v-for="line in card.lines" :key="line">{{ line }}</el-text>
-            </el-space>
-          </el-card>
-        </el-col>
-      </el-row>
-      <el-table v-if="columns?.length" :data="rows" border>
-        <el-table-column
-          v-for="column in columns"
-          :key="column.key"
-          :label="column.label"
-          :prop="column.key.includes('.') ? undefined : column.key"
-        >
-          <template #default="{ row }">
-            {{ renderCell(row, column) }}
-          </template>
-        </el-table-column>
-      </el-table>
-    </el-space>
-  </el-card>
+
+    <div class="data-page-body">
+      <div v-if="cards?.length" class="card-grid">
+        <a-card v-for="card in cards" :key="card.title" :title="card.title" :bordered="false">
+          <div class="info-lines">
+            <div v-for="line in card.lines" :key="line" class="info-line">{{ line }}</div>
+          </div>
+        </a-card>
+      </div>
+
+      <a-table
+        v-if="columns?.length"
+        :columns="tableColumns"
+        :data-source="rows"
+        :pagination="false"
+        :row-key="rowKey || 'id'"
+        size="middle"
+      />
+    </div>
+  </a-card>
 </template>
 
 <script setup>
-import { watch } from 'vue'
+import { computed, watch } from 'vue'
 import { toastError } from '@/utils/toast'
 
 const props = defineProps({
@@ -57,10 +50,17 @@ defineEmits(['refresh'])
 watch(
   () => props.errorMessage,
   (message) => {
-    if (message) {
-      toastError(message)
-    }
+    if (message) toastError(message)
   }
+)
+
+const tableColumns = computed(() =>
+  (props.columns || []).map((column) => ({
+    title: column.label,
+    key: column.key,
+    dataIndex: column.key.includes('.') ? undefined : column.key,
+    customRender: ({ record }) => renderCell(record, column)
+  }))
 )
 
 function getByPath(target, path) {
@@ -68,10 +68,49 @@ function getByPath(target, path) {
 }
 
 function renderCell(row, column) {
-  if (typeof column.render === 'function') {
-    return column.render(row)
-  }
+  if (typeof column.render === 'function') return column.render(row)
   const value = column.key.includes('.') ? getByPath(row, column.key) : row[column.key]
   return value === undefined || value === null || value === '' ? '-' : value
 }
 </script>
+
+<style scoped>
+.data-page-title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headline {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.desc {
+  margin-top: 4px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.data-page-body {
+  display: grid;
+  gap: 16px;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.info-lines {
+  display: grid;
+  gap: 8px;
+}
+
+.info-line {
+  color: #4b5563;
+  line-height: 1.6;
+}
+</style>

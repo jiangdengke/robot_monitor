@@ -1,14 +1,13 @@
 import { reactive } from 'vue'
 import { getToken, setToken } from '@/api/http'
-import { getRouters, getUserInfo, login as loginRequest } from '@/api/system'
+import { getUserInfo, login as loginRequest } from '@/api/system'
 
 const sessionState = reactive({
   token: getToken(),
   user: null,
   roles: [],
   permissions: [],
-  roomList: [],
-  routers: []
+  roomList: []
 })
 
 async function login(payload) {
@@ -23,16 +22,12 @@ async function hydrateSession() {
     return false
   }
 
-  const [infoResponse, routerResponse] = await Promise.all([
-    getUserInfo(),
-    getRouters()
-  ])
-
-  sessionState.user = infoResponse.user || null
-  sessionState.roles = infoResponse.roles || []
-  sessionState.permissions = infoResponse.permissions || []
-  sessionState.roomList = infoResponse.roomList || []
-  sessionState.routers = routerResponse.data || []
+  const infoResponse = await getUserInfo()
+  const payloadUser = infoResponse?.user ? infoResponse.user : infoResponse
+  sessionState.user = payloadUser || null
+  sessionState.roles = infoResponse?.roles || ['admin']
+  sessionState.permissions = infoResponse?.permissions || ['*:*:*']
+  sessionState.roomList = infoResponse?.roomList || []
   return true
 }
 
@@ -43,7 +38,6 @@ function clearSession() {
   sessionState.roles = []
   sessionState.permissions = []
   sessionState.roomList = []
-  sessionState.routers = []
 }
 
 export { clearSession, hydrateSession, login, sessionState }

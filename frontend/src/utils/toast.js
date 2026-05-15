@@ -1,14 +1,11 @@
-import { ElMessage } from 'element-plus'
+import { message } from 'ant-design-vue'
 
-export function showToast(type, message) {
-  if (!message) {
+export function showToast(type, content) {
+  if (!content) {
     return
   }
-  ElMessage({
-    type,
-    message,
-    grouping: true
-  })
+  const fn = messageMap[type] || message.open
+  fn({ content })
 }
 
 export function resolveFeedbackMessage(result, fallback = '') {
@@ -19,3 +16,10 @@ export const toastSuccess = (message) => showToast('success', message)
 export const toastError = (message) => showToast('error', message)
 export const toastWarning = (message) => showToast('warning', message)
 export const toastInfo = (message) => showToast('info', message)
+
+const messageMap = {
+  success: message.success,
+  error: message.error,
+  warning: message.warning,
+  info: message.info
+}

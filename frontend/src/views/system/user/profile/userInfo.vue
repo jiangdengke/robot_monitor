@@ -1,43 +1,38 @@
 <template>
-  <el-card shadow="never">
-    <template #header>
-      <el-row justify="space-between" align="middle">
-        <el-space direction="vertical" alignment="flex-start">
-          <el-text tag="b" size="large">个人资料</el-text>
-          <el-text type="info">本页已接 `GET /system/user/profile` 和 `PUT /system/user/profile`。</el-text>
-        </el-space>
-        <el-button type="primary" @click="loadProfile">刷新</el-button>
-      </el-row>
+  <a-card :bordered="false" class="page-card">
+    <template #title>
+      <div class="page-title">
+        <div class="headline">个人资料</div>
+        <div class="desc">本页对接新的 `/me` 与 `PUT /me`。</div>
+      </div>
     </template>
-    <el-row :gutter="16">
-      <el-col :xs="24" :md="12">
-        <InfoCard title="账号信息" :lines="[`账号：${profile.userName || '-'}`, `昵称：${profile.nickName || '-'}`, `邮箱：${profile.email || '-'}`]" />
-      </el-col>
-      <el-col :xs="24" :md="12">
-        <InfoCard title="联系信息" :lines="[`手机号：${profile.phonenumber || '-'}`, `性别：${profile.sex || '-'}`, `部门：${profile.dept?.deptName || '-'}`]" />
-      </el-col>
-    </el-row>
-    <el-divider />
-    <el-form label-position="top" @submit.prevent="handleSave">
-      <el-form-item label="昵称">
-        <el-input v-model="form.nickName" placeholder="昵称" />
-      </el-form-item>
-      <el-form-item label="邮箱">
-        <el-input v-model="form.email" placeholder="邮箱" />
-      </el-form-item>
-      <el-form-item label="手机号">
-        <el-input v-model="form.phonenumber" placeholder="手机号" />
-      </el-form-item>
-      <el-form-item label="性别">
-        <el-select v-model="form.sex">
-          <el-option label="男" value="0" />
-          <el-option label="女" value="1" />
-          <el-option label="未知" value="2" />
-        </el-select>
-      </el-form-item>
-      <el-button type="success" native-type="submit">保存资料</el-button>
-    </el-form>
-  </el-card>
+    <div class="profile-grid">
+      <InfoCard
+        title="当前账号"
+        :lines="[
+          `账号：${profile.username || '-'}`,
+          `昵称：${profile.nickname || '-'}`,
+          `邮箱：${profile.email || '-'}`,
+          `手机号：${profile.phone || '-'}`
+        ]"
+      />
+      <a-form layout="vertical" @finish="handleSave">
+        <a-form-item label="昵称">
+          <a-input v-model:value="form.nickname" />
+        </a-form-item>
+        <a-form-item label="邮箱">
+          <a-input v-model:value="form.email" />
+        </a-form-item>
+        <a-form-item label="手机号">
+          <a-input v-model:value="form.phone" />
+        </a-form-item>
+        <a-form-item label="性别">
+          <a-select v-model:value="form.sex" :options="sexOptions" />
+        </a-form-item>
+        <a-button html-type="submit" type="primary">保存资料</a-button>
+      </a-form>
+    </div>
+  </a-card>
 </template>
 
 <script setup>
@@ -47,39 +42,60 @@ import { getProfile, updateProfile } from '@/api/system'
 import { toastError, toastSuccess } from '@/utils/toast'
 
 const profile = ref({})
-const form = ref({ nickName: '', email: '', phonenumber: '', sex: '2' })
-const message = ref('')
+const form = ref({ nickname: '', email: '', phone: '', sex: '2' })
+
+const sexOptions = [
+  { label: '男', value: '0' },
+  { label: '女', value: '1' },
+  { label: '未知', value: '2' }
+]
 
 async function loadProfile() {
   try {
-    const response = await getProfile()
-    profile.value = response.data || {}
+    profile.value = await getProfile()
     form.value = {
-      nickName: profile.value.nickName || '',
+      nickname: profile.value.nickname || '',
       email: profile.value.email || '',
-      phonenumber: profile.value.phonenumber || '',
+      phone: profile.value.phone || '',
       sex: profile.value.sex || '2'
     }
-    if (!message.value || !message.value.includes('成功')) {
-      message.value = ''
-    }
   } catch (error) {
-    message.value = error?.payload?.msg || error?.message || '加载失败'
-    toastError(message.value)
+    toastError(error?.payload?.msg || error?.message || '加载失败')
   }
 }
 
 async function handleSave() {
   try {
     await updateProfile({ ...form.value })
-    message.value = '保存成功'
-    toastSuccess(message.value)
+    toastSuccess('保存成功')
     await loadProfile()
   } catch (error) {
-    message.value = error?.payload?.msg || error?.message || '保存失败'
-    toastError(message.value)
+    toastError(error?.payload?.msg || error?.message || '保存失败')
   }
 }
 
 onMounted(loadProfile)
 </script>
+
+<style scoped>
+.page-title {
+  display: grid;
+  gap: 4px;
+}
+
+.headline {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.desc {
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 16px;
+}
+</style>

@@ -1,138 +1,123 @@
 <template>
-  <div :class="['app-wrapper', { hideSidebar: sidebarCollapsed }]">
-    <aside class="sidebar-container">
-      <div class="sidebar-logo-container">
-        <img class="sidebar-logo" src="/legacy-dist/favicon-old.ico" alt="国航" />
-        <span class="sidebar-title">国航智慧贵宾室</span>
-      </div>
-      <el-scrollbar class="sidebar-scrollbar">
-        <el-menu
-          class="sidebar-menu"
-          :default-active="activeMenu"
-          :collapse="sidebarCollapsed"
-          :collapse-transition="false"
-          background-color="#304156"
-          text-color="#bfcbd9"
-          active-text-color="#409EFF"
-          unique-opened
-        >
-          <template v-for="group in menus" :key="group.path">
-            <el-menu-item v-if="!group.children?.length" :index="group.path" @click="go(group.path)">
-              <el-icon><component :is="resolveIcon(group.icon)" /></el-icon>
-              <span>{{ group.title }}</span>
-            </el-menu-item>
-            <el-sub-menu v-else :index="group.path">
-              <template #title>
-                <el-icon><component :is="resolveIcon(group.icon)" /></el-icon>
-                <span>{{ group.title }}</span>
-              </template>
-              <el-menu-item
-                v-for="item in group.children"
-                :key="item.path"
-                :index="item.path"
-                @click="go(item.path)"
-              >
-                <el-icon><component :is="resolveIcon(item.icon)" /></el-icon>
-                <span>{{ item.title }}</span>
-              </el-menu-item>
-            </el-sub-menu>
-          </template>
-        </el-menu>
-      </el-scrollbar>
-    </aside>
-
-    <section class="main-container">
-      <div class="navbar">
-        <div class="navbar-left">
-          <span class="hamburger-container" @click="sidebarCollapsed = !sidebarCollapsed">
-            <el-icon :size="20">
-              <Fold v-if="!sidebarCollapsed" />
-              <Expand v-else />
-            </el-icon>
-          </span>
-          <el-breadcrumb class="breadcrumb" separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="currentGroup">{{ currentGroup.title }}</el-breadcrumb-item>
-            <el-breadcrumb-item v-if="currentTitle">{{ currentTitle }}</el-breadcrumb-item>
-          </el-breadcrumb>
+  <a-layout class="app-shell">
+    <a-layout-sider
+      :collapsed="sidebarCollapsed"
+      :width="228"
+      :collapsed-width="84"
+      theme="dark"
+      class="shell-sider"
+    >
+      <div class="brand">
+        <img class="brand-logo" src="/legacy-dist/favicon-old.ico" alt="国航" />
+        <div v-if="!sidebarCollapsed" class="brand-copy">
+          <span class="brand-kicker">Air China</span>
+          <span class="brand-title">智慧贵宾室</span>
         </div>
-        <div class="navbar-right">
-          <el-dropdown trigger="click" @command="handleCommand">
-            <span class="avatar-wrapper">
-              <el-avatar class="user-avatar" shape="square">{{ avatarText }}</el-avatar>
-              <span>{{ displayName }}</span>
-              <el-icon><ArrowDown /></el-icon>
-            </span>
-            <template #dropdown>
-              <el-dropdown-menu>
-                <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-                <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
-              </el-dropdown-menu>
+      </div>
+
+      <a-menu :selected-keys="[activeMenu]" mode="inline" theme="dark">
+        <template v-for="group in menus" :key="group.path">
+          <a-menu-item v-if="!group.children?.length" :key="group.path" @click="go(group.path)">
+            <template #icon><component :is="resolveIcon(group.icon)" /></template>
+            <span>{{ group.title }}</span>
+          </a-menu-item>
+          <a-sub-menu v-else :key="group.path">
+            <template #icon><component :is="resolveIcon(group.icon)" /></template>
+            <template #title>{{ group.title }}</template>
+            <a-menu-item v-for="item in group.children" :key="item.path" @click="go(item.path)">
+              {{ item.title }}
+            </a-menu-item>
+          </a-sub-menu>
+        </template>
+      </a-menu>
+    </a-layout-sider>
+
+    <a-layout>
+      <a-layout-header class="shell-header">
+        <div class="header-left">
+          <a-button type="text" class="collapse-trigger" @click="sidebarCollapsed = !sidebarCollapsed">
+            <template #icon>
+              <MenuUnfoldOutlined v-if="sidebarCollapsed" />
+              <MenuFoldOutlined v-else />
             </template>
-          </el-dropdown>
+          </a-button>
+          <a-breadcrumb>
+            <a-breadcrumb-item>首页</a-breadcrumb-item>
+            <a-breadcrumb-item v-if="currentGroup">{{ currentGroup.title }}</a-breadcrumb-item>
+            <a-breadcrumb-item v-if="currentTitle">{{ currentTitle }}</a-breadcrumb-item>
+          </a-breadcrumb>
+        </div>
+        <div class="header-right">
+          <a-dropdown>
+            <a class="account-link" @click.prevent>
+              <a-avatar class="account-avatar">{{ avatarText }}</a-avatar>
+              <span>{{ displayName }}</span>
+              <DownOutlined />
+            </a>
+            <template #overlay>
+              <a-menu @click="({ key }) => handleCommand(key)">
+                <a-menu-item key="profile">个人中心</a-menu-item>
+                <a-menu-divider />
+                <a-menu-item key="logout">退出登录</a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+      </a-layout-header>
+
+      <div class="tags-bar">
+        <div
+          v-for="tag in visitedTags"
+          :key="tag.path"
+          :class="['tag-chip', { active: tag.path === route.path }]"
+          @click="go(tag.path)"
+        >
+          <span>{{ tag.title }}</span>
+          <CloseOutlined v-if="tag.path !== '/'" class="tag-close" @click.stop="closeTag(tag.path)" />
         </div>
       </div>
 
-      <div class="tags-view-container">
-        <div class="tags-view-wrapper">
-          <span
-            v-for="tag in visitedTags"
-            :key="tag.path"
-            :class="['tags-view-item', { active: tag.path === route.path }]"
-            @click="go(tag.path)"
-          >
-            {{ tag.title }}
-            <el-icon v-if="tag.path !== '/'" class="close" @click.stop="closeTag(tag.path)">
-              <Close />
-            </el-icon>
-          </span>
-        </div>
-      </div>
-
-      <main class="app-main">
+      <a-layout-content class="shell-content">
         <router-view />
-      </main>
-    </section>
-  </div>
+      </a-layout-content>
+    </a-layout>
+  </a-layout>
 </template>
 
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  ArrowDown,
-  Bell,
-  Box,
-  Calendar,
-  Camera,
-  Close,
-  CoffeeCup,
-  Cpu,
-  DataLine,
-  Document,
-  Edit,
-  Expand,
-  Files,
-  Fold,
-  Grid,
-  Headset,
-  Histogram,
-  House,
-  Key,
-  Location,
-  MapLocation,
-  Menu as MenuIcon,
-  Monitor,
-  Picture,
-  PieChart,
-  Platform,
-  ShoppingCart,
-  Tools,
-  User,
-  UserFilled,
-  VideoCamera,
-  Warning
-} from '@element-plus/icons-vue'
+  AlertOutlined,
+  ApartmentOutlined,
+  AppstoreOutlined,
+  BellOutlined,
+  CameraOutlined,
+  CoffeeOutlined,
+  ContainerOutlined,
+  DashboardOutlined,
+  DeploymentUnitOutlined,
+  DownOutlined,
+  FileImageOutlined,
+  FileSearchOutlined,
+  FormOutlined,
+  FundProjectionScreenOutlined,
+  MenuFoldOutlined,
+  MenuOutlined,
+  MenuUnfoldOutlined,
+  PictureOutlined,
+  ProfileOutlined,
+  ReadOutlined,
+  RobotOutlined,
+  ScheduleOutlined,
+  SettingOutlined,
+  SoundOutlined,
+  TableOutlined,
+  TeamOutlined,
+  UserOutlined,
+  VideoCameraOutlined,
+  CloseOutlined
+} from '@ant-design/icons-vue'
 import { clearSession, hydrateSession, sessionState } from '@/stores/session'
 import {
   buildFallbackMenus,
@@ -141,7 +126,6 @@ import {
   getMenuOrder,
   getMenuTitle,
   getParentPath,
-  joinMenuPath,
   normalizePath,
   sortByMenuOrder
 } from '@/utils/menuCatalog'
@@ -153,47 +137,47 @@ const sidebarCollapsed = ref(false)
 const visitedTags = ref([{ title: '首页', path: '/' }])
 
 const iconMap = {
-  system: Tools,
-  monitor: Monitor,
-  tool: Tools,
-  peoples: UserFilled,
-  people: User,
-  user: User,
-  tree: MenuIcon,
-  post: Files,
-  dict: Document,
-  edit: Edit,
-  message: Bell,
-  online: UserFilled,
-  log: Document,
-  logininfor: Key,
-  redis: Cpu,
-  job: Calendar,
-  server: Monitor,
-  druid: DataLine,
-  robot: Platform,
-  map: MapLocation,
-  image: Picture,
-  table: Grid,
-  sound: Headset,
-  'tree-table': MenuIcon,
-  'video-camera': VideoCamera,
-  documentation: Document,
-  'digital-twin-view': Monitor,
-  walk: Location,
-  chart: Histogram,
-  warning: Warning,
-  food: CoffeeCup,
-  menuPlan: Document,
-  shopping: ShoppingCart,
-  calendar: Calendar,
-  code: Document,
-  build: Tools,
-  swagger: Document,
-  dashboard: House,
-  list: MenuIcon,
-  camera: Camera,
-  box: Box
+  system: SettingOutlined,
+  monitor: DashboardOutlined,
+  tool: AppstoreOutlined,
+  peoples: TeamOutlined,
+  people: UserOutlined,
+  user: UserOutlined,
+  tree: ApartmentOutlined,
+  post: ProfileOutlined,
+  dict: ReadOutlined,
+  edit: FormOutlined,
+  message: BellOutlined,
+  online: TeamOutlined,
+  log: ContainerOutlined,
+  logininfor: ScheduleOutlined,
+  redis: DeploymentUnitOutlined,
+  job: ScheduleOutlined,
+  server: DashboardOutlined,
+  druid: FundProjectionScreenOutlined,
+  robot: RobotOutlined,
+  map: FundProjectionScreenOutlined,
+  image: PictureOutlined,
+  table: TableOutlined,
+  sound: SoundOutlined,
+  'tree-table': ApartmentOutlined,
+  'video-camera': VideoCameraOutlined,
+  documentation: ReadOutlined,
+  'digital-twin-view': FundProjectionScreenOutlined,
+  walk: FileSearchOutlined,
+  chart: DashboardOutlined,
+  warning: AlertOutlined,
+  food: CoffeeOutlined,
+  menuPlan: ProfileOutlined,
+  shopping: CoffeeOutlined,
+  calendar: ScheduleOutlined,
+  code: AppstoreOutlined,
+  build: AppstoreOutlined,
+  swagger: ReadOutlined,
+  dashboard: DashboardOutlined,
+  list: MenuOutlined,
+  camera: CameraOutlined,
+  box: FileImageOutlined
 }
 
 onMounted(async () => {
@@ -207,25 +191,12 @@ onMounted(async () => {
   }
 })
 
-const menus = computed(() => {
-  const availablePaths = session.routers?.length ? collectAvailablePaths(session.routers) : null
-  const source = buildFallbackMenus()
-    .map((group) => ({
-      ...group,
-      children: (group.children || []).filter((item) => !availablePaths || availablePaths.has(item.path))
-    }))
-    .filter((group) => {
-      if (!availablePaths) {
-        return group.path || group.children.length
-      }
-      return availablePaths.has(group.path) || group.children.length
-    })
-
-  return sortByMenuOrder(source, (group) => group.path).map((group) => ({
+const menus = computed(() =>
+  sortByMenuOrder(buildFallbackMenus(), (group) => group.path).map((group) => ({
     ...group,
     children: sortByMenuOrder(group.children || [], (item) => item.path)
   }))
-})
+)
 
 const flatMenus = computed(() =>
   menus.value.flatMap((group) =>
@@ -234,6 +205,7 @@ const flatMenus = computed(() =>
       : [{ ...group, parentPath: '' }]
   )
 )
+
 const activeMenu = computed(() => {
   const normalized = getCanonicalMenuPath(route.path)
   const matched = flatMenus.value
@@ -241,6 +213,7 @@ const activeMenu = computed(() => {
     .sort((left, right) => right.path.length - left.path.length)[0]
   return matched?.path || normalized
 })
+
 const currentItem = computed(() => flatMenus.value.find((item) => item.path === activeMenu.value))
 const currentGroup = computed(() => menus.value.find((group) => group.path === (currentItem.value?.parentPath || getParentPath(route.path))))
 const currentTitle = computed(() => getMenuTitle(route.path, route.meta?.title || currentItem.value?.title || ''))
@@ -253,58 +226,10 @@ watch(
   { immediate: true }
 )
 
-function normalizeRouterMenus(routers) {
-  return routers
-    .filter((group) => !group.hidden)
-    .map((group) => {
-      const groupPath = getCanonicalMenuPath(group.path)
-      const visibleChildren = (group.children || []).filter((child) => !child.hidden)
-      if (groupPath === '/' && visibleChildren.length === 1) {
-        const child = visibleChildren[0]
-        const path = getCanonicalMenuPath(joinMenuPath(groupPath, child.path))
-        return {
-          title: getMenuTitle(path, child.meta?.title || child.name || child.path),
-          path,
-          icon: getMenuIcon(path, child.meta?.icon || group.meta?.icon || ''),
-          children: []
-        }
-      }
-      return {
-        title: getMenuTitle(groupPath, group.meta?.title || group.name || group.path),
-        path: groupPath,
-        icon: getMenuIcon(groupPath, group.meta?.icon || ''),
-        children: visibleChildren
-          .map((child) => {
-            const path = getCanonicalMenuPath(joinMenuPath(groupPath, child.path))
-            return {
-              title: getMenuTitle(path, child.meta?.title || child.name || child.path),
-              path,
-              icon: getMenuIcon(path, child.meta?.icon || ''),
-              component: child.component || ''
-            }
-          })
-      }
-    })
-}
-
-function collectAvailablePaths(routers) {
-  return new Set(
-    normalizeRouterMenus(routers).flatMap((group) => {
-      const paths = [group.path]
-      for (const child of group.children || []) {
-        paths.push(child.path)
-      }
-      return paths.filter(Boolean)
-    })
-  )
-}
-
 function addCurrentTag() {
   const path = normalizePath(route.path)
   const title = currentTitle.value || '管理后台'
-  if (route.path === '/login' || route.path === '/register') {
-    return
-  }
+  if (route.path === '/login' || route.path === '/register') return
   if (!visitedTags.value.some((tag) => tag.path === path)) {
     visitedTags.value.push({ title, path, order: getMenuOrder(path) })
   } else {
@@ -313,7 +238,7 @@ function addCurrentTag() {
 }
 
 function resolveIcon(icon) {
-  return iconMap[icon] || iconMap[getMenuIcon(icon)] || Document
+  return iconMap[icon] || iconMap[getMenuIcon(icon)] || AppstoreOutlined
 }
 
 function go(path) {
@@ -323,9 +248,7 @@ function go(path) {
 function closeTag(path) {
   const normalized = normalizePath(path)
   const index = visitedTags.value.findIndex((tag) => tag.path === normalized)
-  if (index < 0) {
-    return
-  }
+  if (index < 0) return
   visitedTags.value.splice(index, 1)
   if (route.path === normalized) {
     const next = visitedTags.value[index - 1] || visitedTags.value[index] || visitedTags.value[0]
@@ -344,3 +267,110 @@ function handleCommand(command) {
   }
 }
 </script>
+
+<style scoped>
+.app-shell {
+  min-height: 100vh;
+}
+
+.shell-sider {
+  box-shadow: 2px 0 10px rgb(15 23 42 / 10%);
+}
+
+.brand {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 0 18px;
+  border-bottom: 1px solid rgb(255 255 255 / 8%);
+}
+
+.brand-logo {
+  width: 34px;
+  height: 34px;
+}
+
+.brand-copy {
+  display: grid;
+  line-height: 1.1;
+}
+
+.brand-kicker {
+  font-size: 11px;
+  color: rgb(255 255 255 / 55%);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.brand-title {
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+}
+
+.shell-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #fff;
+  padding: 0 20px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.header-left,
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.collapse-trigger {
+  color: #111827;
+}
+
+.account-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: #111827;
+}
+
+.account-avatar {
+  background: #1677ff;
+}
+
+.tags-bar {
+  display: flex;
+  gap: 8px;
+  padding: 10px 16px;
+  background: #fff;
+  border-bottom: 1px solid #f0f0f0;
+  overflow-x: auto;
+}
+
+.tag-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: #f5f5f5;
+  color: #4b5563;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tag-chip.active {
+  background: #1677ff;
+  color: #fff;
+}
+
+.tag-close {
+  font-size: 12px;
+}
+
+.shell-content {
+  padding: 16px;
+}
+</style>

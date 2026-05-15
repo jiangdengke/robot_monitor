@@ -1,3 +1,5 @@
+CREATE SCHEMA IF NOT EXISTS project;
+
 DROP TABLE IF EXISTS project.knowledge_base;
 DROP TABLE IF EXISTS project.operation_log;
 DROP TABLE IF EXISTS project.login_log;

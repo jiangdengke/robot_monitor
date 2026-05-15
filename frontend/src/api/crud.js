@@ -53,7 +53,7 @@ export function deleteResource(basePath, ids, method = 'DELETE') {
 export function uploadFiles(files) {
   const formData = new FormData()
   ;[...files].forEach((file) => formData.append('files', file))
-  return upload('/common/uploads', formData)
+  return upload('/files', formData)
 }
 
 export { normalizeRows, normalizeTotal }

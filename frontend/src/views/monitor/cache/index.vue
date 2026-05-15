@@ -119,8 +119,8 @@
 </template>
 
 <script setup>
+import { Modal } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
-import { ElMessageBox } from 'element-plus'
 import { clearCacheAll, clearCacheKey, clearCacheName, getCacheInfo, getCacheValue, listCacheKeys, listCacheNames } from '@/api/system'
 import { toastError, toastSuccess } from '@/utils/toast'
 
@@ -209,7 +209,7 @@ async function selectKey(row) {
 
 async function clearName(row) {
   try {
-    await ElMessageBox.confirm(`确认清理缓存名称"${row.cacheName}"？`, '清理确认', { type: 'warning' })
+    await confirmDialog('清理确认', `确认清理缓存名称"${row.cacheName}"？`)
     await clearCacheName(row.cacheName)
     successMessage.value = '缓存名称已清理'
     toastSuccess(successMessage.value)
@@ -225,7 +225,7 @@ async function clearName(row) {
 async function clearKey(row) {
   const cacheKey = row?.cacheKey || row
   try {
-    await ElMessageBox.confirm(`确认清理缓存键"${cacheKey}"？`, '清理确认', { type: 'warning' })
+    await confirmDialog('清理确认', `确认清理缓存键"${cacheKey}"？`)
     await clearCacheKey(cacheKey)
     successMessage.value = '缓存键已清理'
     toastSuccess(successMessage.value)
@@ -240,7 +240,7 @@ async function clearKey(row) {
 
 async function clearAll() {
   try {
-    await ElMessageBox.confirm('确认清理全部缓存？', '清理确认', { type: 'warning' })
+    await confirmDialog('清理确认', '确认清理全部缓存？')
     await clearCacheAll()
     successMessage.value = '全部缓存已清理'
     toastSuccess(successMessage.value)
@@ -265,4 +265,15 @@ function formatCacheKey(row) {
 }
 
 onMounted(loadAll)
+
+function confirmDialog(title, content) {
+  return new Promise((resolve, reject) => {
+    Modal.confirm({
+      title,
+      content,
+      onOk: resolve,
+      onCancel: () => reject('cancel')
+    })
+  })
+}
 </script>

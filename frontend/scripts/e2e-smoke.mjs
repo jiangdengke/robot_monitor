@@ -4,7 +4,7 @@ import { tmpdir } from 'node:os'
 import path from 'node:path'
 
 const FRONTEND_BASE_URL = process.env.E2E_FRONTEND_URL || 'http://127.0.0.1:4174'
-const BACKEND_BASE_URL = process.env.E2E_BACKEND_URL || 'http://127.0.0.1:7075/api'
+const BACKEND_BASE_URL = process.env.E2E_BACKEND_URL || 'http://127.0.0.1:8080'
 const USERNAME = process.env.E2E_USERNAME || 'admin'
 const PASSWORD = process.env.E2E_PASSWORD || 'admin123'
 const CHROME_BIN = process.env.CHROME_BIN || 'google-chrome-stable'
@@ -21,12 +21,6 @@ const EXTRA_ROUTES = [
   { title: '个人资料', path: '/profile/userInfo' },
   { title: '修改密码', path: '/profile/resetPwd' },
   { title: '头像上传', path: '/profile/userAvatar' },
-  { title: '视频资源', path: '/config/vedio' },
-  { title: '字典数据', path: '/system/dict-data/index/1' },
-  { title: '角色授权', path: '/system/role-auth/user/1' },
-  { title: '选择授权用户', path: '/system/role-auth/selectUser/1' },
-  { title: '用户分配角色', path: '/system/user-auth/role/1' },
-  { title: '调度日志详情', path: '/monitor/job/log/1' },
   { title: '桌台模型', path: '/numberModel' }
 ]
 
@@ -52,7 +46,7 @@ let sessionId
 let requestUrls = new Map()
 
 async function main() {
-  await ensureService(`${BACKEND_BASE_URL}/captchaImage`, 'backend')
+  await ensureService(`${BACKEND_BASE_URL}/auth/captcha`, 'backend')
   await ensureService(FRONTEND_BASE_URL, 'frontend')
 
   const token = await login()
@@ -97,40 +91,45 @@ async function ensureService(url, name) {
 }
 
 async function login() {
-  const response = await fetch(`${BACKEND_BASE_URL}/login`, {
+  const response = await fetch(`${BACKEND_BASE_URL}/auth/login`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ username: USERNAME, password: PASSWORD })
   })
   const payload = await response.json()
-  if (payload.code !== 200 || !payload.token) {
-    throw new Error(`login failed: ${payload.msg || response.status}`)
+  if (!payload.token) {
+    throw new Error(`login failed: ${response.status}`)
   }
   return payload.token
 }
 
 async function collectRoutes(token) {
-  const response = await fetch(`${BACKEND_BASE_URL}/getRouters`, {
-    headers: { Authorization: `Bearer ${token}` }
-  })
-  const payload = await response.json()
-  if (payload.code !== 200 || !Array.isArray(payload.data)) {
-    throw new Error(`getRouters failed: ${payload.msg || response.status}`)
-  }
-  const menuRoutes = []
-  for (const group of payload.data) {
-    for (const child of group.children || []) {
-      menuRoutes.push({
-        title: child.meta?.title || child.name || child.path,
-        path: joinRoute(group.path, child.path)
-      })
-    }
-  }
+  const menuRoutes = [
+    { title: '用户管理', path: '/system/user' },
+    { title: '在舱记录', path: '/statAnalysis/inLoungeList' },
+    { title: '准出记录', path: '/viewManagment/outGoing' },
+    { title: '准入记录', path: '/statAnalysis/goingStat' },
+    { title: '问询统计', path: '/statAnalysis/inquiry' },
+    { title: '引导统计', path: '/statAnalysis/guide' },
+    { title: '菜品管理', path: '/foodManagment/food' },
+    { title: '菜单计划', path: '/foodManagment/foodPlan' },
+    { title: '每日菜单', path: '/foodManagment/menuPlan' },
+    { title: '点餐订单', path: '/foodManagment/foodMenu' },
+    { title: '贵宾室', path: '/configManagment/vipRoom' },
+    { title: '功能区', path: '/configManagment/areaManagment' },
+    { title: '区域', path: '/configManagment/vipRoomRegion' },
+    { title: '餐桌管理', path: '/foodManagment/foodTable' },
+    { title: '摄像头', path: '/configManagment/monitorDevice' },
+    { title: '机器人', path: '/configManagment/robot' },
+    { title: '机器人音频', path: '/configManagment/robotAudio' },
+    { title: '音频', path: '/configManagment/audio' },
+    { title: '图片', path: '/configManagment/photo' },
+    { title: '任务列表', path: '/taskManagment/taskList' },
+    { title: '投诉记录', path: '/configManagment/complaintRecord' },
+    { title: '登录日志', path: '/monitor/logininfor' },
+    { title: '操作日志', path: '/monitor/operlog' }
+  ]
   return uniqueRoutes([...menuRoutes, ...EXTRA_ROUTES])
-}
-
-function joinRoute(parent, child) {
-  return `/${parent || ''}/${child || ''}`.replace(/\/+/g, '/')
 }
 
 function uniqueRoutes(routes) {
@@ -260,7 +259,7 @@ async function checkRoute(route) {
       title: document.title,
       path: location.pathname,
       bodyText: document.body.innerText.slice(0, 5000),
-      hasContent: !!document.querySelector('.content-shell, .page-card, .el-card, table, .el-table'),
+      hasContent: !!document.querySelector('.content-shell, .page-card, .ant-card, .el-card, table, .el-table, .ant-table'),
       hasLogin: location.pathname === '/login' || document.body.innerText.includes('登录系统'),
       errorHeading: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() || '',
       has404: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '404'

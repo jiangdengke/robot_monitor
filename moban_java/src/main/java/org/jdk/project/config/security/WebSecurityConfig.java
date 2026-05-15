@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.*;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
@@ -48,19 +47,6 @@ public class WebSecurityConfig {
     return authenticationConfiguration.getAuthenticationManager();
   }
 
-  /** 白名单接口匹配器。 */
-  @Bean
-  public RequestMatcher publicEndPointMatcher() {
-    return new OrRequestMatcher(
-        new AntPathRequestMatcher("/auth/sign-in", HttpMethod.POST.name()),
-        new AntPathRequestMatcher("/auth/sign-up", HttpMethod.POST.name()),
-        new AntPathRequestMatcher("/auth/captcha", HttpMethod.GET.name()),
-        new AntPathRequestMatcher("/v3/api-docs/**", HttpMethod.GET.name()),
-        new AntPathRequestMatcher("/swagger-ui/**", HttpMethod.GET.name()),
-        new AntPathRequestMatcher("/swagger-ui.html", HttpMethod.GET.name()),
-        new AntPathRequestMatcher("/error"));
-  }
-
   /** 安全过滤器链配置。 */
   @Bean
   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -75,7 +61,11 @@ public class WebSecurityConfig {
         .authorizeHttpRequests(
             authorize ->
                 authorize
-                    .requestMatchers(publicEndPointMatcher())
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/sign-up")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/auth/captcha", "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
+                    .permitAll()
+                    .requestMatchers("/error")
                     .permitAll()
                     .anyRequest()
                     .authenticated())

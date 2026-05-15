@@ -12,8 +12,8 @@ const catalog = [
     children: [
       ['在舱记录', '/statAnalysis/inLoungeList', 'people'],
       ['准出记录', '/viewManagment/outGoing', 'walk'],
-      ['问询统计', '/statAnalysis/questionStat', 'chart'],
-      ['引导统计', '/knowledgeManagment/ai/log', 'shopping'],
+      ['问询统计', '/statAnalysis/inquiry', 'message'],
+      ['引导统计', '/statAnalysis/guide', 'robot'],
       ['准入记录', '/statAnalysis/goingStat', 'chart']
     ]
   },
@@ -50,8 +50,7 @@ const catalog = [
       ['机器人音频', '/configManagment/robotAudio', 'sound'],
       ['音频', '/configManagment/audio', 'chart'],
       ['图片', '/configManagment/photo', 'image'],
-      ['任务列表', '/taskManagment/taskList', 'list'],
-      ['知识库列表', '/knowledgeManagment/ai/knowledge', 'box']
+      ['任务列表', '/taskManagment/taskList', 'list']
     ]
   },
   {
@@ -59,35 +58,8 @@ const catalog = [
     path: '/system',
     icon: 'system',
     children: [
-      ['用户管理', '/system/user', 'user'],
-      ['角色管理', '/system/role', 'peoples'],
-      ['菜单管理', '/system/menu', 'tree'],
-      ['字典管理', '/system/dict', 'dict'],
-      ['参数设置', '/system/config', 'edit']
+      ['用户管理', '/system/user', 'user']
     ]
-  },
-  {
-    title: '系统监控',
-    path: '/monitor',
-    icon: 'monitor',
-    children: [
-      ['在线用户', '/monitor/online', 'online'],
-      ['数据监控', '/monitor/druid', 'druid'],
-      ['服务监控', '/monitor/server', 'server'],
-      ['缓存监控', '/monitor/cache', 'redis']
-    ]
-  },
-  {
-    title: 'V17',
-    path: '/digitalTwin',
-    icon: 'digital-twin-view',
-    children: []
-  },
-  {
-    title: 'V15',
-    path: '/digitalTwin/v15',
-    icon: 'map',
-    children: []
   }
 ]
 
@@ -121,25 +93,15 @@ const auxiliaryRoutes = [
   ['个人资料', '/profile/userInfo', 'user'],
   ['修改密码', '/profile/resetPwd', 'lock'],
   ['头像上传', '/profile/userAvatar', 'user'],
-  ['字典数据', '/system/dict-data/index', 'dict'],
-  ['角色授权', '/system/role-auth/user', 'peoples'],
-  ['选择授权用户', '/system/role-auth/selectUser', 'peoples'],
-  ['用户分配角色', '/system/user-auth/role', 'user'],
-  ['命令日志', '/monitor/job/log', 'log'],
-  ['命令日志', '/monitor/job-log', 'log'],
   ['桌台模型', '/numberModel', 'table'],
-  ['数字孪生', '/flight/digitalTwin', 'digital-twin-view'],
-  ['部门管理', '/system/dept', 'tree'],
-  ['岗位管理', '/system/post', 'post'],
-  ['通知公告', '/system/notice', 'message'],
   ['点餐订单', '/foodManagment/foodMenu', 'shopping'],
   ['投诉记录', '/configManagment/complaintRecord', 'message'],
   ['视频资源', '/configManagment/vedio', 'video-camera'],
-  ['定时任务', '/monitor/job', 'job']
+  ['问询统计', '/statAnalysis/inquiry', 'message'],
+  ['引导统计', '/statAnalysis/guide', 'robot']
 ]
 
 const canonicalAliases = [
-  ['/monitor/job/log', '/monitor/job-log'],
   ['/config/robot', '/configManagment/robot'],
   ['/config/photo', '/configManagment/photo'],
   ['/config/audio', '/configManagment/audio'],
@@ -152,20 +114,14 @@ const canonicalAliases = [
   ['/config/complaintRecord', '/configManagment/complaintRecord'],
   ['/config/table', '/foodManagment/foodTable'],
   ['/config/task', '/taskManagment/taskList'],
-  ['/flight/digitalTwin', '/digitalTwin'],
   ['/flight/passenger', '/statAnalysis/inLoungeList'],
-  ['/flight/flightInfo', '/statAnalysis/moveStat'],
-  ['/flight/passengerWarning', '/statAnalysis/passengerWarningLog'],
-  ['/flight/questionStat', '/statAnalysis/questionStat'],
   ['/flight/goingStat', '/statAnalysis/goingStat'],
   ['/flight/outGoing', '/viewManagment/outGoing'],
   ['/food/foodConfig', '/foodManagment/food'],
   ['/food/dailyMenu', '/foodManagment/menuPlan'],
   ['/food/foodOrder', '/foodManagment/foodMenu'],
   ['/food/foodTable', '/foodManagment/foodTable'],
-  ['/food/foodPlan', '/foodManagment/foodPlan'],
-  ['/ai/knowledge', '/knowledgeManagment/ai/knowledge'],
-  ['/ai/log', '/knowledgeManagment/ai/log']
+  ['/food/foodPlan', '/foodManagment/foodPlan']
 ]
 
 const aliasByPath = new Map(canonicalAliases.map(([alias, canonical]) => [normalizePath(alias), normalizePath(canonical)]))

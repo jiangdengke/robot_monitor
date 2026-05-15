@@ -8,6 +8,7 @@ plugins {
     // Java 支持
     java
     `java-library`
+    application
     // 覆盖率
     jacoco
     // Spring Boot 插件与依赖管理
@@ -77,6 +78,7 @@ dependencies {
     implementation("com.auth0:java-jwt:4.4.0")
 
     implementation("com.github.ben-manes.caffeine:caffeine:3.2.1")
+    runtimeOnly("com.h2database:h2:2.2.224")
 
     // 运行时依赖
     runtimeOnly("com.mysql:mysql-connector-j:8.2.0")
@@ -110,6 +112,15 @@ tasks.register("generateOpenApiDoc") {
 // 配置 BootJar 名称
 tasks.withType<BootJar> {
     archiveFileName.set("jiangdk.jar")
+}
+
+application {
+    mainClass.set("org.jdk.project.ApplicationService")
+}
+
+tasks.named<JavaExec>("run") {
+    dependsOn("classes")
+    jvmArgs = listOf("-Dfile.encoding=UTF-8")
 }
 
 tasks.named("compileJava") {

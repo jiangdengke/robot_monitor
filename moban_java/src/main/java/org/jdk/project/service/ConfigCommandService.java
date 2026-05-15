@@ -339,6 +339,16 @@ public class ConfigCommandService {
   }
 
   @Transactional
+  public void updateTableStatus(Long id, String status) {
+    ensureUpdated(
+        dsl.update(DINING_TABLE)
+            .set(DINING_TABLE.STATUS, defaultString(status, "IDLE"))
+            .where(DINING_TABLE.ID.eq(id))
+            .execute(),
+        "餐桌不存在");
+  }
+
+  @Transactional
   public void deleteTable(Long id) {
     dsl.deleteFrom(DINING_TABLE).where(DINING_TABLE.ID.eq(id)).execute();
   }

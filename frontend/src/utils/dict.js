@@ -1,37 +1,18 @@
-import { getDictDataByType } from '@/api/system'
-
 const dictCache = new Map()
 
-const tagClassMap = {
-  default: '',
-  primary: 'primary',
-  success: 'success',
-  info: 'info',
-  warning: 'warning',
-  danger: 'danger'
+const staticDicts = {
+  sys_normal_disable: [
+    { label: '正常', value: '0', type: 'success' },
+    { label: '停用', value: '1', type: 'error' }
+  ]
 }
 
 async function loadDictOptions(dictType) {
   if (!dictType) return []
-  if (dictCache.has(dictType)) {
-    return dictCache.get(dictType)
-  }
-  try {
-    const response = await getDictDataByType(dictType)
-    const rows = response.data || response.rows || []
-    const options = rows.map((row) => ({
-      label: row.dictLabel,
-      value: row.dictValue,
-      type: tagClassMap[row.listClass] || row.listClass || '',
-      cssClass: row.cssClass || '',
-      raw: row
-    }))
-    dictCache.set(dictType, options)
-    return options
-  } catch {
-    dictCache.set(dictType, [])
-    return []
-  }
+  if (dictCache.has(dictType)) return dictCache.get(dictType)
+  const options = staticDicts[dictType] || []
+  dictCache.set(dictType, options)
+  return options
 }
 
 function resolveDictLabel(options, value) {
@@ -41,7 +22,7 @@ function resolveDictLabel(options, value) {
 
 function resolveDictTagType(options, value) {
   const matched = (options || []).find((item) => String(item.value) === String(value))
-  return matched?.type || 'info'
+  return matched?.type || 'default'
 }
 
 function clearDictCache(dictType) {

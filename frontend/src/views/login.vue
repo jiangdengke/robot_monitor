@@ -1,30 +1,29 @@
 <template>
-  <el-container>
-    <el-main>
-      <el-card shadow="never">
-        <template #header>
-          <el-space direction="vertical" alignment="flex-start">
-            <el-text type="primary">Air China Lounge Ops</el-text>
-            <el-text tag="b" size="large">国航智慧贵宾室管理系统</el-text>
-            <el-text type="info">当前前端已切换为可维护的 `.vue` 源码页面，直接对接本地单体 Spring Boot 后端。</el-text>
-          </el-space>
+  <div class="login-page">
+    <div class="login-panel">
+      <a-card :bordered="false">
+        <template #title>
+          <div class="login-title">
+            <div class="eyebrow">Air China Lounge Ops</div>
+            <div class="headline">国航智慧贵宾室管理系统</div>
+            <div class="desc">前端正在切换为 Ant Design Vue，并对接新的单体后端 API。</div>
+          </div>
         </template>
-        <el-form label-position="top">
-          <el-form-item label="账号">
-            <el-input v-model="form.username" autocomplete="username" placeholder="请输入账号" />
-          </el-form-item>
-          <el-form-item label="密码">
-            <el-input v-model="form.password" type="password" autocomplete="current-password" placeholder="请输入密码" show-password />
-          </el-form-item>
-        </el-form>
 
-        <el-divider />
-        <el-button :loading="submitting" type="primary" @click="handleSubmit">
-          {{ submitting ? '登录中...' : '登录系统' }}
-        </el-button>
-      </el-card>
-    </el-main>
-  </el-container>
+        <a-form layout="vertical" @finish="handleSubmit">
+          <a-form-item label="账号" name="username">
+            <a-input v-model:value="form.username" autocomplete="username" placeholder="请输入账号" />
+          </a-form-item>
+          <a-form-item label="密码" name="password">
+            <a-input-password v-model:value="form.password" autocomplete="current-password" placeholder="请输入密码" />
+          </a-form-item>
+          <a-button html-type="submit" type="primary" block :loading="submitting">
+            {{ submitting ? '登录中...' : '登录系统' }}
+          </a-button>
+        </a-form>
+      </a-card>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -62,3 +61,43 @@ async function handleSubmit() {
 
 toastInfo('当前默认账号：admin；当前默认密码：admin123')
 </script>
+
+<style scoped>
+.login-page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background:
+    radial-gradient(circle at top left, rgb(19 79 92 / 18%), transparent 38%),
+    linear-gradient(135deg, #f6f8fb 0%, #eef3f7 100%);
+}
+
+.login-panel {
+  width: min(100%, 420px);
+}
+
+.login-title {
+  display: grid;
+  gap: 8px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: #1677ff;
+}
+
+.headline {
+  font-size: 24px;
+  font-weight: 700;
+  color: #111827;
+}
+
+.desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #6b7280;
+}
+</style>

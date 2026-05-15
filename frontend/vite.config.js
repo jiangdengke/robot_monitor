@@ -14,20 +14,13 @@ export default defineConfig({
     port: 4174,
     proxy: {
       '/api': {
-        target: 'http://127.0.0.1:7075',
-        changeOrigin: true
+        target: 'http://127.0.0.1:8081',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, '')
       }
     }
   },
   build: {
-    chunkSizeWarningLimit: 1200,
-    rollupOptions: {
-      output: {
-        manualChunks: {
-          vue: ['vue', 'vue-router'],
-          element: ['element-plus', '@element-plus/icons-vue']
-        }
-      }
-    }
+    chunkSizeWarningLimit: 1200
   }
 })

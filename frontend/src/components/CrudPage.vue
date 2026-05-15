@@ -79,9 +79,9 @@
           <span v-else>{{ displayValue(row, column) }}</span>
         </template>
       </el-table-column>
-      <el-table-column v-if="enableEdit || enableDelete || showDetail || rowActions.length" label="操作" fixed="right" :width="operationWidth">
+      <el-table-column v-if="canEdit || canDelete || canShowDetail || rowActions.length" label="操作" fixed="right" :width="operationWidth">
         <template #default="{ row }">
-          <el-button v-if="showDetail" link type="primary" @click="openDetail(row)">详情</el-button>
+          <el-button v-if="canShowDetail" link type="primary" @click="openDetail(row)">详情</el-button>
           <el-button v-if="canEdit" link type="primary" @click="openEdit(row)">编辑</el-button>
           <el-button
             v-for="action in visibleRowActions"
@@ -247,7 +247,7 @@
 
     <el-dialog v-model="uploadVisible" title="上传文件" width="520px">
       <el-upload drag multiple :auto-upload="false" :on-change="handleUploadChange">
-        <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
+        <el-icon class="el-icon--upload"><InboxOutlined /></el-icon>
         <div class="el-upload__text">拖入文件或点击选择</div>
       </el-upload>
       <template #footer>
@@ -285,7 +285,7 @@
 
     <el-dialog v-model="importVisible" title="导入数据" width="520px">
       <el-upload drag :auto-upload="false" :limit="1" :on-change="handleImportChange">
-        <el-icon class="el-icon--upload"><UploadFilled /></el-icon>
+        <el-icon class="el-icon--upload"><InboxOutlined /></el-icon>
         <div class="el-upload__text">拖入 Excel 文件或点击选择</div>
       </el-upload>
       <el-checkbox v-model="importUpdateSupport">更新已存在数据</el-checkbox>
@@ -300,8 +300,8 @@
 <script setup>
 import { computed, onMounted, reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { ElMessage, ElMessageBox } from 'element-plus'
-import { UploadFilled } from '@element-plus/icons-vue'
+import { message, Modal } from 'ant-design-vue'
+import { InboxOutlined } from '@ant-design/icons-vue'
 import { createResource, deleteResource, getResource, listResource, normalizeRows, normalizeTotal, updateResource, uploadFiles } from '@/api/crud'
 import { request } from '@/api/http'
 import { loadDictOptions, resolveDictLabel, resolveDictTagType } from '@/utils/dict'
@@ -311,13 +311,18 @@ import { resolveFeedbackMessage } from '@/utils/toast'
 const props = defineProps({
   title: { type: String, required: true },
   description: { type: String, default: '' },
-  basePath: { type: String, required: true },
+  basePath: { type: String, default: '' },
+  list: { type: Function, default: null },
+  create: { type: Function, default: null },
+  update: { type: Function, default: null },
+  remove: { type: Function, default: null },
+  detail: { type: Function, default: null },
   listPath: { type: String, default: '' },
   listMethod: { type: String, default: 'GET' },
   rowKey: { type: String, required: true },
   columns: { type: Array, default: () => [] },
-  searchFields: { type: Array, default: () => [] },
-  formFields: { type: Array, default: () => [] },
+  searchFields: { type: [Array, Function], default: () => [] },
+  formFields: { type: [Array, Function], default: () => [] },
   defaults: { type: Object, default: () => ({}) },
   initialQuery: { type: Object, default: () => ({}) },
   transformRows: { type: Function, default: null },
@@ -421,7 +426,7 @@ const defaultIcons = [
   'Edit',
   'Delete',
   'Plus',
-  'UploadFilled',
+  'InboxOutlined',
   'Download',
   'Refresh'
 ]
@@ -429,9 +434,15 @@ const defaultIcons = [
 const visibleFormFields = computed(() =>
   resolvedFormFields.value.filter((field) => !field.hidden?.({ form, mode: formMode.value }))
 )
-const canCreate = computed(() => props.enableCreate && canAction('add'))
-const canEdit = computed(() => props.enableEdit && canAction('edit'))
-const canDelete = computed(() => props.enableDelete && canAction('remove'))
+const hasListHandler = computed(() => typeof props.list === 'function' || Boolean(props.listPath || props.basePath))
+const hasCreateHandler = computed(() => typeof props.create === 'function' || Boolean(props.createPath || props.basePath))
+const hasUpdateHandler = computed(() => typeof props.update === 'function' || Boolean(props.updatePath || props.basePath))
+const hasDeleteHandler = computed(() => typeof props.remove === 'function' || Boolean(props.deletePath || props.basePath))
+const hasDetailHandler = computed(() => typeof props.detail === 'function' || Boolean(props.detailLoader || props.detailPath || props.basePath))
+const canCreate = computed(() => props.enableCreate && hasCreateHandler.value && canAction('add'))
+const canEdit = computed(() => props.enableEdit && hasUpdateHandler.value && canAction('edit'))
+const canDelete = computed(() => props.enableDelete && hasDeleteHandler.value && canAction('remove'))
+const canShowDetail = computed(() => props.showDetail && hasDetailHandler.value)
 const visibleHeaderActions = computed(() => props.headerActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
 const visibleRowActions = computed(() => props.rowActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
 
@@ -484,11 +495,8 @@ function showMessage(type, message) {
   if (!message) {
     return
   }
-  ElMessage({
-    type,
-    message,
-    grouping: true
-  })
+  const fn = messageMap[type] || messageMap.info
+  fn(message)
 }
 
 async function hydrateDictColumns() {
@@ -515,6 +523,11 @@ async function resolveSearchFields() {
 }
 
 async function loadRows() {
+  if (!hasListHandler.value) {
+    rows.value = []
+    total.value = 0
+    return
+  }
   loading.value = true
   errorMessage.value = ''
   try {
@@ -522,7 +535,9 @@ async function loadRows() {
       ...(props.pagination ? { pageNum: pageNum.value, pageSize: pageSize.value } : {}),
       ...query
     }
-    const payload = props.listPath
+    const payload = typeof props.list === 'function'
+      ? await props.list(params)
+      : props.listPath
       ? await request(props.listPath, { method: props.listMethod, query: params })
       : await listResource(props.basePath, params, props.listMethod)
     const normalizedRows = normalizeRows(payload)
@@ -578,7 +593,7 @@ async function openEdit(row) {
   errorMessage.value = ''
   try {
     const response = await loadDetail(row)
-    const detailData = props.transformDetail ? await props.transformDetail(response, row) : (response.data || row)
+    const detailData = props.transformDetail ? await props.transformDetail(response, row) : (response?.data || response || row)
     resetObject(form, { ...props.defaults, ...detailData })
     await resolveFormFields({ mode: 'edit', row, response, form: { ...form } })
     formVisible.value = true
@@ -589,12 +604,23 @@ async function openEdit(row) {
   }
 }
 
-function openDetail(row) {
+async function openDetail(row) {
   detail.value = row
+  if (hasDetailHandler.value) {
+    try {
+      const response = await loadDetail(row)
+      detail.value = props.transformDetail ? await props.transformDetail(response, row) : (response?.data || response || row)
+    } catch {
+      detail.value = row
+    }
+  }
   detailVisible.value = true
 }
 
 async function loadDetail(row) {
+  if (props.detail) {
+    return props.detail(row)
+  }
   if (props.detailLoader) {
     return props.detailLoader(row)
   }
@@ -612,13 +638,15 @@ async function submitForm() {
     const normalizedPayload = normalizeSubmitPayload({ ...form }, resolvedFormFields.value)
     const payload = props.beforeSubmit ? props.beforeSubmit(normalizedPayload, formMode.value) : normalizedPayload
     if (formMode.value === 'create') {
-      const path = props.createPath || props.basePath
-      const response = await createResource(path, payload, props.createMethod)
+      const response = props.create
+        ? await props.create(payload)
+        : await createResource(props.createPath || props.basePath, payload, props.createMethod)
       successMessage.value = resolveFeedbackMessage(response, '新增成功')
       showMessage('success', successMessage.value)
     } else {
-      const path = props.updatePath || props.basePath
-      const response = await updateResource(path, payload, props.updateMethod)
+      const response = props.update
+        ? await props.update(payload)
+        : await updateResource(props.updatePath || props.basePath, payload, props.updateMethod)
       successMessage.value = resolveFeedbackMessage(response, '保存成功')
       showMessage('success', successMessage.value)
     }
@@ -709,7 +737,7 @@ async function handleSwitchChange(column, row, value) {
 async function runHeaderAction(action) {
   try {
     if (action.confirm) {
-      await ElMessageBox.confirm(action.confirm, action.confirmTitle || '操作确认', { type: action.confirmType || 'warning' })
+      await confirmDialog(action.confirmTitle || '操作确认', action.confirm)
     }
     if (action.kind === 'import') {
       importVisible.value = true
@@ -755,7 +783,7 @@ async function runRowAction(action, row) {
       return
     }
     if (action.confirm) {
-      await ElMessageBox.confirm(typeof action.confirm === 'function' ? action.confirm(row) : action.confirm, action.confirmTitle || '操作确认', { type: action.confirmType || 'warning' })
+      await confirmDialog(action.confirmTitle || '操作确认', typeof action.confirm === 'function' ? action.confirm(row) : action.confirm)
     }
     const response = await action.handler?.(row, { loadRows })
     successMessage.value = resolveFeedbackMessage(response, action.successMessage || '操作成功')
@@ -801,9 +829,10 @@ async function deleteOne(row) {
 
 async function deleteByIds(ids) {
   try {
-    await ElMessageBox.confirm('确认删除所选数据？', '删除确认', { type: 'warning' })
-    const path = props.deletePath || props.basePath
-    const response = await deleteResource(path, ids, props.deleteMethod)
+    await confirmDialog('删除确认', '确认删除所选数据？')
+    const response = props.remove
+      ? await props.remove(ids)
+      : await deleteResource(props.deletePath || props.basePath, ids, props.deleteMethod)
     successMessage.value = resolveFeedbackMessage(response, '删除成功')
     showMessage('success', successMessage.value)
     await loadRows()
@@ -861,4 +890,22 @@ onMounted(() => {
   resetObject(query, props.initialQuery)
   Promise.all([hydrateDictColumns(), resolveSearchFields()]).finally(loadRows)
 })
+
+function confirmDialog(title, content) {
+  return new Promise((resolve, reject) => {
+    Modal.confirm({
+      title,
+      content,
+      onOk: resolve,
+      onCancel: () => reject('cancel')
+    })
+  })
+}
+
+const messageMap = {
+  success: message.success,
+  error: message.error,
+  warning: message.warning,
+  info: message.info
+}
 </script>

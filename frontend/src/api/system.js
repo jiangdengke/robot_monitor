@@ -1,493 +1,187 @@
-import { downloadFile, request, upload } from './http'
+import { request, upload } from './http'
 
 export const login = (payload) =>
-  request('/login', {
+  request('/auth/login', {
     method: 'POST',
     body: JSON.stringify(payload)
   })
 
-export const getCaptchaImage = () => request('/captchaImage')
+export const getCaptchaImage = () => request('/auth/captcha')
 
 export const registerAccount = (payload) =>
-  request('/register', {
+  request('/auth/sign-up', {
     method: 'POST',
     body: JSON.stringify(payload)
   })
 
-export const getUserInfo = () => request('/getInfo')
+export const getUserInfo = () => request('/auth/me')
 
-export const getRouters = () => request('/getRouters')
-
-export const getProfile = () => request('/system/user/profile')
+export const getProfile = () => request('/me')
 
 export const updateProfile = (payload) =>
-  request('/system/user/profile', {
+  request('/me', {
     method: 'PUT',
     body: JSON.stringify(payload)
   })
 
 export const updatePassword = (oldPassword, newPassword) =>
-  request('/system/user/profile/updatePwd', {
+  request('/me/password', {
     method: 'PUT',
-    query: {
-      oldPassword,
-      newPassword
-    }
+    query: { oldPassword, newPassword }
   })
 
-export const updateAvatar = (avatar) =>
-  request('/system/user/profile/avatar', {
+export const updateAvatar = (avatarUrl) =>
+  request('/me/avatar', {
     method: 'PUT',
-    query: { avatar }
+    query: { avatarUrl }
   })
 
-export const getUserDetail = (userId) => request(`/system/user/${userId}`)
-
-export const getRoleDetail = (roleId) => request(`/system/role/${roleId}`)
-
-export const getMenuDetail = (menuId) => request(`/system/menu/${menuId}`)
-
-export const getDeptDetail = (deptId) => request(`/system/dept/${deptId}`)
-
-export const getPostDetail = (postId) => request(`/system/post/${postId}`)
-
-export const getConfigDetail = (configId) => request(`/system/config/${configId}`)
-
-export const getNoticeDetail = (noticeId) => request(`/system/notice/${noticeId}`)
-
-export const getRobotDetail = (id) => request(`/config/robot/${id}`)
-
-export const getAreaDetail = (id) => request(`/config/area/${id}`)
-
-export const getDeviceDetail = (id) => request(`/config/device/${id}`)
-
-export const getImageDetail = (id) => request(`/config/img/${id}`)
-
-export const getAudioDetail = (id) => request(`/config/audio/${id}`)
-
-export const getRobotAudioDetail = (id) => request(`/config/robotAudio/${id}`)
-
-export const getTaskDetail = (id) => request(`/config/task/${id}`)
-
-export const getKnowledgeDetail = (id) => request(`/ai/knowledge/${id}`)
-
-export const addKnowledge = (payload) =>
-  request('/ai/knowledge', {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
-
-export const editKnowledge = (payload) =>
-  request('/ai/knowledge', {
-    method: 'PUT',
-    body: JSON.stringify(payload)
-  })
-
-export const enableKnowledge = (ids) =>
-  request('/ai/knowledge/enable', {
-    method: 'POST',
-    body: JSON.stringify(ids)
-  })
-
-export const disableKnowledge = (ids) =>
-  request('/ai/knowledge/disable', {
-    method: 'POST',
-    body: JSON.stringify(ids)
-  })
-
-export const embeddingKnowledge = (ids) =>
-  request('/ai/knowledge/embedding', {
-    method: 'POST',
-    body: JSON.stringify(ids)
-  })
-
-export const deleteKnowledge = (ids) =>
-  request(`/ai/knowledge/${ids.join(',')}`, {
-    method: 'DELETE'
-  })
-
-export const listUsers = (query = {}) =>
-  request('/system/user/list', {
-    query
-  })
-
-export const listRoles = (query = {}) =>
-  request('/system/role/list', {
-    query
-  })
-
-export const listMenus = (query = {}) =>
-  request('/system/menu/list', {
-    query
-  })
-
-export const listDepts = (query = {}) =>
-  request('/system/dept/list', {
-    query
-  })
-
-export const listPosts = (query = {}) =>
-  request('/system/post/list', {
-    query
-  })
-
-export const listConfigs = (query = {}) =>
-  request('/system/config/list', {
-    query
-  })
-
-export const listNotices = (query = {}) =>
-  request('/system/notice/list', {
-    query
-  })
-
-export const listOnlineUsers = (query = {}) =>
-  request('/monitor/online/list', {
-    query
-  })
-
-export const listOperLogs = (query = {}) =>
-  request('/monitor/operlog/list', {
-    query
-  })
-
-export const listLogininfor = (query = {}) =>
-  request('/monitor/logininfor/list', {
-    query
-  })
-
-export const getServerInfo = () => request('/monitor/server')
-
-export const getCacheInfo = () => request('/monitor/cache')
-
-export const listCacheNames = () => request('/monitor/cache/getNames')
-
-export const listCacheKeys = (cacheName) =>
-  request(`/monitor/cache/getKeys/${encodeURIComponent(cacheName)}`)
-
-export const getCacheValue = (cacheName, cacheKey) =>
-  request(`/monitor/cache/getValue/${encodeURIComponent(cacheName)}/${encodeURIComponent(cacheKey)}`)
-
-export const clearCacheName = (cacheName) =>
-  request(`/monitor/cache/clearCacheName/${encodeURIComponent(cacheName)}`, {
-    method: 'DELETE'
-  })
-
-export const clearCacheKey = (cacheKey) =>
-  request(`/monitor/cache/clearCacheKey/${encodeURIComponent(cacheKey)}`, {
-    method: 'DELETE'
-  })
-
-export const clearCacheAll = () => request('/monitor/cache/clearCacheAll', { method: 'DELETE' })
-
-export const listConfigRobots = (query = {}) =>
-  request('/config/robot/list', {
-    query
-  })
-
-export const listConfigRegions = (query = {}) =>
-  request('/config/region/list', {
-    query
-  })
-
-export const listConfigAreas = (query = {}) =>
-  request('/config/area/list', {
-    query
-  })
-
-export const listConfigImages = (query = {}) =>
-  request('/config/img/list', {
-    query
-  })
-
-export const listConfigTables = (query = {}) =>
-  request('/config/table/list', {
-    query
-  })
-
-export const listConfigAudios = (query = {}) =>
-  request('/config/audio/list', {
-    query
-  })
-
-export const listConfigRobotAudios = (query = {}) =>
-  request('/config/robotAudio/list', {
-    query
-  })
-
-export const listConfigTasks = (query = {}) =>
-  request('/config/task/list', {
-    query
-  })
-
-export const listConfigDevices = (query = {}) =>
-  request('/config/device/list', {
-    query
-  })
-
-export const runConfigTask = (id) => request(`/config/task/run/${id}`)
-
-export const listDeviceRegions = (deviceId) => request(`/config/deviceregion/list/${deviceId}`)
-
-export const getDeviceRegion = (deviceId, regionId) => request(`/config/deviceregion/${deviceId}/${regionId}`)
-
-export const addDeviceRegion = (payload) =>
-  request('/config/deviceregion', {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
-
-export const updateDeviceRegion = (payload) =>
-  request('/config/deviceregion', {
-    method: 'PUT',
-    body: JSON.stringify(payload)
-  })
-
-export const deleteDeviceRegion = (payload) =>
-  request('/config/deviceregion/delete', {
-    method: 'POST',
-    body: JSON.stringify(payload)
-  })
-
-export const listDictTypes = (query = {}) =>
-  request('/system/dict/type/list', {
-    query
-  })
-
-export const listDictData = (query = {}) =>
-  request('/system/dict/data/list', {
-    query
-  })
-
-export const listJobs = (query = {}) =>
-  request('/monitor/job/list', {
-    query
-  })
-
-export const listJobLogs = (query = {}) =>
-  request('/monitor/jobLog/list', {
-    query
-  })
-
-export const forceLogoutOnlineUser = (tokenId) =>
-  request(`/monitor/online/${encodeURIComponent(tokenId)}`, {
-    method: 'DELETE'
-  })
-
-export const cleanLogininfor = () => request('/monitor/logininfor/clean', { method: 'DELETE' })
-
-export const unlockLogininfor = (userName) =>
-  request(`/monitor/logininfor/unlock/${encodeURIComponent(userName)}`)
-
-export const cleanOperLog = () => request('/monitor/operlog/clean', { method: 'DELETE' })
-
-export const changeJobStatus = (jobId, status) =>
-  request('/monitor/job/changeStatus', {
-    method: 'PUT',
-    body: JSON.stringify({ jobId, status })
-  })
-
-export const runJob = (job) =>
-  request('/monitor/job/run', {
-    method: 'PUT',
-    body: JSON.stringify(job)
-  })
-
-export const cleanJobLog = () => request('/monitor/jobLog/clean', { method: 'DELETE' })
-
-export const listFoodConfigs = (query = {}) =>
-  request('/food/selectFoodConfigList', {
-    method: 'POST',
-    query
-  })
-
-export const getFoodConfig = (foodId) => request('/food/getFoodConfigById', { query: { foodId } })
-
-export const listFoodDaily = (query = {}) =>
-  request('/food/selectFoodDailyList', {
-    method: 'POST',
-    query
-  })
-
-export const getFoodDaily = (id) => request('/food/getFoodDailyById', { query: { id } })
-
-export const listFoodPlans = (query = {}) =>
-  request('/food/selectFoodPlanList', {
-    method: 'POST',
-    query
-  })
-
-export const getFoodPlan = (id) => request('/food/getFoodPlanById', { query: { id } })
-
-export const listFoodOrders = (query = {}) =>
-  request('/food/queryOrderList', {
-    method: 'POST',
-    query
-  })
-
-export const getFoodOrder = (id) => request('/food/getOrderById', { query: { id } })
-
-export const cancelFoodOrder = (id) =>
-  request('/food/cancelOrder', {
-    method: 'POST',
-    body: JSON.stringify(id)
-  })
-
-export const finishFoodOrder = (id) =>
-  request('/food/finishOrder', {
-    method: 'POST',
-    body: JSON.stringify(id)
-  })
-
-export const receiveFoodOrder = (id) =>
-  request('/food/receiveOrder', {
-    method: 'POST',
-    body: JSON.stringify(id)
-  })
-
-export const listPassengers = (query = {}) =>
-  request('/flight/passenger/list', {
-    query
-  })
-
-export const checkoutPassenger = (id) =>
-  request(`/flight/passenger/checkout/${id}`, {
-    method: 'POST'
-  })
-
-export const getPassengerStatistics = () => request('/flight/passenger/statistics')
-
-export const listPassengerStatisticsByInType = (query = {}) =>
-  request('/flight/passenger/statisticsByInType', {
-    query
-  })
-
-export const listPassengerWarningLogs = (query = {}) =>
-  request('/flight/passengerWarningLog/list', {
-    query
-  })
-
-export const listFlightInfos = (query = {}) =>
-  request('/flight/flightinfo/list', {
-    query
-  })
-
-export const getDigitalTwinAll = (query = {}) =>
-  request('/DigitalTwin/getAll', {
-    query
-  })
-
-export const getRoomList = () => request('/system/dept/roomList')
-
-export const getDeptTree = (query = {}) =>
-  request('/system/dept/treeselect', {
-    query
-  })
-
-export const getDeptExcludeList = (deptId) => request(`/system/dept/list/exclude/${deptId}`)
-
-export const getMenuTree = (query = {}) =>
-  request('/system/menu/treeselect', {
-    query
-  })
-
-export const getUserCreateOptions = () => request('/system/user/')
-
-export const getRoleMenuTree = (roleId) => request(`/system/menu/roleMenuTreeselect/${roleId}`)
-
-export const listUnallocatedUsers = (query = {}) =>
-  request('/system/role/authUser/unallocatedList', {
-    query
-  })
-
-export const listAllocatedUsers = (query = {}) =>
-  request('/system/role/authUser/allocatedList', {
-    query
-  })
-
-export const assignRoleUsers = (roleId, userIds) =>
-  request('/system/role/authUser/selectAll', {
-    method: 'PUT',
-    query: {
-      roleId,
-      userIds
-    }
-  })
-
-export const cancelRoleUsers = (roleId, userIds) =>
-  request('/system/role/authUser/cancelAll', {
-    method: 'PUT',
-    query: {
-      roleId,
-      userIds
-    }
-  })
-
-export const getUserRoleAuth = (userId) =>
-  request(`/system/user/authRole/${userId}`)
-
-export const updateUserRoleAuth = (userId, roleIds) =>
-  request('/system/user/authRole', {
-    method: 'PUT',
-    query: {
-      userId,
-      roleIds
-    }
-  })
-
-export const changeUserStatus = (userId, status) =>
-  request('/system/user/changeStatus', {
-    method: 'PUT',
-    body: JSON.stringify({ userId, status })
-  })
-
-export const resetUserPassword = (userId, password) =>
-  request('/system/user/resetPwd', {
-    method: 'PUT',
-    body: JSON.stringify({ userId, password })
-  })
-
-export const importUsers = (file, updateSupport = false) => {
+export const listUsers = () => request('/users')
+export const getUserDetail = (id) => request(`/users/${id}`)
+export const createUser = (payload) =>
+  request('/users', { method: 'POST', body: JSON.stringify(payload) })
+export const updateUser = (id, payload) =>
+  request(`/users/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteUsers = (ids) =>
+  request(`/users/${Array.isArray(ids) ? ids.join(',') : ids}`, { method: 'DELETE' })
+
+export const listLounges = () => request('/config/lounges')
+export const createLounge = (payload) => request('/config/lounges', { method: 'POST', body: JSON.stringify(payload) })
+export const updateLounge = (id, payload) => request(`/config/lounges/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteLounge = (id) => request(`/config/lounges/${id}`, { method: 'DELETE' })
+export const getDeptTree = listLounges
+export const getRoomList = listLounges
+export const getDeptExcludeList = () => listLounges()
+
+export const listRegions = () => request('/config/regions')
+export const createRegion = (payload) => request('/config/regions', { method: 'POST', body: JSON.stringify(payload) })
+export const updateRegion = (id, payload) => request(`/config/regions/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteRegion = (id) => request(`/config/regions/${id}`, { method: 'DELETE' })
+export const listConfigRegions = listRegions
+
+export const listAreas = () => request('/config/areas')
+export const createArea = (payload) => request('/config/areas', { method: 'POST', body: JSON.stringify(payload) })
+export const updateArea = (id, payload) => request(`/config/areas/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteArea = (id) => request(`/config/areas/${id}`, { method: 'DELETE' })
+export const listConfigAreas = listAreas
+
+export const listImages = () => request('/config/images')
+export const createImage = (payload) => request('/config/images', { method: 'POST', body: JSON.stringify(payload) })
+export const updateImage = (id, payload) => request(`/config/images/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteImage = (id) => request(`/config/images/${id}`, { method: 'DELETE' })
+export const listConfigImages = listImages
+
+export const listAudios = () => request('/config/audios')
+export const createAudio = (payload) => request('/config/audios', { method: 'POST', body: JSON.stringify(payload) })
+export const updateAudio = (id, payload) => request(`/config/audios/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteAudio = (id) => request(`/config/audios/${id}`, { method: 'DELETE' })
+export const listConfigAudios = listAudios
+
+export const listRobotAudios = () => request('/config/robot-audios')
+export const listConfigRobotAudios = listRobotAudios
+
+export const listDevices = () => request('/config/devices')
+export const createDevice = (payload) => request('/config/devices', { method: 'POST', body: JSON.stringify(payload) })
+export const updateDevice = (id, payload) => request(`/config/devices/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteDevice = (id) => request(`/config/devices/${id}`, { method: 'DELETE' })
+export const listConfigDevices = listDevices
+export const saveDeviceRegionBinding = (payload) =>
+  request('/config/device-region-bindings', { method: 'POST', body: JSON.stringify(payload) })
+export const deleteDeviceRegionBinding = (deviceId, regionId) =>
+  request(`/config/device-region-bindings/${deviceId}/${regionId}`, { method: 'DELETE' })
+export const addDeviceRegion = saveDeviceRegionBinding
+export const updateDeviceRegion = (payload) => saveDeviceRegionBinding(payload)
+export const getDeviceRegion = (deviceId, regionId) =>
+  request('/config/device-region-bindings', { query: { deviceId, regionId } })
+export const listDeviceRegions = (deviceId) =>
+  request('/config/device-region-bindings', { query: { deviceId } })
+
+export const listTables = () => request('/config/tables')
+export const createTable = (payload) => request('/config/tables', { method: 'POST', body: JSON.stringify(payload) })
+export const updateTable = (id, payload) => request(`/config/tables/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteTable = (id) => request(`/config/tables/${id}`, { method: 'DELETE' })
+export const listConfigTables = listTables
+
+export const listRobots = () => request('/config/robots')
+export const createRobot = (payload) => request('/config/robots', { method: 'POST', body: JSON.stringify(payload) })
+export const updateRobot = (id, payload) => request(`/config/robots/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteRobot = (id) => request(`/config/robots/${id}`, { method: 'DELETE' })
+export const listConfigRobots = listRobots
+
+export const listTasks = () => request('/config/tasks')
+export const createTask = (payload) => request('/config/tasks', { method: 'POST', body: JSON.stringify(payload) })
+export const updateTask = (id, payload) => request(`/config/tasks/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteTask = (id) => request(`/config/tasks/${id}`, { method: 'DELETE' })
+export const runTask = (id) => request(`/config/tasks/${id}/run`, { method: 'POST' })
+export const listConfigTasks = listTasks
+export const runConfigTask = runTask
+
+export const listComplaints = () => request('/config/complaints')
+export const createComplaint = (payload) => request('/config/complaints', { method: 'POST', body: JSON.stringify(payload) })
+export const updateComplaint = (id, payload) => request(`/config/complaints/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteComplaint = (id) => request(`/config/complaints/${id}`, { method: 'DELETE' })
+
+export const listInLounge = () => request('/statistics/in-lounge')
+export const listOutgoing = () => request('/statistics/outgoing')
+export const listAccessTemp = () => request('/statistics/access-temp')
+export const listInquiry = () => request('/statistics/inquiry')
+export const listGuide = () => request('/statistics/guide')
+export const listPassengerStatisticsByInType = listAccessTemp
+export const getPassengerStatistics = listInLounge
+
+export const listFoodItems = () => request('/foods/items')
+export const createFoodItem = (payload) => request('/foods/items', { method: 'POST', body: JSON.stringify(payload) })
+export const updateFoodItem = (id, payload) => request(`/foods/items/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteFoodItem = (id) => request(`/foods/items/${id}`, { method: 'DELETE' })
+export const listFoodConfigs = listFoodItems
+export const getFoodConfig = (id) => request(`/foods/items/${id}`)
+
+export const listFoodDailyMenus = () => request('/foods/daily-menus')
+export const createFoodDailyMenu = (payload) => request('/foods/daily-menus', { method: 'POST', body: JSON.stringify(payload) })
+export const updateFoodDailyMenu = (id, payload) => request(`/foods/daily-menus/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteFoodDailyMenu = (id) => request(`/foods/daily-menus/${id}`, { method: 'DELETE' })
+export const listFoodDaily = listFoodDailyMenus
+export const getFoodDaily = (id) => request(`/foods/daily-menus/${id}`)
+
+export const listFoodPlans = () => request('/foods/plans')
+export const createFoodPlan = (payload) => request('/foods/plans', { method: 'POST', body: JSON.stringify(payload) })
+export const updateFoodPlan = (id, payload) => request(`/foods/plans/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteFoodPlan = (id) => request(`/foods/plans/${id}`, { method: 'DELETE' })
+export const getFoodPlan = (id) => request(`/foods/plans/${id}`)
+
+export const listFoodOrders = () => request('/foods/orders')
+export const createFoodOrder = (payload) => request('/foods/orders', { method: 'POST', body: JSON.stringify(payload) })
+export const updateFoodOrder = (id, payload) => request(`/foods/orders/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteFoodOrder = (id) => request(`/foods/orders/${id}`, { method: 'DELETE' })
+export const receiveFoodOrder = (id) => request(`/foods/orders/${id}/receive`, { method: 'POST' })
+export const finishFoodOrder = (id) => request(`/foods/orders/${id}/finish`, { method: 'POST' })
+export const cancelFoodOrder = (id) => request(`/foods/orders/${id}/cancel`, { method: 'POST' })
+export const getFoodOrder = (id) => request(`/foods/orders/${id}`)
+
+export const listLoginLogs = () => request('/monitor/login-logs')
+export const clearLoginLogs = () => request('/monitor/login-logs', { method: 'DELETE' })
+export const listOperationLogs = () => request('/monitor/operation-logs')
+export const clearOperationLogs = () => request('/monitor/operation-logs', { method: 'DELETE' })
+export const listLogininfor = listLoginLogs
+export const listOperLogs = listOperationLogs
+export const cleanLogininfor = clearLoginLogs
+export const cleanOperLog = clearOperationLogs
+
+export const listKnowledge = () => request('/knowledge')
+export const getKnowledge = (id) => request(`/knowledge/${id}`)
+export const createKnowledge = (payload) => request('/knowledge', { method: 'POST', body: JSON.stringify(payload) })
+export const updateKnowledge = (id, payload) => request(`/knowledge/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
+export const deleteKnowledge = (id) => request(`/knowledge/${id}`, { method: 'DELETE' })
+export const getKnowledgeDetail = getKnowledge
+export const addKnowledge = createKnowledge
+export const editKnowledge = (payload) => updateKnowledge(payload.id, payload)
+export const enableKnowledge = () => Promise.resolve()
+export const disableKnowledge = () => Promise.resolve()
+export const embeddingKnowledge = () => Promise.resolve()
+
+export const uploadFiles = (files) => {
   const formData = new FormData()
-  formData.append('file', file)
-  formData.append('updateSupport', String(updateSupport))
-  return upload('/system/user/importData', formData)
+  ;[...files].forEach((file) => formData.append('files', file))
+  return upload('/files', formData)
 }
-
-export const importTemporaryFlights = (file) => {
-  const formData = new FormData()
-  formData.append('file', file)
-  return upload('/flight/flightinfo/addTmpByFile', formData)
-}
-
-export const downloadUserImportTemplate = () =>
-  downloadFile('/system/user/importTemplate', { method: 'POST', fileName: '用户导入模板.xlsx' })
-
-export const changeRoleStatus = (roleId, status) =>
-  request('/system/role/changeStatus', {
-    method: 'PUT',
-    body: JSON.stringify({ roleId, status })
-  })
-
-export const updateRoleDataScope = (payload) =>
-  request('/system/role/dataScope', {
-    method: 'PUT',
-    body: JSON.stringify(payload)
-  })
-
-export const getRoleDeptTree = (roleId) => request(`/system/dept/roleDeptTreeselect/${roleId}`)
-
-export const refreshConfigCache = () => request('/system/config/refreshCache', { method: 'DELETE' })
-
-export const refreshDictCache = () => request('/system/dict/type/refreshCache', { method: 'DELETE' })
-
-export const getDictTypeOptions = () => request('/system/dict/type/optionselect')
-
-export const getDictDataByType = (dictType) => request(`/system/dict/data/type/${dictType}`)
-
-export const exportSystemResource = (path, query = {}, fileName = '导出数据.xlsx') =>
-  downloadFile('/common/export', {
-    method: 'POST',
-    query: { ...query, sourcePath: path },
-    fileName: fileName.replace(/\.xlsx$/i, '.csv')
-  })
+export const exportSystemResource = () => Promise.resolve()

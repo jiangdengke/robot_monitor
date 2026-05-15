@@ -86,7 +86,7 @@
 </template>
 
 <script setup>
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { message, Modal } from 'ant-design-vue'
 import { computed, onMounted, ref } from 'vue'
 import {
   clearCacheAll,
@@ -147,9 +147,9 @@ async function reloadValue() {
 }
 
 async function clearName(cacheName) {
-  await ElMessageBox.confirm(`确认清理缓存 "${cacheName}" 下的全部 key？`, '清理确认', { type: 'warning' })
+  await confirmDialog('清理确认', `确认清理缓存 "${cacheName}" 下的全部 key？`)
   await clearCacheName(cacheName)
-  ElMessage.success('缓存名称已清理')
+  message.success('缓存名称已清理')
   if (currentName.value === cacheName) {
     cacheKeys.value = []
     cacheValue.value = null
@@ -159,9 +159,9 @@ async function clearName(cacheName) {
 }
 
 async function clearKey(cacheKey) {
-  await ElMessageBox.confirm(`确认删除缓存 key "${cacheKey}"？`, '删除确认', { type: 'warning' })
+  await confirmDialog('删除确认', `确认删除缓存 key "${cacheKey}"？`)
   await clearCacheKey(cacheKey)
-  ElMessage.success('缓存 key 已删除')
+  message.success('缓存 key 已删除')
   cacheKeys.value = cacheKeys.value.filter((item) => item.cacheKey !== cacheKey)
   if (currentKey.value === cacheKey) {
     currentKey.value = ''
@@ -170,9 +170,9 @@ async function clearKey(cacheKey) {
 }
 
 async function clearAll() {
-  await ElMessageBox.confirm('确认清空全部缓存？', '清理确认', { type: 'warning' })
+  await confirmDialog('清理确认', '确认清空全部缓存？')
   await clearCacheAll()
-  ElMessage.success('全部缓存已清理')
+  message.success('全部缓存已清理')
   cacheKeys.value = []
   cacheValue.value = null
   currentName.value = ''
@@ -190,4 +190,15 @@ function formatValue(value) {
 }
 
 onMounted(loadNames)
+
+function confirmDialog(title, content) {
+  return new Promise((resolve, reject) => {
+    Modal.confirm({
+      title,
+      content,
+      onOk: resolve,
+      onCancel: () => reject('cancel')
+    })
+  })
+}
 </script>
