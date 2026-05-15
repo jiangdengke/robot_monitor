@@ -2,9 +2,9 @@
 /*
 !/.gitignore
 !/README.md
+!/backend/
 !/frontend/
 !/docs/
-!/moban_java/
 
 # Frontend build/runtime artifacts.
 frontend/node_modules/
@@ -26,6 +26,6 @@ frontend/legacy-dist/**
 .DS_Store
 *.log
 
-# moban_java build/runtime artifacts.
-moban_java/.gradle/
-moban_java/build/
+# backend build/runtime artifacts.
+backend/.gradle/
+backend/build/
