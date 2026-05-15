@@ -2,24 +2,9 @@
 /*
 !/.gitignore
 !/README.md
-!/FRONTEND_REMAINING_PLAN.md
-!/FULL_FUNCTION_IMPLEMENTATION_PLAN.md
-!/FUNCTION_COMPARISON.md
-!/MENU_ROUTE_MAPPING.md
-!/backend/
 !/frontend/
 !/docs/
 !/moban_java/
-
-# Backend build/runtime artifacts.
-backend/.gradle/
-backend/build/
-backend/runtime-config/
-backend/logs/
-backend/scripts/
-backend/**/target/
-backend/src/main/resources/**/*.class
-backend/*.iml
 
 # Frontend build/runtime artifacts.
 frontend/node_modules/

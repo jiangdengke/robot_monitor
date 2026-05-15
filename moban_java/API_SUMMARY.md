@@ -122,4 +122,5 @@
 
 - `moban_java` 已通过 `compileJava`
 - 数据模型在 `src/main/resources/db/schema.sql`
-- 运行时仍需你本地准备 MySQL 和 Redis
+- 当前默认使用 H2 内存库初始化
+- 联调时如启用相关缓存能力，建议本地准备 Redis
