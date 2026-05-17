@@ -5,10 +5,9 @@
         <div class="brand-noise" />
         <div class="brand-top">
           <div class="brand-mark">
-            <img src="/legacy-dist/favicon-old.ico" alt="国航" />
+            <img src="/favicon.ico" alt="国航" />
           </div>
           <div class="brand-text">
-            <span class="brand-eyebrow">Air China · Lounge OS</span>
             <span class="brand-name">智慧贵宾室管理系统</span>
           </div>
         </div>
@@ -26,7 +25,7 @@
         </ul>
 
         <div class="brand-footer">
-          <span>© Air China Lounge Operations</span>
+          <span>© 国航贵宾室运营</span>
           <span>v2026.05</span>
         </div>
       </aside>
@@ -34,7 +33,7 @@
       <section class="form-panel">
         <div class="form-card">
           <div class="form-heading">
-            <span class="eyebrow-chip">SIGN IN</span>
+            <span class="eyebrow-chip">登录</span>
             <h2>欢迎回来</h2>
             <p>使用您的运营账号登录，进入管理后台。</p>
           </div>
@@ -78,10 +77,6 @@
               {{ submitting ? '登录中...' : '登录系统' }}
             </a-button>
 
-            <div class="hint-card">
-              <InfoCircleOutlined />
-              <span>默认演示账号 <code>admin</code> / <code>admin123</code></span>
-            </div>
           </a-form>
         </div>
       </section>
@@ -92,7 +87,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { InfoCircleOutlined, LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { hydrateSession, login } from '@/stores/session'
 import { toastError } from '@/utils/toast'
 
@@ -102,8 +97,8 @@ const errorMessage = ref('')
 const remember = ref(true)
 
 const form = reactive({
-  username: 'admin',
-  password: 'admin123'
+  username: '',
+  password: ''
 })
 
 async function handleSubmit() {
@@ -221,7 +216,6 @@ async function handleSubmit() {
 .brand-name {
   font-size: 17px;
   font-weight: 700;
-  margin-top: 4px;
 }
 
 .brand-headline h1 {

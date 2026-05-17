@@ -9,10 +9,9 @@
     >
       <div class="brand">
         <div class="brand-logo">
-          <img src="/legacy-dist/favicon-old.ico" alt="国航" />
+          <img src="/favicon.ico" alt="国航" />
         </div>
         <div v-if="!sidebarCollapsed" class="brand-copy">
-          <span class="brand-kicker">Air China · Lounge OS</span>
           <span class="brand-title">智慧贵宾室</span>
         </div>
       </div>
@@ -45,9 +44,8 @@
         <div class="footer-card">
           <div class="footer-line">
             <CheckCircleFilled class="footer-pulse" />
-            <span>系统状态正常</span>
+            <span>系统运行正常</span>
           </div>
-          <div class="footer-sub">单体服务运行中</div>
         </div>
       </div>
     </a-layout-sider>
@@ -403,18 +401,10 @@ function toggleFullscreen() {
   line-height: 1.1;
 }
 
-.brand-kicker {
-  font-size: 10px;
-  color: rgb(207 217 248 / 76%);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
 .brand-title {
   font-size: 16px;
   font-weight: 700;
   color: #fff;
-  margin-top: 4px;
   letter-spacing: 0.04em;
 }
 
@@ -453,13 +443,6 @@ function toggleFullscreen() {
 .footer-pulse {
   color: #52c41a;
   filter: drop-shadow(0 0 6px rgb(82 196 26 / 60%));
-}
-
-.footer-sub {
-  margin-top: 4px;
-  font-size: 11px;
-  color: rgb(207 217 248 / 60%);
-  letter-spacing: 0.04em;
 }
 
 .shell-body {

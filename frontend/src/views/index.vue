@@ -4,7 +4,7 @@
       <div class="hero-noise" />
       <div class="hero-content">
         <div class="hero-meta">
-          <span class="eyebrow-chip">LOUNGE OPS · 2026</span>
+          <span class="eyebrow-chip">智慧贵宾室 · 2026</span>
           <h1>{{ greeting }}，{{ displayName }}</h1>
           <p>本地单体后端正在运行，前端已切换到 Ant Design Vue。下面是当前贵宾室的关键指标与待办。</p>
           <div class="hero-actions">

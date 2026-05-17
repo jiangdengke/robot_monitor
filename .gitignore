@@ -13,13 +13,8 @@ frontend/.vite/
 frontend/.vite-temp/
 frontend/*.local
 
-# Keep only the legacy assets that the rebuilt Vue app references directly.
-frontend/legacy-dist/**
-!frontend/legacy-dist/
-!frontend/legacy-dist/favicon.ico
-!frontend/legacy-dist/static/
-!frontend/legacy-dist/static/jpg/
-!frontend/legacy-dist/static/jpg/login-background-Yn3y1TP_.jpg
+# Legacy dist is no longer referenced — favicons moved to public/.
+frontend/legacy-dist/
 
 # Local/editor noise.
 .local-backup/
