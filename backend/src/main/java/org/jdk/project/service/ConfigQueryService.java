@@ -4,7 +4,6 @@ import static org.jooq.generated.project.Tables.AREA;
 import static org.jooq.generated.project.Tables.AREA_I18N;
 import static org.jooq.generated.project.Tables.COMPLAINT_RECORD;
 import static org.jooq.generated.project.Tables.DEVICE;
-import static org.jooq.generated.project.Tables.DINING_TABLE;
 import static org.jooq.generated.project.Tables.LOUNGE;
 import static org.jooq.generated.project.Tables.MEDIA_AUDIO;
 import static org.jooq.generated.project.Tables.MEDIA_IMAGE;
@@ -25,7 +24,6 @@ import org.jdk.project.dto.config.ImageDto;
 import org.jdk.project.dto.config.LoungeDto;
 import org.jdk.project.dto.config.RegionDto;
 import org.jdk.project.dto.config.RobotDto;
-import org.jdk.project.dto.config.TableDto;
 import org.jdk.project.dto.config.TaskDto;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -141,19 +139,6 @@ public class ConfigQueryService {
     return ListResponse.of(rows.size(), rows);
   }
 
-  public ListResponse<TableDto> listTables() {
-    List<TableDto> rows =
-        dsl.select(DINING_TABLE.ID, DINING_TABLE.TABLE_NO, LOUNGE.CODE, LOUNGE.NAME.as("lounge_name"), DINING_TABLE.REGION_ID, REGION.NAME.as("region_name"), DINING_TABLE.DEVICE_ID, DINING_TABLE.CAMERA_COORDINATE, DINING_TABLE.STATUS, DINING_TABLE.ENABLED, DINING_TABLE.REMARK)
-            .from(DINING_TABLE)
-            .join(LOUNGE)
-            .on(DINING_TABLE.LOUNGE_ID.eq(LOUNGE.ID))
-            .leftJoin(REGION)
-            .on(DINING_TABLE.REGION_ID.eq(REGION.ID))
-            .orderBy(DINING_TABLE.ID.asc())
-            .fetch(this::toTableDto);
-    return ListResponse.of(rows.size(), rows);
-  }
-
   public ListResponse<RobotDto> listRobots() {
     List<RobotDto> rows =
         dsl.select(ROBOT.ID, ROBOT.ROBOT_CODE, ROBOT.NAME, ROBOT.MAC, ROBOT.IP_ADDRESS, LOUNGE.CODE, LOUNGE.NAME.as("lounge_name"), ROBOT.REGION_ID, REGION.NAME.as("region_name"), ROBOT.ROBOT_TYPE, ROBOT.BATTERY_PERCENT, ROBOT.CHARGING_STATE, ROBOT.WORKING_STATE, ROBOT.STANDBY_STATE, ROBOT.POSITIONING_STATE, ROBOT.ENABLED, ROBOT.INITIAL_COORDINATE, ROBOT.ADMIN_MODE, ROBOT.REMARK)
@@ -258,22 +243,6 @@ public class ConfigQueryService {
         .deptName(record.get("lounge_name", String.class))
         .enable(booleanNumber(record.get(DEVICE.ENABLED)))
         .remark(record.get(DEVICE.REMARK))
-        .build();
-  }
-
-  private TableDto toTableDto(Record record) {
-    return TableDto.builder()
-        .id(record.get(DINING_TABLE.ID))
-        .tableNo(record.get(DINING_TABLE.TABLE_NO))
-        .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
-        .regionId(record.get(DINING_TABLE.REGION_ID))
-        .regionName(record.get("region_name", String.class))
-        .deviceId(record.get(DINING_TABLE.DEVICE_ID))
-        .cameraCoordinates(record.get(DINING_TABLE.CAMERA_COORDINATE))
-        .status("TURNOVER".equalsIgnoreCase(record.get(DINING_TABLE.STATUS)) ? "1" : "0")
-        .isEnable(booleanFlag(record.get(DINING_TABLE.ENABLED)))
-        .remark(record.get(DINING_TABLE.REMARK))
         .build();
   }
 

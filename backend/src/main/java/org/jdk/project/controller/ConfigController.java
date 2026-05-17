@@ -19,8 +19,6 @@ import org.jdk.project.dto.config.RegionDto;
 import org.jdk.project.dto.config.RegionUpsertRequest;
 import org.jdk.project.dto.config.RobotDto;
 import org.jdk.project.dto.config.RobotUpsertRequest;
-import org.jdk.project.dto.config.TableDto;
-import org.jdk.project.dto.config.TableUpsertRequest;
 import org.jdk.project.dto.config.TaskDto;
 import org.jdk.project.dto.config.TaskUpsertRequest;
 import org.jdk.project.service.ConfigCommandService;
@@ -175,31 +173,6 @@ public class ConfigController {
   @DeleteMapping("/device-region-bindings/{deviceId}/{regionId}")
   public void deleteDeviceRegionBinding(@PathVariable Long deviceId, @PathVariable Long regionId) {
     configCommandService.deleteDeviceRegionBinding(deviceId, regionId);
-  }
-
-  @GetMapping("/tables")
-  public ListResponse<TableDto> listTables() {
-    return configQueryService.listTables();
-  }
-
-  @PostMapping("/tables")
-  public Long createTable(@RequestBody TableUpsertRequest request) {
-    return configCommandService.createTable(request);
-  }
-
-  @PutMapping("/tables/{id}")
-  public void updateTable(@PathVariable Long id, @RequestBody TableUpsertRequest request) {
-    configCommandService.updateTable(id, request);
-  }
-
-  @PutMapping("/tables/{id}/status")
-  public void updateTableStatus(@PathVariable Long id, @RequestBody String status) {
-    configCommandService.updateTableStatus(id, status);
-  }
-
-  @DeleteMapping("/tables/{id}")
-  public void deleteTable(@PathVariable Long id) {
-    configCommandService.deleteTable(id);
   }
 
   @GetMapping("/robots")

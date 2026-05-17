@@ -50,10 +50,6 @@
 - `DELETE /config/devices/{id}`
 - `POST /config/device-region-bindings`
 - `DELETE /config/device-region-bindings/{deviceId}/{regionId}`
-- `GET /config/tables`
-- `POST /config/tables`
-- `PUT /config/tables/{id}`
-- `DELETE /config/tables/{id}`
 - `GET /config/robots`
 - `POST /config/robots`
 - `PUT /config/robots/{id}`
@@ -75,28 +71,6 @@
 - `GET /statistics/access-temp`
 - `GET /statistics/inquiry`
 - `GET /statistics/guide`
-
-## 餐食管理
-
-- `GET /foods/items`
-- `POST /foods/items`
-- `PUT /foods/items/{id}`
-- `DELETE /foods/items/{id}`
-- `GET /foods/daily-menus`
-- `POST /foods/daily-menus`
-- `PUT /foods/daily-menus/{id}`
-- `DELETE /foods/daily-menus/{id}`
-- `GET /foods/plans`
-- `POST /foods/plans`
-- `PUT /foods/plans/{id}`
-- `DELETE /foods/plans/{id}`
-- `GET /foods/orders`
-- `POST /foods/orders`
-- `PUT /foods/orders/{id}`
-- `DELETE /foods/orders/{id}`
-- `POST /foods/orders/{id}/receive`
-- `POST /foods/orders/{id}/finish`
-- `POST /foods/orders/{id}/cancel`
 
 ## 日志管理
 

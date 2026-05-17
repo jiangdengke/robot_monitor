@@ -6,13 +6,6 @@ DROP TABLE IF EXISTS project.login_log;
 DROP TABLE IF EXISTS project.robot_task_log;
 DROP TABLE IF EXISTS project.inquiry_stat;
 DROP TABLE IF EXISTS project.guide_log;
-DROP TABLE IF EXISTS project.food_order_item;
-DROP TABLE IF EXISTS project.food_order;
-DROP TABLE IF EXISTS project.food_plan_item;
-DROP TABLE IF EXISTS project.food_plan;
-DROP TABLE IF EXISTS project.food_daily_menu;
-DROP TABLE IF EXISTS project.food_item_image;
-DROP TABLE IF EXISTS project.food_item;
 DROP TABLE IF EXISTS project.passenger_warning_log;
 DROP TABLE IF EXISTS project.passenger_checkout_log;
 DROP TABLE IF EXISTS project.passenger_access_log;
@@ -27,7 +20,6 @@ DROP TABLE IF EXISTS project.robot_task_template_media;
 DROP TABLE IF EXISTS project.robot_task_template;
 DROP TABLE IF EXISTS project.robot_audio_binding;
 DROP TABLE IF EXISTS project.robot;
-DROP TABLE IF EXISTS project.dining_table;
 DROP TABLE IF EXISTS project.device_region_binding;
 DROP TABLE IF EXISTS project.device;
 DROP TABLE IF EXISTS project.region_audio;
@@ -178,21 +170,6 @@ CREATE TABLE project.device_region_binding (
     image_id BIGINT NULL,
     remark VARCHAR(500) DEFAULT '',
     PRIMARY KEY (device_id, region_id)
-);
-
-CREATE TABLE project.dining_table (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lounge_id BIGINT NOT NULL,
-    region_id BIGINT NULL,
-    device_id BIGINT NULL,
-    table_no VARCHAR(64) NOT NULL,
-    camera_coordinate TEXT,
-    status VARCHAR(16) NOT NULL DEFAULT 'IDLE',
-    enabled BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    remark VARCHAR(500) DEFAULT '',
-    PRIMARY KEY (id)
 );
 
 CREATE TABLE project.robot (
@@ -421,78 +398,6 @@ CREATE TABLE project.passenger_warning_log (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE project.food_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lounge_id BIGINT NULL,
-    name VARCHAR(100) NOT NULL,
-    category VARCHAR(64) DEFAULT '',
-    price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
-    calorie INT NOT NULL DEFAULT 0,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    remark VARCHAR(500) DEFAULT '',
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE project.food_item_image (
-    food_item_id BIGINT NOT NULL,
-    image_id BIGINT NOT NULL,
-    PRIMARY KEY (food_item_id, image_id)
-);
-
-CREATE TABLE project.food_daily_menu (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lounge_id BIGINT NOT NULL,
-    menu_date DATE NOT NULL,
-    food_item_id BIGINT NOT NULL,
-    enabled BOOLEAN NOT NULL DEFAULT TRUE,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE project.food_plan (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lounge_id BIGINT NOT NULL,
-    start_date DATE NOT NULL,
-    end_date DATE NOT NULL,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE project.food_plan_item (
-    food_plan_id BIGINT NOT NULL,
-    food_item_id BIGINT NOT NULL,
-    PRIMARY KEY (food_plan_id, food_item_id)
-);
-
-CREATE TABLE project.food_order (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    lounge_id BIGINT NULL,
-    dining_table_id BIGINT NULL,
-    order_code VARCHAR(64) NOT NULL,
-    desk_no VARCHAR(64) DEFAULT '',
-    card_no VARCHAR(64) DEFAULT '',
-    status VARCHAR(16) NOT NULL DEFAULT 'CREATED',
-    total_amount DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
-    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-    remark VARCHAR(500) DEFAULT '',
-    PRIMARY KEY (id),
-    UNIQUE KEY uk_food_order_code (order_code)
-);
-
-CREATE TABLE project.food_order_item (
-    id BIGINT NOT NULL AUTO_INCREMENT,
-    order_id BIGINT NOT NULL,
-    food_item_id BIGINT NULL,
-    food_name VARCHAR(100) DEFAULT '',
-    quantity INT NOT NULL DEFAULT 1,
-    unit_price DECIMAL(10, 2) NOT NULL DEFAULT 0.00,
-    PRIMARY KEY (id)
-);
-
 CREATE TABLE project.guide_log (
     id BIGINT NOT NULL AUTO_INCREMENT,
     lounge_id BIGINT NULL,
@@ -585,7 +490,8 @@ CREATE TABLE project.knowledge_base (
 INSERT INTO project.`user`
     (`username`, `nickname`, `email`, `phone`, `sex`, `password`, `enable`, `remark`)
 VALUES
-    ('admin', '管理员', 'admin@example.com', '13800000000', '2', '$2y$10$jBFSHoA0nm2Zr2RjBEmsdeX/Sy6t30f41xCXPZXZV.M9jT2mYk3ze', TRUE, '默认管理员');
+    ('admin', '管理员', 'admin@example.com', '13800000000', '2', 'admin123', TRUE, '默认管理员'),
+    ('operator', '值班员', 'operator@example.com', '13800000001', '2', 'operator123', TRUE, '示例值班账号');
 
 INSERT INTO project.lounge (`code`, `name`, `terminal`, `location_desc`, `enabled`, `remark`)
 VALUES
@@ -595,22 +501,22 @@ VALUES
 INSERT INTO project.media_image (`lounge_id`, `name`, `category`, `content`, `width`, `height`, `enabled`, `remark`)
 VALUES
     (1, '休息室总览图', 'MAP', NULL, 1920, 1080, TRUE, '示例地图'),
-    (1, '餐食展示图', 'FOOD', NULL, 800, 600, TRUE, '示例菜品图');
+    (1, '登机口指引图', 'GUIDE', NULL, 800, 600, TRUE, '示例指引图');
 
 INSERT INTO project.media_audio (`lounge_id`, `audio_key`, `category`, `language_code`, `text_content`, `audio_content`, `remark`)
 VALUES
     (1, 'WELCOME_CN', 'COMMON', 'CN', '欢迎来到国航智慧贵宾室', 'welcome-cn.mp3', '欢迎播报'),
-    (1, 'TABLE_READY_CN', 'ROBOT', 'CN', '您的餐桌已准备好', 'table-ready-cn.mp3', '机器人播报');
+    (1, 'BOARDING_REMIND_CN', 'ROBOT', 'CN', '您的航班即将登机，请前往登机口', 'boarding-remind-cn.mp3', '机器人播报');
 
 INSERT INTO project.area (`lounge_id`, `name`, `coordinate`, `max_capacity`, `visible`, `guide_enabled`, `enabled`, `remark`)
 VALUES
     (1, '休息区', '[[120,80],[340,220]]', 24, TRUE, TRUE, TRUE, '默认休息区'),
-    (1, '餐饮区', '[[400,90],[680,260]]', 36, TRUE, TRUE, TRUE, '默认餐饮区');
+    (1, '登机等候区', '[[400,90],[680,260]]', 36, TRUE, TRUE, TRUE, '默认等候区');
 
 INSERT INTO project.area_i18n (`area_id`, `language_code`, `display_name`, `label_text`, `arrival_text`, `speech_text`)
 VALUES
     (1, 'CN', '休息区', '休息区', '您已到达休息区', '请前往休息区'),
-    (2, 'CN', '餐饮区', '餐饮区', '您已到达餐饮区', '请前往餐饮区');
+    (2, 'CN', '登机等候区', '等候区', '您已到达登机等候区', '请前往登机等候区');
 
 INSERT INTO project.region (`lounge_id`, `area_id`, `name`, `coordinate`, `max_capacity`, `visible`, `guide_enabled`, `enabled`, `remark`)
 VALUES
@@ -630,15 +536,10 @@ VALUES
     (1, 1, '[180,110]', 1, 'A区绑定'),
     (2, 2, '[500,160]', 1, 'B区绑定');
 
-INSERT INTO project.dining_table (`lounge_id`, `region_id`, `device_id`, `table_no`, `camera_coordinate`, `status`, `enabled`, `remark`)
-VALUES
-    (1, 2, 2, 'A01', '[520,180]', 'IDLE', TRUE, '默认餐桌'),
-    (1, 2, 2, 'A02', '[560,180]', 'TURNOVER', TRUE, '默认餐桌');
-
 INSERT INTO project.robot (`lounge_id`, `region_id`, `robot_code`, `name`, `mac`, `ip_address`, `robot_type`, `battery_percent`, `charging_state`, `working_state`, `standby_state`, `positioning_state`, `enabled`, `initial_coordinate`, `admin_mode`, `remark`)
 VALUES
     (1, 1, 'ROBOT-001', '迎宾机器人1号', '00:11:22:33:44:55', '192.168.10.21', 'Unitree', 86, '0', '0', '1', 'OK', TRUE, '[180,120]', FALSE, '默认机器人'),
-    (1, 2, 'ROBOT-002', '送餐机器人1号', '00:11:22:33:44:66', '192.168.10.22', 'Keenon', 72, '0', '1', '0', 'OK', TRUE, '[520,170]', TRUE, '默认机器人');
+    (1, 2, 'ROBOT-002', '巡检机器人1号', '00:11:22:33:44:66', '192.168.10.22', 'Keenon', 72, '0', '1', '0', 'OK', TRUE, '[520,170]', TRUE, '默认机器人');
 
 INSERT INTO project.robot_audio_binding (`robot_id`, `audio_id`) VALUES (1, 2), (2, 2);
 
@@ -646,14 +547,14 @@ INSERT INTO project.robot_task_template
     (`lounge_id`, `robot_id`, `name`, `command_code`, `command_name`, `target_region`, `priority`, `execute_type`, `task_type`, `task_subtype`, `task_mode`, `direct_execution`, `return_required`, `enabled`, `remark`)
 VALUES
     (1, 1, '引导到休息区', 1001, 'GUIDE', 'A区', 'HIGH', 'IMMEDIATELY', 'GUIDE', 'ROBOT', 'AUTO', FALSE, TRUE, TRUE, '默认引导任务'),
-    (1, 2, '送餐到A01', 2001, 'DELIVER_FOOD', 'A02', 'NORMAL', 'IMMEDIATELY', 'DELIVERY', 'ROBOT', 'AUTO', TRUE, TRUE, TRUE, '默认送餐任务');
+    (1, 2, '登机口提醒', 2001, 'BOARDING_REMIND', 'A02', 'NORMAL', 'IMMEDIATELY', 'NOTICE', 'ROBOT', 'AUTO', TRUE, TRUE, TRUE, '默认提醒任务');
 
 INSERT INTO project.robot_task_template_media (`task_template_id`, `image_id`) VALUES (1, 1), (2, 2);
 INSERT INTO project.robot_task_template_audio (`task_template_id`, `audio_id`) VALUES (1, 2), (2, 2);
 
 INSERT INTO project.complaint_record (`lounge_id`, `passenger_name`, `card_provider`, `card_no`, `content`, `feedback`)
 VALUES
-    (1, '张三', '国航金卡', 'CA123456', '候餐时间较长', '已安排优先处理');
+    (1, '张三', '国航金卡', 'CA123456', '登机提醒不够及时', '已安排值班员复核提醒流程');
 
 INSERT INTO project.flight_info
     (`id`, `flight_no`, `airline_code`, `execute_date`, `flight_attr`, `craft_type`, `craft_no`, `departure_status`, `arrival_status`, `station_code`, `station_name`, `scheduled_takeoff_at`, `estimated_takeoff_at`, `gate_code`, `gate_attr`, `carousel_code`, `carousel_class`, `carousel_attr`)
@@ -698,33 +599,6 @@ VALUES
     (1, 'CA1234-20260514', 1, 'BOARDING', '航班即将登机，请尽快前往登机口', 'ROBOT', NULL, 'PENDING'),
     (2, 'CA5678-20260514', 2, 'GATE_CHANGE', '登机口变更为 G18', 'MANUAL', NULL, 'SUCCESS');
 
-INSERT INTO project.food_item (`lounge_id`, `name`, `category`, `price`, `calorie`, `remark`)
-VALUES
-    (1, '牛肉面', '热菜', 48.00, 680, '招牌面食'),
-    (1, '鲜榨橙汁', '饮料', 28.00, 180, '现点现榨');
-
-INSERT INTO project.food_item_image (`food_item_id`, `image_id`) VALUES (1, 2), (2, 2);
-
-INSERT INTO project.food_daily_menu (`lounge_id`, `menu_date`, `food_item_id`, `enabled`)
-VALUES
-    (1, '2026-05-14', 1, TRUE),
-    (1, '2026-05-14', 2, TRUE);
-
-INSERT INTO project.food_plan (`lounge_id`, `start_date`, `end_date`)
-VALUES
-    (1, '2026-05-14', '2026-05-20');
-
-INSERT INTO project.food_plan_item (`food_plan_id`, `food_item_id`) VALUES (1, 1), (1, 2);
-
-INSERT INTO project.food_order (`lounge_id`, `dining_table_id`, `order_code`, `desk_no`, `card_no`, `status`, `total_amount`, `remark`)
-VALUES
-    (1, 1, 'FO20260514001', 'A01', 'VIP0001', 'CREATED', 76.00, '默认订单');
-
-INSERT INTO project.food_order_item (`order_id`, `food_item_id`, `food_name`, `quantity`, `unit_price`)
-VALUES
-    (1, 1, '牛肉面', 1, 48.00),
-    (1, 2, '鲜榨橙汁', 1, 28.00);
-
 INSERT INTO project.guide_log (`lounge_id`, `robot_id`, `passenger_id`, `region_id`, `result_status`, `coordinate`)
 VALUES
     (1, 1, 1, 1, 'SUCCESS', '[188,118]');
@@ -751,4 +625,4 @@ VALUES
 INSERT INTO project.knowledge_base (`title`, `content`, `source`, `knowledge_type`, `process_status`, `enabled`, `vector_ref`, `created_by`, `remark`)
 VALUES
     ('贵宾室登机指引', '旅客可在航班起飞前 40 分钟前往登机口。', 'manual', 'FAQ', 'DONE', TRUE, 'vec-001', 1, '默认知识'),
-    ('餐食服务时间', '热食供应时间为 06:00-22:00。', 'manual', 'FAQ', 'DONE', TRUE, 'vec-002', 1, '默认知识');
+    ('贵宾室服务时间', '贵宾室开放时间以当日航班保障计划为准。', 'manual', 'FAQ', 'DONE', TRUE, 'vec-002', 1, '默认知识');

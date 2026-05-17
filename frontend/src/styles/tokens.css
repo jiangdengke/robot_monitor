@@ -1,0 +1,68 @@
+:root {
+  /* Brand */
+  --brand-primary: #2f54eb;
+  --brand-primary-soft: #5573f3;
+  --brand-primary-deep: #1d39c4;
+  --brand-accent: #13c2c2;
+  --brand-warning: #faad14;
+  --brand-danger: #ff4d4f;
+  --brand-success: #52c41a;
+
+  /* Surfaces */
+  --surface-app: #f3f5fa;
+  --surface-app-deep: #eef1f8;
+  --surface-card: #ffffff;
+  --surface-muted: #f7f9fc;
+  --surface-elevated: #ffffff;
+  --surface-overlay: rgb(15 23 42 / 4%);
+
+  /* Sider gradient */
+  --sider-bg: linear-gradient(180deg, #0f1d3a 0%, #142a55 60%, #1d3b7a 100%);
+  --sider-active: rgb(47 84 235 / 18%);
+  --sider-hover: rgb(255 255 255 / 6%);
+
+  /* Text */
+  --text-strong: #0f172a;
+  --text-default: #1f2937;
+  --text-muted: #6b7280;
+  --text-faint: #9ca3af;
+  --text-on-brand: #ffffff;
+
+  /* Border */
+  --border-soft: #e5e9f2;
+  --border-default: #d8def0;
+  --border-strong: #c4cbe0;
+
+  /* Radius */
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 22px;
+
+  /* Shadow */
+  --shadow-xs: 0 1px 2px rgb(15 23 42 / 6%);
+  --shadow-sm: 0 4px 14px rgb(15 23 42 / 6%);
+  --shadow-md: 0 12px 32px rgb(15 23 42 / 8%);
+  --shadow-lg: 0 18px 48px rgb(15 23 42 / 12%);
+  --shadow-glow: 0 12px 32px rgb(47 84 235 / 22%);
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 32px;
+  --space-8: 40px;
+
+  /* Layout */
+  --layout-sider-width: 232px;
+  --layout-sider-collapsed: 84px;
+  --layout-header-height: 60px;
+
+  /* Typography */
+  --font-sans: "Inter", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "JetBrains Mono", "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+}

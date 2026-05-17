@@ -18,16 +18,6 @@ const catalog = [
     ]
   },
   {
-    title: '餐食管理',
-    path: '/foodManagment',
-    icon: 'food',
-    children: [
-      ['菜品管理', '/foodManagment/food', 'food'],
-      ['菜单计划', '/foodManagment/foodPlan', 'calendar'],
-      ['每日菜单', '/foodManagment/menuPlan', 'menuPlan']
-    ]
-  },
-  {
     title: '日志管理',
     path: '/logs',
     icon: 'log',
@@ -44,7 +34,6 @@ const catalog = [
       ['贵宾室', '/configManagment/vipRoom', 'list'],
       ['功能区', '/configManagment/areaManagment', 'tree-table'],
       ['区域', '/configManagment/vipRoomRegion', 'table'],
-      ['餐桌管理', '/foodManagment/foodTable', 'table'],
       ['摄像头', '/configManagment/monitorDevice', 'camera'],
       ['机器人', '/configManagment/robot', 'robot'],
       ['机器人音频', '/configManagment/robotAudio', 'sound'],
@@ -93,8 +82,6 @@ const auxiliaryRoutes = [
   ['个人资料', '/profile/userInfo', 'user'],
   ['修改密码', '/profile/resetPwd', 'lock'],
   ['头像上传', '/profile/userAvatar', 'user'],
-  ['桌台模型', '/numberModel', 'table'],
-  ['点餐订单', '/foodManagment/foodMenu', 'shopping'],
   ['投诉记录', '/configManagment/complaintRecord', 'message'],
   ['视频资源', '/configManagment/vedio', 'video-camera'],
   ['问询统计', '/statAnalysis/inquiry', 'message'],
@@ -112,16 +99,10 @@ const canonicalAliases = [
   ['/config/areaManagment', '/configManagment/areaManagment'],
   ['/config/vedio', '/configManagment/vedio'],
   ['/config/complaintRecord', '/configManagment/complaintRecord'],
-  ['/config/table', '/foodManagment/foodTable'],
   ['/config/task', '/taskManagment/taskList'],
   ['/flight/passenger', '/statAnalysis/inLoungeList'],
   ['/flight/goingStat', '/statAnalysis/goingStat'],
-  ['/flight/outGoing', '/viewManagment/outGoing'],
-  ['/food/foodConfig', '/foodManagment/food'],
-  ['/food/dailyMenu', '/foodManagment/menuPlan'],
-  ['/food/foodOrder', '/foodManagment/foodMenu'],
-  ['/food/foodTable', '/foodManagment/foodTable'],
-  ['/food/foodPlan', '/foodManagment/foodPlan']
+  ['/flight/outGoing', '/viewManagment/outGoing']
 ]
 
 const aliasByPath = new Map(canonicalAliases.map(([alias, canonical]) => [normalizePath(alias), normalizePath(canonical)]))

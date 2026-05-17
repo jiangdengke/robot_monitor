@@ -5,7 +5,6 @@ import static org.jooq.generated.project.Tables.AREA_I18N;
 import static org.jooq.generated.project.Tables.COMPLAINT_RECORD;
 import static org.jooq.generated.project.Tables.DEVICE;
 import static org.jooq.generated.project.Tables.DEVICE_REGION_BINDING;
-import static org.jooq.generated.project.Tables.DINING_TABLE;
 import static org.jooq.generated.project.Tables.LOUNGE;
 import static org.jooq.generated.project.Tables.MEDIA_AUDIO;
 import static org.jooq.generated.project.Tables.MEDIA_IMAGE;
@@ -25,7 +24,6 @@ import org.jdk.project.dto.config.ImageUpsertRequest;
 import org.jdk.project.dto.config.LoungeUpsertRequest;
 import org.jdk.project.dto.config.RegionUpsertRequest;
 import org.jdk.project.dto.config.RobotUpsertRequest;
-import org.jdk.project.dto.config.TableUpsertRequest;
 import org.jdk.project.dto.config.TaskUpsertRequest;
 import org.jdk.project.exception.BusinessException;
 import org.jooq.DSLContext;
@@ -34,7 +32,6 @@ import org.jooq.generated.project.tables.pojos.AreaI18n;
 import org.jooq.generated.project.tables.pojos.ComplaintRecord;
 import org.jooq.generated.project.tables.pojos.Device;
 import org.jooq.generated.project.tables.pojos.DeviceRegionBinding;
-import org.jooq.generated.project.tables.pojos.DiningTable;
 import org.jooq.generated.project.tables.pojos.Lounge;
 import org.jooq.generated.project.tables.pojos.MediaAudio;
 import org.jooq.generated.project.tables.pojos.MediaImage;
@@ -302,55 +299,6 @@ public class ConfigCommandService {
         .where(DEVICE_REGION_BINDING.DEVICE_ID.eq(deviceId))
         .and(DEVICE_REGION_BINDING.REGION_ID.eq(regionId))
         .execute();
-  }
-
-  @Transactional
-  public Long createTable(TableUpsertRequest request) {
-    DiningTable table = new DiningTable();
-    table.setLoungeId(requiredId(request.getLoungeId(), "贵宾室不能为空"));
-    table.setRegionId(request.getRegionId());
-    table.setDeviceId(request.getDeviceId());
-    table.setTableNo(request.getTableNo());
-    table.setCameraCoordinate(defaultString(request.getCameraCoordinates(), ""));
-    table.setStatus(defaultString(request.getStatus(), "IDLE"));
-    table.setEnabled(!"0".equals(request.getIsEnable()));
-    table.setRemark(defaultString(request.getRemark(), ""));
-    return dsl.insertInto(DINING_TABLE)
-        .set(dsl.newRecord(DINING_TABLE, table))
-        .returningResult(DINING_TABLE.ID)
-        .fetchOne(DINING_TABLE.ID);
-  }
-
-  @Transactional
-  public void updateTable(Long id, TableUpsertRequest request) {
-    ensureUpdated(
-        dsl.update(DINING_TABLE)
-            .set(DINING_TABLE.LOUNGE_ID, requiredId(request.getLoungeId(), "贵宾室不能为空"))
-            .set(DINING_TABLE.REGION_ID, request.getRegionId())
-            .set(DINING_TABLE.DEVICE_ID, request.getDeviceId())
-            .set(DINING_TABLE.TABLE_NO, request.getTableNo())
-            .set(DINING_TABLE.CAMERA_COORDINATE, defaultString(request.getCameraCoordinates(), ""))
-            .set(DINING_TABLE.STATUS, defaultString(request.getStatus(), "IDLE"))
-            .set(DINING_TABLE.ENABLED, !"0".equals(request.getIsEnable()))
-            .set(DINING_TABLE.REMARK, defaultString(request.getRemark(), ""))
-            .where(DINING_TABLE.ID.eq(id))
-            .execute(),
-        "餐桌不存在");
-  }
-
-  @Transactional
-  public void updateTableStatus(Long id, String status) {
-    ensureUpdated(
-        dsl.update(DINING_TABLE)
-            .set(DINING_TABLE.STATUS, defaultString(status, "IDLE"))
-            .where(DINING_TABLE.ID.eq(id))
-            .execute(),
-        "餐桌不存在");
-  }
-
-  @Transactional
-  public void deleteTable(Long id) {
-    dsl.deleteFrom(DINING_TABLE).where(DINING_TABLE.ID.eq(id)).execute();
   }
 
   @Transactional

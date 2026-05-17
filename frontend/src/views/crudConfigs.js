@@ -1,48 +1,32 @@
 import {
-  cancelFoodOrder,
   clearLoginLogs,
   clearOperationLogs,
   createArea,
   createAudio,
   createComplaint,
   createDevice,
-  createFoodDailyMenu,
-  createFoodItem,
-  createFoodOrder,
-  createFoodPlan,
   createImage,
   createLounge,
   createRegion,
   createRobot,
   createTask,
-  createTable,
   createUser,
   deleteArea,
   deleteAudio,
   deleteComplaint,
   deleteDevice,
-  deleteFoodDailyMenu,
-  deleteFoodItem,
-  deleteFoodOrder,
-  deleteFoodPlan,
   deleteImage,
   deleteLounge,
   deleteRegion,
   deleteRobot,
-  deleteTable,
   deleteTask,
   deleteUsers,
-  finishFoodOrder,
   getProfile,
   getUserDetail,
   listAreas,
   listAudios,
   listComplaints,
   listDevices,
-  listFoodDailyMenus,
-  listFoodItems,
-  listFoodOrders,
-  listFoodPlans,
   listImages,
   listInLounge,
   listInquiry,
@@ -54,26 +38,19 @@ import {
   listRegions,
   listRobots,
   listRobotAudios,
-  listTables,
   listTasks,
   listUsers,
-  receiveFoodOrder,
   runTask,
   saveDeviceRegionBinding,
   updateArea,
   updateAudio,
   updateComplaint,
   updateDevice,
-  updateFoodDailyMenu,
-  updateFoodItem,
-  updateFoodOrder,
-  updateFoodPlan,
   updateImage,
   updateLounge,
   updateProfile,
   updateRegion,
   updateRobot,
-  updateTable,
   updateTask,
   updateUser
 } from '@/api/system'
@@ -106,20 +83,6 @@ const deviceTypeOptions = [
   { label: '其他', value: 'OTHER' }
 ]
 
-const foodTypeOptions = [
-  { label: '冷菜', value: '冷菜' },
-  { label: '热菜', value: '热菜' },
-  { label: '甜品', value: '甜品' },
-  { label: '饮料', value: '饮料' }
-]
-
-const orderStatusMap = {
-  CREATED: '已下单',
-  RECEIVED: '已接单',
-  FINISHED: '已完成',
-  CANCELED: '已取消'
-}
-
 const passengerStatusMap = {
   IN: '在厅',
   OUT: '已出厅'
@@ -130,15 +93,14 @@ function optionsFromRows(rows = [], valueKey = 'id', labelKey = 'name') {
 }
 
 async function loadConfigOptions() {
-  const [lounges, regions, areas, images, audios, robots, devices, tables] = await Promise.all([
+  const [lounges, regions, areas, images, audios, robots, devices] = await Promise.all([
     listLounges(),
     listRegions(),
     listAreas(),
     listImages(),
     listAudios(),
     listRobots(),
-    listDevices(),
-    listTables()
+    listDevices()
   ])
 
   const loungeRows = lounges.rows || []
@@ -149,8 +111,7 @@ async function loadConfigOptions() {
     images: optionsFromRows(images.rows || [], 'id', 'imgName'),
     audios: optionsFromRows(audios.rows || [], 'id', 'audioKey'),
     robots: optionsFromRows(robots.rows || [], 'id', 'robotName'),
-    devices: optionsFromRows(devices.rows || [], 'id', 'deviceName'),
-    tables: optionsFromRows(tables.rows || [], 'id', 'tableNo')
+    devices: optionsFromRows(devices.rows || [], 'id', 'deviceName')
   }
 }
 
@@ -362,35 +323,6 @@ export const crudPages = {
     },
     defaults: { enable: 1, deviceType: 'CAMERA' }
   },
-  table: {
-    title: '餐桌管理',
-    rowKey: 'id',
-    list: listTables,
-    create: createTable,
-    update: (payload) => updateTable(payload.id, payload),
-    remove: (ids) => deleteTable(Array.isArray(ids) ? ids[0] : ids),
-    columns: [
-      { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'tableNo', label: '桌号', minWidth: 140 },
-      { prop: 'deptName', label: '贵宾室', minWidth: 160 },
-      { prop: 'regionName', label: '区域', minWidth: 140 },
-      { prop: 'status', label: '状态', map: { 0: '空闲', 1: '翻台' } }
-    ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'regionId', label: '区域', type: 'select', options: options.regions },
-        { prop: 'deviceId', label: '设备', type: 'select', options: options.devices },
-        { prop: 'tableNo', label: '桌号' },
-        { prop: 'cameraCoordinates', label: '坐标' },
-        { prop: 'status', label: '状态', type: 'select', options: [{ label: '空闲', value: 'IDLE' }, { label: '翻台', value: 'TURNOVER' }] },
-        { prop: 'isEnable', label: '状态', type: 'select', options: guideOptions.map((item) => ({ ...item, value: item.value })) },
-        { prop: 'remark', label: '备注', type: 'textarea' }
-      ]
-    },
-    defaults: { status: 'IDLE', isEnable: '1' }
-  },
   robot: {
     title: '机器人配置',
     rowKey: 'id',
@@ -476,112 +408,6 @@ export const crudPages = {
         { prop: 'cardNo', label: '卡号' },
         { prop: 'complaintContent', label: '客诉内容', type: 'textarea' },
         { prop: 'complaintFeedback', label: '处理反馈', type: 'textarea' }
-      ]
-    }
-  },
-  foodConfig: {
-    title: '菜品管理',
-    rowKey: 'id',
-    list: listFoodItems,
-    create: createFoodItem,
-    update: (payload) => updateFoodItem(payload.id, payload),
-    remove: (ids) => deleteFoodItem(Array.isArray(ids) ? ids[0] : ids),
-    columns: [
-      { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'name', label: '名称', minWidth: 180 },
-      { prop: 'category', label: '分类', minWidth: 120 },
-      { prop: 'price', label: '价格', width: 100 },
-      { prop: 'calorie', label: '热量', width: 100 }
-    ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'name', label: '菜品名称' },
-        { prop: 'category', label: '分类', type: 'select', options: foodTypeOptions },
-        { prop: 'price', label: '价格', type: 'number' },
-        { prop: 'calorie', label: '热量', type: 'number' },
-        { prop: 'remark', label: '备注', type: 'textarea' }
-      ]
-    }
-  },
-  foodDaily: {
-    title: '每日菜单',
-    rowKey: 'id',
-    list: listFoodDailyMenus,
-    create: createFoodDailyMenu,
-    update: (payload) => updateFoodDailyMenu(payload.id, payload),
-    remove: (ids) => deleteFoodDailyMenu(Array.isArray(ids) ? ids[0] : ids),
-    columns: [
-      { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'menuDate', label: '日期', minWidth: 140 },
-      { prop: 'foodItemId', label: '菜品 ID', minWidth: 120 },
-      { prop: 'enabled', label: '上架', map: { true: '上架', false: '下架' } }
-    ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      const foods = (await listFoodItems()).rows || []
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'foodDate', label: '日期', type: 'date' },
-        { prop: 'foodItemId', label: '菜品', type: 'select', options: foods.map((item) => ({ value: item.id, label: item.name })) },
-        { prop: 'enabled', label: '状态', type: 'select', options: [{ label: '上架', value: true }, { label: '下架', value: false }] }
-      ]
-    },
-    defaults: { enabled: true }
-  },
-  foodPlan: {
-    title: '菜单计划',
-    rowKey: 'id',
-    list: listFoodPlans,
-    create: createFoodPlan,
-    update: (payload) => updateFoodPlan(payload.id, payload),
-    remove: (ids) => deleteFoodPlan(Array.isArray(ids) ? ids[0] : ids),
-    columns: [
-      { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'startDate', label: '开始日期', minWidth: 140 },
-      { prop: 'endDate', label: '结束日期', minWidth: 140 }
-    ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      const foods = (await listFoodItems()).rows || []
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'startDate', label: '开始日期', type: 'date' },
-        { prop: 'endDate', label: '结束日期', type: 'date' },
-        { prop: 'foodItemIds', label: '菜品', type: 'select', multiple: true, options: foods.map((item) => ({ value: item.id, label: item.name })) }
-      ]
-    }
-  },
-  foodOrder: {
-    title: '订单管理',
-    rowKey: 'id',
-    list: listFoodOrders,
-    create: createFoodOrder,
-    update: (payload) => updateFoodOrder(payload.id, payload),
-    remove: (ids) => deleteFoodOrder(Array.isArray(ids) ? ids[0] : ids),
-    columns: [
-      { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'orderCode', label: '订单号', minWidth: 180 },
-      { prop: 'deskNo', label: '桌号', minWidth: 120 },
-      { prop: 'cardNo', label: '卡号', minWidth: 140 },
-      { prop: 'status', label: '状态', map: orderStatusMap }
-    ],
-    rowActions: [
-      { key: 'receive', label: '接单', handler: (row) => receiveFoodOrder(row.id) },
-      { key: 'finish', label: '完成', handler: (row) => finishFoodOrder(row.id) },
-      { key: 'cancel', label: '取消', handler: (row) => cancelFoodOrder(row.id) }
-    ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'diningTableId', label: '餐桌', type: 'select', options: options.tables },
-        { prop: 'orderCode', label: '订单号' },
-        { prop: 'deskNo', label: '桌号' },
-        { prop: 'cardNo', label: '卡号' },
-        { prop: 'totalAmount', label: '金额', type: 'number' },
-        { prop: 'remark', label: '备注', type: 'textarea' }
       ]
     }
   },

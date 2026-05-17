@@ -9,6 +9,7 @@ import lombok.Setter;
 public class UpdateUserRequest {
   @NotNull private Long id;
   private String nickname;
+  private String password;
   private String email;
   private String phone;
   private String sex;

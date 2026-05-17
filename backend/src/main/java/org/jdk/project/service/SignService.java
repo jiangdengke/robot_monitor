@@ -7,7 +7,6 @@ import org.jdk.project.dto.sign.SignUpDto;
 import org.jdk.project.exception.BusinessException;
 import org.jdk.project.repository.UserRepository;
 import org.jooq.generated.project.tables.pojos.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class SignService {
 
   private final UserRepository userRepository;
-
-  private final PasswordEncoder passwordEncoder;
 
   /**
    * 用户登录。
@@ -32,7 +29,7 @@ public class SignService {
     if (user == null) {
       throw new BusinessException("用户名或密码错误");
     }
-    if (!passwordEncoder.matches(signInDto.getPassword(), user.getPassword())) {
+    if (!signInDto.getPassword().equals(user.getPassword())) {
       throw new BusinessException("用户名或密码错误");
     }
     return user.getId();
@@ -51,7 +48,7 @@ public class SignService {
     }
     User user = new User();
     user.setUsername(signUpDto.getUsername());
-    user.setPassword(passwordEncoder.encode(signUpDto.getPassword()));
+    user.setPassword(signUpDto.getPassword());
     user.setEnable(true);
     userRepository.insert(user);
   }

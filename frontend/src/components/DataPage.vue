@@ -1,21 +1,35 @@
 <template>
-  <a-card :bordered="false">
+  <a-card :bordered="false" class="data-page-card">
     <template #title>
       <div class="data-page-title">
-        <div>
+        <div class="title-text">
           <div class="headline">{{ title }}</div>
           <div class="desc">{{ description }}</div>
         </div>
-        <a-button type="primary" @click="$emit('refresh')">刷新</a-button>
+        <a-button type="primary" @click="$emit('refresh')">
+          <template #icon><ReloadOutlined /></template>
+          刷新
+        </a-button>
       </div>
     </template>
 
     <div class="data-page-body">
       <div v-if="cards?.length" class="card-grid">
-        <a-card v-for="card in cards" :key="card.title" :title="card.title" :bordered="false">
-          <div class="info-lines">
-            <div v-for="line in card.lines" :key="line" class="info-line">{{ line }}</div>
-          </div>
+        <a-card
+          v-for="card in cards"
+          :key="card.title"
+          :bordered="false"
+          class="metric-card has-hover"
+        >
+          <template #title>
+            <div class="metric-title">
+              <span class="metric-dot" />
+              <span>{{ card.title }}</span>
+            </div>
+          </template>
+          <ul class="metric-lines">
+            <li v-for="line in card.lines" :key="line">{{ line }}</li>
+          </ul>
         </a-card>
       </div>
 
@@ -26,6 +40,7 @@
         :pagination="false"
         :row-key="rowKey || 'id'"
         size="middle"
+        class="data-page-table"
       />
     </div>
   </a-card>
@@ -33,6 +48,7 @@
 
 <script setup>
 import { computed, watch } from 'vue'
+import { ReloadOutlined } from '@ant-design/icons-vue'
 import { toastError } from '@/utils/toast'
 
 const props = defineProps({
@@ -75,6 +91,10 @@ function renderCell(row, column) {
 </script>
 
 <style scoped>
+.data-page-card {
+  border-radius: var(--radius-lg);
+}
+
 .data-page-title {
   display: flex;
   align-items: center;
@@ -85,32 +105,73 @@ function renderCell(row, column) {
 .headline {
   font-size: 18px;
   font-weight: 700;
+  color: var(--text-strong);
+  letter-spacing: 0.02em;
 }
 
 .desc {
   margin-top: 4px;
-  color: #6b7280;
+  color: var(--text-muted);
   font-size: 13px;
 }
 
 .data-page-body {
   display: grid;
-  gap: 16px;
+  gap: 18px;
 }
 
 .card-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  gap: 16px;
+  gap: 14px;
 }
 
-.info-lines {
-  display: grid;
+.metric-card {
+  border-radius: var(--radius-md);
+  background: var(--surface-muted);
+  border: 1px solid var(--border-soft);
+}
+
+.metric-title {
+  display: inline-flex;
+  align-items: center;
   gap: 8px;
+  color: var(--text-strong);
+  font-weight: 600;
 }
 
-.info-line {
-  color: #4b5563;
-  line-height: 1.6;
+.metric-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--brand-primary);
+  box-shadow: 0 0 0 4px rgb(47 84 235 / 14%);
+}
+
+.metric-lines {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--text-default);
+}
+
+.metric-lines li {
+  line-height: 1.7;
+  position: relative;
+  padding-left: 14px;
+}
+
+.metric-lines li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--text-faint);
 }
 </style>

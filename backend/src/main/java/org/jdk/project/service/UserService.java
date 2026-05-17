@@ -14,7 +14,6 @@ import org.jdk.project.exception.BusinessException;
 import org.jdk.project.repository.UserRepository;
 import org.jooq.DSLContext;
 import org.jooq.generated.project.tables.pojos.User;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +26,6 @@ public class UserService {
 
   private final DSLContext dsl;
   private final UserRepository userRepository;
-  private final PasswordEncoder passwordEncoder;
 
   public ListResponse<UserDto> listUsers() {
     List<UserDto> rows =
@@ -50,7 +48,7 @@ public class UserService {
     }
     User user = new User();
     user.setUsername(request.getUsername());
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
+    user.setPassword(request.getPassword());
     user.setNickname(defaultString(request.getNickname(), request.getUsername()));
     user.setEmail(defaultString(request.getEmail(), ""));
     user.setPhone(defaultString(request.getPhone(), ""));
@@ -73,6 +71,9 @@ public class UserService {
     if (request.getPhone() != null) user.setPhone(request.getPhone());
     if (request.getSex() != null) user.setSex(request.getSex());
     if (request.getAvatarUrl() != null) user.setAvatarUrl(request.getAvatarUrl());
+    if (request.getPassword() != null && !request.getPassword().isBlank()) {
+      user.setPassword(request.getPassword());
+    }
     if (request.getEnable() != null) user.setEnable(request.getEnable());
     if (request.getRemark() != null) user.setRemark(request.getRemark());
     userRepository.update(user);
@@ -115,10 +116,10 @@ public class UserService {
     if (user == null) {
       throw new BusinessException("用户不存在");
     }
-    if (!passwordEncoder.matches(oldPassword, user.getPassword())) {
+    if (!oldPassword.equals(user.getPassword())) {
       throw new BusinessException("旧密码错误");
     }
-    user.setPassword(passwordEncoder.encode(newPassword));
+    user.setPassword(newPassword);
     userRepository.update(user);
   }
 

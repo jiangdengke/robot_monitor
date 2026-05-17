@@ -94,12 +94,6 @@ export const getDeviceRegion = (deviceId, regionId) =>
 export const listDeviceRegions = (deviceId) =>
   request('/config/device-region-bindings', { query: { deviceId } })
 
-export const listTables = () => request('/config/tables')
-export const createTable = (payload) => request('/config/tables', { method: 'POST', body: JSON.stringify(payload) })
-export const updateTable = (id, payload) => request(`/config/tables/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
-export const deleteTable = (id) => request(`/config/tables/${id}`, { method: 'DELETE' })
-export const listConfigTables = listTables
-
 export const listRobots = () => request('/config/robots')
 export const createRobot = (payload) => request('/config/robots', { method: 'POST', body: JSON.stringify(payload) })
 export const updateRobot = (id, payload) => request(`/config/robots/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
@@ -126,35 +120,6 @@ export const listInquiry = () => request('/statistics/inquiry')
 export const listGuide = () => request('/statistics/guide')
 export const listPassengerStatisticsByInType = listAccessTemp
 export const getPassengerStatistics = listInLounge
-
-export const listFoodItems = () => request('/foods/items')
-export const createFoodItem = (payload) => request('/foods/items', { method: 'POST', body: JSON.stringify(payload) })
-export const updateFoodItem = (id, payload) => request(`/foods/items/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
-export const deleteFoodItem = (id) => request(`/foods/items/${id}`, { method: 'DELETE' })
-export const listFoodConfigs = listFoodItems
-export const getFoodConfig = (id) => request(`/foods/items/${id}`)
-
-export const listFoodDailyMenus = () => request('/foods/daily-menus')
-export const createFoodDailyMenu = (payload) => request('/foods/daily-menus', { method: 'POST', body: JSON.stringify(payload) })
-export const updateFoodDailyMenu = (id, payload) => request(`/foods/daily-menus/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
-export const deleteFoodDailyMenu = (id) => request(`/foods/daily-menus/${id}`, { method: 'DELETE' })
-export const listFoodDaily = listFoodDailyMenus
-export const getFoodDaily = (id) => request(`/foods/daily-menus/${id}`)
-
-export const listFoodPlans = () => request('/foods/plans')
-export const createFoodPlan = (payload) => request('/foods/plans', { method: 'POST', body: JSON.stringify(payload) })
-export const updateFoodPlan = (id, payload) => request(`/foods/plans/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
-export const deleteFoodPlan = (id) => request(`/foods/plans/${id}`, { method: 'DELETE' })
-export const getFoodPlan = (id) => request(`/foods/plans/${id}`)
-
-export const listFoodOrders = () => request('/foods/orders')
-export const createFoodOrder = (payload) => request('/foods/orders', { method: 'POST', body: JSON.stringify(payload) })
-export const updateFoodOrder = (id, payload) => request(`/foods/orders/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
-export const deleteFoodOrder = (id) => request(`/foods/orders/${id}`, { method: 'DELETE' })
-export const receiveFoodOrder = (id) => request(`/foods/orders/${id}/receive`, { method: 'POST' })
-export const finishFoodOrder = (id) => request(`/foods/orders/${id}/finish`, { method: 'POST' })
-export const cancelFoodOrder = (id) => request(`/foods/orders/${id}/cancel`, { method: 'POST' })
-export const getFoodOrder = (id) => request(`/foods/orders/${id}`)
 
 export const listLoginLogs = () => request('/monitor/login-logs')
 export const clearLoginLogs = () => request('/monitor/login-logs', { method: 'DELETE' })

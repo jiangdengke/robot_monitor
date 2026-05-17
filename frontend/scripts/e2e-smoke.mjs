@@ -20,8 +20,7 @@ const EXTRA_ROUTES = [
   { title: '个人中心', path: '/profile' },
   { title: '个人资料', path: '/profile/userInfo' },
   { title: '修改密码', path: '/profile/resetPwd' },
-  { title: '头像上传', path: '/profile/userAvatar' },
-  { title: '桌台模型', path: '/numberModel' }
+  { title: '头像上传', path: '/profile/userAvatar' }
 ]
 
 const PAGE_ERROR_TEXTS = [
@@ -35,7 +34,7 @@ const PAGE_ERROR_TEXTS = [
   'Request failed'
 ]
 
-const SAFE_ACTION_TEXTS = ['查询', '搜索', '重置', '刷新', '刷新桌台']
+const SAFE_ACTION_TEXTS = ['查询', '搜索', '重置', '刷新']
 
 const cdpCallbacks = new Map()
 let cdpId = 0
@@ -111,14 +110,9 @@ async function collectRoutes(token) {
     { title: '准入记录', path: '/statAnalysis/goingStat' },
     { title: '问询统计', path: '/statAnalysis/inquiry' },
     { title: '引导统计', path: '/statAnalysis/guide' },
-    { title: '菜品管理', path: '/foodManagment/food' },
-    { title: '菜单计划', path: '/foodManagment/foodPlan' },
-    { title: '每日菜单', path: '/foodManagment/menuPlan' },
-    { title: '点餐订单', path: '/foodManagment/foodMenu' },
     { title: '贵宾室', path: '/configManagment/vipRoom' },
     { title: '功能区', path: '/configManagment/areaManagment' },
     { title: '区域', path: '/configManagment/vipRoomRegion' },
-    { title: '餐桌管理', path: '/foodManagment/foodTable' },
     { title: '摄像头', path: '/configManagment/monitorDevice' },
     { title: '机器人', path: '/configManagment/robot' },
     { title: '机器人音频', path: '/configManagment/robotAudio' },

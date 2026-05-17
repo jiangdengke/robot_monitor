@@ -2,37 +2,57 @@
   <a-layout class="app-shell">
     <a-layout-sider
       :collapsed="sidebarCollapsed"
-      :width="228"
+      :width="232"
       :collapsed-width="84"
       theme="dark"
       class="shell-sider"
     >
       <div class="brand">
-        <img class="brand-logo" src="/legacy-dist/favicon-old.ico" alt="国航" />
+        <div class="brand-logo">
+          <img src="/legacy-dist/favicon-old.ico" alt="国航" />
+        </div>
         <div v-if="!sidebarCollapsed" class="brand-copy">
-          <span class="brand-kicker">Air China</span>
+          <span class="brand-kicker">Air China · Lounge OS</span>
           <span class="brand-title">智慧贵宾室</span>
         </div>
       </div>
 
-      <a-menu :selected-keys="[activeMenu]" mode="inline" theme="dark">
-        <template v-for="group in menus" :key="group.path">
-          <a-menu-item v-if="!group.children?.length" :key="group.path" @click="go(group.path)">
-            <template #icon><component :is="resolveIcon(group.icon)" /></template>
-            <span>{{ group.title }}</span>
-          </a-menu-item>
-          <a-sub-menu v-else :key="group.path">
-            <template #icon><component :is="resolveIcon(group.icon)" /></template>
-            <template #title>{{ group.title }}</template>
-            <a-menu-item v-for="item in group.children" :key="item.path" @click="go(item.path)">
-              {{ item.title }}
+      <div class="sider-scroll">
+        <a-menu
+          :selected-keys="[activeMenu]"
+          :open-keys="openKeys"
+          mode="inline"
+          theme="dark"
+          @open-change="(keys) => (openKeys = keys)"
+        >
+          <template v-for="group in menus" :key="group.path">
+            <a-menu-item v-if="!group.children?.length" :key="group.path" @click="go(group.path)">
+              <template #icon><component :is="resolveIcon(group.icon)" /></template>
+              <span>{{ group.title }}</span>
             </a-menu-item>
-          </a-sub-menu>
-        </template>
-      </a-menu>
+            <a-sub-menu v-else :key="group.path">
+              <template #icon><component :is="resolveIcon(group.icon)" /></template>
+              <template #title>{{ group.title }}</template>
+              <a-menu-item v-for="item in group.children" :key="item.path" @click="go(item.path)">
+                {{ item.title }}
+              </a-menu-item>
+            </a-sub-menu>
+          </template>
+        </a-menu>
+      </div>
+
+      <div v-if="!sidebarCollapsed" class="sider-footer">
+        <div class="footer-card">
+          <div class="footer-line">
+            <CheckCircleFilled class="footer-pulse" />
+            <span>系统状态正常</span>
+          </div>
+          <div class="footer-sub">单体服务运行中</div>
+        </div>
+      </div>
     </a-layout-sider>
 
-    <a-layout>
+    <a-layout class="shell-body">
       <a-layout-header class="shell-header">
         <div class="header-left">
           <a-button type="text" class="collapse-trigger" @click="sidebarCollapsed = !sidebarCollapsed">
@@ -41,24 +61,43 @@
               <MenuFoldOutlined v-else />
             </template>
           </a-button>
-          <a-breadcrumb>
+          <a-breadcrumb separator="·" class="header-breadcrumb">
             <a-breadcrumb-item>首页</a-breadcrumb-item>
             <a-breadcrumb-item v-if="currentGroup">{{ currentGroup.title }}</a-breadcrumb-item>
-            <a-breadcrumb-item v-if="currentTitle">{{ currentTitle }}</a-breadcrumb-item>
+            <a-breadcrumb-item v-if="currentTitle">
+              <span class="crumb-current">{{ currentTitle }}</span>
+            </a-breadcrumb-item>
           </a-breadcrumb>
         </div>
         <div class="header-right">
-          <a-dropdown>
+          <a-tooltip title="刷新页面">
+            <a-button type="text" shape="circle" class="header-icon-btn" @click="reload">
+              <template #icon><ReloadOutlined /></template>
+            </a-button>
+          </a-tooltip>
+          <a-tooltip title="全屏切换">
+            <a-button type="text" shape="circle" class="header-icon-btn" @click="toggleFullscreen">
+              <template #icon><FullscreenOutlined /></template>
+            </a-button>
+          </a-tooltip>
+          <a-divider type="vertical" class="header-divider" />
+          <a-dropdown placement="bottomRight">
             <a class="account-link" @click.prevent>
               <a-avatar class="account-avatar">{{ avatarText }}</a-avatar>
-              <span>{{ displayName }}</span>
-              <DownOutlined />
+              <span class="account-name">{{ displayName }}</span>
+              <DownOutlined class="account-caret" />
             </a>
             <template #overlay>
               <a-menu @click="({ key }) => handleCommand(key)">
-                <a-menu-item key="profile">个人中心</a-menu-item>
+                <a-menu-item key="profile">
+                  <UserOutlined />
+                  <span>个人中心</span>
+                </a-menu-item>
                 <a-menu-divider />
-                <a-menu-item key="logout">退出登录</a-menu-item>
+                <a-menu-item key="logout">
+                  <LogoutOutlined />
+                  <span>退出登录</span>
+                </a-menu-item>
               </a-menu>
             </template>
           </a-dropdown>
@@ -66,19 +105,28 @@
       </a-layout-header>
 
       <div class="tags-bar">
-        <div
-          v-for="tag in visitedTags"
-          :key="tag.path"
-          :class="['tag-chip', { active: tag.path === route.path }]"
-          @click="go(tag.path)"
-        >
-          <span>{{ tag.title }}</span>
-          <CloseOutlined v-if="tag.path !== '/'" class="tag-close" @click.stop="closeTag(tag.path)" />
+        <div class="tags-scroller">
+          <div
+            v-for="tag in visitedTags"
+            :key="tag.path"
+            :class="['tag-chip', { active: tag.path === route.path }]"
+            @click="go(tag.path)"
+          >
+            <span class="tag-dot" />
+            <span>{{ tag.title }}</span>
+            <CloseOutlined v-if="tag.path !== '/'" class="tag-close" @click.stop="closeTag(tag.path)" />
+          </div>
         </div>
       </div>
 
       <a-layout-content class="shell-content">
-        <router-view />
+        <div class="shell-content-inner">
+          <router-view v-slot="{ Component }">
+            <transition name="page-fade" mode="out-in">
+              <component :is="Component" />
+            </transition>
+          </router-view>
+        </div>
       </a-layout-content>
     </a-layout>
   </a-layout>
@@ -93,7 +141,7 @@ import {
   AppstoreOutlined,
   BellOutlined,
   CameraOutlined,
-  CoffeeOutlined,
+  CheckCircleFilled,
   ContainerOutlined,
   DashboardOutlined,
   DeploymentUnitOutlined,
@@ -101,13 +149,16 @@ import {
   FileImageOutlined,
   FileSearchOutlined,
   FormOutlined,
+  FullscreenOutlined,
   FundProjectionScreenOutlined,
+  LogoutOutlined,
   MenuFoldOutlined,
   MenuOutlined,
   MenuUnfoldOutlined,
   PictureOutlined,
   ProfileOutlined,
   ReadOutlined,
+  ReloadOutlined,
   RobotOutlined,
   ScheduleOutlined,
   SettingOutlined,
@@ -135,6 +186,7 @@ const route = useRoute()
 const session = sessionState
 const sidebarCollapsed = ref(false)
 const visitedTags = ref([{ title: '首页', path: '/' }])
+const openKeys = ref([])
 
 const iconMap = {
   system: SettingOutlined,
@@ -167,9 +219,6 @@ const iconMap = {
   walk: FileSearchOutlined,
   chart: DashboardOutlined,
   warning: AlertOutlined,
-  food: CoffeeOutlined,
-  menuPlan: ProfileOutlined,
-  shopping: CoffeeOutlined,
   calendar: ScheduleOutlined,
   code: AppstoreOutlined,
   build: AppstoreOutlined,
@@ -226,6 +275,16 @@ watch(
   { immediate: true }
 )
 
+watch(
+  currentGroup,
+  (group) => {
+    if (group?.path && !openKeys.value.includes(group.path)) {
+      openKeys.value = [...openKeys.value, group.path]
+    }
+  },
+  { immediate: true }
+)
+
 function addCurrentTag() {
   const path = normalizePath(route.path)
   const title = currentTitle.value || '管理后台'
@@ -266,15 +325,51 @@ function handleCommand(command) {
     router.push('/login')
   }
 }
+
+function reload() {
+  router.replace({ path: '/redirect', query: { target: route.fullPath } }).catch(() => {})
+  setTimeout(() => router.replace(route.fullPath).catch(() => {}), 30)
+}
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen?.().catch(() => {})
+  } else {
+    document.exitFullscreen?.().catch(() => {})
+  }
+}
 </script>
 
 <style scoped>
 .app-shell {
   min-height: 100vh;
+  background: var(--surface-app);
 }
 
 .shell-sider {
-  box-shadow: 2px 0 10px rgb(15 23 42 / 10%);
+  background: var(--sider-bg) !important;
+  box-shadow: 6px 0 24px rgb(15 23 42 / 12%);
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.shell-sider::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 20% 0%, rgb(47 84 235 / 28%), transparent 60%),
+    radial-gradient(circle at 80% 100%, rgb(19 194 194 / 14%), transparent 55%);
+  pointer-events: none;
+}
+
+.shell-sider :deep(.ant-layout-sider-children) {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
 }
 
 .brand {
@@ -287,8 +382,20 @@ function handleCommand(command) {
 }
 
 .brand-logo {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, rgb(47 84 235 / 30%), rgb(19 194 194 / 26%));
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 14%);
+}
+
+.brand-logo img {
+  width: 26px;
+  height: 26px;
+  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 28%));
 }
 
 .brand-copy {
@@ -297,9 +404,9 @@ function handleCommand(command) {
 }
 
 .brand-kicker {
-  font-size: 11px;
-  color: rgb(255 255 255 / 55%);
-  letter-spacing: 0.08em;
+  font-size: 10px;
+  color: rgb(207 217 248 / 76%);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
@@ -307,70 +414,240 @@ function handleCommand(command) {
   font-size: 16px;
   font-weight: 700;
   color: #fff;
+  margin-top: 4px;
+  letter-spacing: 0.04em;
+}
+
+.sider-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 8px 0 16px;
+}
+
+.sider-scroll :deep(.ant-menu) {
+  background: transparent;
+  border-inline-end: none !important;
+}
+
+.sider-footer {
+  padding: 8px 16px 18px;
+}
+
+.footer-card {
+  border-radius: 12px;
+  padding: 12px 14px;
+  background: rgb(255 255 255 / 6%);
+  border: 1px solid rgb(255 255 255 / 8%);
+  color: rgb(232 238 255 / 88%);
+}
+
+.footer-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.footer-pulse {
+  color: #52c41a;
+  filter: drop-shadow(0 0 6px rgb(82 196 26 / 60%));
+}
+
+.footer-sub {
+  margin-top: 4px;
+  font-size: 11px;
+  color: rgb(207 217 248 / 60%);
+  letter-spacing: 0.04em;
+}
+
+.shell-body {
+  background: var(--surface-app);
 }
 
 .shell-header {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  background: #fff;
-  padding: 0 20px;
-  border-bottom: 1px solid #f0f0f0;
+  background: var(--surface-card);
+  padding: 0 24px;
+  border-bottom: 1px solid var(--border-soft);
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 5;
+  box-shadow: 0 1px 0 var(--border-soft);
 }
 
 .header-left,
 .header-right {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .collapse-trigger {
-  color: #111827;
+  color: var(--text-default);
+  font-size: 17px;
+  width: 36px;
+  height: 36px;
+}
+
+.header-breadcrumb {
+  font-size: 13px;
+}
+
+.header-breadcrumb :deep(.ant-breadcrumb-link) {
+  color: var(--text-muted);
+}
+
+.header-breadcrumb :deep(.ant-breadcrumb-separator) {
+  color: var(--text-faint);
+  margin: 0 8px;
+}
+
+.crumb-current {
+  color: var(--text-strong);
+  font-weight: 600;
+}
+
+.header-icon-btn {
+  color: var(--text-muted);
+  width: 36px;
+  height: 36px;
+}
+
+.header-icon-btn:hover {
+  color: var(--brand-primary);
+  background: rgb(47 84 235 / 8%);
+}
+
+.header-divider {
+  height: 22px;
+  border-left-color: var(--border-default);
+  margin: 0 4px;
 }
 
 .account-link {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  color: #111827;
+  color: var(--text-default);
+  padding: 6px 12px 6px 6px;
+  border-radius: 999px;
+  transition: background 0.18s ease;
+}
+
+.account-link:hover {
+  background: var(--surface-overlay);
 }
 
 .account-avatar {
-  background: #1677ff;
+  background: linear-gradient(135deg, var(--brand-primary), var(--brand-accent));
+  color: #fff;
+  font-weight: 600;
+}
+
+.account-name {
+  font-weight: 600;
+}
+
+.account-caret {
+  color: var(--text-faint);
+  font-size: 11px;
 }
 
 .tags-bar {
+  background: var(--surface-card);
+  border-bottom: 1px solid var(--border-soft);
+  padding: 10px 18px;
+}
+
+.tags-scroller {
   display: flex;
   gap: 8px;
-  padding: 10px 16px;
-  background: #fff;
-  border-bottom: 1px solid #f0f0f0;
   overflow-x: auto;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+
+.tags-scroller::-webkit-scrollbar {
+  height: 4px;
 }
 
 .tag-chip {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
+  gap: 8px;
+  padding: 6px 12px;
   border-radius: 999px;
-  background: #f5f5f5;
-  color: #4b5563;
+  background: var(--surface-muted);
+  color: var(--text-muted);
+  font-size: 12px;
+  font-weight: 500;
   cursor: pointer;
   white-space: nowrap;
+  border: 1px solid transparent;
+  transition: all 0.18s ease;
+}
+
+.tag-chip:hover {
+  color: var(--brand-primary);
+  background: rgb(47 84 235 / 6%);
+  border-color: rgb(47 84 235 / 18%);
 }
 
 .tag-chip.active {
-  background: #1677ff;
+  background: var(--brand-primary);
   color: #fff;
+  border-color: var(--brand-primary);
+  box-shadow: 0 4px 12px rgb(47 84 235 / 28%);
+}
+
+.tag-chip.active .tag-dot {
+  background: #fff;
+}
+
+.tag-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
 }
 
 .tag-close {
-  font-size: 12px;
+  font-size: 11px;
+  opacity: 0.7;
+}
+
+.tag-chip:hover .tag-close,
+.tag-chip.active .tag-close {
+  opacity: 1;
 }
 
 .shell-content {
-  padding: 16px;
+  background: var(--surface-app);
+  padding: 0;
+}
+
+.shell-content-inner {
+  padding: 20px 24px 28px;
+  min-height: calc(100vh - 60px - 53px);
+}
+
+.page-fade-enter-from {
+  opacity: 0;
+  transform: translateY(6px);
+}
+
+.page-fade-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+
+.page-fade-enter-active,
+.page-fade-leave-active {
+  transition: all 0.22s ease;
 }
 </style>

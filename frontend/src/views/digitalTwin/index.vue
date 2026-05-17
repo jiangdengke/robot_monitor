@@ -4,7 +4,7 @@
       <el-row justify="space-between" align="middle">
         <el-space direction="vertical" alignment="flex-start">
           <el-text tag="b" size="large">数字孪生总览</el-text>
-          <el-text type="info">区域、机器人、旅客、巡检和桌台数据实时联动，硬件动作在本地以任务方式提交。</el-text>
+          <el-text type="info">区域、机器人、旅客和巡检数据实时联动，硬件动作在本地以任务方式提交。</el-text>
         </el-space>
         <el-space wrap>
           <el-select v-model="activeRoomCode" clearable placeholder="选择贵宾室" @change="loadDashboard">
@@ -134,13 +134,6 @@
         </el-table>
       </el-tab-pane>
 
-      <el-tab-pane label="翻台提醒" name="tableChange">
-        <el-table v-loading="loading" :data="tableList" border>
-          <el-table-column prop="tableNo" label="餐桌编号" min-width="120" />
-          <el-table-column prop="status" label="状态" min-width="100" />
-          <el-table-column prop="cameraCoordinates" label="位置" min-width="170" />
-        </el-table>
-      </el-tab-pane>
     </el-tabs>
 
     <el-drawer v-model="drawerVisible" title="联动详情" size="420px">
@@ -168,7 +161,6 @@ const regions = ref([])
 const robots = ref([])
 const passengers = ref([])
 const inspectionList = ref([])
-const tableList = ref([])
 const selectedRegion = ref(null)
 const drawerVisible = ref(false)
 const selectedDetail = ref([])
@@ -238,7 +230,6 @@ async function loadDashboard() {
     robots.value = twin.robotList || []
     passengers.value = twin.passengerList || []
     inspectionList.value = twin.inspectionList || []
-    tableList.value = twin.tableList || []
   } catch (error) {
     showAction(error?.payload?.msg || error?.message || '数字孪生数据加载失败', 'error')
   } finally {
