@@ -415,7 +415,9 @@ function toggleFullscreen() {
   padding: 8px 0 16px;
 }
 
-.sider-scroll :deep(.ant-menu) {
+.sider-scroll :deep(.ant-menu),
+.sider-scroll :deep(.ant-menu-sub),
+.sider-scroll :deep(.ant-menu-inline.ant-menu-sub) {
   background: transparent;
   border-inline-end: none !important;
 }
