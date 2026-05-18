@@ -30,7 +30,7 @@
 
     <el-card shadow="never">
       <template #header><el-text tag="b">视频流控制</el-text></template>
-      <el-form ref="formRef" :model="form" :rules="rules" inline @submit.prevent="startStream">
+      <el-form ref="formRef" class="filter-form" :model="form" :rules="rules" inline @submit.prevent="startStream">
         <el-form-item label="机器人" prop="robotId">
           <el-input v-model.trim="form.robotId" placeholder="如 ROBOT-001" />
         </el-form-item>

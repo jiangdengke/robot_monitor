@@ -416,6 +416,7 @@ CREATE TABLE project.inquiry_stat (
     robot_id BIGINT NULL,
     passenger_id BIGINT NULL,
     topic VARCHAR(255) DEFAULT '',
+    robot_response VARCHAR(1000) DEFAULT '',
     channel VARCHAR(32) DEFAULT 'MANUAL',
     created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     PRIMARY KEY (id)
@@ -603,10 +604,10 @@ INSERT INTO project.guide_log (`lounge_id`, `robot_id`, `passenger_id`, `region_
 VALUES
     (1, 1, 1, 1, 'SUCCESS', '[188,118]');
 
-INSERT INTO project.inquiry_stat (`lounge_id`, `robot_id`, `passenger_id`, `topic`, `channel`)
+INSERT INTO project.inquiry_stat (`lounge_id`, `robot_id`, `passenger_id`, `topic`, `robot_response`, `channel`)
 VALUES
-    (1, 1, 1, '航班登机口咨询', 'ROBOT'),
-    (1, NULL, NULL, '贵宾室开放时间咨询', 'MANUAL');
+    (1, 1, 1, '航班登机口咨询', '您的航班 CA1234 当前登机口为 G12，预计 18:20 起飞。', 'ROBOT'),
+    (1, 2, NULL, '贵宾室开放时间咨询', 'T2 国内贵宾室今日按航班保障计划开放，建议以现场公告为准。', 'ROBOT');
 
 INSERT INTO project.robot_task_log
     (`robot_id`, `task_template_id`, `task_name`, `task_type`, `task_subtype`, `task_mode`, `task_status`, `direct_execution`, `command_payload`, `return_payload`, `started_at`, `finished_at`)

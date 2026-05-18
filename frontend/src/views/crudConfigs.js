@@ -84,8 +84,38 @@ const deviceTypeOptions = [
 ]
 
 const passengerStatusMap = {
-  IN: '在厅',
-  OUT: '已出厅'
+  IN: '在舱',
+  OUT: '已出舱'
+}
+
+const passengerStatusTagMap = {
+  IN: 'success',
+  OUT: 'info'
+}
+
+const accessTypeMap = {
+  FACE: '人脸识别',
+  QRCODE: '扫码准入',
+  ID_CARD: '身份证验证',
+  MANUAL: '人工登记'
+}
+
+const accessTypeOptions = [
+  { label: '人脸识别', value: 'FACE' },
+  { label: '扫码准入', value: 'QRCODE' },
+  { label: '身份证验证', value: 'ID_CARD' },
+  { label: '人工登记', value: 'MANUAL' }
+]
+
+function formatDateTime(value) {
+  if (!value) {
+    return '-'
+  }
+  return String(value)
+    .replace('T', ' ')
+    .replace(/\.\d+/, '')
+    .replace(/([+-]\d{2}:?\d{2}|Z)$/, '')
+    .slice(0, 19)
 }
 
 function optionsFromRows(rows = [], valueKey = 'id', labelKey = 'name') {
@@ -106,6 +136,7 @@ async function loadConfigOptions() {
   const loungeRows = lounges.rows || []
   return {
     lounges: loungeRows.map((item) => ({ value: item.id, label: `${item.deptName} (${item.roomCode})`, raw: item })),
+    loungeRooms: loungeRows.map((item) => ({ value: item.roomCode, label: `${item.deptName} (${item.roomCode})`, raw: item })),
     regions: optionsFromRows(regions.rows || [], 'id', 'regionName'),
     areas: optionsFromRows(areas.rows || [], 'id', 'areaName'),
     images: optionsFromRows(images.rows || [], 'id', 'imgName'),
@@ -412,26 +443,59 @@ export const crudPages = {
     }
   },
   passenger: {
-    title: '在厅旅客',
+    title: '在舱记录',
     rowKey: 'id',
     list: listInLounge,
+    searchFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.loungeRooms },
+        { prop: 'flightDate', label: '航班日期', type: 'date' },
+        { prop: 'cardNo', label: '卡号' },
+        { prop: 'accessType', label: '准入类型', type: 'select', options: accessTypeOptions }
+      ]
+    },
     columns: [
       { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'passengerName', label: '旅客姓名', minWidth: 160 },
+      { prop: 'passengerName', label: '旅客姓名', minWidth: 130 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 160 },
       { prop: 'flightNo', label: '航班号', minWidth: 120 },
+      { prop: 'flightDate', label: '航班日期', minWidth: 120 },
+      { prop: 'cardProvider', label: '发卡方', minWidth: 120 },
+      { prop: 'cardNo', label: '卡号', minWidth: 150 },
+      { prop: 'accessType', label: '准入类型', minWidth: 120, map: accessTypeMap },
+      { prop: 'checkInAt', label: '入舱时间', minWidth: 170, formatter: formatDateTime },
+      { prop: 'checkOutAt', label: '出舱时间', minWidth: 170, formatter: formatDateTime },
       { prop: 'regionName', label: '区域', minWidth: 140 },
-      { prop: 'accessStatus', label: '状态', map: passengerStatusMap }
+      { prop: 'accessStatus', label: '在舱状态', width: 110, map: passengerStatusMap, tag: 'info', tagMap: passengerStatusTagMap }
     ]
   },
   outgoingPassenger: {
-    title: '出厅旅客',
+    title: '准出记录',
     rowKey: 'id',
     list: listOutgoing,
+    searchFields: async () => {
+      const options = await loadConfigOptions()
+      return [
+        { prop: 'roomCode', label: '贵宾室', type: 'select', options: options.loungeRooms },
+        { prop: 'flightDate', label: '航班日期', type: 'date' },
+        { prop: 'cardNo', label: '卡号' },
+        { prop: 'accessType', label: '准入类型', type: 'select', options: accessTypeOptions }
+      ]
+    },
     columns: [
       { prop: 'id', label: 'ID', width: 80 },
-      { prop: 'passengerName', label: '旅客姓名', minWidth: 160 },
+      { prop: 'passengerName', label: '旅客姓名', minWidth: 130 },
+      { prop: 'deptName', label: '贵宾室', minWidth: 160 },
       { prop: 'flightNo', label: '航班号', minWidth: 120 },
-      { prop: 'checkOutAt', label: '出厅时间', minWidth: 180 }
+      { prop: 'flightDate', label: '航班日期', minWidth: 120 },
+      { prop: 'cardProvider', label: '发卡方', minWidth: 120 },
+      { prop: 'cardNo', label: '卡号', minWidth: 150 },
+      { prop: 'accessType', label: '准入类型', minWidth: 120, map: accessTypeMap },
+      { prop: 'checkInAt', label: '入舱时间', minWidth: 170, formatter: formatDateTime },
+      { prop: 'checkOutAt', label: '出舱时间', minWidth: 170, formatter: formatDateTime },
+      { prop: 'regionName', label: '区域', minWidth: 140 },
+      { prop: 'accessStatus', label: '在舱状态', width: 110, map: passengerStatusMap, tag: 'info', tagMap: passengerStatusTagMap }
     ]
   },
   operlog: {

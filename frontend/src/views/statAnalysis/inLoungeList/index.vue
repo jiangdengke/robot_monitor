@@ -8,7 +8,7 @@ import { getCrudPage } from '@/views/crudConfigs'
 
 const config = {
   ...getCrudPage('passenger'),
-  title: '旅客信息',
-  description: '旅客基础信息、当前在厅状态、航班和区域记录。'
+  title: '在舱记录',
+  description: '旅客姓名、航班、卡号、准入类型和进出舱时间记录。'
 }
 </script>

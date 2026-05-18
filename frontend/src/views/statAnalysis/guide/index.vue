@@ -4,7 +4,15 @@
 
 <script setup>
 import CrudPage from '@/components/CrudPage.vue'
-import { listGuide } from '@/api/system'
+import { listGuide, listRobots } from '@/api/system'
+
+async function robotOptions() {
+  const response = await listRobots()
+  return (response.rows || []).map((robot) => ({
+    value: robot.id,
+    label: robot.robotName ? `${robot.robotName} (${robot.robotId})` : robot.robotId
+  }))
+}
 
 const config = {
   title: '引导统计',
@@ -16,6 +24,19 @@ const config = {
   enableDelete: false,
   enableBatchDelete: false,
   showDetail: false,
+  searchFields: [
+    { prop: 'robotId', label: '机器人', type: 'select', options: robotOptions },
+    {
+      prop: 'resultStatus',
+      label: '结果状态',
+      type: 'select',
+      options: [
+        { label: '成功', value: 'SUCCESS' },
+        { label: '创建中', value: 'CREATED' },
+        { label: '失败', value: 'FAILED' }
+      ]
+    }
+  ],
   columns: [
     { prop: 'deptName', label: '贵宾室', minWidth: 160 },
     { prop: 'robotName', label: '机器人', minWidth: 150 },

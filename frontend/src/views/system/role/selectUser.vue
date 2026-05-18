@@ -10,8 +10,8 @@
       </el-row>
     </template>
 
-    <el-form inline @submit.prevent="loadRows">
-      <el-form-item label="角色 ID">
+    <el-form class="filter-form" inline @submit.prevent="loadRows">
+      <el-form-item label="角色">
         <el-input-number v-model="roleId" :min="1" controls-position="right" />
       </el-form-item>
       <el-form-item label="账号">
@@ -26,7 +26,6 @@
 
     <el-table :data="rows" border @selection-change="selectedUserIds = $event.map((row) => row.userId)">
       <el-table-column type="selection" width="55" />
-      <el-table-column prop="userId" label="用户 ID" width="100" />
       <el-table-column prop="userName" label="账号" min-width="120" />
       <el-table-column prop="nickName" label="昵称" min-width="120" />
       <el-table-column prop="phonenumber" label="手机号" min-width="140" />

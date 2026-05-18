@@ -10,7 +10,7 @@
       </el-row>
     </template>
 
-    <el-form ref="queryRef" :model="query" inline @submit.prevent="handleSearch">
+    <el-form ref="queryRef" class="filter-form" :model="query" inline @submit.prevent="handleSearch">
       <el-form-item label="贵宾室编码" prop="roomCode">
         <el-select v-model="query.roomCode" clearable filterable placeholder="请选择贵宾室编码">
           <el-option v-for="room in rooms" :key="room.roomCode" :label="roomLabel(room)" :value="room.roomCode" />
@@ -22,15 +22,15 @@
       <el-form-item label="卡号" prop="cardNo">
         <el-input v-model.trim="query.cardNo" clearable placeholder="请输入卡号" />
       </el-form-item>
-      <el-form-item label="准入类型" prop="inType">
-        <el-select v-model="query.inType" clearable placeholder="请选择准入类型">
+      <el-form-item label="准入类型" prop="accessType">
+        <el-select v-model="query.accessType" clearable placeholder="请选择准入类型">
           <el-option v-for="option in inTypeOptions" :key="option.value" :label="option.label" :value="option.value" />
         </el-select>
       </el-form-item>
       <el-form-item label="在舱状态" prop="status">
         <el-select v-model="query.status" clearable placeholder="请选择状态">
-          <el-option label="在舱" value="1" />
-          <el-option label="不在" value="0" />
+          <el-option label="在舱" value="IN" />
+          <el-option label="已出舱" value="OUT" />
         </el-select>
       </el-form-item>
       <el-form-item>
@@ -41,25 +41,25 @@
 
     <el-table v-loading="loading" :data="rows" border stripe max-height="70vh">
       <el-table-column label="序号" type="index" width="70" align="center" />
-      <el-table-column prop="userName" label="旅客姓名" min-width="130" show-overflow-tooltip />
+      <el-table-column prop="passengerName" label="旅客姓名" min-width="130" show-overflow-tooltip />
       <el-table-column prop="roomCode" label="贵宾室编码" min-width="130" />
       <el-table-column prop="flightNo" label="航班号" min-width="110" />
       <el-table-column prop="flightDate" label="航班日期" min-width="120" />
-      <el-table-column prop="cardService" label="发卡方" min-width="110" show-overflow-tooltip />
+      <el-table-column prop="cardProvider" label="发卡方" min-width="110" show-overflow-tooltip />
       <el-table-column prop="cardNo" label="卡号" min-width="140" show-overflow-tooltip />
-      <el-table-column prop="inTypeText" label="准入类型" min-width="120">
-        <template #default="{ row }">{{ row.inTypeText || inTypeMap[String(row.inType)] || '-' }}</template>
+      <el-table-column prop="accessType" label="准入类型" min-width="120">
+        <template #default="{ row }">{{ inTypeMap[String(row.accessType)] || row.accessType || '-' }}</template>
       </el-table-column>
-      <el-table-column prop="status" label="在舱状态" width="110">
+      <el-table-column prop="accessStatus" label="在舱状态" width="110">
         <template #default="{ row }">
-          <el-tag :type="String(row.status) === '1' ? 'success' : 'info'">{{ String(row.status) === '1' ? '在舱' : '不在' }}</el-tag>
+          <el-tag :type="row.accessStatus === 'IN' ? 'success' : 'info'">{{ row.accessStatus === 'IN' ? '在舱' : '已出舱' }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column prop="getInTime" label="入舱时间" min-width="170" />
-      <el-table-column prop="getOutTime" label="出舱时间" min-width="170" />
-      <el-table-column prop="origImageUrl" label="最后照片" width="100">
+      <el-table-column prop="checkInAt" label="入舱时间" min-width="170" />
+      <el-table-column prop="checkOutAt" label="出舱时间" min-width="170" />
+      <el-table-column prop="originalImageUrl" label="最后照片" width="100">
         <template #default="{ row }">
-          <el-avatar v-if="row.origImageUrl" shape="square" :src="row.origImageUrl" />
+          <el-avatar v-if="row.originalImageUrl" shape="square" :src="row.originalImageUrl" />
           <span v-else>-</span>
         </template>
       </el-table-column>
@@ -85,7 +85,6 @@ import { onMounted, reactive, ref } from 'vue'
 import { getRoomList, listPassengerStatisticsByInType } from '@/api/system'
 import { toastError } from '@/utils/toast'
 
-const today = new Date().toISOString().slice(0, 10)
 const queryRef = ref(null)
 const rooms = ref([])
 const rows = ref([])
@@ -96,16 +95,17 @@ const query = reactive({
   pageNum: 1,
   pageSize: 10,
   roomCode: '',
-  flightDate: today,
+  flightDate: '',
   cardNo: '',
-  inType: '',
+  accessType: '',
   status: ''
 })
 
 const inTypeOptions = [
-  { label: '身份证验证', value: '1' },
-  { label: '扫码准入', value: '2' },
-  { label: '人脸识别', value: '3' }
+  { label: '身份证验证', value: 'ID_CARD' },
+  { label: '扫码准入', value: 'QRCODE' },
+  { label: '人脸识别', value: 'FACE' },
+  { label: '人工登记', value: 'MANUAL' }
 ]
 const inTypeMap = Object.fromEntries(inTypeOptions.map((item) => [item.value, item.label]))
 
@@ -116,7 +116,7 @@ function roomLabel(room) {
 async function loadRooms() {
   try {
     const response = await getRoomList()
-    rooms.value = response.data || []
+    rooms.value = response.rows || response.data || []
   } catch {
     rooms.value = []
   }
@@ -146,7 +146,7 @@ function resetSearch() {
   queryRef.value?.resetFields()
   query.pageNum = 1
   query.pageSize = 10
-  query.flightDate = today
+  query.flightDate = ''
   loadRows()
 }
 

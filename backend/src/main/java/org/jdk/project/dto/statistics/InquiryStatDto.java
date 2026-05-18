@@ -11,6 +11,7 @@ public class InquiryStatDto {
   private String robotName;
   private String passengerName;
   private String topic;
+  private String robotResponse;
   private String channel;
   private String createdAt;
 }

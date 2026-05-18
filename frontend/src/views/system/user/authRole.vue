@@ -10,8 +10,8 @@
       </el-row>
     </template>
 
-    <el-form inline>
-      <el-form-item label="用户 ID">
+    <el-form class="filter-form" inline>
+      <el-form-item label="用户">
         <el-input-number v-model="userId" :min="1" controls-position="right" />
       </el-form-item>
       <el-form-item>
@@ -21,7 +21,6 @@
 
     <el-table ref="tableRef" :data="rows" row-key="roleId" border @selection-change="handleSelectionChange">
       <el-table-column type="selection" width="55" :selectable="() => true" reserve-selection />
-      <el-table-column prop="roleId" label="角色 ID" width="100" />
       <el-table-column prop="roleName" label="角色名称" min-width="140" />
       <el-table-column prop="roleKey" label="权限标识" min-width="160" />
       <el-table-column label="已分配" width="100">

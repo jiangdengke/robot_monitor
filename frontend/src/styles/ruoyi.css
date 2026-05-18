@@ -245,12 +245,59 @@ a {
   gap: var(--space-3);
 }
 
-.crud-page > .el-form {
-  padding: 14px 16px;
+.filter-form {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: nowrap;
+  gap: 8px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 10px 12px;
   margin: 0;
   background: var(--surface-muted);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-sm);
   border: 1px solid var(--border-soft);
+  scrollbar-width: thin;
+}
+
+.filter-form .ant-form-item {
+  flex: 0 0 auto;
+  margin: 0;
+}
+
+.filter-form .ant-form-item-label {
+  padding-bottom: 0;
+  line-height: 32px;
+}
+
+.filter-form .ant-form-item-label > label {
+  height: 32px;
+  color: var(--text-muted);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.filter-form .ant-form-item-control {
+  min-width: 0;
+}
+
+.filter-form .ant-input,
+.filter-form .ant-select,
+.filter-form .ant-picker,
+.filter-form .ant-tree-select {
+  width: 168px;
+}
+
+.filter-form .ant-select-selector,
+.filter-form .ant-picker,
+.filter-form .ant-input {
+  min-height: 32px;
+}
+
+.filter-form .ant-btn {
+  height: 32px;
+  padding-inline: 12px;
 }
 
 .crud-page > .el-space {
@@ -277,11 +324,6 @@ a {
 
 .el-card__header {
   padding: 14px 18px;
-}
-
-.el-form--inline .el-form-item {
-  margin-right: 16px;
-  margin-bottom: 12px;
 }
 
 .crud-page .el-input,

@@ -113,11 +113,11 @@ export const createComplaint = (payload) => request('/config/complaints', { meth
 export const updateComplaint = (id, payload) => request(`/config/complaints/${id}`, { method: 'PUT', body: JSON.stringify(payload) })
 export const deleteComplaint = (id) => request(`/config/complaints/${id}`, { method: 'DELETE' })
 
-export const listInLounge = () => request('/statistics/in-lounge')
-export const listOutgoing = () => request('/statistics/outgoing')
-export const listAccessTemp = () => request('/statistics/access-temp')
-export const listInquiry = () => request('/statistics/inquiry')
-export const listGuide = () => request('/statistics/guide')
+export const listInLounge = (params = {}) => request('/statistics/in-lounge', { query: params })
+export const listOutgoing = (params = {}) => request('/statistics/outgoing', { query: params })
+export const listAccessTemp = (params = {}) => request('/statistics/access-temp', { query: params })
+export const listInquiry = (params = {}) => request('/statistics/inquiry', { query: params })
+export const listGuide = (params = {}) => request('/statistics/guide', { query: params })
 export const listPassengerStatisticsByInType = listAccessTemp
 export const getPassengerStatistics = listInLounge
 

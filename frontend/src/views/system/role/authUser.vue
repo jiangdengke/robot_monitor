@@ -13,8 +13,8 @@
       </el-row>
     </template>
 
-    <el-form inline>
-      <el-form-item label="角色 ID">
+    <el-form class="filter-form" inline>
+      <el-form-item label="角色">
         <el-input-number v-model="roleId" :min="1" controls-position="right" />
       </el-form-item>
       <el-form-item>
@@ -37,7 +37,6 @@
         </template>
         <el-table :data="allocatedRows" border @selection-change="handleAllocatedChange">
           <el-table-column type="selection" width="55" />
-          <el-table-column prop="userId" label="用户 ID" width="100" />
           <el-table-column prop="userName" label="账号" min-width="120" />
           <el-table-column prop="nickName" label="昵称" min-width="120" />
           <el-table-column prop="phonenumber" label="手机号" min-width="140" />
@@ -52,7 +51,6 @@
         </template>
         <el-table :data="unallocatedRows" border @selection-change="handleUnallocatedChange">
           <el-table-column type="selection" width="55" />
-          <el-table-column prop="userId" label="用户 ID" width="100" />
           <el-table-column prop="userName" label="账号" min-width="120" />
           <el-table-column prop="nickName" label="昵称" min-width="120" />
           <el-table-column prop="phonenumber" label="手机号" min-width="140" />
