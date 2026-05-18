@@ -13,7 +13,6 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 /**
  * Spring Security 配置。
@@ -29,8 +28,6 @@ public class WebSecurityConfig {
   private final UserDetailsServiceImpl userDetailsService;
 
   private final Jwt jwt;
-
-  private final CorsConfigurationSource corsConfigurationSource;
 
   /** 认证管理器。 */
   @Bean
@@ -48,7 +45,6 @@ public class WebSecurityConfig {
     <Stateless API CSRF protection>
     http.csrf(csrf -> csrf.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse()))
     */
-    http.cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource));
     http.csrf(AbstractHttpConfigurer::disable)
         .authorizeHttpRequests(
             authorize ->
