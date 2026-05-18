@@ -1,11 +1,11 @@
 # Robot Monitor Admin
 
-This repository now keeps a single active backend, `moban_java`, together with the Vue frontend.
+This repository now keeps a single active backend, `backend`, together with the Vue frontend.
 
 ## Structure
 
 ```text
-moban_java/
+backend/
   src/main/java/          Spring Boot monolith source
   src/main/resources/     application config and schema.sql
   build.gradle.kts
@@ -21,11 +21,11 @@ docs/
 
 ## Current Status
 
-- Active backend is `moban_java`.
+- Active backend is `backend`.
 - Backend compiles with:
 
 ```bash
-cd moban_java
+cd backend
 ./gradlew compileJava
 ```
 
@@ -38,10 +38,16 @@ npm run build
 ```
 
 - Browser smoke test passes against the current retained routes and new backend API.
-- Current API summary is documented in `moban_java/API_SUMMARY.md`.
+- Current API summary is documented in `backend/API_SUMMARY.md`.
 
 ## Important Boundary
 
-- `moban_java` is the only maintained backend in this repository.
+- `backend` is the only maintained backend in this repository.
 - `frontend/src` is maintainable reconstructed source adapted to the new monolith API.
 - `frontend/legacy-dist` is preserved only as static historical reference.
+
+## Backend Runtime
+
+- Backend now defaults to MySQL at `104.223.20.115:3306/project`.
+- Set `SPRING_DATASOURCE_PASSWORD` before starting the backend.
+- Startup still runs `backend/src/main/resources/db/schema.sql`, which rebuilds the demo schema and seed data.

@@ -78,7 +78,6 @@ dependencies {
     implementation("com.auth0:java-jwt:4.4.0")
 
     implementation("com.github.ben-manes.caffeine:caffeine:3.2.1")
-    runtimeOnly("com.h2database:h2:2.2.224")
 
     // 运行时依赖
     runtimeOnly("com.mysql:mysql-connector-j:8.2.0")
