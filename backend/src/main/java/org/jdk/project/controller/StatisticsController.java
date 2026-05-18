@@ -2,8 +2,8 @@ package org.jdk.project.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.jdk.project.dto.ListResponse;
-import org.jooq.generated.project.tables.pojos.GuideLog;
-import org.jooq.generated.project.tables.pojos.InquiryStat;
+import org.jdk.project.dto.statistics.GuideLogDto;
+import org.jdk.project.dto.statistics.InquiryStatDto;
 import org.jooq.generated.project.tables.pojos.Passenger;
 import org.jooq.generated.project.tables.pojos.PassengerAccessTemp;
 import org.jdk.project.service.StatisticsQueryService;
@@ -34,12 +34,12 @@ public class StatisticsController {
   }
 
   @GetMapping("/inquiry")
-  public ListResponse<InquiryStat> listInquiry() {
+  public ListResponse<InquiryStatDto> listInquiry() {
     return statisticsQueryService.listInquiryStats();
   }
 
   @GetMapping("/guide")
-  public ListResponse<GuideLog> listGuide() {
+  public ListResponse<GuideLogDto> listGuide() {
     return statisticsQueryService.listGuideLogs();
   }
 }

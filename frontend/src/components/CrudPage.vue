@@ -60,7 +60,7 @@
       @selection-change="selectedRows = $event"
     >
       <el-table-column v-if="canDelete && enableBatchDelete" type="selection" width="46" />
-      <el-table-column v-for="column in columns" :key="column.prop" :label="column.label" :min-width="column.minWidth" :width="column.width">
+      <el-table-column v-for="column in visibleColumns" :key="column.prop" :label="column.label" :min-width="column.minWidth" :width="column.width">
         <template #default="{ row }">
           <el-switch
             v-if="column.switch"
@@ -229,7 +229,7 @@
 
     <el-dialog v-model="detailVisible" title="详情" width="720px">
       <el-descriptions :column="2" border>
-        <el-descriptions-item v-for="column in columns" :key="column.prop" :label="column.label">
+        <el-descriptions-item v-for="column in visibleColumns" :key="column.prop" :label="column.label">
           {{ displayValue(detail, column) }}
         </el-descriptions-item>
       </el-descriptions>
@@ -434,6 +434,9 @@ const defaultIcons = [
 const visibleFormFields = computed(() =>
   resolvedFormFields.value.filter((field) => !field.hidden?.({ form, mode: formMode.value }))
 )
+const visibleColumns = computed(() =>
+  props.columns.filter((column) => !isHiddenColumn(column))
+)
 const hasListHandler = computed(() => typeof props.list === 'function' || Boolean(props.listPath || props.basePath))
 const hasCreateHandler = computed(() => typeof props.create === 'function' || Boolean(props.createPath || props.basePath))
 const hasUpdateHandler = computed(() => typeof props.update === 'function' || Boolean(props.updatePath || props.basePath))
@@ -445,6 +448,16 @@ const canDelete = computed(() => props.enableDelete && hasDeleteHandler.value &&
 const canShowDetail = computed(() => props.showDetail && hasDetailHandler.value)
 const visibleHeaderActions = computed(() => props.headerActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
 const visibleRowActions = computed(() => props.rowActions.filter((action) => canAction(action.permission || action.key, action.permissions)))
+
+function isHiddenColumn(column) {
+  if (typeof column.hidden === 'function') {
+    return column.hidden({ rows: rows.value, query })
+  }
+  if (column.hidden) {
+    return true
+  }
+  return column.prop === props.rowKey && String(column.label).toLowerCase() === 'id'
+}
 
 function resetObject(target, value = {}) {
   Object.keys(target).forEach((key) => delete target[key])

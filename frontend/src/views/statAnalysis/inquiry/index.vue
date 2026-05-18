@@ -17,10 +17,9 @@ const config = {
   enableBatchDelete: false,
   showDetail: false,
   columns: [
-    { prop: 'id', label: 'ID', width: 80 },
-    { prop: 'loungeId', label: '贵宾室 ID', width: 120 },
-    { prop: 'robotId', label: '机器人 ID', width: 120 },
-    { prop: 'passengerId', label: '旅客 ID', width: 120 },
+    { prop: 'deptName', label: '贵宾室', minWidth: 160 },
+    { prop: 'robotName', label: '机器人', minWidth: 150 },
+    { prop: 'passengerName', label: '旅客', minWidth: 120 },
     { prop: 'topic', label: '问询主题', minWidth: 220 },
     { prop: 'channel', label: '渠道', minWidth: 120 },
     { prop: 'createdAt', label: '创建时间', minWidth: 180 }
