@@ -25,7 +25,7 @@ public class DeviceConfigQueryService {
                 DEVICE.DEVICE_TYPE,
                 DEVICE.EXTERNAL_DEVICE_ID,
                 LOUNGE.CODE,
-                LOUNGE.NAME.as("lounge_name"),
+                ConfigQueryMapper.LOUNGE_NAME,
                 DEVICE.ENABLED,
                 DEVICE.REMARK)
             .from(DEVICE)

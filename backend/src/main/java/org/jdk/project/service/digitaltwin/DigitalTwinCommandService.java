@@ -10,8 +10,8 @@ import static org.jooq.generated.project.Tables.REGION;
 import static org.jooq.generated.project.Tables.ROBOT;
 import static org.jooq.generated.project.Tables.ROBOT_TASK_LOG;
 
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.jdk.project.dto.digitaltwin.DigitalTwinActionRequest;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Record;
@@ -25,9 +25,9 @@ public class DigitalTwinCommandService {
   private final DSLContext dsl;
 
   @Transactional
-  public void createGuideTask(Map<String, String> query) {
-    String robotCode = trimToNull(query.get("robotId"));
-    Long regionId = parseLong(firstNonBlank(query.get("regionId"), query.get("areaId")));
+  public void createGuideTask(DigitalTwinActionRequest request) {
+    String robotCode = trimToNull(request.getRobotId());
+    Long regionId = request.getRegionId() == null ? request.getAreaId() : request.getRegionId();
     Record robot = findRobot(robotCode);
     Long robotId = robot == null ? null : robot.get(ROBOT.ID);
     Long loungeId = robot == null ? null : robot.get(ROBOT.LOUNGE_ID);
@@ -40,7 +40,7 @@ public class DigitalTwinCommandService {
     }
     String coordinate =
         regionId == null
-            ? trimToNull(query.get("coordinate"))
+            ? trimToNull(request.getCoordinate())
             : dsl.select(REGION.COORDINATE)
                 .from(REGION)
                 .where(REGION.ID.eq(regionId))
@@ -56,8 +56,8 @@ public class DigitalTwinCommandService {
   }
 
   @Transactional
-  public void interruptGuideTask(Map<String, String> query) {
-    Record robot = findRobot(trimToNull(query.get("robotId")));
+  public void interruptGuideTask(DigitalTwinActionRequest request) {
+    Record robot = findRobot(trimToNull(request.getRobotId()));
     Long robotId = robot == null ? null : robot.get(ROBOT.ID);
     dsl.insertInto(ROBOT_TASK_LOG)
         .set(ROBOT_TASK_LOG.ROBOT_ID, robotId)
@@ -69,21 +69,22 @@ public class DigitalTwinCommandService {
   }
 
   @Transactional
-  public void saveManualNotice(Map<String, String> query) {
-    saveNotice(query, "MANUAL");
+  public void saveManualNotice(DigitalTwinActionRequest request) {
+    saveNotice(request, "MANUAL");
   }
 
   @Transactional
-  public void saveRobotNotice(Map<String, String> query) {
-    saveNotice(query, "ROBOT");
+  public void saveRobotNotice(DigitalTwinActionRequest request) {
+    saveNotice(request, "ROBOT");
   }
 
-  private void saveNotice(Map<String, String> query, String noticeType) {
-    Long warningId = parseLong(query.get("warningId"));
-    Long passengerId = parseLong(query.get("passengerId"));
+  private void saveNotice(DigitalTwinActionRequest request, String noticeType) {
+    Long warningId = request.getWarningId();
+    Long passengerId = request.getPassengerId();
     String warningInfo =
-        firstNonBlank(query.get("warningInfo"), "ROBOT".equals(noticeType) ? "机器人提醒" : "人工提醒");
-    String warningType = firstNonBlank(query.get("warningType"), "SERVICE_NOTICE");
+        firstNonBlank(
+            request.getWarningInfo(), "ROBOT".equals(noticeType) ? "机器人提醒" : "人工提醒");
+    String warningType = firstNonBlank(request.getWarningType(), "SERVICE_NOTICE");
     if (warningId != null) {
       int updated =
           dsl.update(PASSENGER_WARNING_LOG)

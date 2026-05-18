@@ -23,6 +23,7 @@ import org.jdk.project.dto.config.LoungeDto;
 import org.jdk.project.dto.config.RegionDto;
 import org.jdk.project.dto.config.RobotDto;
 import org.jdk.project.dto.config.TaskDto;
+import org.jooq.Field;
 import org.jooq.Record;
 import org.springframework.stereotype.Component;
 
@@ -31,6 +32,11 @@ class ConfigQueryMapper {
 
   private static final DateTimeFormatter DATETIME_FORMATTER =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+  static final Field<String> AREA_NAME = AREA.NAME.as("area_name");
+  static final Field<String> LOUNGE_NAME = LOUNGE.NAME.as("lounge_name");
+  static final Field<String> REGION_NAME = REGION.NAME.as("region_name");
+  static final Field<String> ROBOT_NAME = ROBOT.NAME.as("robot_name");
 
   LoungeDto toLoungeDto(Record record) {
     return LoungeDto.builder()
@@ -49,9 +55,9 @@ class ConfigQueryMapper {
         .id(record.get(REGION.ID))
         .regionName(record.get(REGION.NAME))
         .areaId(record.get(REGION.AREA_ID))
-        .areaName(record.get("area_name", String.class))
+        .areaName(record.get(AREA_NAME))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .coordinate(record.get(REGION.COORDINATE))
         .maxCapacity(record.get(REGION.MAX_CAPACITY))
         .isGuide(booleanFlag(record.get(REGION.GUIDE_ENABLED)))
@@ -66,7 +72,7 @@ class ConfigQueryMapper {
         .id(record.get(AREA.ID))
         .areaName(record.get(AREA.NAME))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .coordinate(record.get(AREA.COORDINATE))
         .maxCapacity(record.get(AREA.MAX_CAPACITY))
         .isGuide(booleanFlag(record.get(AREA.GUIDE_ENABLED)))
@@ -83,7 +89,7 @@ class ConfigQueryMapper {
         .imgName(record.get(MEDIA_IMAGE.NAME))
         .imgType(record.get(MEDIA_IMAGE.CATEGORY))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .width(record.get(MEDIA_IMAGE.WIDTH))
         .height(record.get(MEDIA_IMAGE.HEIGHT))
         .enable(booleanNumber(record.get(MEDIA_IMAGE.ENABLED)))
@@ -100,7 +106,7 @@ class ConfigQueryMapper {
         .textInfo(record.get(MEDIA_AUDIO.TEXT_CONTENT))
         .audioValue(record.get(MEDIA_AUDIO.AUDIO_CONTENT))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .remark(record.get(MEDIA_AUDIO.REMARK))
         .build();
   }
@@ -112,7 +118,7 @@ class ConfigQueryMapper {
         .deviceType(record.get(DEVICE.DEVICE_TYPE))
         .deepGlintDeviceId(record.get(DEVICE.EXTERNAL_DEVICE_ID))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .enable(booleanNumber(record.get(DEVICE.ENABLED)))
         .remark(record.get(DEVICE.REMARK))
         .build();
@@ -126,9 +132,9 @@ class ConfigQueryMapper {
         .mac(record.get(ROBOT.MAC))
         .robotIp(record.get(ROBOT.IP_ADDRESS))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .regionId(record.get(ROBOT.REGION_ID))
-        .regionName(record.get("region_name", String.class))
+        .regionName(record.get(REGION_NAME))
         .robotType(record.get(ROBOT.ROBOT_TYPE))
         .batteryState(record.get(ROBOT.BATTERY_PERCENT))
         .chargingState(record.get(ROBOT.CHARGING_STATE))
@@ -147,9 +153,9 @@ class ConfigQueryMapper {
         .id(record.get(ROBOT_TASK_TEMPLATE.ID))
         .taskName(record.get(ROBOT_TASK_TEMPLATE.NAME))
         .robotId(record.get(ROBOT_TASK_TEMPLATE.ROBOT_ID))
-        .robotName(record.get("robot_name", String.class))
+        .robotName(record.get(ROBOT_NAME))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .command(record.get(ROBOT_TASK_TEMPLATE.COMMAND_CODE))
         .commandCn(record.get(ROBOT_TASK_TEMPLATE.COMMAND_NAME))
         .priority(record.get(ROBOT_TASK_TEMPLATE.PRIORITY))
@@ -171,7 +177,7 @@ class ConfigQueryMapper {
         .id(record.get(COMPLAINT_RECORD.ID))
         .userName(record.get(COMPLAINT_RECORD.PASSENGER_NAME))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .cardService(record.get(COMPLAINT_RECORD.CARD_PROVIDER))
         .cardNo(record.get(COMPLAINT_RECORD.CARD_NO))
         .complaintContent(record.get(COMPLAINT_RECORD.CONTENT))

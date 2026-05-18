@@ -23,12 +23,17 @@ class StatisticsMapper {
   private static final DateTimeFormatter DATETIME_FORMATTER =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
+  static final Field<String> LOUNGE_NAME = LOUNGE.NAME.as("lounge_name");
+  static final Field<String> ROBOT_NAME = ROBOT.NAME.as("robot_name");
+  static final Field<String> PASSENGER_NAME = PASSENGER.PASSENGER_NAME.as("passenger_name");
+  static final Field<String> REGION_NAME = REGION.NAME.as("region_name");
+
   InquiryStatDto toInquiryStatDto(Record record) {
     return InquiryStatDto.builder()
         .id(record.get(INQUIRY_STAT.ID))
-        .deptName(record.get("lounge_name", String.class))
-        .robotName(record.get("robot_name", String.class))
-        .passengerName(record.get("passenger_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
+        .robotName(record.get(ROBOT_NAME))
+        .passengerName(record.get(PASSENGER_NAME))
         .topic(record.get(INQUIRY_STAT.TOPIC))
         .robotResponse(record.get(INQUIRY_STAT.ROBOT_RESPONSE))
         .channel(record.get(INQUIRY_STAT.CHANNEL))
@@ -39,10 +44,10 @@ class StatisticsMapper {
   GuideLogDto toGuideLogDto(Record record) {
     return GuideLogDto.builder()
         .id(record.get(GUIDE_LOG.ID))
-        .deptName(record.get("lounge_name", String.class))
-        .robotName(record.get("robot_name", String.class))
-        .passengerName(record.get("passenger_name", String.class))
-        .regionName(record.get("region_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
+        .robotName(record.get(ROBOT_NAME))
+        .passengerName(record.get(PASSENGER_NAME))
+        .regionName(record.get(REGION_NAME))
         .resultStatus(record.get(GUIDE_LOG.RESULT_STATUS))
         .coordinate(record.get(GUIDE_LOG.COORDINATE))
         .createdAt(formatDateTime(record.get(GUIDE_LOG.CREATED_AT)))
@@ -53,7 +58,7 @@ class StatisticsMapper {
     return PassengerRecordDto.builder()
         .id(record.get(PASSENGER.ID))
         .roomCode(record.get(LOUNGE.CODE))
-        .deptName(record.get("lounge_name", String.class))
+        .deptName(record.get(LOUNGE_NAME))
         .passengerName(record.get(PASSENGER.PASSENGER_NAME))
         .flightNo(record.get(PASSENGER.FLIGHT_NO))
         .flightDate(formatDate(record.get(PASSENGER.FLIGHT_DATE)))

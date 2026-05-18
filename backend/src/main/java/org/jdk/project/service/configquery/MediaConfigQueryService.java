@@ -26,7 +26,7 @@ public class MediaConfigQueryService {
                 MEDIA_IMAGE.NAME,
                 MEDIA_IMAGE.CATEGORY,
                 LOUNGE.CODE,
-                LOUNGE.NAME.as("lounge_name"),
+                ConfigQueryMapper.LOUNGE_NAME,
                 MEDIA_IMAGE.WIDTH,
                 MEDIA_IMAGE.HEIGHT,
                 MEDIA_IMAGE.ENABLED,
@@ -50,7 +50,7 @@ public class MediaConfigQueryService {
                 MEDIA_AUDIO.TEXT_CONTENT,
                 MEDIA_AUDIO.AUDIO_CONTENT,
                 LOUNGE.CODE,
-                LOUNGE.NAME.as("lounge_name"),
+                ConfigQueryMapper.LOUNGE_NAME,
                 MEDIA_AUDIO.REMARK)
             .from(MEDIA_AUDIO)
             .leftJoin(LOUNGE)

@@ -6,6 +6,7 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.jdk.project.config.security.Jwt;
 import org.jdk.project.dto.sign.SignInDto;
+import org.jdk.project.dto.sign.SignInResponse;
 import org.jdk.project.dto.sign.SignUpDto;
 import org.jooq.generated.project.tables.pojos.User;
 import org.jdk.project.service.SignService;
@@ -17,7 +18,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
-import java.util.Map;
 import org.jdk.project.repository.UserRepository;
 
 /** 认证接口：登录、注册、登出。 */
@@ -41,14 +41,14 @@ public class SignController {
    */
   @ResponseStatus(HttpStatus.OK)
   @PostMapping("/login")
-  Map<String, String> login(
+  SignInResponse login(
       HttpServletRequest request,
       HttpServletResponse response,
       @RequestBody @Valid SignInDto signInDto) {
     Long userId = signService.signIn(signInDto);
     String token = jwt.create(String.valueOf(userId));
     jwt.makeToken(request, response, String.valueOf(userId));
-    return Map.of("token", token);
+    return new SignInResponse(token);
   }
 
   /**

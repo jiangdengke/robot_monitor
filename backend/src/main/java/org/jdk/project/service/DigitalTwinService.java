@@ -1,8 +1,12 @@
 package org.jdk.project.service;
 
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.jdk.project.dto.ApiResponse;
+import org.jdk.project.dto.digitaltwin.DigitalTwinActionRequest;
+import org.jdk.project.dto.digitaltwin.DigitalTwinOverviewDto;
+import org.jdk.project.dto.digitaltwin.DigitalTwinQueryRequest;
+import org.jdk.project.dto.digitaltwin.DigitalTwinRegionDto;
 import org.jdk.project.service.digitaltwin.DigitalTwinCommandService;
 import org.jdk.project.service.digitaltwin.DigitalTwinQueryService;
 import org.springframework.stereotype.Service;
@@ -14,48 +18,42 @@ public class DigitalTwinService {
   private final DigitalTwinQueryService queryService;
   private final DigitalTwinCommandService commandService;
 
-  public Map<String, Object> selectRegionList(Map<String, String> query) {
-    return response(queryService.listRegions(query.get("roomCode")), "区域点位已加载");
+  public ApiResponse<List<DigitalTwinRegionDto>> selectRegionList(DigitalTwinQueryRequest query) {
+    return ApiResponse.ok(queryService.listRegions(query.getRoomCode()), "区域点位已加载");
   }
 
-  public Map<String, Object> all(Map<String, String> query) {
-    String roomCode = query.get("roomCode");
-    Map<String, Object> data = new LinkedHashMap<>();
-    data.put("robotList", queryService.listRobots(roomCode));
-    data.put("passengerList", queryService.listPassengers(roomCode));
-    data.put("inspectionList", queryService.listInspections(roomCode));
-    return response(data, "数字孪生数据已加载");
+  public ApiResponse<DigitalTwinOverviewDto> all(DigitalTwinQueryRequest query) {
+    String roomCode = query.getRoomCode();
+    DigitalTwinOverviewDto data =
+        DigitalTwinOverviewDto.builder()
+            .robotList(queryService.listRobots(roomCode))
+            .passengerList(queryService.listPassengers(roomCode))
+            .inspectionList(queryService.listInspections(roomCode))
+            .build();
+    return ApiResponse.ok(data, "数字孪生数据已加载");
   }
 
-  public Map<String, Object> guide(Map<String, String> query) {
-    commandService.createGuideTask(query);
-    return response(null, "区域引导任务已提交");
+  public ApiResponse<Void> guide(DigitalTwinActionRequest request) {
+    commandService.createGuideTask(request);
+    return ApiResponse.ok(null, "区域引导任务已提交");
   }
 
-  public Map<String, Object> interruptGuideTask(Map<String, String> query) {
-    commandService.interruptGuideTask(query);
-    return response(null, "机器人任务已停止");
+  public ApiResponse<Void> interruptGuideTask(DigitalTwinActionRequest request) {
+    commandService.interruptGuideTask(request);
+    return ApiResponse.ok(null, "机器人任务已停止");
   }
 
-  public Map<String, Object> manualNotice(Map<String, String> query) {
-    commandService.saveManualNotice(query);
-    return response(null, "人工提醒已完成");
+  public ApiResponse<Void> manualNotice(DigitalTwinActionRequest request) {
+    commandService.saveManualNotice(request);
+    return ApiResponse.ok(null, "人工提醒已完成");
   }
 
-  public Map<String, Object> notifyCustomer(Map<String, String> query) {
-    commandService.saveRobotNotice(query);
-    return response(null, "机器人提醒任务已提交");
+  public ApiResponse<Void> notifyCustomer(DigitalTwinActionRequest request) {
+    commandService.saveRobotNotice(request);
+    return ApiResponse.ok(null, "机器人提醒任务已提交");
   }
 
-  public Map<String, Object> handleInspection() {
-    return response(null, "巡检异常已处理");
-  }
-
-  private Map<String, Object> response(Object data, String message) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("code", 200);
-    body.put("msg", message);
-    body.put("data", data);
-    return body;
+  public ApiResponse<Void> handleInspection() {
+    return ApiResponse.ok(null, "巡检异常已处理");
   }
 }

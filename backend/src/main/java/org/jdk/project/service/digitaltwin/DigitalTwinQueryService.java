@@ -14,6 +14,11 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
+import org.jdk.project.dto.digitaltwin.DigitalTwinInspectionDto;
+import org.jdk.project.dto.digitaltwin.DigitalTwinPassengerDto;
+import org.jdk.project.dto.digitaltwin.DigitalTwinRegionDto;
+import org.jdk.project.dto.digitaltwin.DigitalTwinRobotDto;
+import org.jdk.project.dto.digitaltwin.DigitalTwinWarningDto;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -27,7 +32,7 @@ public class DigitalTwinQueryService {
   private final DSLContext dsl;
   private final DigitalTwinMapper mapper;
 
-  public List<Map<String, Object>> listRegions(String roomCode) {
+  public List<DigitalTwinRegionDto> listRegions(String roomCode) {
     Field<Integer> curCapacity =
         DSL.selectCount()
             .from(PASSENGER)
@@ -44,8 +49,8 @@ public class DigitalTwinQueryService {
             REGION.COORDINATE,
             REGION.MAX_CAPACITY,
             LOUNGE.CODE,
-            LOUNGE.NAME.as("lounge_name"),
-            AREA.NAME.as("area_name"),
+            DigitalTwinMapper.LOUNGE_NAME,
+            DigitalTwinMapper.AREA_NAME,
             curCapacity)
         .from(REGION)
         .leftJoin(LOUNGE)
@@ -54,10 +59,10 @@ public class DigitalTwinQueryService {
         .on(REGION.AREA_ID.eq(AREA.ID))
         .where(condition)
         .orderBy(REGION.ID.asc())
-        .fetch(mapper::toRegionMap);
+        .fetch(record -> mapper.toRegionDto(record, curCapacity));
   }
 
-  public List<Map<String, Object>> listRobots(String roomCode) {
+  public List<DigitalTwinRobotDto> listRobots(String roomCode) {
     Condition condition = ROBOT.ENABLED.eq(true);
     String normalizedRoomCode = trimToNull(roomCode);
     if (normalizedRoomCode != null) {
@@ -72,7 +77,7 @@ public class DigitalTwinQueryService {
             ROBOT.WORKING_STATE,
             ROBOT.BATTERY_PERCENT,
             LOUNGE.CODE,
-            REGION.NAME.as("region_name"))
+            DigitalTwinMapper.REGION_NAME)
         .from(ROBOT)
         .leftJoin(LOUNGE)
         .on(ROBOT.LOUNGE_ID.eq(LOUNGE.ID))
@@ -80,11 +85,11 @@ public class DigitalTwinQueryService {
         .on(ROBOT.REGION_ID.eq(REGION.ID))
         .where(condition)
         .orderBy(ROBOT.ID.asc())
-        .fetch(mapper::toRobotMap);
+        .fetch(mapper::toRobotDto);
   }
 
-  public List<Map<String, Object>> listPassengers(String roomCode) {
-    Map<Long, List<Map<String, Object>>> warnings = listWarnings();
+  public List<DigitalTwinPassengerDto> listPassengers(String roomCode) {
+    Map<Long, List<DigitalTwinWarningDto>> warnings = listWarnings();
     Condition condition = PASSENGER.ACCESS_STATUS.eq("IN");
     String normalizedRoomCode = trimToNull(roomCode);
     if (normalizedRoomCode != null) {
@@ -109,10 +114,10 @@ public class DigitalTwinQueryService {
         .on(PASSENGER.FLIGHT_ID.eq(FLIGHT_INFO.ID))
         .where(condition)
         .orderBy(PASSENGER.ID.asc())
-        .fetch(record -> mapper.toPassengerMap(record, warnings));
+        .fetch(record -> mapper.toPassengerDto(record, warnings));
   }
 
-  public List<Map<String, Object>> listInspections(String roomCode) {
+  public List<DigitalTwinInspectionDto> listInspections(String roomCode) {
     Condition condition = ROBOT.ERROR_MESSAGE.isNotNull().and(ROBOT.ERROR_MESSAGE.ne(""));
     String normalizedRoomCode = trimToNull(roomCode);
     if (normalizedRoomCode != null) {
@@ -124,7 +129,7 @@ public class DigitalTwinQueryService {
             ROBOT.ERROR_MESSAGE,
             ROBOT.INITIAL_COORDINATE,
             LOUNGE.CODE,
-            REGION.NAME.as("region_name"))
+            DigitalTwinMapper.REGION_NAME)
         .from(ROBOT)
         .leftJoin(LOUNGE)
         .on(ROBOT.LOUNGE_ID.eq(LOUNGE.ID))
@@ -132,11 +137,11 @@ public class DigitalTwinQueryService {
         .on(ROBOT.REGION_ID.eq(REGION.ID))
         .where(condition)
         .orderBy(ROBOT.ID.asc())
-        .fetch(mapper::toInspectionMap);
+        .fetch(mapper::toInspectionDto);
   }
 
-  private Map<Long, List<Map<String, Object>>> listWarnings() {
-    Map<Long, List<Map<String, Object>>> warnings = new LinkedHashMap<>();
+  private Map<Long, List<DigitalTwinWarningDto>> listWarnings() {
+    Map<Long, List<DigitalTwinWarningDto>> warnings = new LinkedHashMap<>();
     dsl.select(
             PASSENGER_WARNING_LOG.ID,
             PASSENGER_WARNING_LOG.PASSENGER_ID,
@@ -150,7 +155,7 @@ public class DigitalTwinQueryService {
         .fetch(
             record -> {
               Long passengerId = record.get(PASSENGER_WARNING_LOG.PASSENGER_ID);
-              warnings.computeIfAbsent(passengerId, key -> new ArrayList<>()).add(mapper.toWarningMap(record));
+              warnings.computeIfAbsent(passengerId, key -> new ArrayList<>()).add(mapper.toWarningDto(record));
               return null;
             });
     return warnings;

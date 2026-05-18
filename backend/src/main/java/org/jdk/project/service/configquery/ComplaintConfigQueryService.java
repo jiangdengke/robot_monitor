@@ -23,7 +23,7 @@ public class ComplaintConfigQueryService {
                 COMPLAINT_RECORD.ID,
                 COMPLAINT_RECORD.PASSENGER_NAME,
                 LOUNGE.CODE,
-                LOUNGE.NAME.as("lounge_name"),
+                ConfigQueryMapper.LOUNGE_NAME,
                 COMPLAINT_RECORD.CARD_PROVIDER,
                 COMPLAINT_RECORD.CARD_NO,
                 COMPLAINT_RECORD.CONTENT,

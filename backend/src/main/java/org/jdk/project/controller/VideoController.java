@@ -7,6 +7,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import lombok.Getter;
 import lombok.Setter;
+import org.jdk.project.dto.video.VideoStreamDto;
+import org.jdk.project.dto.video.VideoStreamsResponse;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,30 +22,32 @@ public class VideoController {
   private static final DateTimeFormatter DATETIME_FORMATTER =
       DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
-  private final Map<String, Map<String, Object>> activeStreams = new ConcurrentHashMap<>();
+  private final Map<String, VideoStreamDto> activeStreams = new ConcurrentHashMap<>();
 
   @GetMapping("/active")
-  public Map<String, Object> activeStreams() {
+  public VideoStreamsResponse activeStreams() {
     return response("活跃视频流已加载");
   }
 
   @PostMapping("/start")
-  public Map<String, Object> startStream(@RequestBody VideoStreamRequest request) {
+  public VideoStreamsResponse startStream(@RequestBody VideoStreamRequest request) {
     String robotId = trimToDefault(request.getRobotId(), "ROBOT-001");
     String userId = trimToDefault(request.getUserId(), "admin");
     String now = LocalDateTime.now().format(DATETIME_FORMATTER);
-    Map<String, Object> stream = new LinkedHashMap<>();
-    stream.put("userId", userId);
-    stream.put("mode", "mock");
-    stream.put("startTime", now);
-    stream.put("frameCount", 0);
-    stream.put("lastFrameAt", now);
+    VideoStreamDto stream =
+        VideoStreamDto.builder()
+            .userId(userId)
+            .mode("mock")
+            .startTime(now)
+            .frameCount(0)
+            .lastFrameAt(now)
+            .build();
     activeStreams.put(robotId, stream);
     return response("视频流已启动");
   }
 
   @PostMapping("/stop")
-  public Map<String, Object> stopStream(@RequestBody VideoStreamRequest request) {
+  public VideoStreamsResponse stopStream(@RequestBody VideoStreamRequest request) {
     String robotId = trimToDefault(request.getRobotId(), "");
     if (robotId.isEmpty()) {
       activeStreams.clear();
@@ -55,11 +59,11 @@ public class VideoController {
     return response("视频流已停止");
   }
 
-  private Map<String, Object> response(String message) {
-    Map<String, Object> body = new LinkedHashMap<>();
-    body.put("data", new LinkedHashMap<>(activeStreams));
-    body.put("msg", message);
-    return body;
+  private VideoStreamsResponse response(String message) {
+    return VideoStreamsResponse.builder()
+        .data(new LinkedHashMap<>(activeStreams))
+        .msg(message)
+        .build();
   }
 
   private String trimToDefault(String value, String defaultValue) {

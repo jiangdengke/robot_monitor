@@ -7,10 +7,10 @@ import static org.jooq.generated.project.Tables.PASSENGER;
 import static org.jooq.generated.project.Tables.ROBOT;
 
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.jdk.project.dto.ListResponse;
 import org.jdk.project.dto.statistics.InquiryStatDto;
+import org.jdk.project.dto.statistics.InquiryStatisticsQuery;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.impl.DSL;
@@ -23,13 +23,13 @@ public class InquiryStatisticsService {
   private final DSLContext dsl;
   private final StatisticsMapper mapper;
 
-  public ListResponse<InquiryStatDto> listInquiryStats(Map<String, String> query) {
+  public ListResponse<InquiryStatDto> listInquiryStats(InquiryStatisticsQuery query) {
     List<InquiryStatDto> rows =
         dsl.select(
                 INQUIRY_STAT.ID,
-                LOUNGE.NAME.as("lounge_name"),
-                ROBOT.NAME.as("robot_name"),
-                PASSENGER.PASSENGER_NAME.as("passenger_name"),
+                StatisticsMapper.LOUNGE_NAME,
+                StatisticsMapper.ROBOT_NAME,
+                StatisticsMapper.PASSENGER_NAME,
                 INQUIRY_STAT.TOPIC,
                 INQUIRY_STAT.ROBOT_RESPONSE,
                 INQUIRY_STAT.CHANNEL,
@@ -47,9 +47,9 @@ public class InquiryStatisticsService {
     return ListResponse.of(rows.size(), rows);
   }
 
-  private Condition buildInquiryCondition(Map<String, String> query) {
+  private Condition buildInquiryCondition(InquiryStatisticsQuery query) {
     Condition condition = DSL.trueCondition();
-    String robotId = trimToNull(query.get("robotId"));
+    String robotId = trimToNull(query.getRobotId());
     if (robotId != null) {
       condition = condition.and(INQUIRY_STAT.ROBOT_ID.eq(Long.valueOf(robotId)));
     }

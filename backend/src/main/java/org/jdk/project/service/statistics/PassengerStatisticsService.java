@@ -10,10 +10,10 @@ import static org.jooq.generated.project.Tables.PASSENGER_CHECKOUT_LOG;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.jdk.project.dto.ListResponse;
 import org.jdk.project.dto.statistics.PassengerRecordDto;
+import org.jdk.project.dto.statistics.PassengerStatisticsQuery;
 import org.jooq.Condition;
 import org.jooq.DSLContext;
 import org.jooq.Field;
@@ -27,19 +27,19 @@ public class PassengerStatisticsService {
   private final DSLContext dsl;
   private final StatisticsMapper mapper;
 
-  public ListResponse<PassengerRecordDto> listInLoungePassengers(Map<String, String> query) {
+  public ListResponse<PassengerRecordDto> listInLoungePassengers(PassengerStatisticsQuery query) {
     List<PassengerRecordDto> rows =
         listPassengerRecords(buildPassengerCondition(query).and(PASSENGER.ACCESS_STATUS.eq("IN")));
     return ListResponse.of(rows.size(), rows);
   }
 
-  public ListResponse<PassengerRecordDto> listOutgoingPassengers(Map<String, String> query) {
+  public ListResponse<PassengerRecordDto> listOutgoingPassengers(PassengerStatisticsQuery query) {
     List<PassengerRecordDto> rows =
         listPassengerRecords(buildPassengerCondition(query).and(PASSENGER.ACCESS_STATUS.eq("OUT")));
     return ListResponse.of(rows.size(), rows);
   }
 
-  public ListResponse<PassengerRecordDto> listAccessRecords(Map<String, String> query) {
+  public ListResponse<PassengerRecordDto> listAccessRecords(PassengerStatisticsQuery query) {
     List<PassengerRecordDto> rows = listPassengerRecords(buildPassengerCondition(query));
     return ListResponse.of(rows.size(), rows);
   }
@@ -51,7 +51,7 @@ public class PassengerStatisticsService {
     return dsl.select(
             PASSENGER.ID,
             LOUNGE.CODE,
-            LOUNGE.NAME.as("lounge_name"),
+            StatisticsMapper.LOUNGE_NAME,
             PASSENGER.PASSENGER_NAME,
             PASSENGER.FLIGHT_NO,
             PASSENGER.FLIGHT_DATE,
@@ -94,25 +94,25 @@ public class PassengerStatisticsService {
         .fetch(record -> mapper.toPassengerRecordDto(record, checkOutAt));
   }
 
-  private Condition buildPassengerCondition(Map<String, String> query) {
+  private Condition buildPassengerCondition(PassengerStatisticsQuery query) {
     Condition condition = DSL.trueCondition();
-    String roomCode = trimToNull(query.get("roomCode"));
+    String roomCode = trimToNull(query.getRoomCode());
     if (roomCode != null) {
       condition = condition.and(LOUNGE.CODE.eq(roomCode));
     }
-    String flightDate = trimToNull(query.get("flightDate"));
+    String flightDate = trimToNull(query.getFlightDate());
     if (flightDate != null) {
       condition = condition.and(PASSENGER.FLIGHT_DATE.eq(LocalDate.parse(flightDate)));
     }
-    String cardNo = trimToNull(query.get("cardNo"));
+    String cardNo = trimToNull(query.getCardNo());
     if (cardNo != null) {
       condition = condition.and(PASSENGER.CARD_NO.containsIgnoreCase(cardNo));
     }
-    String accessType = normalizeAccessType(trimToNull(query.get("accessType")));
+    String accessType = normalizeAccessType(trimToNull(query.getAccessType()));
     if (accessType != null) {
       condition = condition.and(PASSENGER.ACCESS_TYPE.eq(accessType));
     }
-    String status = normalizePassengerStatus(trimToNull(query.get("status")));
+    String status = normalizePassengerStatus(trimToNull(query.getStatus()));
     if (status != null) {
       condition = condition.and(PASSENGER.ACCESS_STATUS.eq(status));
     }
