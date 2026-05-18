@@ -1,0 +1,6 @@
+services:
+  robot-monitor:
+    image: ${ROBOT_MONITOR_IMAGE:-robot-monitor:local}
+    build:
+      context: .
+      dockerfile: Dockerfile

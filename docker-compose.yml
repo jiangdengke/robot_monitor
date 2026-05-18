@@ -1,0 +1,9 @@
+services:
+  robot-monitor:
+    image: ${ROBOT_MONITOR_IMAGE:-ghcr.io/jiangdengke/robot-monitor:latest}
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "${ROBOT_MONITOR_PORT:-7777}:7777"

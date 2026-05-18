@@ -1,0 +1,15 @@
+.git
+.local-backup
+docs
+
+backend/.gradle
+backend/build
+
+frontend/node_modules
+frontend/dist
+frontend/.vite
+frontend/.vite-temp
+frontend/*.local
+
+*.log
+.DS_Store

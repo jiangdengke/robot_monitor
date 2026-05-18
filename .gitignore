@@ -2,6 +2,15 @@
 /*
 !/.gitignore
 !/README.md
+!/.dockerignore
+!/.env.example
+!/.github/
+!/.github/**
+!/Dockerfile
+!/docker-compose.yml
+!/docker-compose.build.yml
+!/docker/
+!/docker/**
 !/backend/
 !/frontend/
 !/docs/

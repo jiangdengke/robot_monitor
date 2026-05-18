@@ -48,6 +48,31 @@ npm run build
 
 ## Backend Runtime
 
-- Backend now defaults to MySQL at `104.223.20.115:3306/project`.
-- Set `SPRING_DATASOURCE_PASSWORD` before starting the backend.
+- Backend uses MySQL via `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USERNAME`, and `MYSQL_PASSWORD`.
 - Startup still runs `backend/src/main/resources/db/schema.sql`, which rebuilds the demo schema and seed data.
+
+## Docker Deployment
+
+This project can be delivered as a single Docker image. The image contains:
+
+- Nginx serving the built frontend on port `7777`
+- Spring Boot backend running inside the same container on port `8080`
+- Nginx proxying `/api/*` to the backend without exposing backend port `8080`
+
+Server deployment only needs `docker-compose.yml` and a local `.env` file:
+
+```bash
+docker compose pull
+docker compose up -d
+```
+
+For local image builds from source:
+
+```bash
+docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
+```
+
+Copy `.env.example` to `.env` on the server and fill in the database host and password. Do not commit `.env`.
+Set `JAVA_OPTS` only when the server needs an explicit JVM memory limit.
+
+Pushing to `main` triggers `.github/workflows/docker-image.yml`, which builds and publishes the single image to GHCR.
