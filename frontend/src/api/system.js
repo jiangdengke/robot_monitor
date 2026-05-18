@@ -120,6 +120,7 @@ export const listInquiry = (params = {}) => request('/statistics/inquiry', { que
 export const listGuide = (params = {}) => request('/statistics/guide', { query: params })
 export const listPassengerStatisticsByInType = listAccessTemp
 export const getPassengerStatistics = listInLounge
+export const getDigitalTwinAll = (params = {}) => request('/DigitalTwin/all', { query: params })
 
 export const listLoginLogs = () => request('/monitor/login-logs')
 export const clearLoginLogs = () => request('/monitor/login-logs', { method: 'DELETE' })

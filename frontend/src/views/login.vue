@@ -62,7 +62,7 @@
 
             <div class="login-meta">
               <a-checkbox v-model:checked="remember">7 天内自动登录</a-checkbox>
-              <a class="forgot" @click.prevent>忘记密码？</a>
+              <a class="forgot" @click.prevent="showForgotPassword">忘记密码？</a>
             </div>
 
             <a-button
@@ -89,7 +89,7 @@ import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { hydrateSession, login } from '@/stores/session'
-import { toastError } from '@/utils/toast'
+import { toastError, toastInfo } from '@/utils/toast'
 
 const router = useRouter()
 const submitting = ref(false)
@@ -120,6 +120,10 @@ async function handleSubmit() {
   } finally {
     submitting.value = false
   }
+}
+
+function showForgotPassword() {
+  toastInfo('请联系管理员重置密码')
 }
 </script>
 

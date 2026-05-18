@@ -19,7 +19,7 @@
       </el-form-item>
       <el-form-item>
         <el-button type="primary" native-type="submit">查询</el-button>
-        <el-button type="success" :disabled="!selectedUserIds.length" @click="assignSelected">确认分配</el-button>
+        <el-button type="success" @click="assignSelected">确认分配</el-button>
         <el-button @click="router.push(`/system/role-auth/user/${roleId}`)">返回</el-button>
       </el-form-item>
     </el-form>
@@ -47,7 +47,7 @@
 import { onMounted, reactive, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { assignRoleUsers, listUnallocatedUsers } from '@/api/system'
-import { toastError, toastSuccess } from '@/utils/toast'
+import { toastError, toastSuccess, toastWarning } from '@/utils/toast'
 
 const route = useRoute()
 const router = useRouter()
@@ -81,6 +81,10 @@ async function loadRows() {
 }
 
 async function assignSelected() {
+  if (!selectedUserIds.value.length) {
+    toastWarning('请先选择要分配的用户')
+    return
+  }
   try {
     await assignRoleUsers(roleId.value, selectedUserIds.value)
     message.value = '用户分配成功'

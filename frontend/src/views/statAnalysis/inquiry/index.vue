@@ -14,6 +14,13 @@ async function robotOptions() {
   }))
 }
 
+const channelMap = {
+  ROBOT: '机器人',
+  MANUAL: '人工',
+  VOICE: '语音',
+  TEXT: '文本'
+}
+
 const config = {
   title: '问询统计',
   description: '问询记录按机器人、旅客、问询内容和机器人回复展示。',
@@ -33,7 +40,7 @@ const config = {
     { prop: 'passengerName', label: '旅客', minWidth: 120 },
     { prop: 'topic', label: '问询内容', minWidth: 220 },
     { prop: 'robotResponse', label: '机器人回复', minWidth: 280 },
-    { prop: 'channel', label: '渠道', minWidth: 120 },
+    { prop: 'channel', label: '渠道', minWidth: 120, map: channelMap },
     { prop: 'createdAt', label: '创建时间', minWidth: 180 }
   ],
   formFields: []

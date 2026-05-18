@@ -28,7 +28,9 @@
           <el-table-column prop="robotName" label="机器人" min-width="140">
             <template #default="{ row }">{{ row.robotName || row.robotId || 'R' }}</template>
           </el-table-column>
-          <el-table-column prop="workingState" label="状态" min-width="120" />
+          <el-table-column prop="workingState" label="状态" min-width="120">
+            <template #default="{ row }">{{ robotStateText(row.workingState) }}</template>
+          </el-table-column>
           <el-table-column label="坐标" min-width="160">
             <template #default="{ row }">{{ pointText(row) || '-' }}</template>
           </el-table-column>
@@ -61,5 +63,19 @@ defineEmits(['select-region', 'select-robot', 'select-passenger'])
 
 function pointText(item) {
   return item.coordinate || item.cameraCoordinates || item.oriCoordinate || item.position || item.coordinates || ''
+}
+
+function robotStateText(value) {
+  return robotStateMap[String(value || '')] || value || '空闲'
+}
+
+const robotStateMap = {
+  0: '空闲',
+  1: '工作中',
+  IDLE: '空闲',
+  WORKING: '工作中',
+  RUNNING: '运行中',
+  CHARGING: '充电中',
+  ERROR: '异常'
 }
 </script>

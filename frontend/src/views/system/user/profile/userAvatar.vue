@@ -11,7 +11,7 @@
         <a-upload :before-upload="beforeUpload" :show-upload-list="true" :max-count="1">
           <a-button>选择图片</a-button>
         </a-upload>
-        <a-button type="primary" class="upload-btn" :disabled="!file" @click="handleUpload">上传</a-button>
+        <a-button type="primary" class="upload-btn" @click="handleUpload">上传</a-button>
       </a-card>
       <a-card title="上传结果" :bordered="false">
         <div class="info-lines">
@@ -26,7 +26,7 @@
 <script setup>
 import { ref } from 'vue'
 import { updateAvatar, uploadFiles } from '@/api/system'
-import { toastError, toastSuccess } from '@/utils/toast'
+import { toastError, toastSuccess, toastWarning } from '@/utils/toast'
 
 const file = ref(null)
 const uploadedPath = ref('')
@@ -38,7 +38,10 @@ function beforeUpload(nextFile) {
 }
 
 async function handleUpload() {
-  if (!file.value) return
+  if (!file.value) {
+    toastWarning('请先选择头像图片')
+    return
+  }
   try {
     const paths = await uploadFiles([file.value])
     uploadedPath.value = Array.isArray(paths) ? paths[0] : String(paths)

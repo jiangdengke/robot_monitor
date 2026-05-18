@@ -70,7 +70,7 @@
           <template #header>
             <el-row justify="space-between" align="middle">
               <el-text tag="b">键名列表</el-text>
-              <el-button link type="primary" :disabled="!selectedName" @click="loadKeys(selectedName)">刷新</el-button>
+              <el-button link type="primary" @click="refreshSelectedName">刷新</el-button>
             </el-row>
           </template>
           <el-table
@@ -97,7 +97,7 @@
           <template #header>
             <el-row justify="space-between" align="middle">
               <el-text tag="b">缓存内容</el-text>
-              <el-button link type="primary" :disabled="!selectedKey" @click="selectKey(selectedKey)">刷新</el-button>
+              <el-button link type="primary" @click="refreshSelectedKey">刷新</el-button>
             </el-row>
           </template>
           <el-form label-position="top" :model="cacheValue">
@@ -122,7 +122,7 @@
 import { Modal } from 'ant-design-vue'
 import { onMounted, ref } from 'vue'
 import { clearCacheAll, clearCacheKey, clearCacheName, getCacheInfo, getCacheValue, listCacheKeys, listCacheNames } from '@/api/system'
-import { toastError, toastSuccess } from '@/utils/toast'
+import { toastError, toastSuccess, toastWarning } from '@/utils/toast'
 
 const cacheInfo = ref({})
 const cacheNames = ref([])
@@ -177,6 +177,22 @@ async function loadKeys(cacheName) {
   } finally {
     keysLoading.value = false
   }
+}
+
+async function refreshSelectedName() {
+  if (!selectedName.value) {
+    toastWarning('请先选择缓存名称')
+    return
+  }
+  await loadKeys(selectedName.value)
+}
+
+async function refreshSelectedKey() {
+  if (!selectedKey.value) {
+    toastWarning('请先选择缓存键名')
+    return
+  }
+  await selectKey(selectedKey.value)
 }
 
 async function loadAll() {

@@ -34,7 +34,7 @@
 
     <el-space class="mb8" wrap>
       <el-button v-if="canCreate" type="primary" @click="openCreate">新增</el-button>
-      <el-button v-if="canDelete && enableBatchDelete" type="danger" :disabled="!selectedRows.length" @click="deleteSelected">批量删除</el-button>
+      <el-button v-if="canDelete && enableBatchDelete" type="danger" @click="deleteSelected">批量删除</el-button>
       <el-button
         v-for="action in visibleHeaderActions"
         :key="action.key"
@@ -252,7 +252,7 @@
       </el-upload>
       <template #footer>
         <el-button @click="uploadVisible = false">关闭</el-button>
-        <el-button type="primary" :disabled="!pendingFiles.length" @click="submitUpload">上传</el-button>
+        <el-button type="primary" @click="submitUpload">上传</el-button>
       </template>
     </el-dialog>
 
@@ -291,7 +291,7 @@
       <el-checkbox v-model="importUpdateSupport">更新已存在数据</el-checkbox>
       <template #footer>
         <el-button @click="importVisible = false">关闭</el-button>
-        <el-button type="primary" :disabled="!importFile" @click="submitImport">导入</el-button>
+        <el-button type="primary" @click="submitImport">导入</el-button>
       </template>
     </el-dialog>
   </div>
@@ -480,8 +480,15 @@ function displayValue(row, column) {
   if (column.formatter) {
     return column.formatter(raw, row)
   }
-  const value = column.map ? column.map[String(raw)] : raw
+  const value = column.map ? column.map[String(raw)] : translateKnownValue(raw)
   return value === undefined || value === null || value === '' ? '-' : value
+}
+
+function translateKnownValue(value) {
+  if (value === undefined || value === null) {
+    return value
+  }
+  return commonValueMap[String(value)] ?? value
 }
 
 function displayImageValue(row, column) {
@@ -836,6 +843,10 @@ async function submitPromptAction() {
 }
 
 async function deleteSelected() {
+  if (!selectedRows.value.length) {
+    showMessage('warning', '请先选择要删除的数据')
+    return
+  }
   await deleteByIds(selectedRows.value.map((row) => row[props.rowKey]))
 }
 
@@ -866,6 +877,10 @@ function handleUploadChange(file, fileList) {
 }
 
 async function submitUpload() {
+  if (!pendingFiles.value.length) {
+    showMessage('warning', '请先选择要上传的文件')
+    return
+  }
   try {
     const response = await uploadFiles(pendingFiles.value)
     uploadMessageType.value = 'success'
@@ -887,6 +902,11 @@ function handleImportChange(file) {
 
 async function submitImport() {
   if (!props.importAction) {
+    showMessage('warning', '当前页面未配置导入接口')
+    return
+  }
+  if (!importFile.value) {
+    showMessage('warning', '请先选择要导入的文件')
     return
   }
   try {
@@ -923,5 +943,33 @@ const messageMap = {
   error: message.error,
   warning: message.warning,
   info: message.info
+}
+
+const commonValueMap = {
+  SUCCESS: '成功',
+  FAILED: '失败',
+  ERROR: '异常',
+  CREATED: '已创建',
+  PENDING: '待处理',
+  RUNNING: '运行中',
+  FINISHED: '已完成',
+  DONE: '已完成',
+  CANCELLED: '已取消',
+  ROBOT: '机器人',
+  MANUAL: '人工',
+  AUTO: '自动',
+  GUIDE: '引导',
+  NOTICE: '提醒',
+  BOARDING: '登机提醒',
+  GATE_CHANGE: '登机口变更',
+  FACE: '人脸识别',
+  QRCODE: '扫码准入',
+  ID_CARD: '身份证验证',
+  IN: '在舱',
+  OUT: '已出舱',
+  HIGH: '高',
+  NORMAL: '普通',
+  LOW: '低',
+  IMMEDIATELY: '立即执行'
 }
 </script>

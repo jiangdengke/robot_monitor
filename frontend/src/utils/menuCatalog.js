@@ -84,6 +84,10 @@ const auxiliaryRoutes = [
   ['头像上传', '/profile/userAvatar', 'user'],
   ['投诉记录', '/configManagment/complaintRecord', 'message'],
   ['视频资源', '/configManagment/vedio', 'video-camera'],
+  ['数字孪生', '/digitalTwin', 'dashboard'],
+  ['数字孪生模型', '/digitalTwin/v15', 'dashboard'],
+  ['监控大屏', '/digitalTwin/screen', 'dashboard'],
+  ['API 文档', '/tool/swagger', 'swagger'],
   ['问询统计', '/statAnalysis/inquiry', 'message'],
   ['引导统计', '/statAnalysis/guide', 'robot']
 ]

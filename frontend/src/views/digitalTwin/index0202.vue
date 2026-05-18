@@ -48,7 +48,7 @@
         <el-timeline>
           <el-timeline-item v-for="robot in robots" :key="robot.robotId || robot.id" :timestamp="robot.roomCode || activeRoomCode || '全部'">
             <el-text tag="b">{{ robot.robotName || robot.robotId }}</el-text>
-            <el-text type="info">{{ robot.workingState || '空闲' }} · 区域 {{ robot.regionId || '-' }} · {{ pointText(robot) || '无坐标' }}</el-text>
+            <el-text type="info">{{ robotStateText(robot.workingState) }} · 区域 {{ robot.regionId || '-' }} · {{ pointText(robot) || '无坐标' }}</el-text>
           </el-timeline-item>
         </el-timeline>
         <el-empty v-if="!robots.length && !loading" description="暂无机器人数据" />
@@ -125,7 +125,7 @@ async function loadDashboard() {
       request('/DigitalTwin/selectRegionList', { query: { roomCode: activeRoomCode.value } }),
       getDigitalTwinAll({ roomCode: activeRoomCode.value })
     ])
-    rooms.value = roomResponse.data || []
+    rooms.value = roomResponse.rows || roomResponse.data || []
     regions.value = regionResponse.data || []
     const data = twinResponse.data || {}
     robots.value = data.robotList || []
@@ -146,5 +146,19 @@ function pointText(item) {
   return item.coordinate || item.cameraCoordinates || item.oriCoordinate || item.position || item.coordinates || ''
 }
 
+function robotStateText(value) {
+  return robotStateMap[String(value || '')] || value || '空闲'
+}
+
 onMounted(loadDashboard)
+
+const robotStateMap = {
+  0: '空闲',
+  1: '工作中',
+  IDLE: '空闲',
+  WORKING: '工作中',
+  RUNNING: '运行中',
+  CHARGING: '充电中',
+  ERROR: '异常'
+}
 </script>

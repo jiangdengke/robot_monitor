@@ -168,7 +168,7 @@ const quickLinks = [
   { title: '机器人管理', desc: '设备状态与远程任务', path: '/configManagment/robot', icon: RobotOutlined, color: '#13c2c2' },
   { title: '巡检任务', desc: '调度与异常处理', path: '/taskManagment/taskList', icon: ScheduleOutlined, color: '#722ed1' },
   { title: '运营报表', desc: '航班与旅客统计', path: '/statAnalysis/inLoungeList', icon: DashboardOutlined, color: '#fa8c16' },
-  { title: '监控大屏', desc: '面向值班的总览', path: '/digitalTwin', icon: FundProjectionScreenOutlined, color: '#f5222d' },
+  { title: '监控大屏', desc: '面向值班的总览', path: '/digitalTwin/screen', icon: FundProjectionScreenOutlined, color: '#f5222d' },
   { title: 'API 文档', desc: '后端接口说明', path: '/tool/swagger', icon: ApiOutlined, color: '#3f8600' }
 ]
 </script>

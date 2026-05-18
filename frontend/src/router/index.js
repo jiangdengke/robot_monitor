@@ -40,6 +40,9 @@ const moduleRoutes = [
   { path: 'config/complaintRecord', component: () => import('@/views/configManagment/complaintRecord/index.vue') },
   { path: 'config/task', component: () => import('@/views/taskManagment/taskList/index.vue') },
   { path: 'taskManagment/taskList', component: () => import('@/views/taskManagment/taskList/index.vue') },
+  { path: 'digitalTwin', component: () => import('@/views/digitalTwin/index.vue') },
+  { path: 'digitalTwin/v15', component: () => import('@/views/digitalTwin/v15.vue') },
+  { path: 'digitalTwin/screen', component: () => import('@/views/digitalTwin/index0202.vue') },
   { path: 'statAnalysis/goingStat', component: () => import('@/views/statAnalysis/goingStat/index.vue') },
   { path: 'flight/goingStat', component: () => import('@/views/statAnalysis/goingStat/index.vue') },
   { path: 'statAnalysis/inLoungeList', component: () => import('@/views/statAnalysis/inLoungeList/index.vue') },
@@ -48,6 +51,7 @@ const moduleRoutes = [
   { path: 'flight/outGoing', component: () => import('@/views/viewManagment/outGoing/index.vue') },
   { path: 'statAnalysis/inquiry', component: () => import('@/views/statAnalysis/inquiry/index.vue') },
   { path: 'statAnalysis/guide', component: () => import('@/views/statAnalysis/guide/index.vue') },
+  { path: 'tool/swagger', component: () => import('@/views/tool/swagger/index.vue') },
   { path: 'redirect', component: () => import('@/views/redirect/index.vue') }
 ].map((route) => ({
   ...route,

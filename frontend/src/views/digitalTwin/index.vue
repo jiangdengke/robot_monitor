@@ -47,7 +47,7 @@
     </el-row>
 
     <el-tabs v-model="tab">
-      <el-tab-pane label="ALL" name="all">
+      <el-tab-pane label="全部" name="all">
         <el-row :gutter="16">
           <el-col :xs="24" :lg="12">
             <el-table v-loading="loading" :data="filteredRegions" border>
@@ -74,7 +74,9 @@
               <el-table-column label="坐标" min-width="170">
                 <template #default="{ row }">{{ pointText(row) }}</template>
               </el-table-column>
-              <el-table-column prop="workingState" label="工作状态" min-width="120" />
+              <el-table-column prop="workingState" label="工作状态" min-width="120">
+                <template #default="{ row }">{{ robotStateText(row.workingState) }}</template>
+              </el-table-column>
               <el-table-column label="操作" width="140" fixed="right">
                 <template #default="{ row }">
                   <el-button size="small" :loading="actionLoading" @click="interruptRobot(row)">停止任务</el-button>
@@ -110,8 +112,8 @@
           <el-table-column label="操作" width="210" fixed="right">
             <template #default="{ row }">
               <el-space>
-                <el-button size="small" :disabled="!firstWarning(row)" :loading="actionLoading" @click="manualNotice(row)">人工提醒</el-button>
-                <el-button size="small" type="primary" :disabled="!firstWarning(row)" :loading="actionLoading" @click="robotNotice(row)">机器人提醒</el-button>
+                <el-button size="small" :loading="actionLoading" @click="manualNotice(row)">人工提醒</el-button>
+                <el-button size="small" type="primary" :loading="actionLoading" @click="robotNotice(row)">机器人提醒</el-button>
               </el-space>
             </template>
           </el-table-column>
@@ -220,7 +222,7 @@ async function loadDashboard() {
       request('/DigitalTwin/selectRegionList', { query: { roomCode: activeRoomCode.value } }),
       getDigitalTwinAll({ roomCode: activeRoomCode.value })
     ])
-    roomList.value = roomResponse.data || []
+    roomList.value = roomResponse.rows || roomResponse.data || []
     if (!activeRoomCode.value && roomList.value.length) {
       activeRoomCode.value = roomList.value[0].roomCode || ''
       return loadDashboard()
@@ -292,14 +294,14 @@ async function interruptRobot(robot) {
 }
 
 async function manualNotice(passenger) {
-  const warning = firstWarning(passenger)
-  if (!warning) return
+  const warning = firstWarning(passenger) || defaultWarning(passenger)
   await runAction('人工提醒已完成', () => request('/DigitalTwin/manualNotice', {
     method: 'POST',
     query: {
       warningId: warning.id,
       passengerId: passenger.id,
       coordinate: pointText(passenger),
+      warningType: warning.warningType,
       warningInfo: warning.warningInfo,
       roomCode: passenger.roomCode || activeRoomCode.value
     }
@@ -307,13 +309,13 @@ async function manualNotice(passenger) {
 }
 
 async function robotNotice(passenger) {
-  const warning = firstWarning(passenger)
-  if (!warning) return
+  const warning = firstWarning(passenger) || defaultWarning(passenger)
   await runAction('机器人提醒任务已提交', () => request('/DigitalTwin/notifyCustomer', {
     query: {
       warningId: warning.id,
       passengerId: passenger.id,
       coordinate: pointText(passenger),
+      warningType: warning.warningType,
       warningInfo: warning.warningInfo || warning.warningType,
       roomCode: passenger.roomCode || activeRoomCode.value
     }
@@ -346,6 +348,18 @@ function firstWarning(passenger) {
   return list.find((item) => item.isSuccess !== '1') || list[0]
 }
 
+function defaultWarning(passenger) {
+  return {
+    id: '',
+    warningType: 'SERVICE_NOTICE',
+    warningInfo: `${passenger.userName || '旅客'} 服务提醒`
+  }
+}
+
+function robotStateText(value) {
+  return robotStateMap[String(value || '')] || value || '空闲'
+}
+
 function pointText(item) {
   return item.coordinate || item.cameraCoordinates || item.oriCoordinate || item.position || item.coordinates || ''
 }
@@ -357,4 +371,14 @@ function showAction(message, type = 'success') {
 }
 
 onMounted(loadDashboard)
+
+const robotStateMap = {
+  0: '空闲',
+  1: '工作中',
+  IDLE: '空闲',
+  WORKING: '工作中',
+  RUNNING: '运行中',
+  CHARGING: '充电中',
+  ERROR: '异常'
+}
 </script>

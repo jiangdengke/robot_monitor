@@ -14,6 +14,20 @@ async function robotOptions() {
   }))
 }
 
+const resultStatusOptions = [
+  { label: '成功', value: 'SUCCESS' },
+  { label: '已创建', value: 'CREATED' },
+  { label: '失败', value: 'FAILED' },
+  { label: '待处理', value: 'PENDING' }
+]
+const resultStatusMap = Object.fromEntries(resultStatusOptions.map((item) => [item.value, item.label]))
+const resultStatusTagMap = {
+  SUCCESS: 'success',
+  CREATED: 'info',
+  FAILED: 'danger',
+  PENDING: 'warning'
+}
+
 const config = {
   title: '引导统计',
   description: '引导任务记录按机器人、旅客、区域和执行结果展示。',
@@ -30,11 +44,7 @@ const config = {
       prop: 'resultStatus',
       label: '结果状态',
       type: 'select',
-      options: [
-        { label: '成功', value: 'SUCCESS' },
-        { label: '创建中', value: 'CREATED' },
-        { label: '失败', value: 'FAILED' }
-      ]
+      options: resultStatusOptions
     }
   ],
   columns: [
@@ -42,7 +52,7 @@ const config = {
     { prop: 'robotName', label: '机器人', minWidth: 150 },
     { prop: 'passengerName', label: '旅客', minWidth: 120 },
     { prop: 'regionName', label: '区域', minWidth: 120 },
-    { prop: 'resultStatus', label: '结果状态', minWidth: 140 },
+    { prop: 'resultStatus', label: '结果状态', minWidth: 140, map: resultStatusMap, tag: 'info', tagMap: resultStatusTagMap },
     { prop: 'coordinate', label: '目标坐标', minWidth: 220 },
     { prop: 'createdAt', label: '创建时间', minWidth: 180 }
   ],

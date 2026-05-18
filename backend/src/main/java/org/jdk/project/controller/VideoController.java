@@ -45,6 +45,10 @@ public class VideoController {
   @PostMapping("/stop")
   public Map<String, Object> stopStream(@RequestBody VideoStreamRequest request) {
     String robotId = trimToDefault(request.getRobotId(), "");
+    if (robotId.isEmpty()) {
+      activeStreams.clear();
+      return response("全部视频流已停止");
+    }
     if (!robotId.isEmpty()) {
       activeStreams.remove(robotId);
     }

@@ -70,7 +70,7 @@
         <template #header>
           <el-row justify="space-between" align="middle">
             <el-text tag="b">缓存值</el-text>
-            <el-button size="small" :disabled="!currentKey" @click="reloadValue">刷新值</el-button>
+            <el-button size="small" @click="reloadValue">刷新值</el-button>
           </el-row>
         </template>
         <el-descriptions v-if="cacheValue" :column="1" border>
@@ -141,7 +141,10 @@ async function selectKey(row) {
 }
 
 async function reloadValue() {
-  if (!currentName.value || !currentKey.value) return
+  if (!currentName.value || !currentKey.value) {
+    message.warning('请先选择缓存 key')
+    return
+  }
   const response = await getCacheValue(currentName.value, currentKey.value)
   cacheValue.value = response.data || response
 }

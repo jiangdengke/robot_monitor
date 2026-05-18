@@ -18,12 +18,12 @@
         <el-input-number v-model="roleId" :min="1" controls-position="right" />
       </el-form-item>
       <el-form-item>
-        <el-button type="success" :disabled="selectedUnallocated.length === 0" @click="assignSelected">
+        <el-button type="success" @click="assignSelected">
           分配选中用户
         </el-button>
       </el-form-item>
       <el-form-item>
-        <el-button type="danger" :disabled="selectedAllocated.length === 0" @click="cancelSelected">
+        <el-button type="danger" @click="cancelSelected">
           取消已分配
         </el-button>
       </el-form-item>
@@ -66,7 +66,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { assignRoleUsers, cancelRoleUsers, listAllocatedUsers, listUnallocatedUsers } from '@/api/system'
-import { toastError, toastSuccess } from '@/utils/toast'
+import { toastError, toastSuccess, toastWarning } from '@/utils/toast'
 
 const route = useRoute()
 const router = useRouter()
@@ -105,6 +105,10 @@ function handleUnallocatedChange(rows) {
 }
 
 async function assignSelected() {
+  if (!selectedUnallocated.value.length) {
+    toastWarning('请先选择未分配用户')
+    return
+  }
   try {
     await assignRoleUsers(roleId.value, selectedUnallocated.value)
     message.value = '分配成功'
@@ -117,6 +121,10 @@ async function assignSelected() {
 }
 
 async function cancelSelected() {
+  if (!selectedAllocated.value.length) {
+    toastWarning('请先选择已分配用户')
+    return
+  }
   try {
     await cancelRoleUsers(roleId.value, selectedAllocated.value)
     message.value = '取消成功'

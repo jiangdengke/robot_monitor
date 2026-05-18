@@ -107,7 +107,7 @@ async function loadModel() {
       request('/DigitalTwin/selectRegionList', { query: { roomCode: activeRoomCode.value } }),
       getDigitalTwinAll({ roomCode: activeRoomCode.value })
     ])
-    rooms.value = roomResponse.data || []
+    rooms.value = roomResponse.rows || roomResponse.data || []
     rawRegions.value = regionResponse.data || []
     const data = twinResponse.data || {}
     rawRobots.value = data.robotList || []

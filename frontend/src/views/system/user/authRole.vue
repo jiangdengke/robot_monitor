@@ -15,7 +15,7 @@
         <el-input-number v-model="userId" :min="1" controls-position="right" />
       </el-form-item>
       <el-form-item>
-        <el-button type="success" :disabled="selectedRoles.length === 0" @click="saveRoles">保存授权</el-button>
+        <el-button type="success" @click="saveRoles">保存授权</el-button>
       </el-form-item>
     </el-form>
 
@@ -37,7 +37,7 @@
 import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { getUserRoleAuth, updateUserRoleAuth } from '@/api/system'
-import { toastError, toastSuccess } from '@/utils/toast'
+import { toastError, toastSuccess, toastWarning } from '@/utils/toast'
 
 const route = useRoute()
 const rows = ref([])
@@ -78,6 +78,10 @@ function handleSelectionChange(selection) {
 }
 
 async function saveRoles() {
+  if (!selectedRoles.value.length) {
+    toastWarning('请先选择要授权的角色')
+    return
+  }
   try {
     await updateUserRoleAuth(userId.value, selectedRoles.value)
     message.value = '授权成功'

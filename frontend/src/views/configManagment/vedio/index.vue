@@ -4,7 +4,7 @@
       <el-row justify="space-between" align="middle">
         <el-space direction="vertical" alignment="flex-start">
           <el-text tag="b" size="large">视频资源</el-text>
-          <el-text type="info">本地 mock 视频流控制台，可启动、停止、刷新并查看活跃机器人视频会话。</el-text>
+          <el-text type="info">本地模拟视频流控制台，可启动、停止、刷新并查看活跃机器人视频会话。</el-text>
         </el-space>
         <el-button type="primary" :loading="loading" @click="loadActiveStreams">刷新</el-button>
       </el-row>
@@ -23,7 +23,7 @@
       </el-col>
       <el-col :xs="24" :sm="8">
         <el-card shadow="never">
-          <el-statistic title="控制模式" value="mock" />
+          <el-statistic title="控制模式" value="模拟" />
         </el-card>
       </el-col>
     </el-row>
@@ -39,7 +39,7 @@
         </el-form-item>
         <el-form-item>
           <el-button type="success" native-type="submit" :loading="submitting">开始视频流</el-button>
-          <el-button type="danger" :disabled="!form.robotId" :loading="submitting" @click="stopStream()">停止视频流</el-button>
+          <el-button type="danger" :loading="submitting" @click="stopStream()">停止视频流</el-button>
           <el-button @click="fillExample">示例</el-button>
         </el-form-item>
       </el-form>
@@ -48,7 +48,9 @@
     <el-table v-loading="loading" :data="activeRows" border>
       <el-table-column prop="robotId" label="机器人" min-width="140" />
       <el-table-column prop="userId" label="用户" min-width="120" />
-      <el-table-column prop="mode" label="模式" width="110" />
+      <el-table-column prop="mode" label="模式" width="110">
+        <template #default="{ row }">{{ modeText(row.mode) }}</template>
+      </el-table-column>
       <el-table-column prop="startTime" label="开始时间" min-width="170" />
       <el-table-column prop="frameCount" label="帧数" width="90" />
       <el-table-column prop="lastFrameAt" label="最后帧时间" min-width="170">
@@ -94,6 +96,16 @@ const activeRows = computed(() =>
     return { robotId, userId: value, mode: 'legacy', startTime: '', frameCount: 0, lastFrameAt: '' }
   })
 )
+const modeMap = {
+  mock: '模拟',
+  local: '本地',
+  legacy: '兼容',
+  模拟: '模拟'
+}
+
+function modeText(value) {
+  return modeMap[String(value || '').toLowerCase()] || value || '-'
+}
 
 async function loadActiveStreams() {
   loading.value = true
