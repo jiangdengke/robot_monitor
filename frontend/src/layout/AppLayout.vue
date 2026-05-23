@@ -340,14 +340,17 @@ function toggleFullscreen() {
 
 <style scoped>
 .app-shell {
-  min-height: 100vh;
+  height: 100vh;
+  min-height: 0;
   background: var(--surface-app);
+  overflow: hidden;
 }
 
 .shell-sider {
   background: var(--sider-bg) !important;
   box-shadow: 6px 0 24px rgb(15 23 42 / 12%);
   position: relative;
+  height: 100vh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -368,6 +371,8 @@ function toggleFullscreen() {
   flex-direction: column;
   position: relative;
   z-index: 1;
+  height: 100%;
+  min-height: 0;
 }
 
 .brand {
@@ -410,6 +415,7 @@ function toggleFullscreen() {
 
 .sider-scroll {
   flex: 1;
+  min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
   padding: 8px 0 16px;
@@ -449,6 +455,10 @@ function toggleFullscreen() {
 
 .shell-body {
   background: var(--surface-app);
+  height: 100vh;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .shell-header {
@@ -459,6 +469,7 @@ function toggleFullscreen() {
   padding: 0 24px;
   border-bottom: 1px solid var(--border-soft);
   height: 60px;
+  flex: 0 0 60px;
   position: sticky;
   top: 0;
   z-index: 5;
@@ -547,6 +558,7 @@ function toggleFullscreen() {
   background: var(--surface-card);
   border-bottom: 1px solid var(--border-soft);
   padding: 10px 18px;
+  flex: 0 0 auto;
 }
 
 .tags-scroller {
@@ -614,11 +626,15 @@ function toggleFullscreen() {
 .shell-content {
   background: var(--surface-app);
   padding: 0;
+  flex: 1;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .shell-content-inner {
   padding: 20px 24px 28px;
-  min-height: calc(100vh - 60px - 53px);
+  min-height: 100%;
 }
 
 .page-fade-enter-from {
