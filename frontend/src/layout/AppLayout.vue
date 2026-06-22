@@ -9,10 +9,10 @@
     >
       <div class="brand">
         <div class="brand-logo">
-          <img src="/favicon.ico" alt="国航" />
+          <img :src="logoUrl" :alt="brandTitle" />
         </div>
         <div v-if="!sidebarCollapsed" class="brand-copy">
-          <span class="brand-title">智慧贵宾室</span>
+          <span class="brand-title">{{ brandTitle }}</span>
         </div>
       </div>
 
@@ -168,6 +168,7 @@ import {
   CloseOutlined
 } from '@ant-design/icons-vue'
 import { clearSession, hydrateSession, sessionState } from '@/stores/session'
+import { platformState } from '@/stores/platform'
 import {
   buildFallbackMenus,
   getCanonicalMenuPath,
@@ -182,6 +183,7 @@ import {
 const router = useRouter()
 const route = useRoute()
 const session = sessionState
+const platform = platformState
 const sidebarCollapsed = ref(false)
 const visitedTags = ref([{ title: '首页', path: '/' }])
 const openKeys = ref([])
@@ -239,11 +241,14 @@ onMounted(async () => {
 })
 
 const menus = computed(() =>
-  sortByMenuOrder(buildFallbackMenus(), (group) => group.path).map((group) => ({
+  sortByMenuOrder(platform.menus?.length ? platform.menus : buildFallbackMenus(), (group) => group.path).map((group) => ({
     ...group,
     children: sortByMenuOrder(group.children || [], (item) => item.path)
   }))
 )
+
+const brandTitle = computed(() => platform.brandTitle || '智慧贵宾室')
+const logoUrl = computed(() => platform.logoUrl || '/favicon.ico')
 
 const flatMenus = computed(() =>
   menus.value.flatMap((group) =>

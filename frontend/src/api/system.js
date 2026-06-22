@@ -1,5 +1,7 @@
 import { request, upload } from './http'
 
+export const getPlatformBootstrap = () => request('/platform/bootstrap')
+
 export const login = (payload) =>
   request('/auth/login', {
     method: 'POST',

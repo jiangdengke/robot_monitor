@@ -3,8 +3,11 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
+import { mergePlatformPageConfig } from '@/views/crudConfigs/platformPage'
 
-const config = getCrudPage('online')
+const fallbackConfig = getCrudPage('online')
+const config = computed(() => mergePlatformPageConfig('monitorOnline', fallbackConfig))
 </script>

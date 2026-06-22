@@ -7,7 +7,7 @@ This repository now keeps a single active backend, `backend`, together with the 
 ```text
 backend/
   src/main/java/          Spring Boot monolith source
-  src/main/resources/     application config and schema.sql
+  src/main/resources/     application config, schema.sql, and platform templates
   build.gradle.kts
 frontend/
   src/                    Vue 3 + Ant Design Vue source project
@@ -49,7 +49,9 @@ npm run build
 ## Backend Runtime
 
 - Backend uses MySQL via `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USERNAME`, and `MYSQL_PASSWORD`.
-- Startup still runs `backend/src/main/resources/db/schema.sql`, which rebuilds the demo schema and seed data.
+- Startup no longer rebuilds the demo schema by default. Set `SPRING_SQL_INIT_MODE=always` only for local demo database rebuilds.
+- JWT must be configured with `JWT_SECRET`; use a long random value outside local demos.
+- Platform bootstrap defaults to `classpath:platform/templates/lounge-greeting/bootstrap.json`. Set `PLATFORM_BOOTSTRAP_LOCATION` to another `classpath:` or `file:` location for per-project deployment templates.
 
 ## Docker Deployment
 
@@ -74,5 +76,6 @@ docker compose -f docker-compose.yml -f docker-compose.build.yml up -d --build
 
 Copy `.env.example` to `.env` on the server and fill in the database host and password. Do not commit `.env`.
 Set `JAVA_OPTS` only when the server needs an explicit JVM memory limit.
+Keep `SPRING_SQL_INIT_MODE=never` for existing or production databases. Use `always` only when intentionally rebuilding demo data.
 
 Pushing to `main` triggers `.github/workflows/docker-image.yml`, which builds and publishes the single image to GHCR.

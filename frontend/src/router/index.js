@@ -6,6 +6,7 @@ import RegisterView from '@/views/register.vue'
 import NotFoundView from '@/views/error/404.vue'
 import UnauthorizedView from '@/views/error/401.vue'
 import WelcomeView from '@/views/index.vue'
+import { getPlatformTitle } from '@/stores/platform'
 import { getMenuTitle, normalizePath } from '@/utils/menuCatalog'
 
 const pageTitle = (path, fallback = '') => getMenuTitle(path, fallback) || fallback
@@ -98,8 +99,7 @@ router.beforeEach((to) => {
 
 router.afterEach((to) => {
   const routeTitle = getMenuTitle(normalizePath(to.path), to.meta?.title || '')
-  const title = routeTitle ? `${routeTitle} - 国航智慧贵宾室管理系统` : '国航智慧贵宾室管理系统'
-  document.title = title
+  document.title = getPlatformTitle(routeTitle)
 })
 
 export default router

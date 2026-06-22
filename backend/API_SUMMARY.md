@@ -21,6 +21,10 @@
 - `PUT /me/password`
 - `PUT /me/avatar`
 
+## 平台配置
+
+- `GET /platform/bootstrap`：返回项目基础信息、模块开关、业务术语、菜单配置，以及 `dept`、`area`、`region`、`device`、`robot`、`task`、`image`、`audio`、`robotAudio`、`complaint` 等页面配置试点
+
 ## 基础配置
 
 - `GET /config/lounges`
@@ -95,5 +99,6 @@
 
 - `backend` 已通过 `compileJava`
 - 数据模型在 `src/main/resources/db/schema.sql`
-- 当前默认使用 MySQL，并由 `schema.sql` 重建示例库
+- 当前默认使用 MySQL，生产/已有库默认不执行 schema 初始化；仅在 `SPRING_SQL_INIT_MODE=always` 时由 `schema.sql` 重建示例库
+- 平台启动配置默认读取 `classpath:platform/templates/lounge-greeting/bootstrap.json`，可通过 `PLATFORM_BOOTSTRAP_LOCATION` 指向项目部署模板
 - 联调时如启用相关缓存能力，建议本地准备 Redis

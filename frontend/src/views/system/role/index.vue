@@ -3,8 +3,11 @@
 </template>
 
 <script setup>
+import { computed } from 'vue'
 import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
+import { mergePlatformPageConfig } from '@/views/crudConfigs/platformPage'
 
-const config = getCrudPage('role')
+const fallbackConfig = getCrudPage('role')
+const config = computed(() => mergePlatformPageConfig('systemRole', fallbackConfig))
 </script>

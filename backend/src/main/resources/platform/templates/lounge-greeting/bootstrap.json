@@ -1,0 +1,517 @@
+{
+  "projectCode": "air-china-lounge",
+  "projectName": "国航休息室迎宾",
+  "customerName": "中国国际航空",
+  "systemTitle": "国航智慧贵宾室管理系统",
+  "brandTitle": "智慧贵宾室",
+  "logoUrl": "/favicon.ico",
+  "templateCode": "lounge-greeting",
+  "templateName": "休息室迎宾",
+  "homePath": "/",
+  "themeColor": "#2f54eb",
+  "modules": {
+    "dashboard": true,
+    "statistics": true,
+    "logs": true,
+    "config": true,
+    "system": true,
+    "digitalTwin": true,
+    "knowledge": false,
+    "robotControl": true
+  },
+  "terms": {
+    "space": "贵宾室",
+    "area": "功能区",
+    "region": "区域",
+    "point": "点位",
+    "task": "任务",
+    "visitor": "旅客",
+    "event": "业务事件",
+    "robot": "机器人"
+  },
+  "menus": [
+    {
+      "title": "首页",
+      "path": "/",
+      "icon": "dashboard",
+      "module": "dashboard",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 0,
+      "children": []
+    },
+    {
+      "title": "统计分析",
+      "path": "/statAnalysis",
+      "icon": "chart",
+      "module": "statistics",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 1000,
+      "children": [
+        {
+          "title": "在舱记录",
+          "path": "/statAnalysis/inLoungeList",
+          "icon": "people",
+          "module": "statistics",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1001,
+          "children": []
+        },
+        {
+          "title": "准出记录",
+          "path": "/viewManagment/outGoing",
+          "icon": "walk",
+          "module": "statistics",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1002,
+          "children": []
+        },
+        {
+          "title": "问询统计",
+          "path": "/statAnalysis/inquiry",
+          "icon": "message",
+          "module": "statistics",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1003,
+          "children": []
+        },
+        {
+          "title": "引导统计",
+          "path": "/statAnalysis/guide",
+          "icon": "robot",
+          "module": "statistics",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1004,
+          "children": []
+        },
+        {
+          "title": "准入记录",
+          "path": "/statAnalysis/goingStat",
+          "icon": "chart",
+          "module": "statistics",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1005,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "日志管理",
+      "path": "/logs",
+      "icon": "log",
+      "module": "logs",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 2000,
+      "children": [
+        {
+          "title": "操作日志",
+          "path": "/monitor/operlog",
+          "icon": "log",
+          "module": "logs",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2001,
+          "children": []
+        },
+        {
+          "title": "登录日志",
+          "path": "/monitor/logininfor",
+          "icon": "logininfor",
+          "module": "logs",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2002,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "基础配置",
+      "path": "/configManagment",
+      "icon": "edit",
+      "module": "config",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 3000,
+      "children": [
+        {
+          "title": "贵宾室",
+          "path": "/configManagment/vipRoom",
+          "icon": "list",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3001,
+          "children": []
+        },
+        {
+          "title": "功能区",
+          "path": "/configManagment/areaManagment",
+          "icon": "tree-table",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3002,
+          "children": []
+        },
+        {
+          "title": "区域",
+          "path": "/configManagment/vipRoomRegion",
+          "icon": "table",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3003,
+          "children": []
+        },
+        {
+          "title": "摄像头",
+          "path": "/configManagment/monitorDevice",
+          "icon": "camera",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3004,
+          "children": []
+        },
+        {
+          "title": "机器人",
+          "path": "/configManagment/robot",
+          "icon": "robot",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3005,
+          "children": []
+        },
+        {
+          "title": "机器人音频",
+          "path": "/configManagment/robotAudio",
+          "icon": "sound",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3006,
+          "children": []
+        },
+        {
+          "title": "音频",
+          "path": "/configManagment/audio",
+          "icon": "chart",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3007,
+          "children": []
+        },
+        {
+          "title": "图片",
+          "path": "/configManagment/photo",
+          "icon": "image",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3008,
+          "children": []
+        },
+        {
+          "title": "任务列表",
+          "path": "/taskManagment/taskList",
+          "icon": "list",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3009,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "系统管理",
+      "path": "/system",
+      "icon": "system",
+      "module": "system",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 4000,
+      "children": [
+        {
+          "title": "用户管理",
+          "path": "/system/user",
+          "icon": "user",
+          "module": "system",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 4001,
+          "children": []
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "dept": {
+      "title": "贵宾室配置",
+      "description": "贵宾室组织节点、房间编码、负责人和状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "deptName", "label": "贵宾室名称", "minWidth": 180 },
+        { "prop": "roomCode", "label": "房间编码", "minWidth": 140 },
+        { "prop": "terminal", "label": "航站楼", "minWidth": 120 },
+        { "prop": "locationDesc", "label": "位置", "minWidth": 180 }
+      ],
+      "searchFields": [
+        { "prop": "deptName", "label": "贵宾室名称" },
+        { "prop": "roomCode", "label": "房间编码" }
+      ],
+      "formFields": [
+        { "prop": "deptName", "label": "贵宾室名称" },
+        { "prop": "roomCode", "label": "房间编码" },
+        { "prop": "terminal", "label": "航站楼" },
+        { "prop": "locationDesc", "label": "位置" },
+        {
+          "prop": "enabled",
+          "label": "启用状态",
+          "type": "select",
+          "options": [
+            { "label": "启用", "value": true },
+            { "label": "停用", "value": false }
+          ]
+        },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enabled": true }
+    },
+    "area": {
+      "title": "功能区管理",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "areaName", "label": "功能区", "minWidth": 160 },
+        { "prop": "deptName", "label": "贵宾室", "minWidth": 160 },
+        { "prop": "coordinate", "label": "坐标", "minWidth": 200 },
+        { "prop": "maxCapacity", "label": "容量", "width": 100 }
+      ],
+      "searchFields": [
+        { "prop": "areaName", "label": "功能区" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaName", "label": "功能区名称" },
+        { "prop": "coordinate", "label": "坐标" },
+        { "prop": "maxCapacity", "label": "最大容量", "type": "number" },
+        { "prop": "isGuide", "label": "支持引导", "type": "select", "optionSource": "guideOptions" },
+        { "prop": "isShow", "label": "是否展示", "type": "select", "optionSource": "showOptions" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "isGuide": "0", "isShow": "1", "enable": 1 }
+    },
+    "region": {
+      "title": "区域管理",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "regionName", "label": "区域名称", "minWidth": 160 },
+        { "prop": "deptName", "label": "贵宾室", "minWidth": 160 },
+        { "prop": "areaName", "label": "功能区", "minWidth": 140 },
+        { "prop": "maxCapacity", "label": "容量", "width": 100 }
+      ],
+      "searchFields": [
+        { "prop": "regionName", "label": "区域名称" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaId", "label": "功能区", "type": "select", "optionSource": "areas" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaId", "label": "功能区", "type": "select", "optionSource": "areas" },
+        { "prop": "regionName", "label": "区域名称" },
+        { "prop": "coordinate", "label": "坐标" },
+        { "prop": "maxCapacity", "label": "最大容量", "type": "number" },
+        { "prop": "isGuide", "label": "支持引导", "type": "select", "optionSource": "guideOptions" },
+        { "prop": "isShow", "label": "是否展示", "type": "select", "optionSource": "showOptions" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "isGuide": "0", "isShow": "1", "enable": 1 }
+    },
+    "device": {
+      "title": "设备管理",
+      "description": "摄像头、门禁等外部设备的基础信息和启用状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "deviceName", "label": "设备名称", "minWidth": 180 },
+        { "prop": "deviceType", "label": "设备类型", "minWidth": 120 },
+        { "prop": "deepGlintDeviceId", "label": "外部设备 ID", "minWidth": 180 }
+      ],
+      "searchFields": [
+        { "prop": "deviceName", "label": "设备名称" },
+        { "prop": "deviceType", "label": "设备类型", "type": "select", "optionSource": "deviceTypeOptions" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "deviceName", "label": "设备名称" },
+        { "prop": "deviceType", "label": "设备类型", "type": "select", "optionSource": "deviceTypeOptions" },
+        { "prop": "deepGlintDeviceId", "label": "外部设备 ID" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1, "deviceType": "CAMERA" }
+    },
+    "robot": {
+      "title": "机器人配置",
+      "description": "机器人编号、名称、网络地址、所在区域和状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "robotId", "label": "机器人编号", "minWidth": 160 },
+        { "prop": "robotName", "label": "名称", "minWidth": 160 },
+        { "prop": "robotIp", "label": "IP", "minWidth": 140 },
+        { "prop": "batteryState", "label": "电量", "width": 80 }
+      ],
+      "searchFields": [
+        { "prop": "robotId", "label": "机器人编号" },
+        { "prop": "robotName", "label": "名称" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "regionId", "label": "区域", "type": "select", "optionSource": "regions" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "regionId", "label": "区域", "type": "select", "optionSource": "regions" },
+        { "prop": "robotId", "label": "机器人编号" },
+        { "prop": "robotName", "label": "名称" },
+        { "prop": "robotIp", "label": "IP" },
+        { "prop": "robotType", "label": "型号" },
+        { "prop": "batteryState", "label": "电量", "type": "number" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1, "batteryState": 100 }
+    },
+    "task": {
+      "title": "任务配置",
+      "description": "机器人任务、执行机器人、指令和优先级维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "taskName", "label": "任务名称", "minWidth": 180 },
+        { "prop": "robotName", "label": "机器人", "minWidth": 160 },
+        { "prop": "commandCn", "label": "指令", "minWidth": 140 },
+        { "prop": "priority", "label": "优先级", "width": 100 }
+      ],
+      "searchFields": [
+        { "prop": "taskName", "label": "任务名称" },
+        { "prop": "robotId", "label": "机器人", "type": "select", "optionSource": "robots" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "robotId", "label": "机器人", "type": "select", "optionSource": "robots" },
+        { "prop": "taskName", "label": "任务名称" },
+        { "prop": "commandCode", "label": "指令编码", "type": "number" },
+        { "prop": "commandCn", "label": "指令名称" },
+        { "prop": "priority", "label": "优先级" },
+        { "prop": "executeType", "label": "执行类型" },
+        { "prop": "taskType", "label": "任务类型" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ]
+    },
+    "image": {
+      "title": "图片管理",
+      "description": "项目图片素材、类型、尺寸和启用状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "imgName", "label": "图片名称", "minWidth": 180 },
+        { "prop": "imgType", "label": "类型", "minWidth": 120 },
+        { "prop": "deptName", "label": "贵宾室", "minWidth": 160 },
+        { "prop": "width", "label": "宽", "width": 80 },
+        { "prop": "height", "label": "高", "width": 80 }
+      ],
+      "searchFields": [
+        { "prop": "imgName", "label": "图片名称" },
+        { "prop": "imgType", "label": "图片类型" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "imgName", "label": "图片名称" },
+        { "prop": "imgType", "label": "图片类型" },
+        { "prop": "img", "label": "Base64 内容", "type": "textarea" },
+        { "prop": "width", "label": "宽度", "type": "number" },
+        { "prop": "height", "label": "高度", "type": "number" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1 }
+    },
+    "audio": {
+      "title": "音频管理",
+      "description": "项目音频素材、语言、文本和音频内容维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "audioKey", "label": "音频 Key", "minWidth": 180 },
+        { "prop": "audioType", "label": "类型", "minWidth": 120 },
+        { "prop": "languageType", "label": "语言", "width": 100 },
+        { "prop": "textInfo", "label": "文本", "minWidth": 220 }
+      ],
+      "searchFields": [
+        { "prop": "audioKey", "label": "音频 Key" },
+        { "prop": "audioType", "label": "类型" },
+        { "prop": "languageType", "label": "语言", "type": "select", "optionSource": "languageOptions" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "audioKey", "label": "音频 Key" },
+        { "prop": "audioType", "label": "类型" },
+        { "prop": "languageType", "label": "语言", "type": "select", "optionSource": "languageOptions" },
+        { "prop": "textInfo", "label": "文本", "type": "textarea" },
+        { "prop": "audioValue", "label": "音频内容", "type": "textarea" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "languageType": "CN" }
+    },
+    "robotAudio": {
+      "title": "机器人音频",
+      "description": "机器人可用音频 Key、语言和文本内容查询。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "audioKey", "label": "音频 Key", "minWidth": 180 },
+        { "prop": "languageType", "label": "语言", "width": 100 },
+        { "prop": "textInfo", "label": "文本", "minWidth": 220 }
+      ],
+      "searchFields": [
+        { "prop": "audioKey", "label": "音频 Key" },
+        { "prop": "languageType", "label": "语言", "type": "select", "optionSource": "languageOptions" }
+      ],
+      "formFields": []
+    },
+    "complaint": {
+      "title": "投诉记录",
+      "description": "旅客客诉内容、发卡方和处理反馈维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "userName", "label": "姓名", "minWidth": 120 },
+        { "prop": "deptName", "label": "贵宾室", "minWidth": 160 },
+        { "prop": "cardService", "label": "发卡方", "minWidth": 140 },
+        { "prop": "complaintContent", "label": "客诉内容", "minWidth": 240 }
+      ],
+      "searchFields": [
+        { "prop": "userName", "label": "旅客姓名" },
+        { "prop": "cardService", "label": "发卡方" },
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "贵宾室", "type": "select", "optionSource": "lounges" },
+        { "prop": "userName", "label": "旅客姓名" },
+        { "prop": "cardService", "label": "发卡方" },
+        { "prop": "cardNo", "label": "卡号" },
+        { "prop": "complaintContent", "label": "客诉内容", "type": "textarea" },
+        { "prop": "complaintFeedback", "label": "处理反馈", "type": "textarea" }
+      ]
+    }
+  }
+}

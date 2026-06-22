@@ -52,29 +52,18 @@ const catalog = [
   }
 ]
 
-export const menuCatalog = catalog.map((group) => ({
+const fallbackMenuCatalog = catalog.map((group) => ({
   ...group,
   children: group.children.map(([title, path, icon]) => ({ title, path, icon }))
 }))
+
+export const menuCatalog = fallbackMenuCatalog
+let activeMenuCatalog = cloneMenus(fallbackMenuCatalog)
 
 const titleByPath = new Map()
 const iconByPath = new Map()
 const orderByPath = new Map()
 const parentByPath = new Map()
-
-menuCatalog.forEach((group, groupIndex) => {
-  const groupPath = normalizePath(group.path)
-  titleByPath.set(groupPath, group.title)
-  iconByPath.set(groupPath, group.icon)
-  orderByPath.set(groupPath, groupIndex * 1000)
-  group.children.forEach((item, childIndex) => {
-    const itemPath = normalizePath(item.path)
-    titleByPath.set(itemPath, item.title)
-    iconByPath.set(itemPath, item.icon)
-    orderByPath.set(itemPath, groupIndex * 1000 + childIndex + 1)
-    parentByPath.set(itemPath, groupPath)
-  })
-})
 
 const auxiliaryRoutes = [
   ['首页', '/', 'dashboard'],
@@ -111,15 +100,77 @@ const canonicalAliases = [
 
 const aliasByPath = new Map(canonicalAliases.map(([alias, canonical]) => [normalizePath(alias), normalizePath(canonical)]))
 
-auxiliaryRoutes.forEach(([title, path, icon], index) => {
-  titleByPath.set(path, title)
-  iconByPath.set(path, icon)
-  orderByPath.set(path, 9000 + index)
-})
-
 export function normalizePath(path = '') {
   const normalized = `/${path}`.replace(/\/+/g, '/')
   return normalized.length > 1 ? normalized.replace(/\/$/, '') : normalized
+}
+
+function cloneMenus(menus = []) {
+  return menus.map((group) => ({
+    ...group,
+    path: normalizePath(group.path),
+    children: (group.children || []).map((item) => ({
+      ...item,
+      path: normalizePath(item.path)
+    }))
+  }))
+}
+
+function normalizeMenu(menu, index, baseSort = 0) {
+  const children = (menu.children || [])
+    .filter((item) => item.enabled !== false)
+    .map((item, childIndex) => normalizeMenu(item, childIndex, (menu.sort ?? baseSort + index) * 1000))
+  return {
+    title: menu.title,
+    path: normalizePath(menu.path),
+    icon: menu.icon,
+    module: menu.module,
+    permission: menu.permission,
+    pluginPage: menu.pluginPage,
+    sort: menu.sort ?? baseSort + index,
+    children
+  }
+}
+
+function rebuildMenuLookups(menus) {
+  titleByPath.clear()
+  iconByPath.clear()
+  orderByPath.clear()
+  parentByPath.clear()
+
+  menus.forEach((group, groupIndex) => {
+    const groupPath = normalizePath(group.path)
+    titleByPath.set(groupPath, group.title)
+    iconByPath.set(groupPath, group.icon)
+    orderByPath.set(groupPath, group.sort ?? groupIndex * 1000)
+    ;(group.children || []).forEach((item, childIndex) => {
+      const itemPath = normalizePath(item.path)
+      titleByPath.set(itemPath, item.title)
+      iconByPath.set(itemPath, item.icon)
+      orderByPath.set(itemPath, item.sort ?? groupIndex * 1000 + childIndex + 1)
+      parentByPath.set(itemPath, groupPath)
+    })
+  })
+
+  auxiliaryRoutes.forEach(([title, path, icon], index) => {
+    const normalized = normalizePath(path)
+    titleByPath.set(normalized, title)
+    iconByPath.set(normalized, icon)
+    orderByPath.set(normalized, 9000 + index)
+  })
+}
+
+export function configureMenus(menus = []) {
+  const normalizedMenus = menus
+    .filter((group) => group.enabled !== false)
+    .map((group, groupIndex) => normalizeMenu(group, groupIndex, groupIndex * 1000))
+  activeMenuCatalog = normalizedMenus.length ? normalizedMenus : cloneMenus(fallbackMenuCatalog)
+  rebuildMenuLookups(activeMenuCatalog)
+}
+
+export function resetMenus() {
+  activeMenuCatalog = cloneMenus(fallbackMenuCatalog)
+  rebuildMenuLookups(activeMenuCatalog)
 }
 
 export function joinMenuPath(parentPath = '', childPath = '') {
@@ -186,10 +237,11 @@ export function sortByMenuOrder(items, getPath = (item) => item.path) {
 }
 
 export function buildFallbackMenus() {
-  return menuCatalog.map((group) => ({
-    title: group.title,
-    path: group.path,
-    icon: group.icon,
-    children: group.children.map((item) => ({ ...item }))
-  }))
+  return cloneMenus(fallbackMenuCatalog)
 }
+
+export function buildActiveMenus() {
+  return cloneMenus(activeMenuCatalog)
+}
+
+resetMenus()
