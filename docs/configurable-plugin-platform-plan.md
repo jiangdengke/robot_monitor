@@ -627,6 +627,8 @@ RobotProviderGateway
 - 默认国航休息室配置已沉降为 `lounge-greeting` 模板文件。
 - 模板默认位置为 `backend/src/main/resources/platform/templates/lounge-greeting/bootstrap.json`。
 - 可通过 `PLATFORM_BOOTSTRAP_LOCATION` 指向其他 `classpath:` 或 `file:` 模板位置，适配每个项目独立部署。
+- 平台启动配置已支持数据库覆盖：`project.platform_bootstrap_config` 中存在启用的 `config_json` 时优先返回数据库配置；无配置、查询失败或 JSON 解析失败时继续回退模板文件。
+- 系统管理中已增加“平台配置”最小维护入口，可保存完整 bootstrap JSON；当前仍不做字段级低代码编辑器。
 - `lounge-greeting` 模板已包含页面级配置试点：`pages.dept`、`pages.area`、`pages.region`、`pages.device`、`pages.robot`、`pages.task`、`pages.image`、`pages.audio`、`pages.robotAudio`、`pages.complaint`，用于驱动现有标准 CRUD 页面的标题、描述、表格列、查询项、表单字段和默认值。
 - 前端“贵宾室配置”“功能区管理”“区域管理”“设备管理”“机器人配置”“任务配置”“图片管理”“音频管理”“机器人音频”“投诉记录”页面已改为优先读取模板页面配置，接口动作和现有静态配置仍作为回退。
 - 系统管理、日志管理、监控任务和告警统计等平台底座 CRUD 页面已接入同一套页面配置合并能力；默认不写入业务模板，避免项目交付配置误改平台底座页面。

@@ -13,6 +13,7 @@ const pageTitle = (path, fallback = '') => getMenuTitle(path, fallback) || fallb
 
 const moduleRoutes = [
   { path: 'system/user', component: () => import('@/views/system/user/index.vue') },
+  { path: 'system/platformBootstrap', component: () => import('@/views/system/platformBootstrap/index.vue') },
   { path: 'profile', component: () => import('@/views/system/user/profile/index.vue') },
   { path: 'profile/userInfo', component: () => import('@/views/system/user/profile/userInfo.vue') },
   { path: 'profile/resetPwd', component: () => import('@/views/system/user/profile/resetPwd.vue') },

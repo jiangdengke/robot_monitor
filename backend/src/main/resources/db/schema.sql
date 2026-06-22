@@ -1,5 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS project;
 
+DROP TABLE IF EXISTS project.platform_bootstrap_config;
 DROP TABLE IF EXISTS project.knowledge_base;
 DROP TABLE IF EXISTS project.operation_log;
 DROP TABLE IF EXISTS project.login_log;
@@ -47,6 +48,18 @@ CREATE TABLE project.`user`
     `enable` BOOLEAN NOT NULL DEFAULT TRUE,
     `remark` VARCHAR(500) DEFAULT '',
     PRIMARY KEY (`id`)
+);
+
+CREATE TABLE project.platform_bootstrap_config (
+    id BIGINT NOT NULL AUTO_INCREMENT,
+    config_key VARCHAR(64) NOT NULL DEFAULT 'default',
+    config_json LONGTEXT NOT NULL,
+    enabled BOOLEAN NOT NULL DEFAULT TRUE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    remark VARCHAR(500) DEFAULT '',
+    PRIMARY KEY (id),
+    UNIQUE KEY uk_platform_bootstrap_config_key (config_key)
 );
 
 CREATE TABLE project.lounge (

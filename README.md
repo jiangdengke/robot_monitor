@@ -51,7 +51,9 @@ npm run build
 - Backend uses MySQL via `MYSQL_HOST`, `MYSQL_PORT`, `MYSQL_DATABASE`, `MYSQL_USERNAME`, and `MYSQL_PASSWORD`.
 - Startup no longer rebuilds the demo schema by default. Set `SPRING_SQL_INIT_MODE=always` only for local demo database rebuilds.
 - JWT must be configured with `JWT_SECRET`; use a long random value outside local demos.
-- Platform bootstrap defaults to `classpath:platform/templates/lounge-greeting/bootstrap.json`. Set `PLATFORM_BOOTSTRAP_LOCATION` to another `classpath:` or `file:` location for per-project deployment templates.
+- Platform bootstrap reads an enabled row from `project.platform_bootstrap_config` first, then falls back to `PLATFORM_BOOTSTRAP_LOCATION` when no database config is available or parsing fails.
+- `PLATFORM_BOOTSTRAP_LOCATION` defaults to `classpath:platform/templates/lounge-greeting/bootstrap.json`. Set it to another `classpath:` or `file:` location for per-project deployment templates.
+- The `/system/platformBootstrap` page provides a minimal JSON editor for saving the database bootstrap config.
 
 ## Docker Deployment
 

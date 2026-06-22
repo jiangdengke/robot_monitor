@@ -251,6 +251,16 @@
           "pluginPage": false,
           "sort": 4001,
           "children": []
+        },
+        {
+          "title": "平台配置",
+          "path": "/system/platformBootstrap",
+          "icon": "setting",
+          "module": "system",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 4002,
+          "children": []
         }
       ]
     }

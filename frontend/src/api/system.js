@@ -1,6 +1,9 @@
 import { request, upload } from './http'
 
 export const getPlatformBootstrap = () => request('/platform/bootstrap')
+export const listPlatformBootstrapConfigs = () => request('/platform/bootstrap-configs')
+export const savePlatformBootstrapConfig = (payload) =>
+  request('/platform/bootstrap-configs', { method: 'POST', body: JSON.stringify(payload) })
 
 export const login = (payload) =>
   request('/auth/login', {

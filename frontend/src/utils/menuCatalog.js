@@ -47,7 +47,8 @@ const catalog = [
     path: '/system',
     icon: 'system',
     children: [
-      ['用户管理', '/system/user', 'user']
+      ['用户管理', '/system/user', 'user'],
+      ['平台配置', '/system/platformBootstrap', 'setting']
     ]
   }
 ]
