@@ -6,7 +6,8 @@ This repository now keeps a single active backend, `backend`, together with the 
 
 ```text
 backend/
-  src/main/java/          Spring Boot monolith source
+  src/main/java/          Spring Boot monolith Java source
+  src/main/kotlin/        Spring Boot monolith Kotlin source
   src/main/resources/     application config, schema.sql, and platform templates
   build.gradle.kts
 frontend/
@@ -22,11 +23,18 @@ docs/
 ## Current Status
 
 - Active backend is `backend`.
-- Backend compiles with:
+- Backend is in Java/Kotlin mixed-source migration. The existing Java compile entry remains available:
 
 ```bash
 cd backend
 ./gradlew compileJava
+```
+
+Kotlin migration checks can be run with:
+
+```bash
+cd backend
+./gradlew compileKotlin compileJava
 ```
 
 - Frontend is now based on `Vite + Vue 3 + Ant Design Vue`.

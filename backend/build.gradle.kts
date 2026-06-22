@@ -9,6 +9,8 @@ plugins {
     java
     `java-library`
     application
+    kotlin("jvm") version "1.9.25"
+    kotlin("plugin.spring") version "1.9.25"
     // 覆盖率
     jacoco
     // Spring Boot 插件与依赖管理
@@ -41,6 +43,10 @@ group = "org.jdk.project"
 version = "1.0.0"
 description = "脚手架"
 java.sourceCompatibility = JavaVersion.VERSION_17
+
+kotlin {
+    jvmToolchain(17)
+}
 
 configurations {
     compileOnly {
@@ -76,6 +82,8 @@ dependencies {
     implementation("org.jooq:jooq-meta:$jooqVersion")
     // JWT
     implementation("com.auth0:java-jwt:4.4.0")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     implementation("com.github.ben-manes.caffeine:caffeine:3.2.1")
 
@@ -126,6 +134,10 @@ tasks.named("compileJava") {
     dependsOn("jooqCodegen")
 }
 
+tasks.named("compileKotlin") {
+    dependsOn("jooqCodegen")
+}
+
 // 使用 JUnit 5
 tasks.withType<Test> {
     useJUnitPlatform()
@@ -160,6 +172,11 @@ spotless {
         // Google Java 格式
         googleJavaFormat("1.28.0").reflowLongStrings()
         formatAnnotations()
+    }
+
+    kotlin {
+        target("src/**/*.kt")
+        ktlint()
     }
 
     kotlinGradle {

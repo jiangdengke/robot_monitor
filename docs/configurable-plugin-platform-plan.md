@@ -632,6 +632,7 @@ RobotProviderGateway
 - `lounge-greeting` 模板已包含页面级配置试点：`pages.dept`、`pages.area`、`pages.region`、`pages.device`、`pages.robot`、`pages.task`、`pages.image`、`pages.audio`、`pages.robotAudio`、`pages.complaint`，用于驱动现有标准 CRUD 页面的标题、描述、表格列、查询项、表单字段和默认值。
 - 前端“贵宾室配置”“功能区管理”“区域管理”“设备管理”“机器人配置”“任务配置”“图片管理”“音频管理”“机器人音频”“投诉记录”页面已改为优先读取模板页面配置，接口动作和现有静态配置仍作为回退。
 - 系统管理、日志管理、监控任务和告警统计等平台底座 CRUD 页面已接入同一套页面配置合并能力；默认不写入业务模板，避免项目交付配置误改平台底座页面。
+- 后端已进入 Java/Kotlin 混编迁移阶段：构建已支持 Kotlin JVM/Spring，平台配置 Controller、Service 和相关 DTO 已迁移为 Kotlin；其余业务模块、鉴权路径和全局异常处理仍保持 Java，后续按模块逐步迁移。
 
 同时已经处理早期识别的上线风险：
 
