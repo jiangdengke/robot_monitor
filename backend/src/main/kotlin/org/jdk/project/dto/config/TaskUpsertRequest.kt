@@ -1,0 +1,21 @@
+package org.jdk.project.dto.config
+
+data class TaskUpsertRequest(
+    var loungeId: Long? = null,
+    var robotId: Long? = null,
+    var taskName: String? = null,
+    var commandCode: Long? = null,
+    var commandName: String? = null,
+    var targetRegion: String? = null,
+    var priority: String? = null,
+    var executeType: String? = null,
+    var executeDay: String? = null,
+    var executeAt: String? = null,
+    var taskType: String? = null,
+    var taskSubtype: String? = null,
+    var taskMode: String? = null,
+    var directExecution: Boolean? = null,
+    var returnRequired: Boolean? = null,
+    var enabled: Boolean? = null,
+    var remark: String? = null,
+)

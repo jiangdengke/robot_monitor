@@ -6,9 +6,9 @@ This repository now keeps a single active backend, `backend`, together with the 
 
 ```text
 backend/
-  src/main/java/          Spring Boot monolith Java source
   src/main/kotlin/        Spring Boot monolith Kotlin source
   src/main/resources/     application config, schema.sql, and platform templates
+  build/generated-sources/jooq/  jOOQ generated Java code during Gradle builds
   build.gradle.kts
 frontend/
   src/                    Vue 3 + Ant Design Vue source project
@@ -23,18 +23,20 @@ docs/
 ## Current Status
 
 - Active backend is `backend`.
-- Backend is in Java/Kotlin mixed-source migration. The existing Java compile entry remains available:
-
-```bash
-cd backend
-./gradlew compileJava
-```
-
-Kotlin migration checks can be run with:
+- Project-owned backend source is now Kotlin under `backend/src/main/kotlin`.
+- `backend/src/main/java/org/jdk/project` no longer contains hand-written Java source. Gradle still keeps the Java plugin because jOOQ generates Java code under `build/generated-sources/jooq` during builds.
+- Backend build checks can be run with:
 
 ```bash
 cd backend
 ./gradlew compileKotlin compileJava
+```
+
+Full backend packaging can be verified with:
+
+```bash
+cd backend
+./gradlew bootJar
 ```
 
 - Frontend is now based on `Vite + Vue 3 + Ant Design Vue`.

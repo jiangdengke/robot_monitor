@@ -89,8 +89,6 @@ dependencies {
 
     // 运行时依赖
     runtimeOnly("com.mysql:mysql-connector-j:8.2.0")
-    // 编译期
-    compileOnly("org.projectlombok:lombok")
     // developmentOnly("org.springframework.boot:spring-boot-devtools") // 避免 DevTools 类加载干扰
 
     // 测试（本项目已移除测试代码，如需测试可按需添加依赖）
@@ -100,7 +98,6 @@ dependencies {
     jooqCodegen("org.jooq:jooq-meta-extensions:$jooqVersion")
     // 配置提示生成
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-    annotationProcessor("org.projectlombok:lombok")
     api("org.jspecify:jspecify:1.0.0")
 }
 
