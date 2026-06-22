@@ -514,6 +514,8 @@ RobotProviderGateway
 - 修改配置后，可以切换系统标题、Logo、菜单和业务术语。
 - 至少一个标准 CRUD 页面由配置驱动展示字段和表单字段。
 - 国航休息室迎宾仍可通过模板恢复当前使用效果。
+- 已新增 `exhibition-guide` 示例模板，用于验证非迎宾项目可以通过配置切换系统标题、菜单、术语和标准 CRUD 页面文案。
+- 前端无后端配置可用时的默认回退已改为通用机器人二开项目，不再把国航休息室作为系统本体默认值。
 
 ### 第二阶段：机器人厂家适配插件
 
@@ -632,6 +634,10 @@ RobotProviderGateway
 - `lounge-greeting` 模板已包含页面级配置试点：`pages.dept`、`pages.area`、`pages.region`、`pages.device`、`pages.robot`、`pages.task`、`pages.image`、`pages.audio`、`pages.robotAudio`、`pages.complaint`，用于驱动现有标准 CRUD 页面的标题、描述、表格列、查询项、表单字段和默认值。
 - 前端“贵宾室配置”“功能区管理”“区域管理”“设备管理”“机器人配置”“任务配置”“图片管理”“音频管理”“机器人音频”“投诉记录”页面已改为优先读取模板页面配置，接口动作和现有静态配置仍作为回退。
 - 系统管理、日志管理、监控任务和告警统计等平台底座 CRUD 页面已接入同一套页面配置合并能力；默认不写入业务模板，避免项目交付配置误改平台底座页面。
+- 前端无后端配置可用时的默认回退已改为通用机器人二开项目，不再把国航休息室作为系统本体默认值。
+- 前端菜单、直达路由和首页快捷入口已按 `modules` 开关过滤，关闭模块后对应页面不再作为项目界面展示或访问。
+- 已新增 `exhibition-guide` 示例模板，可通过 `PLATFORM_BOOTSTRAP_LOCATION=classpath:platform/templates/exhibition-guide/bootstrap.json` 验证非迎宾项目的标题、菜单、术语和标准 CRUD 页面文案切换。
+- 在舱记录和准出记录页面已接入页面配置合并能力，国航场景继续由 `lounge-greeting` 模板恢复，非迎宾模板可通过模块关闭或菜单调整隐藏相关页面。
 - 后端项目自有源码已完成 Kotlin 全量迁移：Controller、Service、DTO、鉴权配置、全局异常处理和仓储扩展均已迁移到 `backend/src/main/kotlin`，`backend/src/main/java/org/jdk/project` 不再保留手写 Java；jOOQ 仍在构建期生成 Java 代码供编译使用。
 
 同时已经处理早期识别的上线风险：

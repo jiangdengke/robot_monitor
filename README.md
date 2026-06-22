@@ -63,6 +63,7 @@ npm run build
 - JWT must be configured with `JWT_SECRET`; use a long random value outside local demos.
 - Platform bootstrap reads an enabled row from `project.platform_bootstrap_config` first, then falls back to `PLATFORM_BOOTSTRAP_LOCATION` when no database config is available or parsing fails.
 - `PLATFORM_BOOTSTRAP_LOCATION` defaults to `classpath:platform/templates/lounge-greeting/bootstrap.json`. Set it to another `classpath:` or `file:` location for per-project deployment templates.
+- Bundled templates currently include `lounge-greeting` and `exhibition-guide`; set `PLATFORM_BOOTSTRAP_LOCATION=classpath:platform/templates/exhibition-guide/bootstrap.json` to smoke-test a non-greeting project template.
 - The `/system/platformBootstrap` page provides a minimal JSON editor for saving the database bootstrap config.
 
 ## Docker Deployment

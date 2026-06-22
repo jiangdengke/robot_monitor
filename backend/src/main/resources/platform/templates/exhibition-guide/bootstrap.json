@@ -1,0 +1,392 @@
+{
+  "projectCode": "exhibition-guide",
+  "projectName": "展厅机器人讲解",
+  "customerName": "示例客户",
+  "systemTitle": "展厅机器人讲解管理系统",
+  "brandTitle": "智慧展厅",
+  "logoUrl": "/favicon.ico",
+  "templateCode": "exhibition-guide",
+  "templateName": "展厅讲解",
+  "homePath": "/",
+  "themeColor": "#13c2c2",
+  "modules": {
+    "dashboard": true,
+    "statistics": false,
+    "logs": true,
+    "config": true,
+    "system": true,
+    "digitalTwin": false,
+    "knowledge": false,
+    "robotControl": true,
+    "passengerAccess": false,
+    "greeting": false,
+    "exhibitionGuide": true
+  },
+  "terms": {
+    "space": "展厅",
+    "area": "展区",
+    "region": "讲解点",
+    "point": "点位",
+    "task": "讲解任务",
+    "visitor": "访客",
+    "event": "讲解事件",
+    "robot": "讲解机器人"
+  },
+  "menus": [
+    {
+      "title": "首页",
+      "path": "/",
+      "icon": "dashboard",
+      "module": "dashboard",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 0,
+      "children": []
+    },
+    {
+      "title": "日志管理",
+      "path": "/logs",
+      "icon": "log",
+      "module": "logs",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 1000,
+      "children": [
+        {
+          "title": "操作日志",
+          "path": "/monitor/operlog",
+          "icon": "log",
+          "module": "logs",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1001,
+          "children": []
+        },
+        {
+          "title": "登录日志",
+          "path": "/monitor/logininfor",
+          "icon": "logininfor",
+          "module": "logs",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 1002,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "讲解配置",
+      "path": "/configManagment",
+      "icon": "edit",
+      "module": "config",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 2000,
+      "children": [
+        {
+          "title": "展厅配置",
+          "path": "/configManagment/vipRoom",
+          "icon": "list",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2001,
+          "children": []
+        },
+        {
+          "title": "展区管理",
+          "path": "/configManagment/areaManagment",
+          "icon": "tree-table",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2002,
+          "children": []
+        },
+        {
+          "title": "讲解点管理",
+          "path": "/configManagment/vipRoomRegion",
+          "icon": "table",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2003,
+          "children": []
+        },
+        {
+          "title": "设备管理",
+          "path": "/configManagment/monitorDevice",
+          "icon": "camera",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2004,
+          "children": []
+        },
+        {
+          "title": "机器人管理",
+          "path": "/configManagment/robot",
+          "icon": "robot",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2005,
+          "children": []
+        },
+        {
+          "title": "讲解任务",
+          "path": "/taskManagment/taskList",
+          "icon": "list",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2006,
+          "children": []
+        },
+        {
+          "title": "音频素材",
+          "path": "/configManagment/audio",
+          "icon": "sound",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2007,
+          "children": []
+        },
+        {
+          "title": "图片素材",
+          "path": "/configManagment/photo",
+          "icon": "image",
+          "module": "config",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 2008,
+          "children": []
+        }
+      ]
+    },
+    {
+      "title": "系统管理",
+      "path": "/system",
+      "icon": "system",
+      "module": "system",
+      "enabled": true,
+      "pluginPage": false,
+      "sort": 3000,
+      "children": [
+        {
+          "title": "用户管理",
+          "path": "/system/user",
+          "icon": "user",
+          "module": "system",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3001,
+          "children": []
+        },
+        {
+          "title": "平台配置",
+          "path": "/system/platformBootstrap",
+          "icon": "setting",
+          "module": "system",
+          "enabled": true,
+          "pluginPage": false,
+          "sort": 3002,
+          "children": []
+        }
+      ]
+    }
+  ],
+  "pages": {
+    "dept": {
+      "title": "展厅配置",
+      "description": "展厅基础信息、编码、位置和启用状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "deptName", "label": "展厅名称", "minWidth": 180 },
+        { "prop": "roomCode", "label": "展厅编码", "minWidth": 140 },
+        { "prop": "terminal", "label": "楼层/展馆", "minWidth": 120 },
+        { "prop": "locationDesc", "label": "位置", "minWidth": 180 }
+      ],
+      "searchFields": [
+        { "prop": "deptName", "label": "展厅名称" },
+        { "prop": "roomCode", "label": "展厅编码" }
+      ],
+      "formFields": [
+        { "prop": "deptName", "label": "展厅名称" },
+        { "prop": "roomCode", "label": "展厅编码" },
+        { "prop": "terminal", "label": "楼层/展馆" },
+        { "prop": "locationDesc", "label": "位置" },
+        { "prop": "enabled", "label": "启用状态", "type": "select", "options": [
+          { "label": "启用", "value": true },
+          { "label": "停用", "value": false }
+        ] },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enabled": true }
+    },
+    "area": {
+      "title": "展区管理",
+      "description": "展区名称、所属展厅、坐标和容量维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "areaName", "label": "展区", "minWidth": 160 },
+        { "prop": "deptName", "label": "展厅", "minWidth": 160 },
+        { "prop": "coordinate", "label": "坐标", "minWidth": 200 },
+        { "prop": "maxCapacity", "label": "容量", "width": 100 }
+      ],
+      "searchFields": [
+        { "prop": "areaName", "label": "展区" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaName", "label": "展区名称" },
+        { "prop": "coordinate", "label": "坐标" },
+        { "prop": "maxCapacity", "label": "最大容量", "type": "number" },
+        { "prop": "isGuide", "label": "支持讲解", "type": "select", "optionSource": "guideOptions" },
+        { "prop": "isShow", "label": "是否展示", "type": "select", "optionSource": "showOptions" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "isGuide": "1", "isShow": "1", "enable": 1 }
+    },
+    "region": {
+      "title": "讲解点管理",
+      "description": "讲解点所属展厅、展区、坐标和展示状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "regionName", "label": "讲解点", "minWidth": 160 },
+        { "prop": "deptName", "label": "展厅", "minWidth": 160 },
+        { "prop": "areaName", "label": "展区", "minWidth": 140 },
+        { "prop": "maxCapacity", "label": "容量", "width": 100 }
+      ],
+      "searchFields": [
+        { "prop": "regionName", "label": "讲解点" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaId", "label": "展区", "type": "select", "optionSource": "areas" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "areaId", "label": "展区", "type": "select", "optionSource": "areas" },
+        { "prop": "regionName", "label": "讲解点名称" },
+        { "prop": "coordinate", "label": "坐标" },
+        { "prop": "maxCapacity", "label": "最大容量", "type": "number" },
+        { "prop": "isGuide", "label": "支持讲解", "type": "select", "optionSource": "guideOptions" },
+        { "prop": "isShow", "label": "是否展示", "type": "select", "optionSource": "showOptions" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "isGuide": "1", "isShow": "1", "enable": 1 }
+    },
+    "device": {
+      "title": "设备管理",
+      "description": "展厅摄像头、门禁等外部设备基础信息维护。",
+      "searchFields": [
+        { "prop": "deviceName", "label": "设备名称" },
+        { "prop": "deviceType", "label": "设备类型", "type": "select", "optionSource": "deviceTypeOptions" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "deviceName", "label": "设备名称" },
+        { "prop": "deviceType", "label": "设备类型", "type": "select", "optionSource": "deviceTypeOptions" },
+        { "prop": "deepGlintDeviceId", "label": "外部设备 ID" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1, "deviceType": "CAMERA" }
+    },
+    "robot": {
+      "title": "机器人管理",
+      "description": "讲解机器人编号、名称、网络地址、所在讲解点和状态维护。",
+      "searchFields": [
+        { "prop": "robotId", "label": "机器人编号" },
+        { "prop": "robotName", "label": "机器人名称" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "regionId", "label": "讲解点", "type": "select", "optionSource": "regions" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "regionId", "label": "讲解点", "type": "select", "optionSource": "regions" },
+        { "prop": "robotId", "label": "机器人编号" },
+        { "prop": "robotName", "label": "机器人名称" },
+        { "prop": "robotIp", "label": "IP" },
+        { "prop": "robotType", "label": "型号" },
+        { "prop": "batteryState", "label": "电量", "type": "number" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1, "batteryState": 100 }
+    },
+    "task": {
+      "title": "讲解任务",
+      "description": "机器人讲解任务、执行机器人、指令和优先级维护。",
+      "searchFields": [
+        { "prop": "taskName", "label": "任务名称" },
+        { "prop": "robotId", "label": "机器人", "type": "select", "optionSource": "robots" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "robotId", "label": "机器人", "type": "select", "optionSource": "robots" },
+        { "prop": "taskName", "label": "讲解任务名称" },
+        { "prop": "commandCode", "label": "指令编码", "type": "number" },
+        { "prop": "commandCn", "label": "指令名称" },
+        { "prop": "priority", "label": "优先级" },
+        { "prop": "executeType", "label": "执行类型" },
+        { "prop": "taskType", "label": "任务类型" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ]
+    },
+    "image": {
+      "title": "图片素材",
+      "description": "展厅讲解图片素材、类型、尺寸和启用状态维护。",
+      "columns": [
+        { "prop": "id", "label": "ID", "width": 80 },
+        { "prop": "imgName", "label": "图片名称", "minWidth": 180 },
+        { "prop": "imgType", "label": "类型", "minWidth": 120 },
+        { "prop": "deptName", "label": "展厅", "minWidth": 160 },
+        { "prop": "width", "label": "宽", "width": 80 },
+        { "prop": "height", "label": "高", "width": 80 }
+      ],
+      "searchFields": [
+        { "prop": "imgName", "label": "图片名称" },
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "imgName", "label": "图片名称" },
+        { "prop": "imgType", "label": "图片类型" },
+        { "prop": "img", "label": "Base64 内容", "type": "textarea" },
+        { "prop": "width", "label": "宽度", "type": "number" },
+        { "prop": "height", "label": "高度", "type": "number" },
+        { "prop": "enable", "label": "状态", "type": "select", "optionSource": "enableOptions" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "enable": 1 }
+    },
+    "audio": {
+      "title": "音频素材",
+      "description": "展厅讲解音频 Key、语言、文本和音频内容维护。",
+      "searchFields": [
+        { "prop": "audioKey", "label": "音频 Key" },
+        { "prop": "languageType", "label": "语言", "type": "select", "optionSource": "languageOptions" }
+      ],
+      "formFields": [
+        { "prop": "loungeId", "label": "展厅", "type": "select", "optionSource": "lounges" },
+        { "prop": "audioKey", "label": "音频 Key" },
+        { "prop": "audioType", "label": "类型" },
+        { "prop": "languageType", "label": "语言", "type": "select", "optionSource": "languageOptions" },
+        { "prop": "textInfo", "label": "讲解文本", "type": "textarea" },
+        { "prop": "audioValue", "label": "音频内容", "type": "textarea" },
+        { "prop": "remark", "label": "备注", "type": "textarea" }
+      ],
+      "defaults": { "languageType": "CN" }
+    },
+    "robotAudio": {
+      "title": "机器人音频",
+      "description": "机器人可播报音频素材查看。"
+    }
+  }
+}

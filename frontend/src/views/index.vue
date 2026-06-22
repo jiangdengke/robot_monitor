@@ -4,15 +4,15 @@
       <div class="hero-noise" />
       <div class="hero-content">
         <div class="hero-meta">
-          <span class="eyebrow-chip">智慧贵宾室 · 2026</span>
+          <span class="eyebrow-chip">{{ heroEyebrow }}</span>
           <h1>{{ greeting }}，{{ displayName }}</h1>
-          <p>本地单体后端正在运行，前端已切换到 Ant Design Vue。下面是当前贵宾室的关键指标与待办。</p>
+          <p>{{ heroDescription }}</p>
           <div class="hero-actions">
             <a-button type="primary" size="large" @click="$router.push('/system/user')">
               <template #icon><TeamOutlined /></template>
               用户中心
             </a-button>
-            <a-button size="large" ghost @click="$router.push('/digitalTwin')">
+            <a-button v-if="isPlatformModuleEnabled('digitalTwin')" size="large" ghost @click="$router.push('/digitalTwin')">
               <template #icon><DeploymentUnitOutlined /></template>
               数字孪生看板
             </a-button>
@@ -144,8 +144,17 @@ import {
   ThunderboltFilled
 } from '@ant-design/icons-vue'
 import { sessionState } from '@/stores/session'
+import { getBusinessTerm, isPlatformModuleEnabled, platformState } from '@/stores/platform'
 
 const displayName = computed(() => sessionState.user?.nickName || sessionState.user?.userName || '管理员')
+const projectName = computed(() => platformState.project?.name || platformState.systemTitle || '机器人二开项目')
+const spaceTerm = computed(() => getBusinessTerm('space', '空间'))
+const areaTerm = computed(() => getBusinessTerm('area', '区域'))
+const taskTerm = computed(() => getBusinessTerm('task', '任务'))
+const visitorTerm = computed(() => getBusinessTerm('visitor', '人员'))
+const robotTerm = computed(() => getBusinessTerm('robot', '机器人'))
+const heroEyebrow = computed(() => `${platformState.brandTitle || '机器人管理平台'} · 2026`)
+const heroDescription = computed(() => `${projectName.value}正在运行，首页会按当前项目配置展示已启用模块和快捷入口。`)
 
 const greeting = computed(() => {
   const hour = new Date().getHours()
@@ -156,21 +165,21 @@ const greeting = computed(() => {
   return '晚上好'
 })
 
-const heroStats = [
-  { label: '在线机器人', value: '6', note: '今日全部在线', icon: RobotOutlined, bg: 'rgba(47, 84, 235, 0.18)' },
-  { label: '活跃区域', value: '12', note: '覆盖 4 间贵宾室', icon: AppstoreOutlined, bg: 'rgba(19, 194, 194, 0.18)' },
-  { label: '今日任务', value: '38', note: '已完成 26', icon: ScheduleOutlined, bg: 'rgba(82, 196, 26, 0.18)' },
-  { label: '待处理预警', value: '4', note: '需 30 分钟内响应', icon: BellOutlined, bg: 'rgba(255, 173, 20, 0.22)' }
-]
+const heroStats = computed(() => [
+  { label: `在线${robotTerm.value}`, value: '--', note: '等待项目数据接入', icon: RobotOutlined, bg: 'rgba(47, 84, 235, 0.18)' },
+  { label: `活跃${areaTerm.value}`, value: '--', note: `覆盖当前${spaceTerm.value}`, icon: AppstoreOutlined, bg: 'rgba(19, 194, 194, 0.18)' },
+  { label: `今日${taskTerm.value}`, value: '--', note: '按项目任务统计', icon: ScheduleOutlined, bg: 'rgba(82, 196, 26, 0.18)' },
+  { label: '待处理事件', value: '--', note: '按项目规则统计', icon: BellOutlined, bg: 'rgba(255, 173, 20, 0.22)' }
+])
 
-const quickLinks = [
-  { title: '数字孪生', desc: '区域、机器人实时联动', path: '/digitalTwin', icon: DeploymentUnitOutlined, color: '#2f54eb' },
-  { title: '机器人管理', desc: '设备状态与远程任务', path: '/configManagment/robot', icon: RobotOutlined, color: '#13c2c2' },
-  { title: '巡检任务', desc: '调度与异常处理', path: '/taskManagment/taskList', icon: ScheduleOutlined, color: '#722ed1' },
-  { title: '运营报表', desc: '航班与旅客统计', path: '/statAnalysis/inLoungeList', icon: DashboardOutlined, color: '#fa8c16' },
-  { title: '监控大屏', desc: '面向值班的总览', path: '/digitalTwin/screen', icon: FundProjectionScreenOutlined, color: '#f5222d' },
-  { title: 'API 文档', desc: '后端接口说明', path: '/tool/swagger', icon: ApiOutlined, color: '#3f8600' }
-]
+const quickLinks = computed(() => [
+  { title: '数字孪生', desc: `${areaTerm.value}、${robotTerm.value}实时联动`, path: '/digitalTwin', icon: DeploymentUnitOutlined, color: '#2f54eb', module: 'digitalTwin' },
+  { title: `${robotTerm.value}管理`, desc: '设备状态与任务配置', path: '/configManagment/robot', icon: RobotOutlined, color: '#13c2c2', module: 'config' },
+  { title: `${taskTerm.value}配置`, desc: '调度与执行配置', path: '/taskManagment/taskList', icon: ScheduleOutlined, color: '#722ed1', module: 'config' },
+  { title: '运营报表', desc: `${visitorTerm.value}与业务统计`, path: '/statAnalysis/inLoungeList', icon: DashboardOutlined, color: '#fa8c16', module: 'statistics' },
+  { title: '监控大屏', desc: '面向值班的总览', path: '/digitalTwin/screen', icon: FundProjectionScreenOutlined, color: '#f5222d', module: 'digitalTwin' },
+  { title: 'API 文档', desc: '后端接口说明', path: '/tool/swagger', icon: ApiOutlined, color: '#3f8600', module: 'system' }
+].filter((item) => isPlatformModuleEnabled(item.module)))
 </script>
 
 <style scoped>

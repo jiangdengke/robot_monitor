@@ -6,18 +6,6 @@ const catalog = [
     children: []
   },
   {
-    title: '统计分析',
-    path: '/statAnalysis',
-    icon: 'chart',
-    children: [
-      ['在舱记录', '/statAnalysis/inLoungeList', 'people'],
-      ['准出记录', '/viewManagment/outGoing', 'walk'],
-      ['问询统计', '/statAnalysis/inquiry', 'message'],
-      ['引导统计', '/statAnalysis/guide', 'robot'],
-      ['准入记录', '/statAnalysis/goingStat', 'chart']
-    ]
-  },
-  {
     title: '日志管理',
     path: '/logs',
     icon: 'log',
@@ -31,15 +19,15 @@ const catalog = [
     path: '/configManagment',
     icon: 'edit',
     children: [
-      ['贵宾室', '/configManagment/vipRoom', 'list'],
+      ['空间配置', '/configManagment/vipRoom', 'list'],
       ['功能区', '/configManagment/areaManagment', 'tree-table'],
       ['区域', '/configManagment/vipRoomRegion', 'table'],
-      ['摄像头', '/configManagment/monitorDevice', 'camera'],
+      ['设备', '/configManagment/monitorDevice', 'camera'],
       ['机器人', '/configManagment/robot', 'robot'],
       ['机器人音频', '/configManagment/robotAudio', 'sound'],
-      ['音频', '/configManagment/audio', 'chart'],
-      ['图片', '/configManagment/photo', 'image'],
-      ['任务列表', '/taskManagment/taskList', 'list']
+      ['音频素材', '/configManagment/audio', 'chart'],
+      ['图片素材', '/configManagment/photo', 'image'],
+      ['任务配置', '/taskManagment/taskList', 'list']
     ]
   },
   {
@@ -72,7 +60,7 @@ const auxiliaryRoutes = [
   ['个人资料', '/profile/userInfo', 'user'],
   ['修改密码', '/profile/resetPwd', 'lock'],
   ['头像上传', '/profile/userAvatar', 'user'],
-  ['投诉记录', '/configManagment/complaintRecord', 'message'],
+  ['反馈记录', '/configManagment/complaintRecord', 'message'],
   ['视频资源', '/configManagment/vedio', 'video-camera'],
   ['数字孪生', '/digitalTwin', 'dashboard'],
   ['数字孪生模型', '/digitalTwin/v15', 'dashboard'],
@@ -117,10 +105,14 @@ function cloneMenus(menus = []) {
   }))
 }
 
-function normalizeMenu(menu, index, baseSort = 0) {
+function isModuleEnabled(module, modules = {}) {
+  return !module || modules[module] !== false
+}
+
+function normalizeMenu(menu, index, baseSort = 0, modules = {}) {
   const children = (menu.children || [])
-    .filter((item) => item.enabled !== false)
-    .map((item, childIndex) => normalizeMenu(item, childIndex, (menu.sort ?? baseSort + index) * 1000))
+    .filter((item) => item.enabled !== false && isModuleEnabled(item.module, modules))
+    .map((item, childIndex) => normalizeMenu(item, childIndex, (menu.sort ?? baseSort + index) * 1000, modules))
   return {
     title: menu.title,
     path: normalizePath(menu.path),
@@ -161,10 +153,11 @@ function rebuildMenuLookups(menus) {
   })
 }
 
-export function configureMenus(menus = []) {
+export function configureMenus(menus = [], modules = {}) {
   const normalizedMenus = menus
-    .filter((group) => group.enabled !== false)
-    .map((group, groupIndex) => normalizeMenu(group, groupIndex, groupIndex * 1000))
+    .filter((group) => group.enabled !== false && isModuleEnabled(group.module, modules))
+    .map((group, groupIndex) => normalizeMenu(group, groupIndex, groupIndex * 1000, modules))
+    .filter((group) => group.children.length || !(menus.find((item) => normalizePath(item.path) === group.path)?.children || []).length)
   activeMenuCatalog = normalizedMenus.length ? normalizedMenus : cloneMenus(fallbackMenuCatalog)
   rebuildMenuLookups(activeMenuCatalog)
 }
