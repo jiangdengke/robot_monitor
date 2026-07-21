@@ -1,7 +1,7 @@
 package org.jdk.project.dto.config
 
 data class DeviceUpsertRequest(
-    var loungeId: Long? = null,
+    var siteId: Long? = null,
     var deviceName: String? = null,
     var deviceType: String? = null,
     var deepGlintDeviceId: String? = null,

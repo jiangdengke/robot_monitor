@@ -9,7 +9,7 @@
     >
       <div class="brand">
         <div class="brand-logo">
-          <img :src="logoUrl" :alt="brandTitle" />
+          <RobotOutlined aria-hidden="true" />
         </div>
         <div v-if="!sidebarCollapsed" class="brand-copy">
           <span class="brand-title">{{ brandTitle }}</span>
@@ -134,45 +134,28 @@
 import { computed, onMounted, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import {
-  AlertOutlined,
-  ApartmentOutlined,
   AppstoreOutlined,
-  BellOutlined,
   CameraOutlined,
   CheckCircleFilled,
+  CloseOutlined,
   ContainerOutlined,
   DashboardOutlined,
-  DeploymentUnitOutlined,
   DownOutlined,
-  FileImageOutlined,
-  FileSearchOutlined,
-  FormOutlined,
   FullscreenOutlined,
-  FundProjectionScreenOutlined,
   LogoutOutlined,
   MenuFoldOutlined,
   MenuOutlined,
   MenuUnfoldOutlined,
-  PictureOutlined,
-  ProfileOutlined,
-  ReadOutlined,
   ReloadOutlined,
   RobotOutlined,
   ScheduleOutlined,
   SettingOutlined,
-  SoundOutlined,
-  TableOutlined,
-  TeamOutlined,
-  UserOutlined,
-  VideoCameraOutlined,
-  CloseOutlined
+  UserOutlined
 } from '@ant-design/icons-vue'
 import { clearSession, hydrateSession, sessionState } from '@/stores/session'
-import { platformState } from '@/stores/platform'
 import {
-  buildFallbackMenus,
+  buildMenus,
   getCanonicalMenuPath,
-  getMenuIcon,
   getMenuOrder,
   getMenuTitle,
   getParentPath,
@@ -183,50 +166,18 @@ import {
 const router = useRouter()
 const route = useRoute()
 const session = sessionState
-const platform = platformState
 const sidebarCollapsed = ref(false)
 const visitedTags = ref([{ title: '首页', path: '/' }])
 const openKeys = ref([])
 
 const iconMap = {
   system: SettingOutlined,
-  monitor: DashboardOutlined,
-  tool: AppstoreOutlined,
-  peoples: TeamOutlined,
-  people: UserOutlined,
-  user: UserOutlined,
-  tree: ApartmentOutlined,
-  post: ProfileOutlined,
-  dict: ReadOutlined,
-  edit: FormOutlined,
-  message: BellOutlined,
-  online: TeamOutlined,
   log: ContainerOutlined,
   logininfor: ScheduleOutlined,
-  redis: DeploymentUnitOutlined,
-  job: ScheduleOutlined,
-  server: DashboardOutlined,
-  druid: FundProjectionScreenOutlined,
   robot: RobotOutlined,
-  map: FundProjectionScreenOutlined,
-  image: PictureOutlined,
-  table: TableOutlined,
-  sound: SoundOutlined,
-  'tree-table': ApartmentOutlined,
-  'video-camera': VideoCameraOutlined,
-  documentation: ReadOutlined,
-  'digital-twin-view': FundProjectionScreenOutlined,
-  walk: FileSearchOutlined,
-  chart: DashboardOutlined,
-  warning: AlertOutlined,
-  calendar: ScheduleOutlined,
-  code: AppstoreOutlined,
-  build: AppstoreOutlined,
-  swagger: ReadOutlined,
   dashboard: DashboardOutlined,
   list: MenuOutlined,
-  camera: CameraOutlined,
-  box: FileImageOutlined
+  camera: CameraOutlined
 }
 
 onMounted(async () => {
@@ -241,14 +192,13 @@ onMounted(async () => {
 })
 
 const menus = computed(() =>
-  sortByMenuOrder(platform.menus?.length ? platform.menus : buildFallbackMenus(), (group) => group.path).map((group) => ({
+  sortByMenuOrder(buildMenus(), (group) => group.path).map((group) => ({
     ...group,
     children: sortByMenuOrder(group.children || [], (item) => item.path)
   }))
 )
 
-const brandTitle = computed(() => platform.brandTitle || '智慧贵宾室')
-const logoUrl = computed(() => platform.logoUrl || '/favicon.ico')
+const brandTitle = '机器人管理系统'
 
 const flatMenus = computed(() =>
   menus.value.flatMap((group) =>
@@ -300,7 +250,7 @@ function addCurrentTag() {
 }
 
 function resolveIcon(icon) {
-  return iconMap[icon] || iconMap[getMenuIcon(icon)] || AppstoreOutlined
+  return iconMap[icon] || AppstoreOutlined
 }
 
 function go(path) {
@@ -400,10 +350,9 @@ function toggleFullscreen() {
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 14%);
 }
 
-.brand-logo img {
-  width: 26px;
-  height: 26px;
-  filter: drop-shadow(0 1px 2px rgb(0 0 0 / 28%));
+.brand-logo :deep(.anticon) {
+  color: #fff;
+  font-size: 24px;
 }
 
 .brand-copy {

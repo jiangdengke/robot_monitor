@@ -1,43 +1,56 @@
 # 浏览器逐页端到端烟测报告
 
-- 生成时间：2026-05-15T03:29:37.614Z
-- 前端地址：http://127.0.0.1:4180
-- 后端地址：http://127.0.0.1:8081
-- 总页面：29
-- 通过：29
+- 生成时间：2026-07-21T04:27:10.638Z
+- 前端地址：http://127.0.0.1:4174
+- 后端地址：http://127.0.0.1:8080
+- 总页面：42
+- 通过：42
 - 失败：0
 
-| 状态 | 页面 | 路径 | 耗时 | 说明 |
-| --- | --- | --- | ---: | --- |
-| [x] | 用户管理 | `/system/user` | 1032ms | 通过 |
-| [x] | 在舱记录 | `/statAnalysis/inLoungeList` | 1273ms | 通过 |
-| [x] | 准出记录 | `/viewManagment/outGoing` | 1794ms | 通过 |
-| [x] | 准入记录 | `/statAnalysis/goingStat` | 2011ms | 通过 |
-| [x] | 问询统计 | `/statAnalysis/inquiry` | 1160ms | 通过 |
-| [x] | 引导统计 | `/statAnalysis/guide` | 1098ms | 通过 |
-| [x] | 菜品管理 | `/foodManagment/food` | 1115ms | 通过 |
-| [x] | 菜单计划 | `/foodManagment/foodPlan` | 1106ms | 通过 |
-| [x] | 每日菜单 | `/foodManagment/menuPlan` | 1266ms | 通过 |
-| [x] | 点餐订单 | `/foodManagment/foodMenu` | 1485ms | 通过 |
-| [x] | 贵宾室 | `/configManagment/vipRoom` | 866ms | 通过 |
-| [x] | 功能区 | `/configManagment/areaManagment` | 1364ms | 通过 |
-| [x] | 区域 | `/configManagment/vipRoomRegion` | 1245ms | 通过 |
-| [x] | 餐桌管理 | `/foodManagment/foodTable` | 1117ms | 通过 |
-| [x] | 摄像头 | `/configManagment/monitorDevice` | 1096ms | 通过 |
-| [x] | 机器人 | `/configManagment/robot` | 1089ms | 通过 |
-| [x] | 机器人音频 | `/configManagment/robotAudio` | 1047ms | 通过 |
-| [x] | 音频 | `/configManagment/audio` | 1135ms | 通过 |
-| [x] | 图片 | `/configManagment/photo` | 1189ms | 通过 |
-| [x] | 任务列表 | `/taskManagment/taskList` | 1274ms | 通过 |
-| [x] | 投诉记录 | `/configManagment/complaintRecord` | 1309ms | 通过 |
-| [x] | 登录日志 | `/monitor/logininfor` | 1223ms | 通过 |
-| [x] | 操作日志 | `/monitor/operlog` | 1108ms | 通过 |
-| [x] | 首页 | `/` | 1202ms | 通过 |
-| [x] | 个人中心 | `/profile` | 1139ms | 通过 |
-| [x] | 个人资料 | `/profile/userInfo` | 1212ms | 通过 |
-| [x] | 修改密码 | `/profile/resetPwd` | 1139ms | 通过 |
-| [x] | 头像上传 | `/profile/userAvatar` | 1091ms | 通过 |
-| [x] | 桌台模型 | `/numberModel` | 1258ms | 通过 |
+| 状态 | 类型 | 检查项 | 路径 | 耗时 | 说明 |
+| --- | --- | --- | --- | ---: | --- |
+| [x] | 保留 API | 当前用户认证 | `/auth/me` | 27ms | 通过 |
+| [x] | 保留 API | 用户列表 | `/users` | 26ms | 通过 |
+| [x] | 保留 API | 个人资料 | `/me` | 7ms | 通过 |
+| [x] | 保留 API | 场地列表 | `/config/sites` | 13ms | 通过 |
+| [x] | 保留 API | 区域列表 | `/config/areas` | 22ms | 通过 |
+| [x] | 保留 API | 点位列表 | `/config/points` | 12ms | 通过 |
+| [x] | 保留 API | 设备列表 | `/config/devices` | 11ms | 通过 |
+| [x] | 保留 API | 机器人列表 | `/config/robots` | 10ms | 通过 |
+| [x] | 保留 API | 任务列表 | `/config/tasks` | 10ms | 通过 |
+| [x] | 保留 API | 任务执行日志 | `/config/task-logs` | 18ms | 通过 |
+| [x] | 保留 API | 登录日志 | `/monitor/login-logs` | 15ms | 通过 |
+| [x] | 保留 API | 操作日志 | `/monitor/operation-logs` | 13ms | 通过 |
+| [x] | 保留 API | Swagger 文档 | `/v3/api-docs` | 342ms | 通过 |
+| [x] | 已删除 API | 旧贵宾室接口 | `/config/lounges` | 6ms | 通过 |
+| [x] | 已删除 API | 旧空间点位接口 | `/config/regions` | 4ms | 通过 |
+| [x] | 已删除 API | 旧设备区域绑定接口 | `/config/device-region-bindings` | 4ms | 通过 |
+| [x] | 已删除 API | 旧媒体接口 | `/config/images` | 3ms | 通过 |
+| [x] | 已删除 API | 旧统计接口 | `/statistics/in-lounge` | 4ms | 通过 |
+| [x] | 已删除 API | 旧数字孪生接口 | `/DigitalTwin/all` | 5ms | 通过 |
+| [x] | 已删除 API | 旧投诉接口 | `/config/complaints` | 3ms | 通过 |
+| [x] | 已删除 API | 旧知识库接口 | `/knowledge` | 3ms | 通过 |
+| [x] | 保留路由 | 用户管理 | `/system/user` | 899ms | 通过 |
+| [x] | 保留路由 | 场地管理 | `/config/site` | 951ms | 通过 |
+| [x] | 保留路由 | 区域管理 | `/config/area` | 814ms | 通过 |
+| [x] | 保留路由 | 点位管理 | `/config/point` | 813ms | 通过 |
+| [x] | 保留路由 | 设备管理 | `/config/device` | 820ms | 通过 |
+| [x] | 保留路由 | 机器人管理 | `/config/robot` | 810ms | 通过 |
+| [x] | 保留路由 | 任务管理 | `/config/task` | 820ms | 通过 |
+| [x] | 保留路由 | 登录日志 | `/monitor/logininfor` | 807ms | 通过 |
+| [x] | 保留路由 | 操作日志 | `/monitor/operlog` | 851ms | 通过 |
+| [x] | 保留路由 | 首页 | `/` | 951ms | 通过 |
+| [x] | 保留路由 | 个人中心 | `/profile` | 817ms | 通过 |
+| [x] | 保留路由 | 个人资料 | `/profile/userInfo` | 828ms | 通过 |
+| [x] | 保留路由 | 修改密码 | `/profile/resetPwd` | 813ms | 通过 |
+| [x] | 保留路由 | 头像上传 | `/profile/userAvatar` | 850ms | 通过 |
+| [x] | 已删除路由 | 前端 API 文档页 | `/tool/swagger` | 754ms | 通过 |
+| [x] | 已删除路由 | 旧贵宾室管理 | `/configManagment/vipRoom` | 760ms | 通过 |
+| [x] | 已删除路由 | 旧空间点位管理 | `/configManagment/vipRoomRegion` | 750ms | 通过 |
+| [x] | 已删除路由 | 旧统计页面 | `/statAnalysis/inLoungeList` | 758ms | 通过 |
+| [x] | 已删除路由 | 旧数字孪生页面 | `/digitalTwin` | 752ms | 通过 |
+| [x] | 已删除路由 | 旧媒体页面 | `/configManagment/photo` | 876ms | 通过 |
+| [x] | 已删除路由 | 旧投诉页面 | `/configManagment/complaintRecord` | 736ms | 通过 |
 
 ## 失败明细
 

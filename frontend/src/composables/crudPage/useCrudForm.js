@@ -150,7 +150,7 @@ export function useCrudForm(props, state, context) {
   }
 
   function handleFieldChange(field, value) {
-    field.onChange?.(value, { form, field })
+    field.onChange?.(value, { form, field, fields: resolvedFormFields.value })
   }
 
   function addEditableListRow(field) {

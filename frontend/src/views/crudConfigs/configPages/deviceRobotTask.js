@@ -14,9 +14,14 @@ import {
   updateTask
 } from '@/api/system'
 import {
+  deleteSelectedResources,
   deviceTypeOptions,
   enableOptions,
-  loadConfigOptions
+  filterOptionsBySite,
+  loadPointOptions,
+  loadRobotOptions,
+  loadSiteOptions,
+  updateSiteScopedField
 } from '../shared'
 
 export const deviceRobotTaskCrudPages = {
@@ -26,24 +31,22 @@ export const deviceRobotTaskCrudPages = {
     list: listDevices,
     create: createDevice,
     update: (payload) => updateDevice(payload.id, payload),
-    remove: (ids) => deleteDevice(Array.isArray(ids) ? ids[0] : ids),
+    remove: (ids) => deleteSelectedResources(deleteDevice, ids),
     columns: [
       { prop: 'id', label: 'ID', width: 80 },
       { prop: 'deviceName', label: '设备名称', minWidth: 180 },
+      { prop: 'siteName', label: '场地', minWidth: 160 },
       { prop: 'deviceType', label: '设备类型', minWidth: 120 },
       { prop: 'deepGlintDeviceId', label: '外部设备 ID', minWidth: 180 }
     ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
-      return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'deviceName', label: '设备名称' },
-        { prop: 'deviceType', label: '设备类型', type: 'select', options: deviceTypeOptions },
-        { prop: 'deepGlintDeviceId', label: '外部设备 ID' },
-        { prop: 'enable', label: '状态', type: 'select', options: enableOptions },
-        { prop: 'remark', label: '备注', type: 'textarea' }
-      ]
-    },
+    formFields: async () => [
+      { prop: 'siteId', label: '场地', type: 'select', options: await loadSiteOptions() },
+      { prop: 'deviceName', label: '设备名称' },
+      { prop: 'deviceType', label: '设备类型', type: 'select', options: deviceTypeOptions },
+      { prop: 'deepGlintDeviceId', label: '外部设备 ID' },
+      { prop: 'enable', label: '状态', type: 'select', options: enableOptions },
+      { prop: 'remark', label: '备注', type: 'textarea' }
+    ],
     defaults: { enable: 1, deviceType: 'CAMERA' }
   },
   robot: {
@@ -52,19 +55,37 @@ export const deviceRobotTaskCrudPages = {
     list: listRobots,
     create: createRobot,
     update: (payload) => updateRobot(payload.id, payload),
-    remove: (ids) => deleteRobot(Array.isArray(ids) ? ids[0] : ids),
+    remove: (ids) => deleteSelectedResources(deleteRobot, ids),
     columns: [
       { prop: 'id', label: 'ID', width: 80 },
       { prop: 'robotId', label: '机器人编号', minWidth: 160 },
       { prop: 'robotName', label: '名称', minWidth: 160 },
+      { prop: 'siteName', label: '场地', minWidth: 160 },
+      { prop: 'pointName', label: '点位', minWidth: 140 },
       { prop: 'robotIp', label: 'IP', minWidth: 140 },
       { prop: 'batteryState', label: '电量', width: 80 }
     ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
+    formFields: async ({ form = {} } = {}) => {
+      const [siteOptions, pointOptions] = await Promise.all([
+        loadSiteOptions(),
+        loadPointOptions()
+      ])
+      const pointField = {
+        prop: 'pointId',
+        label: '点位',
+        type: 'select',
+        options: filterOptionsBySite(pointOptions, form.siteId)
+      }
+      const siteField = {
+        prop: 'siteId',
+        label: '场地',
+        type: 'select',
+        options: siteOptions,
+        onChange: (siteId, context) => updateSiteScopedField(siteId, context, 'pointId', pointOptions)
+      }
       return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'regionId', label: '区域', type: 'select', options: options.regions },
+        siteField,
+        pointField,
         { prop: 'robotId', label: '机器人编号' },
         { prop: 'robotName', label: '名称' },
         { prop: 'robotIp', label: 'IP' },
@@ -82,24 +103,44 @@ export const deviceRobotTaskCrudPages = {
     list: listTasks,
     create: createTask,
     update: (payload) => updateTask(payload.id, payload),
-    remove: (ids) => deleteTask(Array.isArray(ids) ? ids[0] : ids),
+    remove: (ids) => deleteSelectedResources(deleteTask, ids),
     columns: [
       { prop: 'id', label: 'ID', width: 80 },
       { prop: 'taskName', label: '任务名称', minWidth: 180 },
       { prop: 'robotName', label: '机器人', minWidth: 160 },
-      { prop: 'commandCn', label: '指令', minWidth: 140 },
+      { prop: 'siteName', label: '场地', minWidth: 160 },
+      { prop: 'targetPoint', label: '目标点位', minWidth: 140 },
+      { prop: 'commandName', label: '指令', minWidth: 140 },
       { prop: 'priority', label: '优先级', width: 100 }
     ],
-    formFields: async () => {
-      const options = await loadConfigOptions()
+    formFields: async ({ form = {} } = {}) => {
+      const [siteOptions, robotOptions] = await Promise.all([
+        loadSiteOptions(),
+        loadRobotOptions()
+      ])
+      const robotField = {
+        prop: 'robotId',
+        label: '机器人',
+        type: 'select',
+        options: filterOptionsBySite(robotOptions, form.siteId)
+      }
+      const siteField = {
+        prop: 'siteId',
+        label: '场地',
+        type: 'select',
+        options: siteOptions,
+        onChange: (siteId, context) => updateSiteScopedField(siteId, context, 'robotId', robotOptions)
+      }
       return [
-        { prop: 'loungeId', label: '贵宾室', type: 'select', options: options.lounges },
-        { prop: 'robotId', label: '机器人', type: 'select', options: options.robots },
+        siteField,
+        robotField,
         { prop: 'taskName', label: '任务名称' },
         { prop: 'commandCode', label: '指令编码', type: 'number' },
-        { prop: 'commandCn', label: '指令名称' },
+        { prop: 'commandName', label: '指令名称' },
+        { prop: 'targetPoint', label: '目标点位' },
         { prop: 'priority', label: '优先级' },
         { prop: 'executeType', label: '执行类型' },
+        { prop: 'executeAt', label: '执行时间' },
         { prop: 'taskType', label: '任务类型' },
         { prop: 'remark', label: '备注', type: 'textarea' }
       ]

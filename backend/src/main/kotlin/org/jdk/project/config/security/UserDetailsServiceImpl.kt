@@ -13,8 +13,9 @@ class UserDetailsServiceImpl(
     private val userRepository: UserRepository,
 ) : UserDetailsService {
     override fun loadUserByUsername(id: String): UserDetails {
-        val dbUser = userRepository.fetchOneById(id.toLong())
-            ?: throw UsernameNotFoundException(String.format("uid %s user not found", id))
+        val dbUser =
+            userRepository.findUserById(id.toLong())
+                ?: throw UsernameNotFoundException(String.format("uid %s user not found", id))
         return User(
             dbUser.username,
             dbUser.password,

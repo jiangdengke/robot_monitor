@@ -27,14 +27,18 @@ class WebSecurityConfig(
     @Bean
     fun securityFilterChain(http: HttpSecurity): SecurityFilterChain {
         val restfulAuthenticationEntryPointHandler = RestfulAuthenticationEntryPointHandler()
-        http.csrf(AbstractHttpConfigurer<*, *>::disable)
+        http
+            .csrf(AbstractHttpConfigurer<*, *>::disable)
             .authorizeHttpRequests { authorize ->
                 authorize
-                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/sign-up").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/platform/bootstrap").permitAll()
-                    .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                    .requestMatchers("/error").permitAll()
-                    .anyRequest().authenticated()
+                    .requestMatchers(HttpMethod.POST, "/auth/login", "/auth/sign-up")
+                    .permitAll()
+                    .requestMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**")
+                    .permitAll()
+                    .requestMatchers("/error")
+                    .permitAll()
+                    .anyRequest()
+                    .authenticated()
             }.exceptionHandling { exceptionHandling ->
                 exceptionHandling
                     .accessDeniedHandler(restfulAuthenticationEntryPointHandler)

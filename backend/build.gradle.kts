@@ -32,11 +32,6 @@ sourceSets {
             srcDir("build/generated-sources/jooq")
         }
     }
-    test {
-        java {
-            srcDir("build/generated-sources/jooq")
-        }
-    }
 }
 
 group = "org.jdk.project"
@@ -104,7 +99,12 @@ dependencies {
 // 配置 OpenAPI 生成任务（命中运行中的应用 http://localhost:8080/v3/api-docs）
 openApi {
     apiDocsUrl.set("http://localhost:8080/v3/api-docs")
-    outputDir.set(layout.buildDirectory.dir("openapi").get().asFile)
+    outputDir.set(
+        layout.buildDirectory
+            .dir("openapi")
+            .get()
+            .asFile,
+    )
     outputFileName.set("openapi.json")
 }
 
@@ -156,6 +156,9 @@ jacoco {
 
 // 统一代码风格
 spotless {
+    // 只约束本次变更，避免格式化无关历史代码。
+    ratchetFrom("HEAD")
+
     format("misc") {
         // define the files to apply `misc` to
         target("*.gradle.kts", "*.md", ".gitignore")
@@ -166,6 +169,8 @@ spotless {
     }
 
     java {
+        // jOOQ 生成代码不属于人工维护源码。
+        target("src/**/*.java")
         // Google Java 格式
         googleJavaFormat("1.28.0").reflowLongStrings()
         formatAnnotations()

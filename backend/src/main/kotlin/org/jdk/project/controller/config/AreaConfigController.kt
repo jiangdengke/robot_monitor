@@ -3,10 +3,9 @@ package org.jdk.project.controller.config
 import org.jdk.project.dto.ListResponse
 import org.jdk.project.dto.config.AreaDto
 import org.jdk.project.dto.config.AreaUpsertRequest
-import org.jdk.project.dto.config.RegionDto
-import org.jdk.project.dto.config.RegionUpsertRequest
-import org.jdk.project.service.ConfigCommandService
-import org.jdk.project.service.ConfigQueryService
+import org.jdk.project.dto.config.PointDto
+import org.jdk.project.dto.config.PointUpsertRequest
+import org.jdk.project.service.SpaceService
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -19,38 +18,51 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/config")
 class AreaConfigController(
-    private val configCommandService: ConfigCommandService,
-    private val configQueryService: ConfigQueryService,
+    private val spaceService: SpaceService,
 ) {
-    @GetMapping("/regions")
-    fun listRegions(): ListResponse<RegionDto> = configQueryService.listRegions()
+    @GetMapping("/points")
+    fun listPoints(): ListResponse<PointDto> = spaceService.listPoints()
 
-    @PostMapping("/regions")
-    fun createRegion(@RequestBody request: RegionUpsertRequest): Long? = configCommandService.createRegion(request)
+    @PostMapping("/points")
+    fun createPoint(
+        @RequestBody request: PointUpsertRequest,
+    ): Long? = spaceService.createPoint(request)
 
-    @PutMapping("/regions/{id}")
-    fun updateRegion(@PathVariable id: Long, @RequestBody request: RegionUpsertRequest) {
-        configCommandService.updateRegion(id, request)
+    @PutMapping("/points/{id}")
+    fun updatePoint(
+        @PathVariable id: Long,
+        @RequestBody request: PointUpsertRequest,
+    ) {
+        spaceService.updatePoint(id, request)
     }
 
-    @DeleteMapping("/regions/{id}")
-    fun deleteRegion(@PathVariable id: Long) {
-        configCommandService.deleteRegion(id)
+    @DeleteMapping("/points/{id}")
+    fun deletePoint(
+        @PathVariable id: Long,
+    ) {
+        spaceService.deletePoint(id)
     }
 
     @GetMapping("/areas")
-    fun listAreas(): ListResponse<AreaDto> = configQueryService.listAreas()
+    fun listAreas(): ListResponse<AreaDto> = spaceService.listAreas()
 
     @PostMapping("/areas")
-    fun createArea(@RequestBody request: AreaUpsertRequest): Long? = configCommandService.createArea(request)
+    fun createArea(
+        @RequestBody request: AreaUpsertRequest,
+    ): Long? = spaceService.createArea(request)
 
     @PutMapping("/areas/{id}")
-    fun updateArea(@PathVariable id: Long, @RequestBody request: AreaUpsertRequest) {
-        configCommandService.updateArea(id, request)
+    fun updateArea(
+        @PathVariable id: Long,
+        @RequestBody request: AreaUpsertRequest,
+    ) {
+        spaceService.updateArea(id, request)
     }
 
     @DeleteMapping("/areas/{id}")
-    fun deleteArea(@PathVariable id: Long) {
-        configCommandService.deleteArea(id)
+    fun deleteArea(
+        @PathVariable id: Long,
+    ) {
+        spaceService.deleteArea(id)
     }
 }

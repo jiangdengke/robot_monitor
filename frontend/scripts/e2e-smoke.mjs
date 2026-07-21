@@ -15,12 +15,58 @@ const PAGE_TIMEOUT_MS = Number(process.env.E2E_PAGE_TIMEOUT_MS || 15000)
 const MAX_ROUTE_FAILURES = Number(process.env.E2E_MAX_ROUTE_FAILURES || 0)
 const CLICK_SAFE_ACTIONS = process.env.E2E_CLICK_SAFE_ACTIONS !== '0'
 
-const EXTRA_ROUTES = [
+const RETAINED_ROUTES = [
+  { title: '用户管理', path: '/system/user' },
+  { title: '场地管理', path: '/config/site' },
+  { title: '区域管理', path: '/config/area' },
+  { title: '点位管理', path: '/config/point' },
+  { title: '设备管理', path: '/config/device' },
+  { title: '机器人管理', path: '/config/robot' },
+  { title: '任务管理', path: '/config/task' },
+  { title: '登录日志', path: '/monitor/logininfor' },
+  { title: '操作日志', path: '/monitor/operlog' },
   { title: '首页', path: '/' },
   { title: '个人中心', path: '/profile' },
   { title: '个人资料', path: '/profile/userInfo' },
   { title: '修改密码', path: '/profile/resetPwd' },
   { title: '头像上传', path: '/profile/userAvatar' }
+]
+
+const REMOVED_ROUTES = [
+  { title: '前端 API 文档页', path: '/tool/swagger' },
+  { title: '旧贵宾室管理', path: '/configManagment/vipRoom' },
+  { title: '旧空间点位管理', path: '/configManagment/vipRoomRegion' },
+  { title: '旧统计页面', path: '/statAnalysis/inLoungeList' },
+  { title: '旧数字孪生页面', path: '/digitalTwin' },
+  { title: '旧媒体页面', path: '/configManagment/photo' },
+  { title: '旧投诉页面', path: '/configManagment/complaintRecord' }
+]
+
+const RETAINED_API_CHECKS = [
+  { title: '当前用户认证', path: '/auth/me' },
+  { title: '用户列表', path: '/users' },
+  { title: '个人资料', path: '/me' },
+  { title: '场地列表', path: '/config/sites' },
+  { title: '区域列表', path: '/config/areas' },
+  { title: '点位列表', path: '/config/points' },
+  { title: '设备列表', path: '/config/devices' },
+  { title: '机器人列表', path: '/config/robots' },
+  { title: '任务列表', path: '/config/tasks' },
+  { title: '任务执行日志', path: '/config/task-logs' },
+  { title: '登录日志', path: '/monitor/login-logs' },
+  { title: '操作日志', path: '/monitor/operation-logs' },
+  { title: 'Swagger 文档', path: '/v3/api-docs', authenticated: false }
+]
+
+const REMOVED_API_CHECKS = [
+  { title: '旧贵宾室接口', path: '/config/lounges' },
+  { title: '旧空间点位接口', path: '/config/regions' },
+  { title: '旧设备区域绑定接口', path: '/config/device-region-bindings' },
+  { title: '旧媒体接口', path: '/config/images' },
+  { title: '旧统计接口', path: '/statistics/in-lounge' },
+  { title: '旧数字孪生接口', path: '/DigitalTwin/all' },
+  { title: '旧投诉接口', path: '/config/complaints' },
+  { title: '旧知识库接口', path: '/knowledge' }
 ]
 
 const PAGE_ERROR_TEXTS = [
@@ -49,7 +95,8 @@ async function main() {
   await ensureService(FRONTEND_BASE_URL, 'frontend')
 
   const token = await login()
-  const routes = await collectRoutes(token)
+  const retainedRoutes = uniqueRoutes(RETAINED_ROUTES)
+  const removedRoutes = uniqueRoutes(REMOVED_ROUTES)
   tmpProfile = await mkdtemp(path.join(tmpdir(), 'robot-monitor-e2e-'))
 
   try {
@@ -62,8 +109,17 @@ async function main() {
     await seedToken(token)
 
     const results = []
-    for (const route of routes) {
+    for (const apiCheck of RETAINED_API_CHECKS) {
+      results.push(await checkApi(apiCheck, token, false))
+    }
+    for (const apiCheck of REMOVED_API_CHECKS) {
+      results.push(await checkApi(apiCheck, token, true))
+    }
+    for (const route of retainedRoutes) {
       results.push(await checkRoute(route))
+    }
+    for (const route of removedRoutes) {
+      results.push(await checkRemovedRoute(route))
     }
 
     await saveReport(results)
@@ -102,28 +158,40 @@ async function login() {
   return payload.token
 }
 
-async function collectRoutes(token) {
-  const menuRoutes = [
-    { title: '用户管理', path: '/system/user' },
-    { title: '在舱记录', path: '/statAnalysis/inLoungeList' },
-    { title: '准出记录', path: '/viewManagment/outGoing' },
-    { title: '准入记录', path: '/statAnalysis/goingStat' },
-    { title: '问询统计', path: '/statAnalysis/inquiry' },
-    { title: '引导统计', path: '/statAnalysis/guide' },
-    { title: '贵宾室', path: '/configManagment/vipRoom' },
-    { title: '功能区', path: '/configManagment/areaManagment' },
-    { title: '区域', path: '/configManagment/vipRoomRegion' },
-    { title: '摄像头', path: '/configManagment/monitorDevice' },
-    { title: '机器人', path: '/configManagment/robot' },
-    { title: '机器人音频', path: '/configManagment/robotAudio' },
-    { title: '音频', path: '/configManagment/audio' },
-    { title: '图片', path: '/configManagment/photo' },
-    { title: '任务列表', path: '/taskManagment/taskList' },
-    { title: '投诉记录', path: '/configManagment/complaintRecord' },
-    { title: '登录日志', path: '/monitor/logininfor' },
-    { title: '操作日志', path: '/monitor/operlog' }
-  ]
-  return uniqueRoutes([...menuRoutes, ...EXTRA_ROUTES])
+async function checkApi(apiCheck, token, expectsRemoval) {
+  const startedAt = Date.now()
+  const headers = apiCheck.authenticated === false
+    ? {}
+    : { Authorization: `Bearer ${token}` }
+
+  try {
+    const response = await fetch(`${BACKEND_BASE_URL}${apiCheck.path}`, {
+      method: 'GET',
+      headers,
+      signal: AbortSignal.timeout(PAGE_TIMEOUT_MS)
+    })
+    const responseText = (await response.text()).slice(0, 500)
+    const ok = expectsRemoval ? response.status === 404 : response.ok
+
+    return {
+      ...apiCheck,
+      kind: expectsRemoval ? '已删除 API' : '保留 API',
+      ok,
+      durationMs: Date.now() - startedAt,
+      expectedStatus: expectsRemoval ? 404 : '2xx',
+      actualStatus: response.status,
+      responseText
+    }
+  } catch (error) {
+    return {
+      ...apiCheck,
+      kind: expectsRemoval ? '已删除 API' : '保留 API',
+      ok: false,
+      durationMs: Date.now() - startedAt,
+      expectedStatus: expectsRemoval ? 404 : '2xx',
+      error: error.message
+    }
+  }
 }
 
 function uniqueRoutes(routes) {
@@ -256,7 +324,8 @@ async function checkRoute(route) {
       hasContent: !!document.querySelector('.content-shell, .page-card, .ant-card, .el-card, table, .el-table, .ant-table'),
       hasLogin: location.pathname === '/login' || document.body.innerText.includes('登录系统'),
       errorHeading: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() || '',
-      has404: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '404'
+      has404: !!document.querySelector('.error-shell .badge-404')
+        || document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '404'
         || document.body.innerText.includes('页面不存在或路由尚未映射'),
       has401: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '401'
         || document.body.innerText.includes('没有访问该资源的权限'),
@@ -274,6 +343,7 @@ async function checkRoute(route) {
 
     return {
       ...route,
+      kind: '保留路由',
       ok,
       durationMs: Date.now() - startedAt,
       snapshot,
@@ -283,8 +353,64 @@ async function checkRoute(route) {
   } catch (error) {
     return {
       ...route,
+      kind: '保留路由',
       ok: false,
       durationMs: Date.now() - startedAt,
+      error: error.message,
+      ...events
+    }
+  } finally {
+    ws.removeEventListener('message', listener)
+  }
+}
+
+async function checkRemovedRoute(route) {
+  const events = {
+    consoleErrors: [],
+    pageErrors: [],
+    failedRequests: [],
+    httpErrors: []
+  }
+  const listener = (event) => captureRouteEvent(event, events)
+  ws.addEventListener('message', listener)
+
+  const startedAt = Date.now()
+  try {
+    await navigate(`${FRONTEND_BASE_URL}${route.path}`)
+    await sleep(650)
+    const snapshot = await evaluate(`(() => ({
+      title: document.title,
+      path: location.pathname,
+      bodyText: document.body.innerText.slice(0, 5000),
+      hasLogin: location.pathname === '/login' || document.body.innerText.includes('登录系统'),
+      has404: !!document.querySelector('.error-shell .badge-404')
+        || document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '404'
+        || document.body.innerText.includes('页面不存在或路由尚未映射'),
+      has401: document.querySelector('.error-shell .error-card h1')?.textContent?.trim() === '401'
+        || document.body.innerText.includes('没有访问该资源的权限')
+    }))()`)
+    const ok = snapshot.has404
+      && !snapshot.hasLogin
+      && !snapshot.has401
+      && events.pageErrors.length === 0
+      && events.failedRequests.length === 0
+
+    return {
+      ...route,
+      kind: '已删除路由',
+      ok,
+      durationMs: Date.now() - startedAt,
+      expectedStatus: '页面 404',
+      snapshot,
+      ...events
+    }
+  } catch (error) {
+    return {
+      ...route,
+      kind: '已删除路由',
+      ok: false,
+      durationMs: Date.now() - startedAt,
+      expectedStatus: '页面 404',
       error: error.message,
       ...events
     }
@@ -387,13 +513,13 @@ function renderMarkdown(summary, results) {
     `- 通过：${summary.passed}`,
     `- 失败：${summary.failed}`,
     '',
-    '| 状态 | 页面 | 路径 | 耗时 | 说明 |',
-    '| --- | --- | --- | ---: | --- |'
+    '| 状态 | 类型 | 检查项 | 路径 | 耗时 | 说明 |',
+    '| --- | --- | --- | --- | ---: | --- |'
   ]
   for (const item of results) {
     const status = item.ok ? '[x]' : '[ ]'
     const reason = item.ok ? '通过' : summarizeFailure(item)
-    lines.push(`| ${status} | ${escapeMd(item.title)} | \`${item.path}\` | ${item.durationMs}ms | ${escapeMd(reason)} |`)
+    lines.push(`| ${status} | ${escapeMd(item.kind)} | ${escapeMd(item.title)} | \`${item.path}\` | ${item.durationMs}ms | ${escapeMd(reason)} |`)
   }
   lines.push('')
   lines.push('## 失败明细')
@@ -406,6 +532,8 @@ function renderMarkdown(summary, results) {
       lines.push('')
       lines.push(`### ${item.title} \`${item.path}\``)
       if (item.error) lines.push(`- 错误：${item.error}`)
+      if (item.actualStatus !== undefined) lines.push(`- HTTP：期望 ${item.expectedStatus}，实际 ${item.actualStatus}`)
+      if (item.responseText) lines.push(`- 响应：${item.responseText.replace(/\s+/g, ' ')}`)
       if (item.httpErrors?.length) lines.push(`- HTTP：${item.httpErrors.join('; ')}`)
       if (item.failedRequests?.length) lines.push(`- 请求失败：${item.failedRequests.join('; ')}`)
       if (item.pageErrors?.length) lines.push(`- 页面异常：${item.pageErrors.join('; ')}`)
@@ -419,6 +547,8 @@ function renderMarkdown(summary, results) {
 
 function summarizeFailure(item) {
   if (item.error) return item.error
+  if (item.actualStatus !== undefined) return `期望 HTTP ${item.expectedStatus}，实际 ${item.actualStatus}`
+  if (item.expectedStatus === '页面 404' && !item.snapshot?.has404) return '未进入页面 404'
   if (item.httpErrors?.length) return item.httpErrors[0]
   if (item.failedRequests?.length) return item.failedRequests[0]
   if (item.pageErrors?.length) return item.pageErrors[0]

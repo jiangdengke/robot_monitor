@@ -5,27 +5,27 @@
         <div class="brand-noise" />
         <div class="brand-top">
           <div class="brand-mark">
-            <img src="/favicon.ico" alt="国航" />
+            <RobotOutlined aria-hidden="true" />
           </div>
           <div class="brand-text">
-            <span class="brand-name">智慧贵宾室管理系统</span>
+            <span class="brand-name">机器人管理系统</span>
           </div>
         </div>
 
         <div class="brand-headline">
           <h1>统一调度</h1>
-          <h1>更聪明的贵宾室运营</h1>
-          <p>区域、机器人、旅客、巡检数据实时联动，一处操作，全室协同。</p>
+          <h1>更高效的机器人运营</h1>
+          <p>机器人、设备、任务和运行日志集中管理，一处操作，全局协同。</p>
         </div>
 
         <ul class="brand-points">
-          <li><span class="dot" />数字孪生看板，全流程可视化</li>
-          <li><span class="dot" />机器人引导与提醒一键派发</li>
-          <li><span class="dot" />巡检预警与运营报表自动汇总</li>
+          <li><span class="dot" />机器人信息与状态统一维护</li>
+          <li><span class="dot" />设备连接与运行情况集中查看</li>
+          <li><span class="dot" />任务执行与系统日志全程留痕</li>
         </ul>
 
         <div class="brand-footer">
-          <span>© 国航贵宾室运营</span>
+          <span>© 机器人管理系统</span>
           <span>v2026.05</span>
         </div>
       </aside>
@@ -35,7 +35,7 @@
           <div class="form-heading">
             <span class="eyebrow-chip">登录</span>
             <h2>欢迎回来</h2>
-            <p>使用您的运营账号登录，进入管理后台。</p>
+            <p>使用您的系统账号登录，进入管理后台。</p>
           </div>
 
           <a-form :model="form" layout="vertical" class="login-form" @finish="handleSubmit">
@@ -87,7 +87,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { LockOutlined, UserOutlined } from '@ant-design/icons-vue'
+import { LockOutlined, RobotOutlined, UserOutlined } from '@ant-design/icons-vue'
 import { hydrateSession, login } from '@/stores/session'
 import { toastError, toastInfo } from '@/utils/toast'
 
@@ -200,9 +200,9 @@ function showForgotPassword() {
   justify-content: center;
 }
 
-.brand-mark img {
-  width: 28px;
-  height: 28px;
+.brand-mark :deep(.anticon) {
+  color: #fff;
+  font-size: 26px;
 }
 
 .brand-text {

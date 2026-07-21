@@ -1,449 +1,234 @@
 {
   "summary": {
-    "generatedAt": "2026-05-15T03:29:37.614Z",
-    "frontendBaseUrl": "http://127.0.0.1:4180",
-    "backendBaseUrl": "http://127.0.0.1:8081",
-    "total": 29,
-    "passed": 29,
+    "generatedAt": "2026-07-21T04:27:10.638Z",
+    "frontendBaseUrl": "http://127.0.0.1:4174",
+    "backendBaseUrl": "http://127.0.0.1:8080",
+    "total": 42,
+    "passed": 42,
     "failed": 0
   },
   "results": [
     {
-      "title": "用户管理",
-      "path": "/system/user",
+      "title": "当前用户认证",
+      "path": "/auth/me",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1032,
-      "snapshot": {
-        "title": "用户管理 - 国航智慧贵宾室管理系统",
-        "path": "/system/user",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n系统管理/\n用户管理\n管\n管理员\n首页\n用户管理\n新 增\n批量删除\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 27,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"id\":1,\"username\":\"admin\",\"nickname\":\"管理员\",\"email\":\"admin@example.com\",\"phone\":\"13800000000\",\"sex\":\"2\",\"avatarUrl\":\"\",\"createTime\":\"2026-07-13T11:47:57Z\",\"updateTime\":\"2026-07-13T11:47:57Z\",\"password\":null,\"enable\":true,\"remark\":\"默认管理员\"}"
     },
     {
-      "title": "在舱记录",
-      "path": "/statAnalysis/inLoungeList",
+      "title": "用户列表",
+      "path": "/users",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1273,
-      "snapshot": {
-        "title": "在舱记录 - 国航智慧贵宾室管理系统",
-        "path": "/statAnalysis/inLoungeList",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n在舱记录\n管\n管理员\n首页\n在舱记录\n\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 26,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":2,\"rows\":[{\"id\":1,\"username\":\"admin\",\"nickname\":\"管理员\",\"email\":\"admin@example.com\",\"phone\":\"13800000000\",\"sex\":\"2\",\"avatarUrl\":\"\",\"enable\":true,\"remark\":\"默认管理员\",\"createTime\":\"2026-07-13 11:47:57\",\"updateTime\":\"2026-07-13 11:47:57\"},{\"id\":2,\"username\":\"operator\",\"nickname\":\"操作员\",\"email\":\"operator@example.com\",\"phone\":\"13800000001\",\"sex\":\"2\",\"avatarUrl\":\"\",\"enable\":true,\"remark\":\"示例操作账号\",\"createTime\":\"2026-07-13 11:47:57\",\"updateTime\":\"2026-07-13 11:47:57\"}]}"
     },
     {
-      "title": "准出记录",
-      "path": "/viewManagment/outGoing",
+      "title": "个人资料",
+      "path": "/me",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1794,
-      "snapshot": {
-        "title": "准出记录 - 国航智慧贵宾室管理系统",
-        "path": "/viewManagment/outGoing",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n准出记录\n管\n管理员\n首页\n准出记录\n\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 7,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"id\":1,\"username\":\"admin\",\"nickname\":\"管理员\",\"email\":\"admin@example.com\",\"phone\":\"13800000000\",\"sex\":\"2\",\"avatarUrl\":\"\",\"enable\":true,\"remark\":\"默认管理员\",\"createTime\":\"2026-07-13 11:47:57\",\"updateTime\":\"2026-07-13 11:47:57\"}"
     },
     {
-      "title": "准入记录",
-      "path": "/statAnalysis/goingStat",
+      "title": "场地列表",
+      "path": "/config/sites",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 2011,
-      "snapshot": {
-        "title": "准入记录 - 国航智慧贵宾室管理系统",
-        "path": "/statAnalysis/goingStat",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n准入记录\n管\n管理员\n首页\n准入记录\n贵宾室编码\n请选择贵宾室编码\n航班日期\n卡号\n准入类型\n请选择准入类型\n在舱状态\n请选择状态\n搜 索\n重 置\n\t\t\t\t\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [
-        "搜索",
-        "重置"
-      ],
-      "consoleErrors": [
-        "Warning: `prop` is deprecated. Please use `name` instead.",
-        "Warning: `prop` is deprecated. Please use `name` instead.",
-        "Warning: `prop` is deprecated. Please use `name` instead.",
-        "Warning: `prop` is deprecated. Please use `name` instead.",
-        "Warning: `prop` is deprecated. Please use `name` instead."
-      ],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 13,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"locationDesc\":\"一层\",\"enabled\":true,\"remark\":\"通用演示场地\"}]}"
     },
     {
-      "title": "问询统计",
-      "path": "/statAnalysis/inquiry",
+      "title": "区域列表",
+      "path": "/config/areas",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1160,
-      "snapshot": {
-        "title": "问询统计 - 国航智慧贵宾室管理系统",
-        "path": "/statAnalysis/inquiry",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n问询统计\n管\n管理员\n首页\n问询统计\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 22,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"siteId\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"areaName\":\"公共区域\",\"coordinate\":\"[[120,80],[340,220]]\",\"maxCapacity\":24,\"isShow\":\"1\",\"enable\":1,\"remark\":\"通用演示区域\"}]}"
     },
     {
-      "title": "引导统计",
-      "path": "/statAnalysis/guide",
+      "title": "点位列表",
+      "path": "/config/points",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1098,
-      "snapshot": {
-        "title": "引导统计 - 国航智慧贵宾室管理系统",
-        "path": "/statAnalysis/guide",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n统计分析/\n引导统计\n管\n管理员\n首页\n引导统计\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 12,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"siteId\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"areaId\":1,\"areaName\":\"公共区域\",\"pointName\":\"入口点位\",\"coordinate\":\"[180,120]\",\"maxCapacity\":4,\"isShow\":\"1\",\"enable\":1,\"remark\":\"通用演示点位\"}]}"
     },
     {
-      "title": "菜品管理",
-      "path": "/foodManagment/food",
+      "title": "设备列表",
+      "path": "/config/devices",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1115,
-      "snapshot": {
-        "title": "菜品管理 - 国航智慧贵宾室管理系统",
-        "path": "/foodManagment/food",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n菜品管理\n管\n管理员\n首页\n菜品管理\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 11,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"siteId\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"deviceName\":\"入口摄像头\",\"deviceType\":\"CAMERA\",\"deepGlintDeviceId\":\"CAM-001\",\"enable\":1,\"remark\":\"通用演示设备\"}]}"
     },
     {
-      "title": "菜单计划",
-      "path": "/foodManagment/foodPlan",
+      "title": "机器人列表",
+      "path": "/config/robots",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1106,
-      "snapshot": {
-        "title": "菜单计划 - 国航智慧贵宾室管理系统",
-        "path": "/foodManagment/foodPlan",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n菜单计划\n管\n管理员\n首页\n菜单计划\n新 增\n批量删除\n\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "每日菜单",
-      "path": "/foodManagment/menuPlan",
-      "ok": true,
-      "durationMs": 1266,
-      "snapshot": {
-        "title": "每日菜单 - 国航智慧贵宾室管理系统",
-        "path": "/foodManagment/menuPlan",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n餐食管理/\n每日菜单\n管\n管理员\n首页\n每日菜单\n新 增\n批量删除\n\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "点餐订单",
-      "path": "/foodManagment/foodMenu",
-      "ok": true,
-      "durationMs": 1485,
-      "snapshot": {
-        "title": "点餐订单 - 国航智慧贵宾室管理系统",
-        "path": "/foodManagment/foodMenu",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n点餐订单\n管\n管理员\n首页\n点餐订单\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "贵宾室",
-      "path": "/configManagment/vipRoom",
-      "ok": true,
-      "durationMs": 866,
-      "snapshot": {
-        "title": "贵宾室 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/vipRoom",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n贵宾室\n管\n管理员\n首页\n贵宾室\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "功能区",
-      "path": "/configManagment/areaManagment",
-      "ok": true,
-      "durationMs": 1364,
-      "snapshot": {
-        "title": "功能区 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/areaManagment",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n功能区\n管\n管理员\n首页\n功能区\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "区域",
-      "path": "/configManagment/vipRoomRegion",
-      "ok": true,
-      "durationMs": 1245,
-      "snapshot": {
-        "title": "区域 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/vipRoomRegion",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n区域\n管\n管理员\n首页\n区域\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "餐桌管理",
-      "path": "/foodManagment/foodTable",
-      "ok": true,
-      "durationMs": 1117,
-      "snapshot": {
-        "title": "餐桌管理 - 国航智慧贵宾室管理系统",
-        "path": "/foodManagment/foodTable",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n餐桌管理\n管\n管理员\n首页\n餐桌管理\n\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "摄像头",
-      "path": "/configManagment/monitorDevice",
-      "ok": true,
-      "durationMs": 1096,
-      "snapshot": {
-        "title": "摄像头 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/monitorDevice",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n摄像头\n管\n管理员\n首页\n摄像头\n新 增\n批量删除\n\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "机器人",
-      "path": "/configManagment/robot",
-      "ok": true,
-      "durationMs": 1089,
-      "snapshot": {
-        "title": "机器人 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/robot",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n机器人\n管\n管理员\n首页\n机器人\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "机器人音频",
-      "path": "/configManagment/robotAudio",
-      "ok": true,
-      "durationMs": 1047,
-      "snapshot": {
-        "title": "机器人音频 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/robotAudio",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n机器人音频\n管\n管理员\n首页\n机器人音频\n\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "音频",
-      "path": "/configManagment/audio",
-      "ok": true,
-      "durationMs": 1135,
-      "snapshot": {
-        "title": "音频 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/audio",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n音频\n管\n管理员\n首页\n音频\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
-    },
-    {
-      "title": "图片",
-      "path": "/configManagment/photo",
-      "ok": true,
-      "durationMs": 1189,
-      "snapshot": {
-        "title": "图片 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/photo",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n图片\n管\n管理员\n首页\n图片\n新 增\n批量删除\n\t\t\t\t\t\t\t\n\n\nNo data\n\n1",
-        "hasContent": true,
-        "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
-      },
-      "safeActions": [],
-      "consoleErrors": [],
-      "pageErrors": [],
-      "failedRequests": [],
-      "httpErrors": []
+      "durationMs": 10,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"robotId\":\"ROBOT-001\",\"robotName\":\"通用机器人一号\",\"mac\":\"00:11:22:33:44:55\",\"robotIp\":\"192.168.10.21\",\"siteId\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"pointId\":1,\"pointName\":\"入口点位\",\"robotType\":\"SERVICE\",\"batteryState\":86,\"chargingState\":\"IDLE\",\"workingState\":\"READY\",\"standbyState\":\"STANDBY\",\"positioningState\":\"OK\",\"enable\":1,\"oriCoordinate\":\"[180,120]\",\"adminMode\":false,\"remark\":\"通用演示机器人\"}]}"
     },
     {
       "title": "任务列表",
-      "path": "/taskManagment/taskList",
+      "path": "/config/tasks",
+      "kind": "保留 API",
       "ok": true,
-      "durationMs": 1274,
+      "durationMs": 10,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"taskName\":\"前往入口点位\",\"robotId\":1,\"robotName\":\"通用机器人一号\",\"siteId\":1,\"siteCode\":\"SITE-001\",\"siteName\":\"默认场地\",\"commandCode\":1001,\"commandName\":\"MOVE_TO_POINT\",\"targetPoint\":\"入口点位\",\"priority\":\"NORMAL\",\"executeType\":\"IMMEDIATELY\",\"executeDay\":\"\",\"executeAt\":null,\"taskType\":\"MOVE\",\"taskSubtype\":\"POINT\",\"taskMode\":\"AUTO\",\"directExecution\":true,\"returnRequired\":false,\"enabled\":true,\"remark\":\"通用演示任务\"}]}"
+    },
+    {
+      "title": "任务执行日志",
+      "path": "/config/task-logs",
+      "kind": "保留 API",
+      "ok": true,
+      "durationMs": 18,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"robotId\":1,\"robotName\":\"通用机器人一号\",\"taskTemplateId\":1,\"taskName\":\"前往入口点位\",\"taskType\":\"MOVE\",\"taskSubtype\":\"POINT\",\"taskMode\":\"AUTO\",\"taskStatus\":\"FINISHED\",\"directExecution\":true,\"commandPayload\":\"{\\\"targetPoint\\\":\\\"入口点位\\\"}\",\"returnPayload\":\"{\\\"result\\\":\\\"ok\\\"}\",\"createdAt\":\"2026-07-13 11:47:57\",\"startedAt\":\"2026-07-13 10:00:00\",\"finishedAt\":\"2026-07-13 10:01:00\"}]}"
+    },
+    {
+      "title": "登录日志",
+      "path": "/monitor/login-logs",
+      "kind": "保留 API",
+      "ok": true,
+      "durationMs": 15,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"username\":\"admin\",\"successFlag\":true,\"ipAddress\":\"127.0.0.1\",\"location\":\"本机\",\"browser\":\"Chrome\",\"os\":\"Linux\",\"message\":\"登录成功\",\"createdAt\":\"2026-07-13T11:47:57Z\"}]}"
+    },
+    {
+      "title": "操作日志",
+      "path": "/monitor/operation-logs",
+      "kind": "保留 API",
+      "ok": true,
+      "durationMs": 13,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"total\":1,\"rows\":[{\"id\":1,\"moduleName\":\"用户管理\",\"businessType\":2,\"methodName\":\"UserController.list\",\"requestMethod\":\"GET\",\"operatorName\":\"admin\",\"requestUrl\":\"/api/users\",\"ipAddress\":\"127.0.0.1\",\"location\":\"本机\",\"requestPayload\":\"{}\",\"responsePayload\":\"{\\\"total\\\":2}\",\"successFlag\":true,\"errorMessage\":\"\",\"costMillis\":12,\"createdAt\":\"2026-07-13T11:47:57Z\"}]}"
+    },
+    {
+      "title": "Swagger 文档",
+      "path": "/v3/api-docs",
+      "authenticated": false,
+      "kind": "保留 API",
+      "ok": true,
+      "durationMs": 342,
+      "expectedStatus": "2xx",
+      "actualStatus": 200,
+      "responseText": "{\"openapi\":\"3.0.1\",\"info\":{\"title\":\"OpenAPI definition\",\"version\":\"v0\"},\"servers\":[{\"url\":\"http://127.0.0.1:8080\",\"description\":\"Generated server url\"}],\"paths\":{\"/users/{id}\":{\"get\":{\"tags\":[\"user-controller\"],\"operationId\":\"getUser\",\"parameters\":[{\"name\":\"id\",\"in\":\"path\",\"required\":true,\"schema\":{\"type\":\"integer\",\"format\":\"int64\"}}],\"responses\":{\"200\":{\"description\":\"OK\",\"content\":{\"*/*\":{\"schema\":{\"$ref\":\"#/components/schemas/UserDto\"}}}}}},\"put\":{\"tags\":[\"user-controller\"],\"operationId\":\"upd"
+    },
+    {
+      "title": "旧贵宾室接口",
+      "path": "/config/lounges",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 6,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource config/lounges.\",\"instance\":\"/config/lounges\"}"
+    },
+    {
+      "title": "旧空间点位接口",
+      "path": "/config/regions",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 4,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource config/regions.\",\"instance\":\"/config/regions\"}"
+    },
+    {
+      "title": "旧设备区域绑定接口",
+      "path": "/config/device-region-bindings",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 4,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource config/device-region-bindings.\",\"instance\":\"/config/device-region-bindings\"}"
+    },
+    {
+      "title": "旧媒体接口",
+      "path": "/config/images",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 3,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource config/images.\",\"instance\":\"/config/images\"}"
+    },
+    {
+      "title": "旧统计接口",
+      "path": "/statistics/in-lounge",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 4,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource statistics/in-lounge.\",\"instance\":\"/statistics/in-lounge\"}"
+    },
+    {
+      "title": "旧数字孪生接口",
+      "path": "/DigitalTwin/all",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 5,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource DigitalTwin/all.\",\"instance\":\"/DigitalTwin/all\"}"
+    },
+    {
+      "title": "旧投诉接口",
+      "path": "/config/complaints",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 3,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource config/complaints.\",\"instance\":\"/config/complaints\"}"
+    },
+    {
+      "title": "旧知识库接口",
+      "path": "/knowledge",
+      "kind": "已删除 API",
+      "ok": true,
+      "durationMs": 3,
+      "expectedStatus": 404,
+      "actualStatus": 404,
+      "responseText": "{\"type\":\"about:blank\",\"title\":\"Not Found\",\"status\":404,\"detail\":\"No static resource knowledge.\",\"instance\":\"/knowledge\"}"
+    },
+    {
+      "title": "用户管理",
+      "path": "/system/user",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 899,
       "snapshot": {
-        "title": "任务列表 - 国航智慧贵宾室管理系统",
-        "path": "/taskManagment/taskList",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n基础配置/\n任务列表\n管\n管理员\n首页\n任务列表\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "title": "用户管理 - 机器人管理系统",
+        "path": "/system/user",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n用户管理\n系统运行正常\n首页·\n系统管理·\n用户管理\n管\n管理员\n首页\n用户管理\n新 增\n批量删除\n\t账号\t昵称\t邮箱\t手机号\t状态\t操作\n\n\tadmin\t管理员\tadmin@example.com\t13800000000\t启用\t详 情编 辑删 除\n\n\toperator\t操作员\toperator@example.com\t13800000001\t启用\t详 情编 辑删 除\n共 2 条\n1\n20 条/页",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -452,20 +237,23 @@
         "errorTexts": []
       },
       "safeActions": [],
-      "consoleErrors": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
     },
     {
-      "title": "投诉记录",
-      "path": "/configManagment/complaintRecord",
+      "title": "场地管理",
+      "path": "/config/site",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1309,
+      "durationMs": 951,
       "snapshot": {
-        "title": "投诉记录 - 国航智慧贵宾室管理系统",
-        "path": "/configManagment/complaintRecord",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n投诉记录\n管\n管理员\n首页\n投诉记录\n新 增\n批量删除\n\t\t\t\t\t\t\n\n\nNo data\n\n1",
+        "title": "场地 - 机器人管理系统",
+        "path": "/config/site",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n场地\n区域\n点位\n日志管理\n系统管理\n系统运行正常\n首页·\n空间管理·\n场地\n管\n管理员\n首页\n场地\n新 增\n批量删除\n\t场地名称\t场地编码\t位置\t操作\n\n\t默认场地\tSITE-001\t一层\t编 辑删 除\n共 1 条\n1\n20 条/页",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -474,7 +262,134 @@
         "errorTexts": []
       },
       "safeActions": [],
-      "consoleErrors": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "区域管理",
+      "path": "/config/area",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 814,
+      "snapshot": {
+        "title": "区域 - 机器人管理系统",
+        "path": "/config/area",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n场地\n区域\n点位\n日志管理\n系统管理\n系统运行正常\n首页·\n空间管理·\n区域\n管\n管理员\n首页\n区域\n新 增\n批量删除\n\t区域名称\t场地\t坐标\t容量\t操作\n\n\t公共区域\t默认场地\t[[120,80],[340,220]]\t24\t编 辑删 除\n共 1 条\n1\n20 条/页",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "点位管理",
+      "path": "/config/point",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 813,
+      "snapshot": {
+        "title": "点位 - 机器人管理系统",
+        "path": "/config/point",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n场地\n区域\n点位\n日志管理\n系统管理\n系统运行正常\n首页·\n空间管理·\n点位\n管\n管理员\n首页\n点位\n新 增\n批量删除\n\t点位名称\t场地\t区域\t容量\t操作\n\n\t入口点位\t默认场地\t公共区域\t4\t编 辑删 除\n共 1 条\n1\n20 条/页",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "设备管理",
+      "path": "/config/device",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 820,
+      "snapshot": {
+        "title": "设备 - 机器人管理系统",
+        "path": "/config/device",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n机器人\n设备\n任务\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n机器人管理·\n设备\n管\n管理员\n首页\n设备\n新 增\n批量删除\n\t设备名称\t场地\t设备类型\t外部设备 ID\t操作\n\n\t入口摄像头\t默认场地\tCAMERA\tCAM-001\t编 辑删 除\n共 1 条\n1\n20 条/页",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "机器人管理",
+      "path": "/config/robot",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 810,
+      "snapshot": {
+        "title": "机器人 - 机器人管理系统",
+        "path": "/config/robot",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n机器人\n设备\n任务\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n机器人管理·\n机器人\n管\n管理员\n首页\n机器人\n新 增\n批量删除\n\t机器人编号\t名称\t场地\t点位\tIP\t电量\t操作\n\n\tROBOT-001\t通用机器人一号\t默认场地\t入口点位\t192.168.10.21\t86\t编 辑删 除\n共 1 条\n1\n20 条/页",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "任务管理",
+      "path": "/config/task",
+      "kind": "保留路由",
+      "ok": true,
+      "durationMs": 820,
+      "snapshot": {
+        "title": "任务 - 机器人管理系统",
+        "path": "/config/task",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n机器人\n设备\n任务\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n机器人管理·\n任务\n管\n管理员\n首页\n任务\n新 增\n批量删除\n\t任务名称\t机器人\t场地\t目标点位\t指令\t优先级\t操作\n\n\t前往入口点位\t通用机器人一号\t默认场地\t入口点位\tMOVE_TO_POINT\t普通\t编 辑执 行删 除\n共 1 条\n1\n20 条/页",
+        "hasContent": true,
+        "hasLogin": false,
+        "errorHeading": "",
+        "has404": false,
+        "has401": false,
+        "errorTexts": []
+      },
+      "safeActions": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
@@ -482,12 +397,13 @@
     {
       "title": "登录日志",
       "path": "/monitor/logininfor",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1223,
+      "durationMs": 807,
       "snapshot": {
-        "title": "登录日志 - 国航智慧贵宾室管理系统",
+        "title": "登录日志 - 机器人管理系统",
         "path": "/monitor/logininfor",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n日志管理/\n登录日志\n管\n管理员\n首页\n登录日志\n清 空\n\t\t\t\t\n\n\nNo data\n\n1",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n操作日志\n登录日志\n系统管理\n系统运行正常\n首页·\n日志管理·\n登录日志\n管\n管理员\n首页\n登录日志\n清 空\n用户名\tIP\t浏览器\t信息\nadmin\t127.0.0.1\tChrome\t登录成功\n共 1 条\n1\n20 条/页",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -496,7 +412,9 @@
         "errorTexts": []
       },
       "safeActions": [],
-      "consoleErrors": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
@@ -504,12 +422,13 @@
     {
       "title": "操作日志",
       "path": "/monitor/operlog",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1108,
+      "durationMs": 851,
       "snapshot": {
-        "title": "操作日志 - 国航智慧贵宾室管理系统",
+        "title": "操作日志 - 机器人管理系统",
         "path": "/monitor/operlog",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n日志管理/\n操作日志\n管\n管理员\n首页\n操作日志\n清 空\n\t\t\t\n\n\nNo data\n\n1",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n操作日志\n登录日志\n系统管理\n系统运行正常\n首页·\n日志管理·\n操作日志\n管\n管理员\n首页\n操作日志\n清 空\n模块\t操作人\t请求地址\n用户管理\tadmin\t/api/users\n共 1 条\n1\n20 条/页",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -518,7 +437,9 @@
         "errorTexts": []
       },
       "safeActions": [],
-      "consoleErrors": [],
+      "consoleErrors": [
+        "Warning: [ant-design-vue: Table] `index` parameter of `rowKey` function is deprecated. There is no guarantee that it will work as expected."
+      ],
       "pageErrors": [],
       "failedRequests": [],
       "httpErrors": []
@@ -526,12 +447,13 @@
     {
       "title": "首页",
       "path": "/",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1202,
+      "durationMs": 951,
       "snapshot": {
-        "title": "首页 - 国航智慧贵宾室管理系统",
+        "title": "首页 - 机器人管理系统",
         "path": "/",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n首页\n管\n管理员\n首页\n后台首页\n当前首页展示本地单体后台状态和恢复进度。\n后端状态\n单体 Spring Boot 后端已具备运行入口。\n当前 API 以 `moban_java/API_SUMMARY.md` 为准。\n前端状态\n前端正在迁移到 Ant Design Vue。\n接口层已开始对接新的单体后端。",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n首页\n管\n管理员\n首页\n机器人管理系统 · 2026\n中午好，管理员\n\n统一管理机器人、设备和任务，集中查看运行状态与待处理事项。\n\n用户中心\n机器人管理\n在线机器人\n--\n等待运行数据接入\n已接入设备\n--\n设备运行状态汇总\n今日任务\n--\n任务执行情况汇总\n待处理事件\n--\n异常与告警事项汇总\n后端状态\n运行中\n单体 Spring Boot 后端\n已具备运行入口，端口 8080\n数据库 Schema\n变更见 backend/src/main/resources/db/schema.sql\n前端状态\n迁移中\nUI 组件库\n已切换至 Ant Design Vue 4.x\n主题与设计令牌\n统一蓝青配色，圆角与阴影体系已收敛\n业务页面\n逐步对接新版单体后端 API\n快捷入口\n机器人管理\n维护机器人信息与状态\n设备管理\n维护设备与连接信息\n任务管理\n配置与查看机器人任务\n登录日志\n查看系统登录记录\n操作日志\n查看系统操作记录\n用户管理\n维护系统用户与权限",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -548,12 +470,13 @@
     {
       "title": "个人中心",
       "path": "/profile",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1139,
+      "durationMs": 817,
       "snapshot": {
-        "title": "个人中心 - 国航智慧贵宾室管理系统",
+        "title": "个人中心 - 机器人管理系统",
         "path": "/profile",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n个人中心\n管\n管理员\n首页\n个人中心\n个人中心\n直接读取新的 `/me` 接口。\n基础信息\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n辅助信息\n性别：2\n状态：启用\n备注：默认管理员",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n个人中心\n管\n管理员\n首页\n个人中心\n个人中心\n直接读取新的 `/me` 接口。\n基础信息\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n辅助信息\n性别：2\n状态：启用\n备注：默认管理员",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -570,12 +493,13 @@
     {
       "title": "个人资料",
       "path": "/profile/userInfo",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1212,
+      "durationMs": 828,
       "snapshot": {
-        "title": "个人资料 - 国航智慧贵宾室管理系统",
+        "title": "个人资料 - 机器人管理系统",
         "path": "/profile/userInfo",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n个人资料\n管\n管理员\n首页\n个人资料\n个人资料\n本页对接新的 `/me` 与 `PUT /me`。\n当前账号\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n昵称\n邮箱\n手机号\n性别\n未知\n保存资料",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n个人资料\n管\n管理员\n首页\n个人资料\n个人资料\n本页对接新的 `/me` 与 `PUT /me`。\n当前账号\n账号：admin\n昵称：管理员\n邮箱：admin@example.com\n手机号：13800000000\n昵称\n邮箱\n手机号\n性别\n未知\n保存资料",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -592,12 +516,13 @@
     {
       "title": "修改密码",
       "path": "/profile/resetPwd",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1139,
+      "durationMs": 813,
       "snapshot": {
-        "title": "修改密码 - 国航智慧贵宾室管理系统",
+        "title": "修改密码 - 机器人管理系统",
         "path": "/profile/resetPwd",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n修改密码\n管\n管理员\n首页\n修改密码\n修改密码\n本页对接 `PUT /me/password`。\n旧密码\n新密码\n提交修改",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n修改密码\n管\n管理员\n首页\n修改密码\n修改密码\n本页对接 `PUT /me/password`。\n旧密码\n新密码\n提交修改",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -614,12 +539,13 @@
     {
       "title": "头像上传",
       "path": "/profile/userAvatar",
+      "kind": "保留路由",
       "ok": true,
-      "durationMs": 1091,
+      "durationMs": 850,
       "snapshot": {
-        "title": "头像上传 - 国航智慧贵宾室管理系统",
+        "title": "头像上传 - 机器人管理系统",
         "path": "/profile/userAvatar",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n头像上传\n管\n管理员\n首页\n头像上传\n头像设置\n头像上传与资料更新都走新的文件与头像接口。\n上传头像\n选择图片\n上 传\n上传结果\n文件路径：-\n头像字段：-",
+        "bodyText": "机器人管理系统\n首页\n机器人管理\n空间管理\n日志管理\n系统管理\n系统运行正常\n首页·\n头像上传\n管\n管理员\n首页\n头像上传\n头像设置\n头像上传与资料更新都走新的文件与头像接口。\n上传头像\n选择图片\n上 传\n上传结果\n文件路径：-\n头像字段：-",
         "hasContent": true,
         "hasLogin": false,
         "errorHeading": "",
@@ -634,22 +560,140 @@
       "httpErrors": []
     },
     {
-      "title": "桌台模型",
-      "path": "/numberModel",
+      "title": "前端 API 文档页",
+      "path": "/tool/swagger",
+      "kind": "已删除路由",
       "ok": true,
-      "durationMs": 1258,
+      "durationMs": 754,
+      "expectedStatus": "页面 404",
       "snapshot": {
-        "title": "桌台模型 - 国航智慧贵宾室管理系统",
-        "path": "/numberModel",
-        "bodyText": "AIR CHINA\n智慧贵宾室\n统计分析\n餐食管理\n日志管理\n基础配置\n系统管理\n首页\n首页/\n桌台模型\n管\n管理员\n首页\n桌台模型\n桌号\nA01\nB区空闲\n桌号\nA02\nB区翻台\n\t\t\t\n\n\nNo data\n\nA01\nA02\n桌号\nA01\n\t\n区域\nB区\n\n\n坐标\n[520,180]\n\t\n状态\n0\n桌台\n选择桌台\n动作\n设为空闲\n设置翻台\n提交动作",
-        "hasContent": true,
+        "title": "机器人管理系统",
+        "path": "/tool/swagger",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
         "hasLogin": false,
-        "errorHeading": "",
-        "has404": false,
-        "has401": false,
-        "errorTexts": []
+        "has404": true,
+        "has401": false
       },
-      "safeActions": [],
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧贵宾室管理",
+      "path": "/configManagment/vipRoom",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 760,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/configManagment/vipRoom",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧空间点位管理",
+      "path": "/configManagment/vipRoomRegion",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 750,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/configManagment/vipRoomRegion",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧统计页面",
+      "path": "/statAnalysis/inLoungeList",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 758,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/statAnalysis/inLoungeList",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧数字孪生页面",
+      "path": "/digitalTwin",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 752,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/digitalTwin",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧媒体页面",
+      "path": "/configManagment/photo",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 876,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/configManagment/photo",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
+      "consoleErrors": [],
+      "pageErrors": [],
+      "failedRequests": [],
+      "httpErrors": []
+    },
+    {
+      "title": "旧投诉页面",
+      "path": "/configManagment/complaintRecord",
+      "kind": "已删除路由",
+      "ok": true,
+      "durationMs": 736,
+      "expectedStatus": "页面 404",
+      "snapshot": {
+        "title": "机器人管理系统",
+        "path": "/configManagment/complaintRecord",
+        "bodyText": "404\nPAGE NOT FOUND\n这条路径暂时找不到对应内容\n\n该地址可能已被迁移、删除，或者路由还在配置中。请检查链接是否正确，或返回首页继续操作。\n\n回到首页\n返回上一页",
+        "hasLogin": false,
+        "has404": true,
+        "has401": false
+      },
       "consoleErrors": [],
       "pageErrors": [],
       "failedRequests": [],

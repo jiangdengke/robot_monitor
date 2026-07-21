@@ -1,10 +1,10 @@
 package org.jdk.project.service
 
+import org.jdk.project.dto.sign.AuthUserDto
 import org.jdk.project.dto.sign.SignInDto
 import org.jdk.project.dto.sign.SignUpDto
 import org.jdk.project.exception.BusinessException
 import org.jdk.project.repository.UserRepository
-import org.jooq.generated.project.tables.pojos.User
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,8 +13,9 @@ class SignService(
     private val userRepository: UserRepository,
 ) {
     fun signIn(signInDto: SignInDto): Long? {
-        val user = userRepository.fetchEnabledUserByUsername(signInDto.username)
-            ?: throw BusinessException("用户名或密码错误")
+        val user =
+            userRepository.findEnabledUserByUsername(signInDto.username)
+                ?: throw BusinessException("用户名或密码错误")
         if (signInDto.password != user.password) {
             throw BusinessException("用户名或密码错误")
         }
@@ -23,14 +24,27 @@ class SignService(
 
     @Transactional(rollbackFor = [Throwable::class])
     fun signUp(signUpDto: SignUpDto) {
-        if (userRepository.fetchOneByUsername(signUpDto.username) != null) {
+        if (userRepository.findUserByUsername(signUpDto.username) != null) {
             throw BusinessException("用户名已存在")
         }
-        val user = User().apply {
-            username = signUpDto.username
-            password = signUpDto.password
-            enable = true
-        }
-        userRepository.insert(user)
+        userRepository.insertCredentials(signUpDto.username, signUpDto.password)
     }
+
+    fun getCurrentUser(username: String): AuthUserDto? =
+        userRepository.findUserByUsername(username)?.let { user ->
+            AuthUserDto(
+                id = user.id,
+                username = user.username,
+                nickname = user.nickname,
+                email = user.email,
+                phone = user.phone,
+                sex = user.sex,
+                avatarUrl = user.avatarUrl,
+                createTime = user.createTime,
+                updateTime = user.updateTime,
+                password = null,
+                enable = user.enable,
+                remark = user.remark,
+            )
+        }
 }

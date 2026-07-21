@@ -1,8 +1,8 @@
 package org.jdk.project.dto.config
 
 data class RobotUpsertRequest(
-    var loungeId: Long? = null,
-    var regionId: Long? = null,
+    var siteId: Long? = null,
+    var pointId: Long? = null,
     var robotId: String? = null,
     var robotName: String? = null,
     var mac: String? = null,

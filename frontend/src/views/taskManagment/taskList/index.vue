@@ -3,11 +3,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
 import CrudPage from '@/components/CrudPage.vue'
 import { getCrudPage } from '@/views/crudConfigs'
-import { mergePlatformPageConfig } from '@/views/crudConfigs/platformPage'
 
-const fallbackConfig = getCrudPage('task')
-const config = computed(() => mergePlatformPageConfig('task', fallbackConfig))
+const config = getCrudPage('task')
 </script>
